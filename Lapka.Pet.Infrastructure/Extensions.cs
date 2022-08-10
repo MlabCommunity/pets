@@ -1,9 +1,9 @@
+using Lapka.Pet.Infrastructure.Database;
 using Lapka.Pet.Infrastructure.Exceptions;
 using Lapka.Pet.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Lapka.Pet.Infrastructure.Database;
 
 namespace Lapka.Pet.Infrastructure;
 

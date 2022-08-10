@@ -4,9 +4,9 @@ using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Core.Entities;
 
-public class Pet : AggregateRoot
+public abstract class Pet : AggregateRoot //AggregateRoot powinien być w Pet czy osobno w kot/pies?
 {
-    public PetId PetId { get; protected set; }
+
     public OwnerId OwnerId { get; protected set; }
     public PetType Type { get; protected set; }
     public string Name { get; protected set; }
@@ -19,4 +19,20 @@ public class Pet : AggregateRoot
     protected Pet()
     {
     }
+
+    protected Pet(OwnerId ownerId, PetType type, string name, Gender gender, ICollection<PhotoId> photos,
+        DateTime dateOfBirth, bool isSterilized, double weight)
+    {
+        Id = Guid.NewGuid();
+        OwnerId = ownerId;
+        Type = type;
+        Name = name;
+        Gender = gender;
+        Photos = photos;
+        DateOfBirth = dateOfBirth;
+        IsSterilized = isSterilized;
+        Weight = weight;
+    }
+    
+    
 }

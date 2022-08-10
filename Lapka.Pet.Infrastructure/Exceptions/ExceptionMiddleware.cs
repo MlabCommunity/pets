@@ -21,5 +21,4 @@ internal sealed class ExceptionMiddleware : IMiddleware
             await context.Response.WriteAsync(json);
         }
     }
-    
 }
