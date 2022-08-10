@@ -15,13 +15,14 @@ public abstract class Pet : AggregateRoot //AggregateRoot powinien być w Pet cz
     public DateTime DateOfBirth { get; protected set; }
     public bool IsSterilized { get; protected set; }
     public double Weight { get; protected set; }
+    public bool IsActive { get; protected set; }
 
     protected Pet()
     {
     }
 
     protected Pet(OwnerId ownerId, PetType type, string name, Gender gender, ICollection<PhotoId> photos,
-        DateTime dateOfBirth, bool isSterilized, double weight)
+        DateTime dateOfBirth, bool isSterilized, double weight,bool isActive)
     {
         Id = Guid.NewGuid();
         OwnerId = ownerId;
@@ -32,6 +33,12 @@ public abstract class Pet : AggregateRoot //AggregateRoot powinien być w Pet cz
         DateOfBirth = dateOfBirth;
         IsSterilized = isSterilized;
         Weight = weight;
+        IsActive = isActive;
+    }
+    
+    protected void SetIsActive(bool isActive)
+    {
+        IsActive = isActive;
     }
     
     

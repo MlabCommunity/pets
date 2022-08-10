@@ -13,18 +13,18 @@ public class Cat : Pet
     }
     
     private Cat(OwnerId ownerId, string name, Gender gender, ICollection<PhotoId> photos,
-        DateTime dateOfBirth, bool isSterilized, double weight, CatBreed breed, CatColor color) : base(ownerId,
-        PetType.CAT, name, gender, photos, dateOfBirth, isSterilized, weight)
+        DateTime dateOfBirth, bool isSterilized, double weight, CatBreed breed, CatColor color, bool isActive) : base(ownerId,
+        PetType.CAT, name, gender, photos, dateOfBirth, isSterilized, weight,isActive)
     {
         _breed = breed;
         _color = color;
     }
 
     public Cat Create(OwnerId ownerId, string name, Gender gender, ICollection<PhotoId> photos,
-        DateTime dateOfBirth, bool isSterilized, double weight, CatBreed breed, CatColor color)
+        DateTime dateOfBirth, bool isSterilized, double weight, CatBreed breed, CatColor color,bool isActive)
     {
         //Domain event
         //Walidacja
-        return new Cat(ownerId, name, gender, photos, dateOfBirth, isSterilized, weight, breed, color);
+        return new Cat(ownerId, name, gender, photos, dateOfBirth, isSterilized, weight, breed, color, isActive);
     }
 }
