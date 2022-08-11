@@ -1,4 +1,6 @@
+using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Infrastructure.Database.Contexts;
+using Lapka.Pet.Infrastructure.Database.Repositories;
 using Lapka.Pet.Infrastructure.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,12 +14,16 @@ public static class Extensions
     {
         //Add repositories here
 
+        services.AddScoped<IPetRepository, PetRepository>();
+        
+
         var options = configuration.GetOptions<PostgresOptions>("Postgres");
-        services.AddDbContext<Context>(ctx =>
+        services.AddDbContext<PetDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString));
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         //Add contexts here
 
+        services.AddScoped<IPetDbContext, PetDbContext>();
         return services;
     }
 }

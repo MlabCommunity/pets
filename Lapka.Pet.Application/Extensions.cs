@@ -1,11 +1,23 @@
+using Convey;
+using Convey.CQRS.Commands;
+using Convey.CQRS.Queries;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lapka.Pet.Application;
 
 public static class Extensions
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceProvider AddApplication(this IServiceCollection services)
     {
-        return services;
+        var builder = services.AddConvey()
+            .AddCommandHandlers()
+            .AddInMemoryCommandDispatcher()
+            .AddQueryHandlers()
+            .AddInMemoryQueryDispatcher();
+
+        
+        return builder.Build();
     }
+    
+
 }

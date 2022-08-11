@@ -1,34 +1,33 @@
 using Lapka.Pet.Core.Consts;
+using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Core.Entities;
 
-public class Dog : Pet
+public sealed class Dog : Pet
 {
-    private DogBreed _breed;
-    private DogColor _color;
+    public DogBreed Breed { get; private set; }
+    public DogColor Color { get; private set; }
 
-    
+
     private Dog()
     {
     }
-    
-    private Dog(OwnerId ownerId, string name, Gender gender, ICollection<PhotoId> photos,
-        DateTime dateOfBirth, bool isSterilized, double weight, DogBreed breed, DogColor color,bool isActive) : base(ownerId,
-        PetType.DOG, name, gender, photos, dateOfBirth, isSterilized, weight,isActive)
+
+    private Dog(OwnerId ownerId, string name, Gender gender,
+        DateTime dateOfBirth, bool isSterilized, double weight, DogBreed breed, DogColor color) : base(ownerId,
+        PetType.DOG, name, gender, isSterilized, weight)
     {
-        _breed = breed;
-        _color = color;
+        Breed = breed;
+        Color = color;
     }
 
-    public Dog Create(OwnerId ownerId, string name, Gender gender, ICollection<PhotoId> photos,
-        DateTime dateOfBirth, bool isSterilized, double weight, DogBreed breed, DogColor color,bool isActive)
+    public static Dog Create(OwnerId ownerId, string name, Gender gender,
+        DateTime dateOfBirth, bool isSterilized, double weight, DogBreed breed, DogColor color)
     {
-        //Domain event
-        //Walidacja?
-        return new Dog(ownerId, name, gender, photos, dateOfBirth, isSterilized, weight, breed, color,isActive);
+        //Domain event?
+        var dog = new Dog(ownerId, name, gender, dateOfBirth, isSterilized, weight, breed, color);
+        dog.ChangeDateOfBirth(dateOfBirth);
+        return dog;
     }
-    
-    
-    // metody wbogacające agregat
 }
