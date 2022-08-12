@@ -19,19 +19,13 @@ internal sealed class CreatePetCommandHandler : ICommandHandler<CreatePetCommand
     {
         //check if pet exists
 
-        if (command.PetType == PetType.CAT)
+        switch (command.PetType)
         {
-            if (Enum.IsDefined(typeof(CatBreed), command.Breed) && Enum.IsDefined(typeof(CatColor), command.Color))
-            {
-                var cat = Cat.Create(command.OwnerId, command.Name, command.Gender, command.DateOfBirth,
-                    command.IsSterilized, command.Weight, (CatBreed)command.Breed, (CatColor)command.Color);
 
-                await _petRepository.AddPetAsync(cat);
-                Console.WriteLine("Cat created");
-            }
-            //TODO else throw exception
         }
-        
+
         //TODO throw exception
     }
+
+
 }

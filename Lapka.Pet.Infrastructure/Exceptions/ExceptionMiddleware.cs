@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Lapka.Pet.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 
 namespace Lapka.Pet.Infrastructure.Exceptions;
@@ -17,6 +18,15 @@ internal sealed class ExceptionMiddleware : IMiddleware
             context.Response.Headers.Add("content-type", "application/json");
 
             var errorCode = ex._errorCode;
+            var json = JsonSerializer.Serialize(new { ErrorCode = errorCode, ex.Message });
+            await context.Response.WriteAsync(json);
+        }
+        catch (DomainException ex)
+        {
+            context.Response.StatusCode = 400;
+            context.Response.Headers.Add("content-type", "application/json");
+
+            var errorCode = 400;
             var json = JsonSerializer.Serialize(new { ErrorCode = errorCode, ex.Message });
             await context.Response.WriteAsync(json);
         }

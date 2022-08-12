@@ -22,4 +22,12 @@ internal sealed class PetRepository : IPetRepository
         await _context.SaveChangesAsync();
     }
 
+    public Task<Core.Entities.Pet> FindByIdAsync(Guid id)
+    => _pets.FirstOrDefaultAsync(s=>s.Id == id);
+
+    public async Task UpdateAsync(Core.Entities.Pet pet)
+    {
+        _pets.Update(pet);
+        await _context.SaveChangesAsync();
+    }
 }

@@ -22,7 +22,7 @@ public static class Extensions
             ctx.UseNpgsql(options.ConnectionString));
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         //Add contexts here
-
+        
         services.AddScoped<IPetDbContext, PetDbContext>();
         return services;
     }

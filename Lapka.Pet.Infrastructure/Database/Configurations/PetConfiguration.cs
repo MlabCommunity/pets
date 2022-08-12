@@ -14,6 +14,9 @@ public class PetConfiguration : IEntityTypeConfiguration<Core.Entities.Pet>
 
         builder.Property(s => s.Id).HasConversion(id => id.Value, id => new AggregateId(id));
         builder.Property(s => s.OwnerId).HasConversion(id => id.Value, id => new OwnerId(id));
+        builder.Property(s => s.Name).HasConversion(name => name.Value, name => new PetName(name));
+        builder.Property(s => s.DateOfBirth).HasConversion(dateOfBirth => dateOfBirth.Value, dateOfBirth => new DateOfBirth(dateOfBirth));
+        builder.Property(s=>s.Weight).HasConversion(weight=>weight.Value,weight=>new Weight(weight));
         
     }
 }

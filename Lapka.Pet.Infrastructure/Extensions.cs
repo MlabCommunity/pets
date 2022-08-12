@@ -1,3 +1,4 @@
+
 using Lapka.Pet.Infrastructure.Database;
 using Lapka.Pet.Infrastructure.Exceptions;
 using Lapka.Pet.Infrastructure.Services;
@@ -14,6 +15,7 @@ public static class Extensions
         services.AddPostgres(configuration);
         services.AddHostedService<AppInitializer>();
         services.AddScoped<ExceptionMiddleware>();
+        
         return services;
     }
 
