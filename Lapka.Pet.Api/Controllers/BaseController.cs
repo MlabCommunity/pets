@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Lapka.Pet.Api.Controllers;
 
 [ApiController]
-[Route("api/pet/[controller]")]
+[Route("api/[controller]")]
 public abstract class BaseController : ControllerBase
 {
     protected Guid GetPrincipalId() //TODO: get id from claims

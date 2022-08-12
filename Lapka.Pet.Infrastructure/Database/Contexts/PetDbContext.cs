@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Contexts;
 
-internal sealed class PetDbContext : DbContext, IPetDbContext
+internal class PetDbContext : DbContext, IPetDbContext
 {
     public DbSet<Shelter> Shelters { get; set; }
     public DbSet<ShelterPet> ShelterPets { get; set; }

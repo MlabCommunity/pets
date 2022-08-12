@@ -23,7 +23,10 @@ internal sealed class PetRepository : IPetRepository
     }
 
     public Task<Core.Entities.Pet> FindByIdAsync(Guid id)
-    => _pets.FirstOrDefaultAsync(s=>s.Id == id);
+    {
+        return _pets.FirstOrDefaultAsync(s => s.Id == id);
+    }
+     
 
     public async Task UpdateAsync(Core.Entities.Pet pet)
     {

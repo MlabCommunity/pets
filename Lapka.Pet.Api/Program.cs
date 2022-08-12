@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Lapka.Pet.Application;
 using Lapka.Pet.Infrastructure;
 
@@ -7,10 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers().AddJsonOptions(options =>
+    options.JsonSerializerOptions.Converters
+        .Add(new JsonStringEnumConverter()));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 

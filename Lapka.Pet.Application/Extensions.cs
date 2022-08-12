@@ -1,3 +1,4 @@
+using System.Reflection;
 using Convey;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
@@ -15,6 +16,7 @@ public static class Extensions
             .AddQueryHandlers()
             .AddInMemoryQueryDispatcher();
 
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
         
         return builder.Build();
     }

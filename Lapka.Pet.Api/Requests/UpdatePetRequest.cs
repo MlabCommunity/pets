@@ -1,6 +1,3 @@
 namespace Lapka.Pet.Api.Requests;
 
-public class UpdatePetRequest
-{
-    
-}
+public record UpdatePetRequest(Guid PetId,string Name, bool IsSterilized, double Weight);

@@ -4,5 +4,5 @@ using Lapka.Pet.Core.Entities;
 
 namespace Lapka.Pet.Application.Commands;
 
-public record CreatePetCommand(Guid OwnerId, string Name, Gender Gender, DateTime DateOfBirth, bool IsSterilized,
-    double Weight, CatBreed? CatBreed, CatColor? CatColor, DogBreed? DogBreed,DogColor? DogColor, PetType PetType) : ICommand;
+public record CreateCatCommand(Guid OwnerId, string Name, Gender Gender, DateTime DateOfBirth, bool IsSterilized,
+    double Weight,CatColor CatColor, CatBreed CatBreed) : ICommand;

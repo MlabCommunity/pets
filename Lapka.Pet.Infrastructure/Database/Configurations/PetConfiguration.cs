@@ -17,6 +17,6 @@ public class PetConfiguration : IEntityTypeConfiguration<Core.Entities.Pet>
         builder.Property(s => s.Name).HasConversion(name => name.Value, name => new PetName(name));
         builder.Property(s => s.DateOfBirth).HasConversion(dateOfBirth => dateOfBirth.Value, dateOfBirth => new DateOfBirth(dateOfBirth));
         builder.Property(s=>s.Weight).HasConversion(weight=>weight.Value,weight=>new Weight(weight));
-        
+        builder.HasDiscriminator<string>("Discriminator").HasValue<Other>(PetType.OTHER.ToString()).HasValue<Dog>(PetType.DOG.ToString()).HasValue<Cat>(PetType.CAT.ToString());
     }
 }

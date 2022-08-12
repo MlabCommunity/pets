@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Consts;
 
-public enum CatBreed 
+public enum CatBreed
 {
-    CAT_BENGAL,
-    CAT_BOMBAY
+    CAT_SIEMA,
+    CAT_ELO
     //TODO add breeds
 }

@@ -5,27 +5,21 @@ using Lapka.Pet.Core.Repositories;
 
 namespace Lapka.Pet.Application.Commands.Handlers;
 
-internal sealed class CreatePetCommandHandler : ICommandHandler<CreatePetCommand>
+internal sealed class CreateCatCommandHandler : ICommandHandler<CreateCatCommand>
 {
     private readonly IPetRepository _petRepository;
 
-    public CreatePetCommandHandler(IPetRepository petRepository)
+    public CreateCatCommandHandler(IPetRepository petRepository)
     {
         _petRepository = petRepository;
     }
 
-    public async Task HandleAsync(CreatePetCommand command,
+    public async Task HandleAsync(CreateCatCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        //check if pet exists
+        var cat = Cat.Create(command.OwnerId, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
+            command.Weight, command.CatBreed, command.CatColor);
 
-        switch (command.PetType)
-        {
-
-        }
-
-        //TODO throw exception
+        await _petRepository.AddPetAsync(cat);
     }
-
-
 }

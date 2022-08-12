@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class EmptyPetNameException : DomainException
+public class  EmptyNameException : DomainException
 {
-    public EmptyPetNameException() : base("name cannot be empty")
+    public EmptyNameException() : base("name cannot be empty")
     {
     }
 }
