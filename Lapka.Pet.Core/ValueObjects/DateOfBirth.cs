@@ -12,12 +12,13 @@ public class DateOfBirth
         {
             throw new InvalidDateOfBirthException();
         }
+
         Value = value;
     }
-    
+
     public static implicit operator DateTime(DateOfBirth dateOfBirth)
         => dateOfBirth.Value;
-        
+
     public static implicit operator DateOfBirth(DateTime dateOfBirth)
         => new(dateOfBirth);
 }

@@ -4,7 +4,7 @@ namespace Lapka.Pet.Core.DomainThings;
 
 public abstract class TypeName : IEquatable<TypeName>
 {
-    public string Value { get; } 
+    public string Value { get; }
 
     protected TypeName(string value)
     {

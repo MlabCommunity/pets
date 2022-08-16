@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lapka.Pet.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(PetDbContext))]
-    [Migration("20220812112155_Added_Discriminator")]
-    partial class Added_Discriminator
+    [Migration("20220816073812_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,13 +74,36 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Krs")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nip")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("OrganizationName")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("Version")
                         .IsConcurrencyToken()
                         .HasColumnType("integer");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -96,7 +119,7 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<Guid>("PetId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ShelterId")
+                    b.Property<Guid?>("ShelterId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -145,13 +168,9 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.ShelterPet", b =>
                 {
-                    b.HasOne("Lapka.Pet.Core.Entities.Shelter", "Shelter")
+                    b.HasOne("Lapka.Pet.Core.Entities.Shelter", null)
                         .WithMany("ShelterPets")
-                        .HasForeignKey("ShelterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Shelter");
+                        .HasForeignKey("ShelterId");
                 });
 
             modelBuilder.Entity("Lapka.Pet.Core.Entities.Shelter", b =>

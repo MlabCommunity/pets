@@ -1,7 +1,4 @@
-using System.Data;
-using Lapka.Pet.Core.Domain;
-
-namespace Lapka.Pet.Core.ValueObjects;
+namespace Lapka.Pet.Core.Entities;
 
 /*
 public class Volunteering

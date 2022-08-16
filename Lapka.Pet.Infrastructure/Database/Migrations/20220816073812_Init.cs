@@ -22,6 +22,7 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     Type = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Gender = table.Column<int>(type: "integer", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     IsSterilized = table.Column<bool>(type: "boolean", nullable: false),
                     Weight = table.Column<double>(type: "double precision", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -43,7 +44,13 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     OrganizationName = table.Column<string>(type: "text", nullable: false),
+                    Street = table.Column<string>(type: "text", nullable: false),
+                    City = table.Column<string>(type: "text", nullable: false),
+                    ZipCode = table.Column<string>(type: "text", nullable: false),
+                    Krs = table.Column<string>(type: "text", nullable: false),
+                    Nip = table.Column<string>(type: "text", nullable: false),
                     Version = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -57,8 +64,8 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ShelterId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PetId = table.Column<Guid>(type: "uuid", nullable: false)
+                    PetId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ShelterId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,8 +75,7 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                         column: x => x.ShelterId,
                         principalSchema: "pets",
                         principalTable: "Shelters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

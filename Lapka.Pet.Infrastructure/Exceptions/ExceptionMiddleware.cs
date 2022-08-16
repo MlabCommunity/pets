@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 

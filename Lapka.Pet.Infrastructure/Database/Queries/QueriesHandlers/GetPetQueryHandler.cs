@@ -1,31 +1,30 @@
+using AutoMapper;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Infrastructure.Database.Contexts;
-using Lapka.Pet.Infrastructure.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
-internal sealed class GetPetQueryHandler : IQueryHandler<GetPetQuery,PetDto>
+internal sealed class GetPetQueryHandler : IQueryHandler<GetPetQuery, PetDto>
 {
     private readonly DbSet<Core.Entities.Pet> _pets;
+    private readonly IMapper _mapper;
 
-    public GetPetQueryHandler(PetDbContext context)
+
+    public GetPetQueryHandler(PetDbContext context, IMapper mapper)
     {
+        _mapper = mapper;
         _pets = context.Pets;
     }
 
-    public async Task<PetDto> HandleAsync(GetPetQuery query, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<PetDto> HandleAsync(GetPetQuery query,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         var pet = await _pets.FirstOrDefaultAsync(p => p.Id == query.PetId);
         
-        if (pet == null)
-        {
-            throw new PetNotFoundException();
-        }
-
-        return PetExtensions.AsDto(pet);
+        return _mapper.Map<PetDto>(pet);
     }
 }

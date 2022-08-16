@@ -11,6 +11,7 @@
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
         <PackageReference Include="Convey.CQRS.Commands" Version="1.0.541" />
         <PackageReference Include="Convey.CQRS.Queries" Version="1.0.541" />
+        <PackageReference Include="Grpc.Core.Api" Version="2.47.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 

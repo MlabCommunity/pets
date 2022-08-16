@@ -13,8 +13,8 @@ internal sealed class UpdatePetCommandHandler : ICommandHandler<UpdatePetCommand
         _petRepository = petRepository;
     }
 
-
-    public async Task HandleAsync(UpdatePetCommand command, CancellationToken cancellationToken = new CancellationToken())
+    public async Task HandleAsync(UpdatePetCommand command,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         var pet = await _petRepository.FindByIdAsync(command.PetId);
 
@@ -24,7 +24,7 @@ internal sealed class UpdatePetCommandHandler : ICommandHandler<UpdatePetCommand
         }
 
         pet.Update(command.Name, command.IsSterilized, command.Weight);
-        
+
         await _petRepository.UpdateAsync(pet);
     }
 }

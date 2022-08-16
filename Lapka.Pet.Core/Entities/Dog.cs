@@ -16,7 +16,7 @@ public class Dog : Pet
 
     private Dog(Guid ownerId, string name, Gender gender,
         DateTime dateOfBirth, bool isSterilized, double weight, DogBreed breed, DogColor color) : base(ownerId,
-        PetType.DOG, name ,gender,dateOfBirth, isSterilized, weight)
+        PetType.DOG, name, gender, dateOfBirth, isSterilized, weight)
     {
         Breed = breed;
         Color = color;

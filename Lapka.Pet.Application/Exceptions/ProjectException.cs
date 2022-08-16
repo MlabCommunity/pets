@@ -1,4 +1,4 @@
-namespace Lapka.Pet.Infrastructure.Exceptions;
+namespace Lapka.Pet.Application.Exceptions;
 
 public class ProjectException : Exception
 {

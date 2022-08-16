@@ -1,4 +1,4 @@
-namespace Lapka.Pet.Core.Entities;
+namespace Lapka.Pet.Core.Consts;
 
 public enum PetType
 {

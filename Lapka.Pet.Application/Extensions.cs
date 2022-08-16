@@ -17,9 +17,7 @@ public static class Extensions
             .AddInMemoryQueryDispatcher();
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        
+
         return builder.Build();
     }
-    
-
 }

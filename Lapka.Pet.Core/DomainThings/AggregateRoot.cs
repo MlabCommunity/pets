@@ -1,4 +1,4 @@
-namespace Lapka.Pet.Core.Domain;
+namespace Lapka.Pet.Core.DomainThings;
 
 public abstract class AggregateRoot<T>
 {

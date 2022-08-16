@@ -1,0 +1,18 @@
+syntax = "proto3";
+option csharp_namespace = "Lapka.Pet.Api";
+package Pet.protos;
+import "google/protobuf/empty.proto";
+service PetService
+{
+  rpc CreateShelter(CreateShelterRequest) returns (google.protobuf.Empty);
+}
+message CreateShelterRequest
+{
+  string user_id = 1;
+  string organization_name = 2;
+  string street = 3;
+  string zip_code = 4;
+  string city = 5;
+  string nip = 6;
+  string krs = 7;
+}

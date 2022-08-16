@@ -26,7 +26,6 @@ internal sealed class PetRepository : IPetRepository
     {
         return _pets.FirstOrDefaultAsync(s => s.Id == id);
     }
-     
 
     public async Task UpdateAsync(Core.Entities.Pet pet)
     {

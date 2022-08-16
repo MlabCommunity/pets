@@ -1,6 +1,4 @@
-using Lapka.Pet.Core.ValueObjects;
-
-namespace Lapka.Pet.Core.Domain;
+namespace Lapka.Pet.Core.DomainThings;
 
 public class EntityId : TypeId
 {
@@ -10,7 +8,7 @@ public class EntityId : TypeId
 
     public static implicit operator EntityId(Guid id)
         => new(id);
-        
+
     public static implicit operator Guid(EntityId id)
         => id.Value;
 }

@@ -1,6 +1,6 @@
 using System.Data;
 using Lapka.Pet.Core.Consts;
-using Lapka.Pet.Core.Domain;
+using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.ValueObjects;
 using Microsoft.VisualBasic;
@@ -24,7 +24,8 @@ public abstract class Pet : AggregateRoot
     {
     }
 
-    protected Pet(Guid ownerId, PetType type, string name, Gender gender,DateTime dateOfBirth, bool isSterilized, double weight)
+    protected Pet(Guid ownerId, PetType type, string name, Gender gender, DateTime dateOfBirth, bool isSterilized,
+        double weight)
     {
         Id = Guid.NewGuid();
         OwnerId = ownerId;
@@ -44,7 +45,7 @@ public abstract class Pet : AggregateRoot
         IsSterilized = isSterilized;
         Weight = weight;
     }
-    
+
     protected void Sterilize()
     {
         IsSterilized = true;
