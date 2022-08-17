@@ -27,7 +27,7 @@ internal sealed class ShelterRepository : IShelterRepository
     }
 
     public Task<Shelter> FindByUserIdAsync(Guid userId)
-        => _shelters.FirstOrDefaultAsync(x => x.UserId == userId);
+        => _shelters.Include(x=>x.Volunteers).Include(x => x.Volunteering).Include(x => x.Workers).FirstOrDefaultAsync(x => x.UserId == userId);
 
     public async Task<Shelter> FindByUserIdOrWorkerIdAsync(Guid principalId)
     {
@@ -52,4 +52,8 @@ internal sealed class ShelterRepository : IShelterRepository
         _shelters.Remove(shelter);
         await _context.SaveChangesAsync();
     }
+
+    public Task<Shelter> FindByShelterId(Guid shelterId)
+        => _shelters.Include(x=>x.Volunteers).Include(x => x.Volunteering).Include(x => x.Workers).FirstOrDefaultAsync(x => x.Id == shelterId);
+
 }

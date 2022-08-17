@@ -34,4 +34,16 @@ public abstract class BaseController : ControllerBase
 
         return role;
     }
+    
+    protected string GetPrincipalEmail()
+    {
+        var email = User.FindFirstValue(ClaimTypes.Email);
+
+        if (string.IsNullOrEmpty(email))
+        {
+            throw new EmailNotFoundException();
+        }
+
+        return email;
+    }
 }

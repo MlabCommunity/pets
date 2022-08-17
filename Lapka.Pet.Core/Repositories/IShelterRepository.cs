@@ -9,4 +9,5 @@ public interface IShelterRepository
     Task<Shelter> FindByUserIdOrWorkerIdAsync(Guid principalId);
     Task UpdateAsync(Shelter shelter);
     Task DeleteAsync(Shelter shelter);
+    Task<Shelter> FindByShelterId(Guid shelterId);
 }

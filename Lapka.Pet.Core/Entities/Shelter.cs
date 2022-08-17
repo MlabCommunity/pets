@@ -11,13 +11,12 @@ public class Shelter : AggregateRoot
     public ICollection<PetId> ShelterPets = new List<PetId>();
     public string Street { get; private set; }
     public string City { get; private set; }
-    public string ZipCode { get; private set; }
+    public ZipCode ZipCode { get; private set; }
     public ICollection<WorkerId> Workers { get; private set; }
-
-    // private Volunteering _volunteering;
-    // private ICollection<Volunteer> _volunteers;
-    public string Krs { get; private set; }
-    public string Nip { get; private set; }
+    public Volunteering Volunteering { get; private set; }
+    public ICollection<Volunteer> Volunteers = new List<Volunteer>();
+    public Krs Krs { get; private set; }
+    public Nip Nip { get; private set; }
 
     private Shelter()
     {
@@ -34,6 +33,7 @@ public class Shelter : AggregateRoot
         ZipCode = zipCode;
         Krs = krs;
         Nip = nip;
+        Volunteering = new Volunteering();
     }
 
     public static Shelter Create(Guid userId, string street, string city, string zipCode, string organizationName,
@@ -51,9 +51,32 @@ public class Shelter : AggregateRoot
 
     public void AddWorker(Guid workerId)
     {
+        var exists = Workers.Any(x => x.Value == workerId);
+
+        if (exists)
+        {
+            throw new WorkerAlreadyExistsException();
+        }
+
         Workers.Add(workerId);
     }
 
+    public void ConfigureVolunteering(Volunteering volunteering)
+    {
+        Volunteering = volunteering;
+    }
+
+    private WorkerId GetWorker(Guid workerId)
+    {
+        var worker = Workers.SingleOrDefault(x => x.Value == workerId);
+
+        if (worker is null)
+        {
+            throw new WorkerNotFoundException();
+        }
+
+        return worker;
+    }
 
     public void Update(string organizationName, string street, string city, string zipCode, string krs, string nip)
     {
@@ -72,13 +95,40 @@ public class Shelter : AggregateRoot
 
     public void RemoveWorker(Guid workerId)
     {
-        var worker = Workers.SingleOrDefault(x => x.Value == workerId);
-
-        if (worker is null)
-        {
-            throw new WorkerNotFoundException();
-        }
+        var worker = GetWorker(workerId);
 
         Workers.Remove(worker);
     }
+    
+    public void AddVolunteer(Volunteer volunteer)
+    {
+        var exists = Volunteers.Any(x => x.UserId == volunteer.UserId);
+
+        if (exists)
+        {
+            throw new VolunteerAlreadyExistsException();
+        }
+        Volunteers.Add(volunteer);
+    }
+    
+    public void RemoveVolunteer(Guid volunteerId)
+    {
+        var volunteer = GetVolunteer(volunteerId);
+        
+        Volunteers.Remove(volunteer);
+    }
+    
+    private Volunteer GetVolunteer(Guid volunteerId)
+    {
+        var volunteer = Volunteers.SingleOrDefault(x => x.UserId == volunteerId);
+
+        if (volunteer is null)
+        {
+            throw new VolunteerNotFoundException();
+        }
+
+        return volunteer;
+    }
+    
+    
 }

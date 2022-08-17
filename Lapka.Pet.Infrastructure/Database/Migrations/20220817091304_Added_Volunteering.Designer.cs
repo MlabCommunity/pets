@@ -3,6 +3,7 @@ using System;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lapka.Pet.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(PetDbContext))]
-    partial class PetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220817091304_Added_Volunteering")]
+    partial class Added_Volunteering
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,7 +123,7 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Volunteerings", "pets");
+                    b.ToTable("Volunteering", "pets");
                 });
 
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.PetId", b =>
@@ -141,29 +143,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.HasIndex("ShelterId");
 
                     b.ToTable("ShelterPets", "pets");
-                });
-
-            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Volunteer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("ShelterId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ShelterId");
-
-                    b.ToTable("Volunteers", "pets");
                 });
 
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.WorkerId", b =>
@@ -240,13 +219,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                         .HasForeignKey("ShelterId");
                 });
 
-            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Volunteer", b =>
-                {
-                    b.HasOne("Lapka.Pet.Core.Entities.Shelter", null)
-                        .WithMany("Volunteers")
-                        .HasForeignKey("ShelterId");
-                });
-
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.WorkerId", b =>
                 {
                     b.HasOne("Lapka.Pet.Core.Entities.Shelter", "Shelter")
@@ -261,8 +233,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
             modelBuilder.Entity("Lapka.Pet.Core.Entities.Shelter", b =>
                 {
                     b.Navigation("ShelterPets");
-
-                    b.Navigation("Volunteers");
 
                     b.Navigation("Workers");
                 });

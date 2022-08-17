@@ -8,23 +8,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
-internal sealed class GetShelterQueryHandler : IQueryHandler<GetShelterQuery, ShelterDto>
+internal sealed class GetVolunteeringQueryHandler : IQueryHandler<GetVolunteeringQuery, VolunteeringDto>
 {
-    private readonly DbSet<Shelter> _shelters;
     private readonly IShelterRepository _shelterRepository;
     private readonly IMapper _mapper;
-    
-    public GetShelterQueryHandler(PetDbContext context, IMapper mapper)
+
+    public GetVolunteeringQueryHandler(IShelterRepository shelterRepository, IMapper mapper)
     {
+        _shelterRepository = shelterRepository;
         _mapper = mapper;
-        _shelters = context.Shelters;
     }
 
-    public async Task<ShelterDto> HandleAsync(GetShelterQuery query,
+    public async Task<VolunteeringDto> HandleAsync(GetVolunteeringQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelters.FirstOrDefaultAsync(x => x.UserId == query.UserId);
+        var shelter = await _shelterRepository.FindByUserIdOrWorkerIdAsync(query.PrincipalId);
         
-        return _mapper.Map<ShelterDto>(shelter);
+        return _mapper.Map<VolunteeringDto>(shelter.Volunteering);
     }
 }

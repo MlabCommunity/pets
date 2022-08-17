@@ -2,7 +2,7 @@ using Lapka.Pet.Core.Exceptions;
 
 namespace Lapka.Pet.Core.ValueObjects;
 
-public class DateOfBirth
+public record DateOfBirth
 {
     public DateTime Value { get; }
 

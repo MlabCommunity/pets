@@ -12,6 +12,8 @@ public interface IPetDbContext
     DbSet<Core.Entities.Pet> Pets { get; set; }
     DbSet<Cat> Cats { get; set; }
     DbSet<Dog> Dogs { get; set; }
+    DbSet<Volunteering> Volunteerings { get; set; }
+    DbSet<Volunteer> Volunteers { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

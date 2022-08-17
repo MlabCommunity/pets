@@ -1,9 +1,19 @@
-using Lapka.Pet.Core.Entities;
+using Lapka.Pet.Core.DomainThings;
 
 namespace Lapka.Pet.Core.ValueObjects;
 
-public class Volunteer
+public record Volunteer 
 {
-    private ICollection<Shelter> _shelters;
-    private UserId _userId;
+    public Email Email { get;} 
+    public EntityId UserId { get;}
+
+    private Volunteer()
+    {
+    }
+
+    public Volunteer(string email, Guid userId)
+    {
+        Email = email;
+        UserId = userId;
+    }
 }

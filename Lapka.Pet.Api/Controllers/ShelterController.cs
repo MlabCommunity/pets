@@ -87,4 +87,51 @@ public class ShelterController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
     }
+
+    [Authorize(Roles = "Shelter")]
+    [HttpPut("volunteering")]
+    public async Task<IActionResult> UpdateVolunteering([FromBody] UpdateVolunteeringRequest request)
+    {
+        var command = new UpdateVolunteeringCommand(GetPrincipalId(), request.BankAccountNumber,
+            request.DonationDescription, request.DailyHelpDescription, request.TakingDogsOutDescription,
+            request.IsDonationActive, request.IsDailyHelpActive, request.IsTakingDogsOutActive);
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
+    [Authorize(Roles = "Shelter,Worker")]
+    [HttpGet("volunteering")]
+    public async Task<ActionResult<VolunteeringDto>> GetVolunteering()
+    {
+        var query = new GetVolunteeringQuery(GetPrincipalId());
+        var result = await _queryDispatcher.QueryAsync(query);
+        return OkOrNotFound(result);
+    }
+    
+    [Authorize]
+    [HttpPost("volunteers/{shelterId:guid}")]
+    public async Task<IActionResult> AddVolunteer([FromRoute] Guid shelterId)
+    {
+        var command = new AddVolunteerCommand(GetPrincipalId(),GetPrincipalEmail() ,shelterId);
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
+    [Authorize]
+    [HttpDelete("volunteers/{shelterId:guid}")]
+    public async Task<IActionResult> DeleteVolunteer([FromRoute] Guid shelterId)
+    {
+        var command = new RemoveVolunteerCommand(GetPrincipalId(),shelterId);
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
+    [Authorize(Roles = "Worker,Shelter")]
+    [HttpGet("volunteers")]
+    public async Task<ActionResult<List<VolunteerDto>>> GetVolunteers()
+    {
+        var query = new GetVolunteersQuery(GetPrincipalId());
+        var result = await _queryDispatcher.QueryAsync(query);
+        return OkOrNotFound(result);
+    }
 }

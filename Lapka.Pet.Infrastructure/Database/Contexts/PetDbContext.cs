@@ -13,6 +13,8 @@ internal class PetDbContext : DbContext, IPetDbContext
     public DbSet<Core.Entities.Pet> Pets { get; set; }
     public DbSet<Cat> Cats { get; set; }
     public DbSet<Dog> Dogs { get; set; }
+    public DbSet<Volunteering> Volunteerings { get; set; }
+    public DbSet<Volunteer> Volunteers { get; set; }
 
     public PetDbContext(DbContextOptions<PetDbContext> options) : base(options)
     {
