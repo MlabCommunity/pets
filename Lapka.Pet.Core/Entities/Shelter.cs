@@ -1,4 +1,5 @@
 using Lapka.Pet.Core.DomainThings;
+using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Core.Entities;
@@ -7,10 +8,11 @@ public class Shelter : AggregateRoot
 {
     public UserId UserId { get; private set; }
     public OrganizationName OrganizationName { get; private set; }
-    public ICollection<ShelterPet> ShelterPets { get; private set; }
+    public ICollection<PetId> ShelterPets = new List<PetId>();
     public string Street { get; private set; }
     public string City { get; private set; }
     public string ZipCode { get; private set; }
+    public ICollection<WorkerId> Workers { get; private set; }
 
     // private Volunteering _volunteering;
     // private ICollection<Volunteer> _volunteers;
@@ -42,10 +44,16 @@ public class Shelter : AggregateRoot
         return shelter;
     }
 
-    public void AddPet(Guid petId)
+    public void AddPet(PetId petId)
     {
-        ShelterPets.Add(new ShelterPet(petId));
+        ShelterPets.Add(petId);
     }
+
+    public void AddWorker(Guid workerId)
+    {
+        Workers.Add(workerId);
+    }
+
 
     public void Update(string organizationName, string street, string city, string zipCode, string krs, string nip)
     {
@@ -61,4 +69,16 @@ public class Shelter : AggregateRoot
 
     public string GetLocalization()
         => $"{Street}, {City}";
+
+    public void RemoveWorker(Guid workerId)
+    {
+        var worker = Workers.SingleOrDefault(x => x.Value == workerId);
+
+        if (worker is null)
+        {
+            throw new WorkerNotFoundException();
+        }
+
+        Workers.Remove(worker);
+    }
 }

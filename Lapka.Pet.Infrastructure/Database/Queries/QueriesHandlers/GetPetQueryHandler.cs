@@ -13,7 +13,6 @@ internal sealed class GetPetQueryHandler : IQueryHandler<GetPetQuery, PetDto>
     private readonly DbSet<Core.Entities.Pet> _pets;
     private readonly IMapper _mapper;
 
-
     public GetPetQueryHandler(PetDbContext context, IMapper mapper)
     {
         _mapper = mapper;
@@ -24,7 +23,7 @@ internal sealed class GetPetQueryHandler : IQueryHandler<GetPetQuery, PetDto>
         CancellationToken cancellationToken = new CancellationToken())
     {
         var pet = await _pets.FirstOrDefaultAsync(p => p.Id == query.PetId);
-        
+
         return _mapper.Map<PetDto>(pet);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lapka.Pet.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(PetDbContext))]
-    partial class PetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220816100033_AddedWorkers")]
+    partial class AddedWorkers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,7 +135,7 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ShelterId")
+                    b.Property<Guid?>("ShelterId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("Value")
@@ -192,13 +194,9 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.WorkerId", b =>
                 {
-                    b.HasOne("Lapka.Pet.Core.Entities.Shelter", "Shelter")
+                    b.HasOne("Lapka.Pet.Core.Entities.Shelter", null)
                         .WithMany("Workers")
-                        .HasForeignKey("ShelterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Shelter");
+                        .HasForeignKey("ShelterId");
                 });
 
             modelBuilder.Entity("Lapka.Pet.Core.Entities.Shelter", b =>

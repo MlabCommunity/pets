@@ -23,5 +23,31 @@ public class ShelterGrpcController : PetService.PetServiceBase //TODO: Nazewnict
 
         return new();
     }
-    //TODO : add delete shelter
+
+    public override async Task<Empty> DeleteShelter(DeleteShelterRequest request, ServerCallContext context)
+    {
+        var command = new DeleteShelterCommand(Guid.Parse(request.UserId));
+
+        await _commandDispatcher.SendAsync(command);
+
+        return new();
+    }
+
+    public override async Task<Empty> AddWorker(AddWorkerRequest request, ServerCallContext context)
+    {
+        var command = new AddWorkerCommand(Guid.Parse(request.UserId), Guid.Parse(request.WorkerId));
+
+        await _commandDispatcher.SendAsync(command);
+
+        return new();
+    }
+
+    public override async Task<Empty> RemoveWorker(RemoveWorkerRequest request, ServerCallContext context)
+    {
+        var command = new RemoveWorkerCommand(Guid.Parse(request.UserId), Guid.Parse(request.WorkerId));
+
+        await _commandDispatcher.SendAsync(command);
+
+        return new();
+    }
 }

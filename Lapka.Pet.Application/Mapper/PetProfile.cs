@@ -10,8 +10,12 @@ internal sealed class PetProfile : Profile
     {
         CreateMap<Core.Entities.Pet, PetDto>()
             .Include<Cat, CatDto>()
-            .Include<Dog, DogDto>();
+            .Include<Dog, DogDto>()
+            .Include<Other, OtherDto>();
+
+
         CreateMap<Cat, CatDto>();
         CreateMap<Dog, DogDto>();
+        CreateMap<Other, OtherDto>();
     }
 }

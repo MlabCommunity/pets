@@ -8,10 +8,9 @@ namespace Lapka.Pet.Api.Controllers;
 [Route("api/pet/[controller]")]
 public abstract class BaseController : ControllerBase
 {
-    
     protected ActionResult<TResult> OkOrNotFound<TResult>(TResult result)
         => result is null ? NotFound() : Ok(result);
-    
+
     protected Guid GetPrincipalId()
     {
         var stringId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -35,5 +34,4 @@ public abstract class BaseController : ControllerBase
 
         return role;
     }
-    
 }

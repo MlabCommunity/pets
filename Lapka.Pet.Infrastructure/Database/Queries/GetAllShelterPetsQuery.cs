@@ -3,4 +3,4 @@ using Lapka.Pet.Application.Dto;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
-public record GetAllShelterPets(Guid PrincipalId) : IQuery<List<PetDto>>;
+public record GetAllShelterPetsQuery(Guid PrincipalId) : IQuery<List<PetDto>>;

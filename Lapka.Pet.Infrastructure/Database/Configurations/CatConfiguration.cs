@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Lapka.Pet.Infrastructure.Database.Configurations;
 
-public class CatConfiguration : IEntityTypeConfiguration<Cat>
+internal sealed class CatConfiguration : IEntityTypeConfiguration<Cat>
 {
     public void Configure(EntityTypeBuilder<Cat> builder)
     {

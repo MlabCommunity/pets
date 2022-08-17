@@ -4,14 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Lapka.Pet.Infrastructure.Database.Configurations;
 
-public class ShelterPetConfiguration : IEntityTypeConfiguration<ShelterPet>
+internal sealed class ShelterPetConfiguration : IEntityTypeConfiguration<PetId>
 {
-    public void Configure(EntityTypeBuilder<ShelterPet> builder)
+    public void Configure(EntityTypeBuilder<PetId> builder)
     {
         builder.Property<Guid>("Id");
-
-        builder.Property(s => s.PetId).HasConversion(s => s.Value, id => new PetId(id));
-
+        builder.Property(s => s.Value);
         builder.ToTable("ShelterPets");
     }
 }

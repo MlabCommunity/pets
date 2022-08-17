@@ -8,7 +8,8 @@ namespace Lapka.Pet.Infrastructure.Database.Contexts;
 internal class PetDbContext : DbContext, IPetDbContext
 {
     public DbSet<Shelter> Shelters { get; set; }
-    public DbSet<ShelterPet> ShelterPets { get; set; }
+    public DbSet<PetId> ShelterPets { get; set; }
+    public DbSet<WorkerId> Workers { get; set; }
     public DbSet<Core.Entities.Pet> Pets { get; set; }
     public DbSet<Cat> Cats { get; set; }
     public DbSet<Dog> Dogs { get; set; }
@@ -20,6 +21,7 @@ internal class PetDbContext : DbContext, IPetDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("pets");
+
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
     }
 }

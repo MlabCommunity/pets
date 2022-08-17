@@ -7,9 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
-internal sealed class GetShelterQueryHandler : IQueryHandler<GetShelterQuery,ShelterDto>
+internal sealed class GetShelterQueryHandler : IQueryHandler<GetShelterQuery, ShelterDto>
 {
-    
     private readonly DbSet<Shelter> _shelters;
     private readonly IMapper _mapper;
 
@@ -19,8 +18,9 @@ internal sealed class GetShelterQueryHandler : IQueryHandler<GetShelterQuery,She
         _mapper = mapper;
         _shelters = context.Shelters;
     }
-    
-    public async Task<ShelterDto> HandleAsync(GetShelterQuery query, CancellationToken cancellationToken = new CancellationToken())
+
+    public async Task<ShelterDto> HandleAsync(GetShelterQuery query,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         var shelter = await _shelters.FirstOrDefaultAsync(x => x.UserId == query.UserId);
 
