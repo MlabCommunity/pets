@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Lapka.Pet.Infrastructure.Database.Migrations
 {
-    [DbContext(typeof(PetDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20220817091945_Refactor")]
     partial class Refactor
     {

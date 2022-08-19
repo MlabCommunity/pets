@@ -5,5 +5,4 @@ public class WorkerAlreadyExistsException : DomainException
     public WorkerAlreadyExistsException() : base("Worker already exists")
     {
     }
-
 }

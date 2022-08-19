@@ -11,10 +11,9 @@ namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 internal sealed class GetShelterQueryHandler : IQueryHandler<GetShelterQuery, ShelterDto>
 {
     private readonly DbSet<Shelter> _shelters;
-    private readonly IShelterRepository _shelterRepository;
     private readonly IMapper _mapper;
-    
-    public GetShelterQueryHandler(PetDbContext context, IMapper mapper)
+
+    public GetShelterQueryHandler(AppDbContext context, IMapper mapper)
     {
         _mapper = mapper;
         _shelters = context.Shelters;
@@ -23,8 +22,8 @@ internal sealed class GetShelterQueryHandler : IQueryHandler<GetShelterQuery, Sh
     public async Task<ShelterDto> HandleAsync(GetShelterQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelters.FirstOrDefaultAsync(x => x.UserId == query.UserId);
-        
+        var shelter = await _shelters.FirstOrDefaultAsync(x => x.Id == query.Id);
+
         return _mapper.Map<ShelterDto>(shelter);
     }
 }

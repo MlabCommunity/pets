@@ -5,8 +5,7 @@ namespace Lapka.Pet.Core.ValueObjects;
 
 public class WorkerId : TypeId
 {
-    public Shelter Shelter { get; private set; }
-
+    
     public WorkerId(Guid value) : base(value)
     {
     }

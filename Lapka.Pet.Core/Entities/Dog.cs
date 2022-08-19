@@ -14,16 +14,16 @@ public class Dog : Pet
     {
     }
 
-    private Dog(Guid ownerId, string name, Gender gender,
-        DateTime dateOfBirth, bool isSterilized, double weight, DogBreed breed, DogColor color) : base(ownerId,
+    private Dog(OwnerId ownerId, PetName name, Gender gender,
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, DogBreed breed, DogColor color) : base(ownerId,
         PetType.DOG, name, gender, dateOfBirth, isSterilized, weight)
     {
         Breed = breed;
         Color = color;
     }
 
-    public static Dog Create(Guid ownerId, string name, Gender gender,
-        DateTime dateOfBirth, bool isSterilized, double weight, DogBreed breed, DogColor color)
+    public static Dog Create(OwnerId ownerId, PetName name, Gender gender,
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, DogBreed breed, DogColor color)
     {
         var dog = new Dog(ownerId, name, gender, dateOfBirth, isSterilized, weight, breed, color);
         return dog;

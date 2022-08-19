@@ -4,6 +4,7 @@ namespace Lapka.Pet.Core.ValueObjects;
 
 public class PetId : TypeId
 {
+    
     public PetId(Guid value) : base(value)
     {
     }

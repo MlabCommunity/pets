@@ -13,8 +13,8 @@ public sealed class Cat : Pet
     {
     }
 
-    private Cat(Guid ownerId, string name, Gender gender,
-        DateTime dateOfBirth, bool isSterilized, double weight, CatBreed breed, CatColor color) : base(
+    private Cat(OwnerId ownerId, PetName name, Gender gender,
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, CatBreed breed, CatColor color) : base(
         ownerId,
         PetType.CAT, name, gender, dateOfBirth, isSterilized, weight)
     {
@@ -22,8 +22,8 @@ public sealed class Cat : Pet
         Color = color;
     }
 
-    public static Cat Create(Guid ownerId, string name, Gender gender,
-        DateTime dateOfBirth, bool isSterilized, double weight, CatBreed breed, CatColor color)
+    public static Cat Create(OwnerId ownerId, PetName name, Gender gender,
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, CatBreed breed, CatColor color)
     {
         var cat = new Cat(ownerId, name, gender, dateOfBirth, isSterilized, weight, breed, color);
         return cat;

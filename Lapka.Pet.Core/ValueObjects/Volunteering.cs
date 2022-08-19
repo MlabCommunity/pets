@@ -1,8 +1,6 @@
-using Lapka.Pet.Core.DomainThings;
+namespace Lapka.Pet.Core.ValueObjects;
 
-namespace Lapka.Pet.Core.Entities;
-
-public record Volunteering //TODO ask Adam about this
+public record Volunteering
 {
     public bool IsDonationActive { get; }
     public string BankAccountNumber { get; }

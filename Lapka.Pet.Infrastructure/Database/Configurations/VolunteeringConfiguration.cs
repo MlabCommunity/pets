@@ -1,4 +1,5 @@
 using Lapka.Pet.Core.Entities;
+using Lapka.Pet.Core.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,7 +10,7 @@ internal sealed class VolunteeringConfiguration : IEntityTypeConfiguration<Volun
     public void Configure(EntityTypeBuilder<Volunteering> builder)
     {
         builder.Property<Guid>("Id");
-        
+
         builder.ToTable("Volunteerings");
     }
 }

@@ -1,5 +1,7 @@
+using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
+using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,10 +9,10 @@ namespace Lapka.Pet.Infrastructure.Database.Repositories;
 
 internal sealed class PetRepository : IPetRepository
 {
-    private readonly PetDbContext _context;
+    private readonly IAppDbContext _context;
     private readonly DbSet<Core.Entities.Pet> _pets;
 
-    public PetRepository(PetDbContext context)
+    public PetRepository(AppDbContext context)
     {
         _context = context;
         _pets = context.Pets;
@@ -21,8 +23,8 @@ internal sealed class PetRepository : IPetRepository
         await _pets.AddAsync(pet);
         await _context.SaveChangesAsync();
     }
-
-    public Task<Core.Entities.Pet> FindByIdAsync(Guid id)
+    
+    public Task<Core.Entities.Pet> FindByIdAsync(AggregateId id)
     {
         return _pets.FirstOrDefaultAsync(s => s.Id == id);
     }

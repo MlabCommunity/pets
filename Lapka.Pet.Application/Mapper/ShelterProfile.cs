@@ -3,7 +3,7 @@ using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.ValueObjects;
 
-namespace Lapka.Pet.Infrastructure.Mapper;
+namespace Lapka.Pet.Application.Mapper;
 
 internal sealed class ShelterProfile : Profile
 {
@@ -12,5 +12,9 @@ internal sealed class ShelterProfile : Profile
         CreateMap<Shelter, ShelterDto>();
         CreateMap<Volunteering, VolunteeringDto>();
         CreateMap<Volunteer, VolunteerDto>().ForMember(x => x.Email, opt => opt.MapFrom(x => x.Email.Value));
+        CreateMap<ShelterAdvertisement, ShelterAdvertisementDto>();
+        CreateMap<ShelterAdvertisement, CurrentShelterAdvertisementDto>();
+      
+
     }
 }

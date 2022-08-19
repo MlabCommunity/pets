@@ -16,7 +16,7 @@ internal sealed class DeleteShelterCommandHandler : ICommandHandler<DeleteShelte
     public async Task HandleAsync(DeleteShelterCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelterRepository.FindByUserIdAsync(command.UserId);
+        var shelter = await _shelterRepository.FindByIdAsync(command.UserId);
 
         if (shelter is null)
         {

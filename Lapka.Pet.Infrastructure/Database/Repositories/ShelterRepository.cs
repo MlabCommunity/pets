@@ -1,3 +1,4 @@
+using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
@@ -10,14 +11,12 @@ namespace Lapka.Pet.Infrastructure.Database.Repositories;
 internal sealed class ShelterRepository : IShelterRepository
 {
     private readonly DbSet<Shelter> _shelters;
-    private readonly PetDbContext _context;
-    private readonly DbSet<WorkerId> _workers;
+    private readonly IAppDbContext _context;
 
-    public ShelterRepository(PetDbContext context)
+    public ShelterRepository(AppDbContext context)
     {
         _context = context;
         _shelters = context.Shelters;
-        _workers = context.Workers;
     }
 
     public async Task AddAsync(Shelter shelter)
@@ -26,21 +25,16 @@ internal sealed class ShelterRepository : IShelterRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task<Shelter> FindByUserIdAsync(Guid userId)
-        => _shelters.Include(x=>x.Volunteers).Include(x => x.Volunteering).Include(x => x.Workers).FirstOrDefaultAsync(x => x.UserId == userId);
+    public async Task<Shelter> FindByIdAsync(AggregateId Id)
+        => await _shelters.Include(x => x.Advertisements).Include(x => x.Volunteers).Include(x => x.Volunteering)
+            .Include(x => x.Workers)
+            .FirstOrDefaultAsync(x => x.Id == Id);
 
-    public async Task<Shelter> FindByUserIdOrWorkerIdAsync(Guid principalId)
-    {
-        var worker = await _workers.FirstOrDefaultAsync(x => x.Value == principalId);
-        if (worker is null)
-        {
-            return await FindByUserIdAsync(principalId);
-        }
+    public async Task<Shelter> FindByIdOrWorkerIdAsync(Guid principalId)
+    => await _shelters.Include(x => x.Advertisements).Include(x => x.Volunteers).Include(x => x.Volunteering)
+        .Include(x => x.Workers).FirstOrDefaultAsync(x => x.Workers.Contains(principalId) || x.Id==principalId);
 
-        return await FindByUserIdAsync(worker.Shelter.UserId);
-    }
-
-
+    
     public async Task UpdateAsync(Shelter shelter)
     {
         _shelters.Update(shelter);
@@ -52,8 +46,4 @@ internal sealed class ShelterRepository : IShelterRepository
         _shelters.Remove(shelter);
         await _context.SaveChangesAsync();
     }
-
-    public Task<Shelter> FindByShelterId(Guid shelterId)
-        => _shelters.Include(x=>x.Volunteers).Include(x => x.Volunteering).Include(x => x.Workers).FirstOrDefaultAsync(x => x.Id == shelterId);
-
 }

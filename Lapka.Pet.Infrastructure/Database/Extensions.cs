@@ -16,15 +16,16 @@ public static class Extensions
 
         services.AddScoped<IPetRepository, PetRepository>();
         services.AddScoped<IShelterRepository, ShelterRepository>();
+        services.AddScoped<IUserAdvertisementRepository, UserAdvertisementRepository>();
 
 
         var options = configuration.GetOptions<PostgresOptions>("Postgres");
-        services.AddDbContext<PetDbContext>(ctx =>
+        services.AddDbContext<AppDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString));
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         //Add contexts here
 
-        services.AddScoped<IPetDbContext, PetDbContext>();
+        services.AddScoped<IAppDbContext, AppDbContext>();
         return services;
     }
 }

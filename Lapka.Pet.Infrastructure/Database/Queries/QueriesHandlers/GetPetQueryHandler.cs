@@ -13,7 +13,7 @@ internal sealed class GetPetQueryHandler : IQueryHandler<GetPetQuery, PetDto>
     private readonly DbSet<Core.Entities.Pet> _pets;
     private readonly IMapper _mapper;
 
-    public GetPetQueryHandler(PetDbContext context, IMapper mapper)
+    public GetPetQueryHandler(AppDbContext context, IMapper mapper)
     {
         _mapper = mapper;
         _pets = context.Pets;

@@ -19,18 +19,16 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
     public async Task HandleAsync(CreateShelterOtherPetCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelterRepository.FindByUserIdOrWorkerIdAsync(command.PrincipalId);
+        var shelter = await _shelterRepository.FindByIdOrWorkerIdAsync(command.PrincipalId);
 
         if (shelter is null)
         {
             throw new ShelterNotFoundException();
         }
 
-        var other = Other.Create(shelter.Id, command.Name, command.Gender, command.DateOfBirth,
+        var other = Other.Create(shelter.Id.Value, command.Name, command.Gender, command.DateOfBirth, //TODO ask mentor how to fix this implict operator
             command.IsSterilized, command.Weight);
 
         await _petRepository.AddPetAsync(other);
-        shelter.AddPet(other.Id.Value);
-        await _shelterRepository.UpdateAsync(shelter);
     }
 }

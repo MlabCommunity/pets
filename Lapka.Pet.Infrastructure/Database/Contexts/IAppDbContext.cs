@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Contexts;
 
-public interface IPetDbContext
+public interface IAppDbContext
 {
     DbSet<Shelter> Shelters { get; set; }
     DbSet<PetId> ShelterPets { get; set; }
@@ -14,6 +14,10 @@ public interface IPetDbContext
     DbSet<Dog> Dogs { get; set; }
     DbSet<Volunteering> Volunteerings { get; set; }
     DbSet<Volunteer> Volunteers { get; set; }
+    DbSet<ShelterAdvertisement> ShelterAdvertisements { get; set; }
+    DbSet<UserAdvertisement> UserAdvertisements { get; set; }
+    DbSet<Advertisement> Advertisements { get; set; }
+    DbSet<PhotoId> Photos { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

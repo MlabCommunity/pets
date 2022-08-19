@@ -1,4 +1,5 @@
 using Lapka.Pet.Core.Consts;
+using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Core.Entities;
 
@@ -8,15 +9,15 @@ public class Other : Pet
     {
     }
 
-    private Other(Guid ownerId, string name, Gender gender,
-        DateTime dateOfBirth, bool isSterilized, double weight) : base(
+    private Other(OwnerId ownerId, PetName name, Gender gender,
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight) : base(
         ownerId,
         PetType.OTHER, name, gender, dateOfBirth, isSterilized, weight)
     {
     }
 
-    public static Other Create(Guid ownerId, string name, Gender gender,
-        DateTime dateOfBirth, bool isSterilized, double weight)
+    public static Other Create(OwnerId ownerId, PetName name, Gender gender,
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight)
     {
         var other = new Other(ownerId, name, gender, dateOfBirth, isSterilized, weight);
         return other;

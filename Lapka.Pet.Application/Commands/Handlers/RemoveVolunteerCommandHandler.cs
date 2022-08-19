@@ -7,21 +7,22 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class RemoveVolunteerCommandHandler : ICommandHandler<RemoveVolunteerCommand>
 {
     private readonly IShelterRepository _shelterRepository;
-    
+
     public RemoveVolunteerCommandHandler(IShelterRepository shelterRepository)
     {
         _shelterRepository = shelterRepository;
     }
-    
-    public async Task HandleAsync(RemoveVolunteerCommand command, CancellationToken cancellationToken = new CancellationToken())
+
+    public async Task HandleAsync(RemoveVolunteerCommand command,
+        CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelterRepository.FindByShelterId(command.ShelterId);
+        var shelter = await _shelterRepository.FindByIdAsync(command.ShelterId);
 
         if (shelter is null)
         {
             throw new ShelterNotFoundException();
         }
-        
+
         shelter.RemoveVolunteer(command.PrincipalId);
 
         await _shelterRepository.UpdateAsync(shelter);

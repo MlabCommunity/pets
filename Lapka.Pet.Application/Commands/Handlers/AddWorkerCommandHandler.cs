@@ -16,7 +16,7 @@ internal sealed class AddWorkerCommandHandler : ICommandHandler<AddWorkerCommand
     public async Task HandleAsync(AddWorkerCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelterRepository.FindByUserIdAsync(command.UserId);
+        var shelter = await _shelterRepository.FindByIdAsync(command.UserId);
 
         if (shelter is null)
         {

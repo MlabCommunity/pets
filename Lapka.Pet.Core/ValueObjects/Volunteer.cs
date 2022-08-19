@@ -2,16 +2,16 @@ using Lapka.Pet.Core.DomainThings;
 
 namespace Lapka.Pet.Core.ValueObjects;
 
-public record Volunteer 
+public record Volunteer
 {
-    public Email Email { get;} 
-    public EntityId UserId { get;}
+    public Email Email { get; }
+    public UserId UserId { get; }
 
     private Volunteer()
     {
     }
 
-    public Volunteer(string email, Guid userId)
+    public Volunteer(Email email, UserId userId)
     {
         Email = email;
         UserId = userId;

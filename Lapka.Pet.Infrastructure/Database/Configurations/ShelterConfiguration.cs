@@ -13,16 +13,15 @@ internal sealed class ShelterConfiguration : IEntityTypeConfiguration<Shelter>
         builder.HasKey(s => s.Id);
 
         builder.Property(s => s.Id).HasConversion(id => id.Value, id => new AggregateId(id));
-        builder.Property(s => s.UserId).HasConversion(id => id.Value, id => new UserId(id));
         builder.Property(s => s.OrganizationName).HasConversion(name => name.Value, name => new OrganizationName(name));
         builder.Property(s => s.ZipCode).HasConversion(zipCode => zipCode.Value, zipCode => new ZipCode(zipCode));
         builder.Property(s => s.Nip).HasConversion(nip => nip.Value, nip => new Nip(nip));
         builder.Property(s => s.Krs).HasConversion(krs => krs.Value, krs => new Krs(krs));
 
-        builder.HasMany(typeof(PetId), "ShelterPets");
+        builder.HasMany(x=>x.Advertisements).WithOne(x=>x.Shelter);
         builder.HasOne(typeof(Volunteering), "Volunteering");
         builder.HasMany(typeof(Volunteer), "Volunteers");
-        builder.HasMany(x => x.Workers).WithOne(x => x.Shelter);
+        builder.HasMany(typeof(WorkerId),"WorkerIds");
 
         builder.Property(s => s.Version).IsConcurrencyToken();
 

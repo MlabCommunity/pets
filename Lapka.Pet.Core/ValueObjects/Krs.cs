@@ -5,7 +5,7 @@ namespace Lapka.Pet.Core.ValueObjects;
 
 public record Krs
 {
-    public string Value { get;}
+    public string Value { get; }
 
     public Krs(string value)
     {
@@ -15,13 +15,11 @@ public record Krs
         }
 
         Value = value;
-        
     }
-    
+
     public static implicit operator string(Krs krs)
         => krs.Value;
-        
+
     public static implicit operator Krs(string krs)
         => new(krs);
-    
 }

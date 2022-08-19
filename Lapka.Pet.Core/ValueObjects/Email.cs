@@ -14,14 +14,13 @@ public record Email
         {
             throw new InvalidEmailException();
         }
-        
+
         Value = value;
     }
 
     public static implicit operator string(Email name)
         => name.Value;
-        
+
     public static implicit operator Email(string name)
         => new(name);
-    
 }

@@ -20,18 +20,16 @@ internal sealed class CreateShelterCatCommandHandler : ICommandHandler<CreateShe
     public async Task HandleAsync(CreateShelterCatCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelterRepository.FindByUserIdOrWorkerIdAsync(command.PrincipalId);
+        var shelter = await _shelterRepository.FindByIdOrWorkerIdAsync(command.PrincipalId);
 
         if (shelter is null)
         {
             throw new ShelterNotFoundException();
         }
 
-        var cat = Cat.Create(shelter.Id, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
+        var cat = Cat.Create(shelter.Id.Value, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
             command.Weight, command.CatBreed, command.CatColor);
 
         await _petRepository.AddPetAsync(cat);
-        shelter.AddPet(cat.Id.Value);
-        await _shelterRepository.UpdateAsync(shelter);
     }
 }

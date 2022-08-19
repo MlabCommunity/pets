@@ -10,7 +10,7 @@ internal sealed class VolunteerConfiguration : IEntityTypeConfiguration<Voluntee
     public void Configure(EntityTypeBuilder<Volunteer> builder)
     {
         builder.Property<Guid>("Id");
-        builder.Property(s => s.UserId).HasConversion(entityId => entityId.Value, entityId => new EntityId(entityId));
+        builder.Property(s => s.UserId).HasConversion(entityId => entityId.Value, entityId => new UserId(entityId));
         builder.Property(s => s.Email).HasConversion(email => email.Value, email => new Email(email));
         builder.ToTable("Volunteers");
     }

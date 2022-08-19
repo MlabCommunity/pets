@@ -5,5 +5,4 @@ public class VolunteerNotFoundException : DomainException
     public VolunteerNotFoundException() : base("Volunteer not found")
     {
     }
-    
 }

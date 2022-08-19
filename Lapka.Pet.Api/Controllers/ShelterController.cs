@@ -1,4 +1,5 @@
 using System.Text.Json;
+using aLapka.Pet.Application.Commands;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Api.Requests;
@@ -85,7 +86,7 @@ public class ShelterController : BaseController
     {
         var query = new GetAllShelterPetsQuery(GetPrincipalId());
         var result = await _queryDispatcher.QueryAsync(query);
-        return Ok(result);
+        return OkOrNotFound(result);
     }
 
     [Authorize(Roles = "Shelter")]
@@ -98,7 +99,7 @@ public class ShelterController : BaseController
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [Authorize(Roles = "Shelter,Worker")]
     [HttpGet("volunteering")]
     public async Task<ActionResult<VolunteeringDto>> GetVolunteering()
@@ -107,25 +108,25 @@ public class ShelterController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return OkOrNotFound(result);
     }
-    
+
     [Authorize]
     [HttpPost("volunteers/{shelterId:guid}")]
     public async Task<IActionResult> AddVolunteer([FromRoute] Guid shelterId)
     {
-        var command = new AddVolunteerCommand(GetPrincipalId(),GetPrincipalEmail() ,shelterId);
+        var command = new AddVolunteerCommand(GetPrincipalId(), GetPrincipalEmail(), shelterId);
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [Authorize]
     [HttpDelete("volunteers/{shelterId:guid}")]
     public async Task<IActionResult> DeleteVolunteer([FromRoute] Guid shelterId)
     {
-        var command = new RemoveVolunteerCommand(GetPrincipalId(),shelterId);
+        var command = new RemoveVolunteerCommand(GetPrincipalId(), shelterId);
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [Authorize(Roles = "Worker,Shelter")]
     [HttpGet("volunteers")]
     public async Task<ActionResult<List<VolunteerDto>>> GetVolunteers()
@@ -134,4 +135,63 @@ public class ShelterController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return OkOrNotFound(result);
     }
+    
+    [Authorize(Roles = "Shelter,Worker")]
+    [HttpGet("advertisements")]
+    public async Task<ActionResult<List<CurrentShelterAdvertisementDto>>> GetAllCurrentShelterAdvertisement()
+    {
+        var query = new GetAllCurrentShelterAdvertisementQuery(GetPrincipalId());
+
+        var result = await _queryDispatcher.QueryAsync(query);
+        return OkOrNotFound(result);
+    }
+    
+    [Authorize(Roles = "Shelter,Worker")]
+    [HttpDelete("advertisements/{petId:guid}")]
+    public async Task<IActionResult> DeleteShelterAdvertisement([FromRoute] Guid petId)
+    {
+        var command = new DeleteShelterAdvertisementCommand(GetPrincipalId(), petId);
+        await _commandDispatcher.SendAsync(command);
+
+        return NoContent();
+    }
+    
+    [Authorize(Roles = "Shelter,Worker")]
+    [HttpPut("advertisements")]
+    public async Task<IActionResult> UpdateShelterAdvertisement([FromBody] UpdateShelterAdvertisementRequest request)
+    {
+        var command = new UpdateShelterAdvertisementCommand(GetPrincipalId(), request.PetId,request.Description);
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
+    [Authorize(Roles = "Shelter,Worker")]
+    [HttpPut("advertisements/publish/{petId:guid}")]
+    public async Task<IActionResult> PublishAdvertisement([FromRoute]Guid petId)
+    {
+        var command = new PublishShelterAdvertisementCommand(GetPrincipalId(), petId);
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
+    [Authorize(Roles = "Shelter,Worker")]
+    [HttpPut("advertisements/hide/{petId:guid}")]
+    public async Task<IActionResult> HideAdvertisement([FromRoute]Guid petId)
+    {
+        var command = new HideShelterAdvertisementCommand(GetPrincipalId(), petId);
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
+    [Authorize(Roles = "Shelter,Worker")]
+    [HttpPost("advertisements")]
+    public async Task<IActionResult> CreateShelterAdvertisement([FromBody] CreateShelterAdvertisementRequest request)
+    {
+        var command = new CreateShelterAdvertisementCommand(GetPrincipalId(), request.PetId, request.Description,
+            request.PhoneNumber, request.FirstName, request.IsVisible);
+        await _commandDispatcher.SendAsync(command);
+
+        return NoContent();
+    } 
+    
 }

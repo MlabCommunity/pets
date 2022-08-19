@@ -11,6 +11,7 @@ public abstract class Pet : AggregateRoot
 {
     public OwnerId OwnerId { get; protected set; }
     public PetType Type { get; protected set; }
+    public ICollection<PhotoId> Photos = new List<PhotoId>();
     public PetName Name { get; protected set; }
     public Gender Gender { get; protected set; }
 
@@ -24,8 +25,8 @@ public abstract class Pet : AggregateRoot
     {
     }
 
-    protected Pet(Guid ownerId, PetType type, string name, Gender gender, DateTime dateOfBirth, bool isSterilized,
-        double weight)
+    protected Pet(OwnerId ownerId, PetType type, PetName name, Gender gender, DateOfBirth dateOfBirth, bool isSterilized,
+        Weight weight)
     {
         Id = Guid.NewGuid();
         OwnerId = ownerId;
@@ -39,15 +40,29 @@ public abstract class Pet : AggregateRoot
     }
 
 
-    public void Update(string name, bool isSterilized, double weight)
+    public void Update(PetName name, bool isSterilized, Weight weight)
     {
         Name = name;
         IsSterilized = isSterilized;
         Weight = weight;
     }
 
-    protected void Sterilize()
+    public void Sterilize()
     {
         IsSterilized = true;
+    }
+    
+    public void AddPhoto(PhotoId photoId)
+    {
+        Photos.Add(photoId);
+    }
+    
+    public void AddPhotos(IEnumerable<PhotoId> photoIds)
+    {
+        foreach (var photo in Photos)
+        {
+            AddPhoto(photo);
+        }
+        
     }
 }

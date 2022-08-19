@@ -1,7 +1,9 @@
+using aLapka.Pet.Application.Commands;
 using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
+using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Application.Commands.Handlers;
 
@@ -17,7 +19,7 @@ internal sealed class UpdateVolunteeringCommandHandler : ICommandHandler<UpdateV
     public async Task HandleAsync(UpdateVolunteeringCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelterRepository.FindByUserIdAsync(command.UserId);
+        var shelter = await _shelterRepository.FindByIdAsync(command.UserId);
 
         if (shelter is null)
         {

@@ -8,11 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Events" />
+        <PackageReference Include="Convey.CQRS.Events" Version="1.0.541" />
     </ItemGroup>
 
 </Project>

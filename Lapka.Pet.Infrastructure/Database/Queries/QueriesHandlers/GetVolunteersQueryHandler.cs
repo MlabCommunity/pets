@@ -8,23 +8,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
-internal sealed class GetVolunteersQueryHandler : IQueryHandler<GetVolunteersQuery,List<VolunteerDto>>
+internal sealed class GetVolunteersQueryHandler : IQueryHandler<GetVolunteersQuery, List<VolunteerDto>>
 {
-    private readonly IShelterRepository _shelterRepository;
     private readonly DbSet<Shelter> _shelters;
     private readonly IMapper _mapper;
-    
-    public GetVolunteersQueryHandler(PetDbContext context, IMapper mapper, IShelterRepository shelterRepository)
+
+    public GetVolunteersQueryHandler(AppDbContext context, IMapper mapper)
     {
-        _shelterRepository = shelterRepository;
         _mapper = mapper;
         _shelters = context.Shelters;
     }
-    
-    public async Task<List<VolunteerDto>> HandleAsync(GetVolunteersQuery query, CancellationToken cancellationToken = new CancellationToken())
+
+    public async Task<List<VolunteerDto>> HandleAsync(GetVolunteersQuery query,
+        CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelterRepository.FindByUserIdOrWorkerIdAsync(query.PrincipalId);
-        
+        var shelter = await _shelters
+            .Include(x => x.Volunteers)
+            .Include(x => x.Workers)
+            .FirstOrDefaultAsync(x => x.Workers.Contains(query.PrincipalId) || x.Id == query.PrincipalId,
+                cancellationToken);
+
+
         return _mapper.Map<List<VolunteerDto>>(shelter.Volunteers);
     }
 }
