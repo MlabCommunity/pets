@@ -7,11 +7,11 @@ namespace Lapka.Pet.Core.Entities;
 public class Shelter : AggregateRoot
 {
     public OrganizationName OrganizationName { get; private set; }
-    public List<ShelterAdvertisement> Advertisements = new List<ShelterAdvertisement>();
+    public ICollection<ShelterAdvertisement> Advertisements = new List<ShelterAdvertisement>();
     public string Street { get; private set; }
     public string City { get; private set; }
     public ZipCode ZipCode { get; private set; }
-    public ICollection<WorkerId> Workers = new List<WorkerId>();
+    public ICollection<Worker> Workers = new List<Worker>();
     public Volunteering Volunteering { get; private set; }
     public ICollection<Volunteer> Volunteers = new List<Volunteer>();
     public Krs Krs { get; private set; }
@@ -21,7 +21,8 @@ public class Shelter : AggregateRoot
     {
     }
 
-    private Shelter(AggregateId id, OrganizationName organizationName, string street, string city, ZipCode zipCode, Krs krs,
+    private Shelter(AggregateId id, OrganizationName organizationName, string street, string city, ZipCode zipCode,
+        Krs krs,
         Nip nip)
     {
         Id = id;
@@ -34,7 +35,8 @@ public class Shelter : AggregateRoot
         Volunteering = new Volunteering();
     }
 
-    public static Shelter Create(AggregateId Id, string street, string city, ZipCode zipCode, OrganizationName organizationName,
+    public static Shelter Create(AggregateId Id, string street, string city, ZipCode zipCode,
+        OrganizationName organizationName,
         Krs krs, Nip nip)
     {
         var shelter = new Shelter(Id, organizationName, street, city, zipCode, krs, nip);
@@ -70,13 +72,13 @@ public class Shelter : AggregateRoot
         var advertisement = GetAdvertisement(petId);
         advertisement.Reserve();
     }
-    
+
     public void PublishAdvertisement(PetId petId)
     {
         var advertisement = GetAdvertisement(petId);
         advertisement.Publish();
     }
-    
+
     public void HideAdvertisement(PetId petId)
     {
         var advertisement = GetAdvertisement(petId);
@@ -94,8 +96,8 @@ public class Shelter : AggregateRoot
 
         return advertisement;
     }
-    
-    public void UpdateAdvertisement(PetId petId,string description)
+
+    public void UpdateAdvertisement(PetId petId, string description)
     {
         var advertisement = GetAdvertisement(petId);
         advertisement.Update(description);
@@ -107,16 +109,16 @@ public class Shelter : AggregateRoot
         advertisement.UnReserve();
     }
 
-    public void AddWorker(WorkerId workers)
+    public void AddWorker(WorkerId worker)
     {
-        var exists = Workers.Any(x => x.Value == workers);
+        var exists = Workers.Any(x => x.WorkerId == worker);
 
         if (exists)
         {
             throw new WorkerAlreadyExistsException();
         }
 
-        Workers.Add(workers);
+        Workers.Add(new Worker(worker));
     }
 
     public void ConfigureVolunteering(Volunteering volunteering)
@@ -124,9 +126,9 @@ public class Shelter : AggregateRoot
         Volunteering = volunteering;
     }
 
-    private WorkerId GetWorker(WorkerId workerId)
+    private Worker GetWorker(WorkerId workerId)
     {
-        var worker = Workers.SingleOrDefault(x => x.Value == workerId);
+        var worker = Workers.SingleOrDefault(x => x.WorkerId == workerId);
 
         if (worker is null)
         {

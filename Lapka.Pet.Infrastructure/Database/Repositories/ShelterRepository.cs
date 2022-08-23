@@ -1,9 +1,7 @@
 using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
-using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;
-using Lapka.Pet.Infrastructure.Database.Migrations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Repositories;
@@ -31,10 +29,13 @@ internal sealed class ShelterRepository : IShelterRepository
             .FirstOrDefaultAsync(x => x.Id == Id);
 
     public async Task<Shelter> FindByIdOrWorkerIdAsync(Guid principalId)
-    => await _shelters.Include(x => x.Advertisements).Include(x => x.Volunteers).Include(x => x.Volunteering)
-        .Include(x => x.Workers).FirstOrDefaultAsync(x => x.Workers.Contains(principalId) || x.Id==principalId);
+        => await _shelters.Include(x => x.Advertisements)
+            .Include(x => x.Volunteers)
+            .Include(x => x.Volunteering)
+            .Include(x => x.Workers)
+            .FirstOrDefaultAsync(x => x.Workers.Any(x => x.WorkerId == principalId) || x.Id == principalId);
 
-    
+
     public async Task UpdateAsync(Shelter shelter)
     {
         _shelters.Update(shelter);

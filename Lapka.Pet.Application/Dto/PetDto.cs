@@ -1,5 +1,4 @@
 using Lapka.Pet.Core.Consts;
-using Lapka.Pet.Core.Entities;
 
 namespace Lapka.Pet.Application.Dto;
 

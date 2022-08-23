@@ -1,4 +1,3 @@
-using System.Windows.Input;
 using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Core.Entities;

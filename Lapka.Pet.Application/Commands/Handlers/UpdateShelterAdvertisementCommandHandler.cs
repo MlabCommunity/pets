@@ -7,12 +7,12 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class UpdateShelterAdvertisementCommandHandler : ICommandHandler<UpdateShelterAdvertisementCommand>
 {
     private readonly IShelterRepository _shelterRepository;
-    
+
     public UpdateShelterAdvertisementCommandHandler(IShelterRepository shelterRepository)
     {
         _shelterRepository = shelterRepository;
     }
-    
+
     public async Task HandleAsync(UpdateShelterAdvertisementCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
@@ -22,8 +22,8 @@ internal sealed class UpdateShelterAdvertisementCommandHandler : ICommandHandler
         {
             throw new ShelterNotFoundException();
         }
-        
-        shelter.UpdateAdvertisement(command.AdvertisementId,command.Description);
+
+        shelter.UpdateAdvertisement(command.AdvertisementId, command.Description);
 
         await _shelterRepository.UpdateAsync(shelter);
     }

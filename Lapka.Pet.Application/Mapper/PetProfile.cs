@@ -12,7 +12,7 @@ internal sealed class PetProfile : Profile
             .Include<Cat, CatDto>()
             .Include<Dog, DogDto>()
             .Include<Other, OtherDto>();
-        
+
         CreateMap<Cat, CatDto>();
         CreateMap<Dog, DogDto>();
         CreateMap<Other, OtherDto>();

@@ -3,13 +3,10 @@ using Lapka.Pet.Api.Grpc;
 using Lapka.Pet.Application;
 using Lapka.Pet.Infrastructure;
 using Lapka.Pet.Infrastructure.Jwt;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);

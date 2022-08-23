@@ -1,5 +1,4 @@
 using Lapka.Pet.Core.Consts;
-using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Core.Entities;

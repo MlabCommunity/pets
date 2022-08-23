@@ -1,5 +1,4 @@
 using Lapka.Pet.Infrastructure.Options;
-using Lapka.Pet.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

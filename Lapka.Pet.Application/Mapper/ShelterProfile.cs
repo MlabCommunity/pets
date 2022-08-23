@@ -14,7 +14,5 @@ internal sealed class ShelterProfile : Profile
         CreateMap<Volunteer, VolunteerDto>().ForMember(x => x.Email, opt => opt.MapFrom(x => x.Email.Value));
         CreateMap<ShelterAdvertisement, ShelterAdvertisementDto>();
         CreateMap<ShelterAdvertisement, CurrentShelterAdvertisementDto>();
-      
-
     }
 }

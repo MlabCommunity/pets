@@ -1,9 +1,6 @@
-using System.Data;
 using Lapka.Pet.Core.Consts;
 using Lapka.Pet.Core.DomainThings;
-using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.ValueObjects;
-using Microsoft.VisualBasic;
 
 namespace Lapka.Pet.Core.Entities;
 
@@ -11,7 +8,7 @@ public abstract class Pet : AggregateRoot
 {
     public OwnerId OwnerId { get; protected set; }
     public PetType Type { get; protected set; }
-    public ICollection<PhotoId> Photos = new List<PhotoId>();
+    public ICollection<Photo> Photos = new List<Photo>();
     public PetName Name { get; protected set; }
     public Gender Gender { get; protected set; }
 
@@ -25,7 +22,8 @@ public abstract class Pet : AggregateRoot
     {
     }
 
-    protected Pet(OwnerId ownerId, PetType type, PetName name, Gender gender, DateOfBirth dateOfBirth, bool isSterilized,
+    protected Pet(OwnerId ownerId, PetType type, PetName name, Gender gender, DateOfBirth dateOfBirth,
+        bool isSterilized,
         Weight weight)
     {
         Id = Guid.NewGuid();
@@ -51,18 +49,17 @@ public abstract class Pet : AggregateRoot
     {
         IsSterilized = true;
     }
-    
-    public void AddPhoto(PhotoId photoId)
+
+    public void AddPhoto(Photo photo)
     {
-        Photos.Add(photoId);
+        Photos.Add(photo);
     }
-    
+
     public void AddPhotos(IEnumerable<PhotoId> photoIds)
     {
         foreach (var photo in Photos)
         {
             AddPhoto(photo);
         }
-        
     }
 }

@@ -1,12 +1,9 @@
 using AutoMapper;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
-using Lapka.Pet.Core.Entities;
-using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
@@ -28,9 +25,13 @@ internal sealed class
     public async Task<List<ShelterAdvertisementDto>> HandleAsync(GetAllShelterAdvertisementQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var result =  _shelterAdvertisements.Include(x => x.Shelter)
-            .Where(x=>x.IsVisible == true)
-            .Join(_pet, advertisement => advertisement.PetId.Value, pet => pet.Id.Value,
+        var shelters = await _shelterAdvertisements
+            .AsNoTracking()
+            .Include(x => x.Shelter)
+            .Where(x => x.IsVisible == true).ToListAsync();
+
+
+        var result = shelters.Join(_pet, advertisement => advertisement.PetId.Value, pet => pet.Id.Value,
             (advertisements, pet) => new ShelterAdvertisementDto
             {
                 Id = advertisements.Id,
@@ -38,9 +39,10 @@ internal sealed class
                 Localization = advertisements.Shelter.GetLocalization(),
                 IsReserved = advertisements.IsReserved,
                 Description = advertisements.Description,
-                Pet = _mapper.Map<PetDto>(pet)
-            });
+                PetId = pet.Id
+            }).ToList();
 
-        return _mapper.Map<List<ShelterAdvertisementDto>>(result);
+
+        return result;
     }
 }

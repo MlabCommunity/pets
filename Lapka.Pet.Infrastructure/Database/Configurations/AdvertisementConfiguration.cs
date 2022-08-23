@@ -11,8 +11,8 @@ internal sealed class AdvertisementConfiguration : IEntityTypeConfiguration<Adve
     public void Configure(EntityTypeBuilder<Advertisement> builder)
     {
         builder.HasKey(x => x.Id);
-        
+
         builder.Property(s => s.Id).HasConversion(id => id.Value, id => new EntityId(id));
-   
+
     }
 }

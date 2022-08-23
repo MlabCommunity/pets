@@ -12,18 +12,15 @@ public static class Extensions
 {
     public static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration)
     {
-        //Add repositories here
-
         services.AddScoped<IPetRepository, PetRepository>();
         services.AddScoped<IShelterRepository, ShelterRepository>();
-        services.AddScoped<IUserAdvertisementRepository, UserAdvertisementRepository>();
+        services.AddScoped<ILostPetAdvertisementRepository, LostPetAdvertisementRepository>();
 
 
         var options = configuration.GetOptions<PostgresOptions>("Postgres");
         services.AddDbContext<AppDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString));
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-        //Add contexts here
 
         services.AddScoped<IAppDbContext, AppDbContext>();
         return services;

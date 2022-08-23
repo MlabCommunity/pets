@@ -20,7 +20,7 @@ public class CardController : BaseController
         _queryDispatcher = queryDispatcher;
     }
 
-    [Authorize]
+    [Authorize(Roles = "User,Worker")]
     [HttpPost("dog")]
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
     {
@@ -32,7 +32,7 @@ public class CardController : BaseController
         return NoContent();
     }
 
-    [Authorize]
+    [Authorize(Roles = "User,Worker")]
     [HttpPost("cat")]
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
     {
@@ -43,7 +43,7 @@ public class CardController : BaseController
         return NoContent();
     }
 
-    [Authorize]
+    [Authorize(Roles = "User,Worker")]
     [HttpPost("other")]
     public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
     {
@@ -54,7 +54,7 @@ public class CardController : BaseController
         return NoContent();
     }
 
-    [Authorize]
+    [Authorize(Roles = "User,Worker")]
     [HttpPut]
     public async Task<IActionResult> UpdatePet([FromBody] UpdatePetRequest request)
     {

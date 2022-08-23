@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Exceptions;
 
 namespace Lapka.Pet.Core.ValueObjects;

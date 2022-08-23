@@ -1,5 +1,3 @@
-using Lapka.Pet.Core.DomainThings;
-
 namespace Lapka.Pet.Core.ValueObjects;
 
 public record Volunteer

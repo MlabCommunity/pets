@@ -4,12 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Lapka.Pet.Infrastructure.Database.Configurations;
 
-internal sealed class PhotoConfiguration : IEntityTypeConfiguration<PhotoId>
+internal sealed class PhotoConfiguration : IEntityTypeConfiguration<Photo>
 {
-    public void Configure(EntityTypeBuilder<PhotoId> builder)
+    public void Configure(EntityTypeBuilder<Photo> builder)
     {
         builder.Property<Guid>("Id");
-        builder.Property(s => s.Value).HasColumnName("PhotoId");
-
+        builder.Property(s => s.PhotoId).HasConversion(id => id.Value, id => new PhotoId(id));
     }
 }

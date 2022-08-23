@@ -1,4 +1,3 @@
-using System.Text.Json;
 using aLapka.Pet.Application.Commands;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
@@ -6,7 +5,6 @@ using Lapka.Pet.Api.Requests;
 using Lapka.Pet.Application.Commands;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Infrastructure.Database.Queries;
-using Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -135,7 +133,7 @@ public class ShelterController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return OkOrNotFound(result);
     }
-    
+
     [Authorize(Roles = "Shelter,Worker")]
     [HttpGet("advertisements")]
     public async Task<ActionResult<List<CurrentShelterAdvertisementDto>>> GetAllCurrentShelterAdvertisement()
@@ -145,7 +143,7 @@ public class ShelterController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return OkOrNotFound(result);
     }
-    
+
     [Authorize(Roles = "Shelter,Worker")]
     [HttpDelete("advertisements/{petId:guid}")]
     public async Task<IActionResult> DeleteShelterAdvertisement([FromRoute] Guid petId)
@@ -155,34 +153,34 @@ public class ShelterController : BaseController
 
         return NoContent();
     }
-    
+
     [Authorize(Roles = "Shelter,Worker")]
     [HttpPut("advertisements")]
     public async Task<IActionResult> UpdateShelterAdvertisement([FromBody] UpdateShelterAdvertisementRequest request)
     {
-        var command = new UpdateShelterAdvertisementCommand(GetPrincipalId(), request.PetId,request.Description);
+        var command = new UpdateShelterAdvertisementCommand(GetPrincipalId(), request.PetId, request.Description);
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [Authorize(Roles = "Shelter,Worker")]
     [HttpPut("advertisements/publish/{petId:guid}")]
-    public async Task<IActionResult> PublishAdvertisement([FromRoute]Guid petId)
+    public async Task<IActionResult> PublishAdvertisement([FromRoute] Guid petId)
     {
         var command = new PublishShelterAdvertisementCommand(GetPrincipalId(), petId);
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [Authorize(Roles = "Shelter,Worker")]
     [HttpPut("advertisements/hide/{petId:guid}")]
-    public async Task<IActionResult> HideAdvertisement([FromRoute]Guid petId)
+    public async Task<IActionResult> HideAdvertisement([FromRoute] Guid petId)
     {
         var command = new HideShelterAdvertisementCommand(GetPrincipalId(), petId);
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [Authorize(Roles = "Shelter,Worker")]
     [HttpPost("advertisements")]
     public async Task<IActionResult> CreateShelterAdvertisement([FromBody] CreateShelterAdvertisementRequest request)
@@ -192,6 +190,5 @@ public class ShelterController : BaseController
         await _commandDispatcher.SendAsync(command);
 
         return NoContent();
-    } 
-    
+    }
 }

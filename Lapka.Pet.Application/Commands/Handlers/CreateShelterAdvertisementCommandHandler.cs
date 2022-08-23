@@ -26,7 +26,7 @@ internal sealed class CreateShelterAdvertisementCommandHandler : ICommandHandler
 
         shelter.AddAdvertisement(new ShelterAdvertisement(command.Description,
             command.IsVisible, command.PetId));
-        
+
         await _shelterRepository.UpdateAsync(shelter);
     }
 }

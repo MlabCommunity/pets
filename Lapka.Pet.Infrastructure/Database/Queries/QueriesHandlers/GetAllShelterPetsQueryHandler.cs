@@ -1,9 +1,7 @@
 using AutoMapper;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
-using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Core.Entities;
-using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,10 +24,11 @@ internal sealed class GetAllShelterPetsQueryHandler : IQueryHandler<GetAllShelte
         CancellationToken cancellationToken = new CancellationToken())
     {
         var shelter = await _shelters
+            .AsNoTracking()
             .Include(x => x.Workers)
-            .FirstOrDefaultAsync(x => x.Workers.Contains(query.PrincipalId) || x.Id == query.PrincipalId,cancellationToken);
+            .FirstOrDefaultAsync(x => x.Workers.Any(x => x.WorkerId == query.PrincipalId) || x.Id == query.PrincipalId);
 
-        var pets = _pets.Where(x => x.OwnerId == shelter.Id.Value).ToList();
+        var pets = await _pets.Where(x => x.OwnerId == shelter.Id.Value).ToListAsync();
 
         return _mapper.Map<List<PetDto>>(pets);
     }

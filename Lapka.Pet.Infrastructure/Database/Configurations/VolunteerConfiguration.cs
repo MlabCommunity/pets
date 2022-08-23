@@ -1,4 +1,3 @@
-using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

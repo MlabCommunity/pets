@@ -12,7 +12,7 @@ public class FirstName : TypeName
             throw new InvalidFirstNameException();
         }
     }
-    
+
     public static implicit operator FirstName(string value)
         => new(value);
 }

@@ -1,5 +1,4 @@
 using Convey.CQRS.Commands;
-using Lapka.Pet.Core.Consts;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
 
