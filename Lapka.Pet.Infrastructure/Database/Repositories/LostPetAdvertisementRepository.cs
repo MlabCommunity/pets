@@ -30,6 +30,9 @@ internal sealed class LostPetAdvertisementRepository : ILostPetAdvertisementRepo
     public async Task<LostPetAdvertisement> FindByIdAsync(EntityId EntityId)
         => await _advertisements.FirstOrDefaultAsync(x => x.Id == EntityId);
 
+    public async Task<LostPetAdvertisement> FindByUserIdAsync(UserId UserId)
+           => await _advertisements.FirstOrDefaultAsync(x => x.UserId == UserId);
+
 
     public async Task UpdateAsync(LostPetAdvertisement advertisement)
     {

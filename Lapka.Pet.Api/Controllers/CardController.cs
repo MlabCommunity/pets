@@ -6,6 +6,7 @@ using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Infrastructure.Database.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Lapka.Pet.Api.Controllers;
 
@@ -22,6 +23,10 @@ public class CardController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPost("dog")]
+    [SwaggerOperation(description: "Create card")]
+    [SwaggerResponse(200, "Card created")]
+    [SwaggerResponse(400, "If data are invalid")]
+    [SwaggerResponse(404, "If user not found")]
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
     {
         var command = new CreateDogCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
@@ -34,6 +39,10 @@ public class CardController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPost("cat")]
+    [SwaggerOperation(description: "Create card")]
+    [SwaggerResponse(200, "Card created")]
+    [SwaggerResponse(400, "If data are invalid")]
+    [SwaggerResponse(404, "If user not found")]
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
     {
         var command = new CreateCatCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
@@ -45,6 +54,10 @@ public class CardController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPost("other")]
+    [SwaggerOperation(description: "Creates card")]
+    [SwaggerResponse(200, "Card created")]
+    [SwaggerResponse(400, "If data are invalid")]
+    [SwaggerResponse(404, "If user not found")]
     public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
     {
         var command = new CreateOtherPetCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
@@ -56,6 +69,10 @@ public class CardController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPut]
+    [SwaggerOperation(description: "Updates card")]
+    [SwaggerResponse(200, "Card updated")]
+    [SwaggerResponse(400, "If data are invalid")]
+    [SwaggerResponse(404, "If user not found")]
     public async Task<IActionResult> UpdatePet([FromBody] UpdatePetRequest request)
     {
         var command = new UpdatePetCommand(request.PetId, request.Name, request.IsSterilized, request.Weight);
@@ -63,9 +80,25 @@ public class CardController : BaseController
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
+    
+    [Authorize(Roles = "User,Worker")]
+    [HttpDelete("{petId:guid}")]
+    [SwaggerOperation(description: "Deletes card")]
+    [SwaggerResponse(200, "Card deleted")]
+    [SwaggerResponse(404, "If user not found")]
+    public async Task<IActionResult> UpdatePet([FromRoute] Guid petId)
+    {
+        var command = new DeleteCardCommand(petId,GetPrincipalId());
 
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
     [Authorize]
     [HttpGet("{id:guid}")]
+    [SwaggerOperation(description: "Updates card")]
+    [SwaggerResponse(200, "Card found")]
+    [SwaggerResponse(404, "If pet not found")]
     public async Task<ActionResult<PetDto>> GetPet(Guid id)
     {
         var query = new GetPetQuery(id);

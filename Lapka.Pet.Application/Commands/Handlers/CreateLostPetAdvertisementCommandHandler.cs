@@ -26,7 +26,7 @@ internal sealed class CreateLostPetAdvertisementCommandHandler : ICommandHandler
 
         var advertisement = new LostPetAdvertisement(command.Description, command.IsVisible,
             command.DateOfDisappearance,
-            command.StreetOfDisappearance, command.CityOfDisappearance, command.PetId);
+            command.StreetOfDisappearance, command.CityOfDisappearance, command.PetId,command.PrincipalId);
 
         await _lostPetAdvertisementRepository.AddAsync(advertisement);
     }

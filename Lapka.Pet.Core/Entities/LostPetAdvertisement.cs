@@ -7,6 +7,7 @@ public class LostPetAdvertisement : Advertisement
     public DateOfDisappearance DateOfDisappearance { get; private set; }
     public string StreetOfDisappearance { get; private set; }
     public string CityOfDisappearance { get; private set; }
+    public UserId UserId { get; private set; }
     public PetId PetId { get; private set; }
 
     private LostPetAdvertisement()
@@ -14,11 +15,12 @@ public class LostPetAdvertisement : Advertisement
     }
 
     public LostPetAdvertisement(string description, bool isVisible, DateOfDisappearance dateOfDisappearance,
-        string streetOfDisappearance, string cityOfDisappearance, PetId petId) : base(description, isVisible)
+        string streetOfDisappearance, string cityOfDisappearance, PetId petId,UserId userId) : base(description, isVisible)
     {
         DateOfDisappearance = dateOfDisappearance;
         StreetOfDisappearance = streetOfDisappearance;
         CityOfDisappearance = cityOfDisappearance;
+        UserId = userId;
         PetId = petId;
     }
 }

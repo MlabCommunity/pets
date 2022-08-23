@@ -4,4 +4,4 @@ namespace Lapka.Pet.Application.Commands;
 
 public record CreateLostPetAdvertisementCommand(Guid PetId, string Description, bool IsVisible,
     DateTime DateOfDisappearance,
-    string CityOfDisappearance, string StreetOfDisappearance) : ICommand;
+    string CityOfDisappearance, string StreetOfDisappearance,Guid PrincipalId) : ICommand;

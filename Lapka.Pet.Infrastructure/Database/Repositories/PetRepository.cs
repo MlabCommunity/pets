@@ -32,4 +32,16 @@ internal sealed class PetRepository : IPetRepository
         _pets.Update(pet);
         await _context.SaveChangesAsync();
     }
+
+    public async Task RemoveAsync(Core.Entities.Pet pet)
+    {
+        _pets.Remove(pet);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task RemoveByIdAsync(AggregateId petId)
+    {
+        var pet = await FindByIdAsync(petId);
+        await RemoveAsync(pet);
+    }
 }

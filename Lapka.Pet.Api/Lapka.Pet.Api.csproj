@@ -28,4 +28,13 @@
         </Protobuf>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="rsa-private-key.pem">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="rsa-public-key.pem">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

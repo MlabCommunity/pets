@@ -2,8 +2,6 @@ using AutoMapper;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Entities;
-using Lapka.Pet.Core.Repositories;
-using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,7 +43,17 @@ internal sealed class
                     Localization = advertisement.Shelter.GetLocalization(),
                     IsReserved = advertisement.IsReserved,
                     Description = advertisement.Description,
-                    PetId = pet.Id
+                    Pet = new PetDto
+                    {
+                        DateOfBirth = pet.DateOfBirth,
+                        Gender = pet.Gender,
+                        Id = pet.Id,
+                        IsSterilized = pet.IsSterilized,
+                        Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
+                        Name = pet.Name,
+                        Type = pet.Type,
+                        Weight = pet.Weight
+                    }
                 }).ToList();
 
         return _mapper.Map<List<CurrentShelterAdvertisementDto>>(result);

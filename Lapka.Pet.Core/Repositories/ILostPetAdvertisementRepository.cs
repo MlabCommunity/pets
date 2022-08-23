@@ -9,6 +9,7 @@ public interface ILostPetAdvertisementRepository
     Task AddAsync(LostPetAdvertisement advertisement);
     Task<LostPetAdvertisement> FindByPetIdAsync(PetId petId);
     Task<LostPetAdvertisement> FindByIdAsync(EntityId EntityId);
+    Task<LostPetAdvertisement> FindByUserIdAsync(UserId UserId);
     Task UpdateAsync(LostPetAdvertisement advertisement);
     Task DeleteAsync(LostPetAdvertisement advertisement);
 }

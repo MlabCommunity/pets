@@ -7,5 +7,5 @@ public class ShelterAdvertisementDto
     public string Description { get; set; }
     public string OrganizationName { get; set; }
     public string Localization { get; set; }
-    public Guid PetId { get; set; }
+    public PetDto Pet { get; set; }
 }

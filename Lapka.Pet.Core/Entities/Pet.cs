@@ -11,8 +11,7 @@ public abstract class Pet : AggregateRoot
     public ICollection<Photo> Photos = new List<Photo>();
     public PetName Name { get; protected set; }
     public Gender Gender { get; protected set; }
-
-    //   public ICollection<PhotoId> Photos { get; protected set; }
+    
     public DateOfBirth DateOfBirth { get; private set; }
     public bool IsSterilized { get; protected set; }
     public Weight Weight { get; protected set; }

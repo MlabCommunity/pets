@@ -39,7 +39,17 @@ internal sealed class
                 Localization = advertisements.Shelter.GetLocalization(),
                 IsReserved = advertisements.IsReserved,
                 Description = advertisements.Description,
-                PetId = pet.Id
+                Pet = new PetDto
+                {
+                    DateOfBirth = pet.DateOfBirth,
+                    Gender = pet.Gender,
+                    Id = pet.Id,
+                    IsSterilized = pet.IsSterilized,
+                    Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    Name = pet.Name,
+                    Type = pet.Type,
+                    Weight = pet.Weight
+                }
             }).ToList();
 
 

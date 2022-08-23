@@ -25,17 +25,27 @@ internal sealed class
     public async Task<List<LostPetAdvertisementDto>> HandleAsync(GetAllLostPetAdvertisementQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var advertisements = _advertisements
-            .Where(x => x.IsVisible == true).ToList();
-        
-        var result =  advertisements
+        var advertisements = await _advertisements
+            .Where(x => x.IsVisible == true).ToListAsync();
+
+        var result = advertisements
             .Join(_pets, x => x.PetId.Value, x => x.Id.Value, (advertisements, pet) => new LostPetAdvertisementDto
             {
                 CityOfDisappearance = advertisements.CityOfDisappearance,
                 StreetOfDisappearance = advertisements.StreetOfDisappearance,
                 DateOfDisappearance = advertisements.DateOfDisappearance,
                 Description = advertisements.Description,
-                PetId = pet.Id,
+                Pet = new PetDto
+                {
+                    DateOfBirth = pet.DateOfBirth,
+                    Gender = pet.Gender,
+                    Id = pet.Id,
+                    IsSterilized = pet.IsSterilized,
+                    Name = pet.Name,
+                    Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    Type = pet.Type,
+                    Weight = pet.Weight
+                }
             }).ToList();
 
         return result;
