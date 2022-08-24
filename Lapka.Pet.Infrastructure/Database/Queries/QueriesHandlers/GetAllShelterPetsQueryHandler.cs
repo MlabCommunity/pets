@@ -11,13 +11,12 @@ internal sealed class GetAllShelterPetsQueryHandler : IQueryHandler<GetAllShelte
 {
     private readonly DbSet<Core.Entities.Pet> _pets;
     private readonly DbSet<Shelter> _shelters;
-    private readonly IMapper _mapper;
 
-    public GetAllShelterPetsQueryHandler(AppDbContext context, IMapper mapper)
+
+    public GetAllShelterPetsQueryHandler(AppDbContext context)
     {
         _shelters = context.Shelters;
         _pets = context.Pets;
-        _mapper = mapper;
     }
 
     public async Task<List<PetDto>> HandleAsync(GetAllShelterPetsQuery query,
@@ -28,10 +27,21 @@ internal sealed class GetAllShelterPetsQueryHandler : IQueryHandler<GetAllShelte
             .Include(x => x.Workers)
             .FirstOrDefaultAsync(x => x.Workers.Any(x => x.WorkerId == query.PrincipalId) || x.Id == query.PrincipalId);
 
-        var pets = await _pets
-            .Include(x=>x.Photos)
-            .Where(x => x.OwnerId == shelter.Id.Value).ToListAsync();
+        var result = await _pets
+            .Include(x => x.Photos)
+            .Where(x => x.OwnerId == shelter.Id.Value).Select(x=> new PetDto
+            {
+                DateOfBirth = x.DateOfBirth,
+                Gender = x.Gender,
+                Id = x.Id,
+                IsSterilized = x.IsSterilized,
+                Name = x.Name,
+                Photos = x.Photos.Select(x=>x.PhotoId.Value).ToList(),
+                Type = x.Type,
+                Weight = x.Weight
+            }).ToListAsync();
 
-        return _mapper.Map<List<PetDto>>(pets);
+
+        return result;
     }
 }

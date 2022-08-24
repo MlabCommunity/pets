@@ -1,8 +1,9 @@
 using Convey.CQRS.Commands;
 using Lapka.Pet.Core.Consts;
+using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Application.Commands;
 
 public record CreateLostOtherPetCommand(Guid OwnerId, string Name, Gender Gender, DateTime DateOfBirth,
     bool IsSterilized,
-    double Weight) : ICommand;
+    double Weight,ICollection<Guid> Photos) : ICommand;

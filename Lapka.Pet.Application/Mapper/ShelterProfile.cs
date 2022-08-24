@@ -15,5 +15,6 @@ internal sealed class ShelterProfile : Profile
         CreateMap<ShelterAdvertisement, ShelterAdvertisementDto>();
         CreateMap<ShelterAdvertisement, CurrentShelterAdvertisementDto>();
         CreateMap<Worker, WorkerDto>();
+        CreateMap<Photo, PhotoDto>();
     }
 }

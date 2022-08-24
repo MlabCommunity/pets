@@ -59,7 +59,7 @@ public class ShelterController : BaseController
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
     {
         var command = new CreateShelterDogCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
-            request.IsSterilized, request.Weight, request.DogColor, request.DogBreed);
+            request.IsSterilized, request.Weight, request.DogColor, request.DogBreed,request.Photos);
 
         await _commandDispatcher.SendAsync(command);
 
@@ -75,7 +75,7 @@ public class ShelterController : BaseController
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
     {
         var command = new CreateShelterCatCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
-            request.IsSterilized, request.Weight, request.CatColor, request.CatBreed);
+            request.IsSterilized, request.Weight, request.CatColor, request.CatBreed,request.Photos);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
@@ -91,14 +91,42 @@ public class ShelterController : BaseController
     {
         var command = new CreateShelterOtherPetCommand(GetPrincipalId(), request.Name, request.Gender,
             request.DateOfBirth,
+            request.IsSterilized, request.Weight,request.Photos);
+
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
+    [Authorize(Roles = "Shelter,Worker")]
+    [HttpPut("card/{petId:guid}")]
+    [SwaggerOperation(description: "Updates shelter's card")]
+    [SwaggerResponse(200, "Card created")]
+    [SwaggerResponse(400, "If data are invalid")]
+    [SwaggerResponse(404, "If shelter not found")]
+    public async Task<IActionResult> UpdateShelterCard([FromBody] UpdatePetRequest request,[FromRoute] Guid petId)
+    {
+        var command = new UpdateShelterPetCommand(GetPrincipalId(),petId, request.Name,
             request.IsSterilized, request.Weight);
+
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
+    [Authorize(Roles = "Shelter,Worker")]
+    [HttpDelete("card/{petId:guid}")]
+    [SwaggerOperation(description: "Deletes shelter's card")]
+    [SwaggerResponse(200, "Card deleted")]
+    [SwaggerResponse(404, "If shelter not found")]
+    public async Task<IActionResult> DeleteShelterCard([FromRoute] Guid petId)
+    {
+        var command = new DeleteShelterPetCommand(GetPrincipalId(), petId);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
 
     [Authorize]
-    [HttpGet("pets")]
+    [HttpGet("card")]
     [SwaggerOperation(description: "Gets shelter's pets")]
     [SwaggerResponse(200, "Pets found", typeof(List<PetDto>))]
     public async Task<ActionResult<List<PetDto>>> GetAllShelterPets()
@@ -244,7 +272,7 @@ public class ShelterController : BaseController
 
         return NoContent();
     }
-    
+
     [Authorize(Roles = "Shelter")]
     [HttpGet("workers")]
     [SwaggerOperation(description: "Gets shelter's workers")]
@@ -257,6 +285,4 @@ public class ShelterController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
     }
-    
-    
 }

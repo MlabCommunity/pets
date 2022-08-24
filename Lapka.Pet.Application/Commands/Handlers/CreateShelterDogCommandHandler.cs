@@ -27,7 +27,7 @@ internal sealed class CreateShelterDogCommandHandler : ICommandHandler<CreateShe
         }
 
         var dog = Dog.Create(shelter.Id.Value, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
-            command.Weight, command.DogBreed, command.DogColor);
+            command.Weight, command.DogBreed, command.DogColor,command.Photos);
 
         await _petRepository.AddPetAsync(dog);
     }

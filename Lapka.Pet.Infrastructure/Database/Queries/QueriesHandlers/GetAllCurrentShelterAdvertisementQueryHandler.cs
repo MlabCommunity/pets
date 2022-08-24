@@ -56,6 +56,6 @@ internal sealed class
                     }
                 }).ToList();
 
-        return _mapper.Map<List<CurrentShelterAdvertisementDto>>(result);
+        return result;
     }
 }

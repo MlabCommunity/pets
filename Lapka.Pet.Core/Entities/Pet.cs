@@ -43,22 +43,17 @@ public abstract class Pet : AggregateRoot
         IsSterilized = isSterilized;
         Weight = weight;
     }
-
-    public void Sterilize()
-    {
-        IsSterilized = true;
-    }
-
+    
     public void AddPhoto(Photo photo)
     {
         Photos.Add(photo);
     }
 
-    public void AddPhotos(IEnumerable<PhotoId> photoIds)
+    public void AddPhotos(ICollection<Guid> photoIds)
     {
-        foreach (var photo in Photos)
+        foreach (var photo in photoIds)
         {
-            AddPhoto(photo);
+            AddPhoto(new Photo(photo));
         }
     }
 }

@@ -48,7 +48,7 @@ public class AdvertisementController : BaseController
     public async Task<IActionResult> CreateLostDog([FromBody] CreateLostDogAdvertisementRequest request)
     {
         var petCommand = new CreateLostDogCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
-            request.IsSterilized, request.Weight, request.DogColor, request.DogBreed);
+            request.IsSterilized, request.Weight, request.DogColor, request.DogBreed,request.Photos);
 
         await _commandDispatcher.SendAsync(petCommand);
         var petId = _userCacheStorage.GetPetId(GetPrincipalId());
@@ -68,7 +68,7 @@ public class AdvertisementController : BaseController
     public async Task<IActionResult> CreateLostCat([FromBody] CreateLostCatAdvertisementRequest request)
     {
         var petCommand = new CreateLostCatCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
-            request.IsSterilized, request.Weight, request.CatColor, request.CatBreed);
+            request.IsSterilized, request.Weight, request.CatColor, request.CatBreed,request.Photos);
 
         await _commandDispatcher.SendAsync(petCommand);
         var petId = _userCacheStorage.GetPetId(GetPrincipalId());
@@ -88,7 +88,7 @@ public class AdvertisementController : BaseController
     {
         var petCommand = new CreateLostOtherPetCommand(GetPrincipalId(), request.Name, request.Gender,
             request.DateOfBirth,
-            request.IsSterilized, request.Weight);
+            request.IsSterilized, request.Weight,request.Photos);
 
         await _commandDispatcher.SendAsync(petCommand);
         var petId = _userCacheStorage.GetPetId(GetPrincipalId());

@@ -22,9 +22,10 @@ public class Dog : Pet
     }
 
     public static Dog Create(OwnerId ownerId, PetName name, Gender gender,
-        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, DogBreed breed, DogColor color)
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, DogBreed breed, DogColor color,ICollection<Guid> photos)
     {
         var dog = new Dog(ownerId, name, gender, dateOfBirth, isSterilized, weight, breed, color);
+        dog.AddPhotos(photos);
         return dog;
     }
 }

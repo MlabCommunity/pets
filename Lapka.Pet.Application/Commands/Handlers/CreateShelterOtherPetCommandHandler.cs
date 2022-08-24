@@ -27,8 +27,8 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
         }
 
         var other = Other.Create(shelter.Id.Value, command.Name, command.Gender,
-            command.DateOfBirth, //TODO ask mentor how to fix this implict operator
-            command.IsSterilized, command.Weight);
+            command.DateOfBirth,
+            command.IsSterilized, command.Weight,command.Photos);
 
         await _petRepository.AddPetAsync(other);
     }

@@ -17,7 +17,7 @@ internal sealed class CreateDogCommandHandler : ICommandHandler<CreateDogCommand
         CancellationToken cancellationToken = new CancellationToken())
     {
         var dog = Dog.Create(command.OwnerId, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
-            command.Weight, command.DogBreed, command.DogColor);
+            command.Weight, command.DogBreed, command.DogColor,command.Photos);
 
         await _petRepository.AddPetAsync(dog);
     }
