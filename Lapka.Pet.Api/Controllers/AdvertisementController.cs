@@ -4,6 +4,7 @@ using Lapka.Pet.Api.Requests;
 using Lapka.Pet.Application.Commands;
 using Lapka.Pet.Application.Commands.Handlers;
 using Lapka.Pet.Application.Dto;
+using Lapka.Pet.Application.Services;
 using Lapka.Pet.Infrastructure.CacheStorage;
 using Lapka.Pet.Infrastructure.Database.Queries;
 using Microsoft.AspNetCore.Authorization;
@@ -109,26 +110,37 @@ public class AdvertisementController : BaseController
     }
 
     [HttpGet("{petId:guid}")]
+    [SwaggerOperation(description: "get lost pet's card")]
+    [SwaggerResponse(200, "Cards found", typeof(LostPetAdvertisementDto))]
+    [SwaggerResponse(404, "Cards not found")]
     public async Task<ActionResult<LostPetAdvertisementDto>> GetLostPetAdvertisement([FromRoute] Guid petId)
     {
         var query = new GetLostPetAdvertisementQuery(petId);
         var result = await _queryDispatcher.QueryAsync(query);
 
-        return Ok(result);
+        return OkOrNotFound(result);
     }
 
-    [Authorize]
+    [Authorize(Roles = "User,Worker")]
     [HttpPut("{petId:guid}")]
+    [SwaggerOperation(description: "update lost pet's card")]
+    [SwaggerResponse(200, "Cards updated")]
+    [SwaggerResponse(404, "Cards not found")]
     public async Task<IActionResult> UpdateLostPetAdvertisement([FromRoute] Guid petId,
         [FromBody] UpdateLostPetAdvertisementRequest request)
     {
-        var command = new UpdateLostPetAdvertisementCommand(petId,GetPrincipalId(),request.Description,request.Name,request.IsSterilized,request.Weight);
-        await _commandDispatcher.SendAsync(command);
+        var advertisementCommand = new UpdateLostPetAdvertisementCommand(petId,GetPrincipalId(),request.Description);
+        var petCommand = new UpdatePetCommand(petId,GetPrincipalId(), request.Name, request.IsSterilized, request.Weight);
+        await _commandDispatcher.SendAsync(advertisementCommand);
+        await _commandDispatcher.SendAsync(petCommand);
 
         return NoContent();
     }
     
     [HttpDelete("{petId:guid}")]
+    [SwaggerOperation(description: "delete lost pet's card")]
+    [SwaggerResponse(200, "Cards deleted")]
+    [SwaggerResponse(404, "Cards not found")]
     public async Task<IActionResult> DeleteLostPetAdvertisement([FromRoute] Guid petId)
     {
         var command = new DeleteLostPetAdvertisementCommand(petId, GetPrincipalId());

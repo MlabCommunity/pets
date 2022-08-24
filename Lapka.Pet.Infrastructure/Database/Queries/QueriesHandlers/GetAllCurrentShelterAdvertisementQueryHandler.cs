@@ -39,8 +39,8 @@ internal sealed class
                 {
                     Id = advertisement.Id,
                     IsVisible = advertisement.IsReserved,
-                    OrganizationName = advertisement.Shelter.OrganizationName,
-                    Localization = advertisement.Shelter.GetLocalization(),
+                    OrganizationName = advertisement.OrganizationName,
+                    Localization = advertisement.Localization,
                     IsReserved = advertisement.IsReserved,
                     Description = advertisement.Description,
                     Pet = new PetDto

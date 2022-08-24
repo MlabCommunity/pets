@@ -1,9 +1,9 @@
-using aLapka.Pet.Application.Commands;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Api.Requests;
 using Lapka.Pet.Application.Commands;
 using Lapka.Pet.Application.Dto;
+using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -173,7 +173,7 @@ public class ShelterController : BaseController
     [Authorize(Roles = "Shelter,Worker")]
     [HttpGet("advertisements")]
     [SwaggerOperation(description: "Gets shelter's advertisements")]
-    [SwaggerResponse(200, "advertisements found", typeof(List<VolunteerDto>))]
+    [SwaggerResponse(200, "advertisements found", typeof(List<CurrentShelterAdvertisementDto>))]
 
     public async Task<ActionResult<List<CurrentShelterAdvertisementDto>>> GetAllCurrentShelterAdvertisement()
     {
@@ -244,4 +244,19 @@ public class ShelterController : BaseController
 
         return NoContent();
     }
+    
+    [Authorize(Roles = "Shelter")]
+    [HttpGet("workers")]
+    [SwaggerOperation(description: "Gets shelter's workers")]
+    [SwaggerResponse(200, "workers found", typeof(List<VolunteerDto>))]
+
+    public async Task<ActionResult<List<WorkerDto>>> GetWorkers()
+    {
+        var query = new GetWorkersQuery(GetPrincipalId());
+
+        var result = await _queryDispatcher.QueryAsync(query);
+        return Ok(result);
+    }
+    
+    
 }

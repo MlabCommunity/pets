@@ -1,3 +1,5 @@
+using Lapka.Pet.Application.Services;
+
 namespace Lapka.Pet.Infrastructure.CacheStorage;
 
 internal sealed class UserCacheStorage : IUserCacheStorage

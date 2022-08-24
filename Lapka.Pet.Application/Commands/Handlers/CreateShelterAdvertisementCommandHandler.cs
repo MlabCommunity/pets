@@ -1,5 +1,6 @@
 using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
+using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
 
@@ -24,7 +25,7 @@ internal sealed class CreateShelterAdvertisementCommandHandler : ICommandHandler
             throw new ShelterNotFoundException();
         }
 
-        shelter.AddAdvertisement(new ShelterAdvertisement(command.Description,
+        shelter.AddAdvertisement(new ShelterAdvertisement(shelter.OrganizationName,shelter.GetLocalization(),command.Description,
             command.IsVisible, command.PetId));
 
         await _shelterRepository.UpdateAsync(shelter);

@@ -23,7 +23,7 @@ internal sealed class UpdateShelterAdvertisementCommandHandler : ICommandHandler
             throw new ShelterNotFoundException();
         }
 
-        shelter.UpdateAdvertisement(command.AdvertisementId, command.Description);
+        shelter.UpdateAdvertisement(command.PetId, command.Description);
 
         await _shelterRepository.UpdateAsync(shelter);
     }
