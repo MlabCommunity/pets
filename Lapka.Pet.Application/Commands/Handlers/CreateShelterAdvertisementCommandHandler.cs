@@ -25,7 +25,7 @@ internal sealed class CreateShelterAdvertisementCommandHandler : ICommandHandler
             throw new ShelterNotFoundException();
         }
 
-        shelter.AddAdvertisement(new ShelterAdvertisement(shelter.OrganizationName,shelter.GetLocalization(),command.Description,
+        shelter.AddAdvertisement(new ShelterAdvertisement(shelter.OrganizationName,shelter.Localization,shelter.Id.Value,command.Description,
             command.IsVisible, command.PetId));
 
         await _shelterRepository.UpdateAsync(shelter);

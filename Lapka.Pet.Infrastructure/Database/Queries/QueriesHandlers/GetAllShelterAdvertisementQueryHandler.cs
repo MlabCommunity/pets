@@ -37,7 +37,7 @@ internal sealed class
             {
                 Id = advertisements.Id,
                 OrganizationName = advertisements.OrganizationName,
-                Localization = advertisements.Localization,
+                Localization = advertisements.Localization.ToString(),
                 IsReserved = advertisements.IsReserved,
                 Description = advertisements.Description,
                 Pet = new PetDto

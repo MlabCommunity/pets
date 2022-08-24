@@ -3,6 +3,7 @@ using System;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lapka.Pet.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220824123840_Refactorrrrrr")]
+    partial class Refactorrrrrr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,11 +36,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
 
                     b.Property<bool>("IsVisible")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("Localization")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("Localization");
 
                     b.HasKey("Id");
 
@@ -249,11 +246,19 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 {
                     b.HasBaseType("Lapka.Pet.Core.Entities.Advertisement");
 
+                    b.Property<string>("CityOfDisappearance")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("DateOfDisappearance")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("PetId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("StreetOfDisappearance")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -274,6 +279,11 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
 
                     b.Property<bool>("IsReserved")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("Localization")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Localization");
 
                     b.Property<string>("OrganizationName")
                         .IsRequired()

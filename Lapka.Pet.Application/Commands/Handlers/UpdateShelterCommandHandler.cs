@@ -1,6 +1,7 @@
 using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Core.Repositories;
+using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Application.Commands.Handlers;
 
@@ -23,7 +24,7 @@ internal sealed class UpdateShelterCommandHandler : ICommandHandler<UpdateShelte
             throw new ShelterNotFoundException();
         }
 
-        shelter.Update(command.OrganizationName, command.Street, command.City, command.ZipCode, command.Krs,
+        shelter.Update(command.OrganizationName,new Localization(command.City,command.Street), command.ZipCode, command.Krs,
             command.Nip);
 
         await _shelterRepository.UpdateAsync(shelter);

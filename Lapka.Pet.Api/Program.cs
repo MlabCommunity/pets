@@ -30,7 +30,7 @@ app.MapGrpcService<ShelterGrpcController>();
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 
-<<<<<<< HEAD
+
 app.UseSwagger(c =>
 {
     c.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
@@ -45,22 +45,6 @@ app.UseSwagger(c =>
 });
 app.UseSwaggerUI();
 
-=======
-    app.UseSwagger(c =>
-    {
-        c.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
-        {
-            if (!httpRequest.Headers.ContainsKey("X-Forwarded-Host"))
-                return;
-
-            var basePath = "identity";
-            var serverUrl = $"{httpRequest.Scheme}://{httpRequest.Headers["X-Forwarded-Host"]}/{basePath}";
-            swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = serverUrl } };
-        });
-    });
-    app.UseSwaggerUI();
-
->>>>>>> 9f03b793c5ef5693c99218572e28096d28bc15de
 app.UseMiddleware();
 
 app.UseAuthentication();

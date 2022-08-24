@@ -15,6 +15,7 @@ public static class Extensions
         services.AddScoped<IPetRepository, PetRepository>();
         services.AddScoped<IShelterRepository, ShelterRepository>();
         services.AddScoped<ILostPetAdvertisementRepository, LostPetAdvertisementRepository>();
+        services.AddScoped<IShelterAdvertisementRepository, ShelterAdvertisementRepository>();
 
 
         var options = configuration.GetOptions<PostgresOptions>("Postgres");

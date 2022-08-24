@@ -40,7 +40,7 @@ internal sealed class
                     Id = advertisement.Id,
                     IsVisible = advertisement.IsReserved,
                     OrganizationName = advertisement.OrganizationName,
-                    Localization = advertisement.Localization,
+                    Localization = advertisement.Localization.ToString(),
                     IsReserved = advertisement.IsReserved,
                     Description = advertisement.Description,
                     Pet = new PetDto

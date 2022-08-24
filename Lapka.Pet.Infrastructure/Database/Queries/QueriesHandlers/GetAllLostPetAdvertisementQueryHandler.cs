@@ -29,10 +29,9 @@ internal sealed class
             .Where(x => x.IsVisible == true).ToListAsync();
 
         var result = advertisements
-            .Join(_pets, x => x.PetId.Value, x => x.Id.Value, (advertisements, pet) => new LostPetAdvertisementDto
+            .Join(_pets.Include(x=>x.Photos), x => x.PetId.Value, x => x.Id.Value, (advertisements, pet) => new LostPetAdvertisementDto
             {
-                CityOfDisappearance = advertisements.CityOfDisappearance,
-                StreetOfDisappearance = advertisements.StreetOfDisappearance,
+                Localization = advertisements.Localization.ToString(),
                 DateOfDisappearance = advertisements.DateOfDisappearance,
                 Description = advertisements.Description,
                 Pet = new PetDto

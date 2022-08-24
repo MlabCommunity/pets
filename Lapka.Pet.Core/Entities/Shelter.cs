@@ -1,4 +1,5 @@
 using Lapka.Pet.Core.DomainThings;
+using Lapka.Pet.Core.Events;
 using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.ValueObjects;
 
@@ -8,8 +9,7 @@ public class Shelter : AggregateRoot
 {
     public OrganizationName OrganizationName { get; private set; }
     public ICollection<ShelterAdvertisement> Advertisements = new List<ShelterAdvertisement>();
-    public string Street { get; private set; }
-    public string City { get; private set; }
+    public Localization Localization { get; private set; }
     public ZipCode ZipCode { get; private set; }
     public ICollection<Worker> Workers = new List<Worker>();
     public Volunteering Volunteering { get; private set; }
@@ -21,25 +21,24 @@ public class Shelter : AggregateRoot
     {
     }
 
-    private Shelter(AggregateId id, OrganizationName organizationName, string street, string city, ZipCode zipCode,
+    private Shelter(AggregateId id, OrganizationName organizationName, Localization localization, ZipCode zipCode,
         Krs krs,
         Nip nip)
     {
         Id = id;
         OrganizationName = organizationName;
-        Street = street;
-        City = city;
+        Localization = localization;
         ZipCode = zipCode;
         Krs = krs;
         Nip = nip;
         Volunteering = new Volunteering();
     }
 
-    public static Shelter Create(AggregateId Id, string street, string city, ZipCode zipCode,
+    public static Shelter Create(AggregateId Id, Localization localization, ZipCode zipCode,
         OrganizationName organizationName,
         Krs krs, Nip nip)
     {
-        var shelter = new Shelter(Id, organizationName, street, city, zipCode, krs, nip);
+        var shelter = new Shelter(Id, organizationName, localization, zipCode, krs, nip);
         return shelter;
     }
 
@@ -67,7 +66,7 @@ public class Shelter : AggregateRoot
         Advertisements.Add(advertisement);
     }
 
-    
+
     public void PublishAdvertisement(PetId petId)
     {
         var advertisement = GetAdvertisement(petId);
@@ -98,7 +97,7 @@ public class Shelter : AggregateRoot
         advertisement.Update(description);
     }
 
-    
+
     public void AddWorker(WorkerId worker)
     {
         var exists = Workers.Any(x => x.WorkerId == worker);
@@ -128,20 +127,17 @@ public class Shelter : AggregateRoot
         return worker;
     }
 
-    public void Update(OrganizationName organizationName, string street, string city, ZipCode zipCode, Krs krs, Nip nip)
+    public void Update(OrganizationName organizationName, Localization localization, ZipCode zipCode, Krs krs, Nip nip)
     {
-        Street = street;
-        City = city;
+        Localization = localization;
         ZipCode = zipCode;
         OrganizationName = organizationName;
         Krs = krs;
         Nip = nip;
 
-        // AddEvent(new ShelterUpdatedEvent(Id, organizationName, street, city, zipCode, krs, nip));
+        AddEvent(new ShelterUpdatedEvent(Id, organizationName, localization.Street, localization.City, zipCode, krs,
+            nip));
     }
-
-    public string GetLocalization()
-        => $"{City}, {Street}";
 
     public void RemoveWorker(WorkerId workerId)
     {

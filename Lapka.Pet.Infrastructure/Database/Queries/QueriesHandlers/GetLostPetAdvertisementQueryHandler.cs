@@ -30,9 +30,8 @@ internal sealed class
         var result = new LostPetAdvertisementDto
         {
             Description = advertisements.Description,
-            CityOfDisappearance = advertisements.CityOfDisappearance,
+            Localization = advertisements.Localization.ToString(),
             DateOfDisappearance = advertisements.DateOfDisappearance,
-            StreetOfDisappearance = advertisements.StreetOfDisappearance,
             Pet = new PetDto
             {
                 DateOfBirth = pet.DateOfBirth,

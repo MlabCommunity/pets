@@ -11,8 +11,4 @@
         <PackageReference Include="Convey.CQRS.Events" Version="1.0.541" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Events" />
-    </ItemGroup>
-
 </Project>

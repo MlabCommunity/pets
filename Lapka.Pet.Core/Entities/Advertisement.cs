@@ -1,4 +1,5 @@
 using Lapka.Pet.Core.DomainThings;
+using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Core.Entities;
 
@@ -6,15 +7,17 @@ public abstract class Advertisement
 {
     public EntityId Id { get; private set; }
     public string Description { get; private set; }
+    public Localization Localization { get; private set; }
     public bool IsVisible { get; private set; }
 
     protected Advertisement()
     {
     }
 
-    protected Advertisement(string description, bool isVisible)
+    protected Advertisement(string description, bool isVisible,Localization localization)
     {
         Id = Guid.NewGuid();
+        Localization = localization;
         Description = description;
         IsVisible = isVisible;
     }
@@ -32,5 +35,10 @@ public abstract class Advertisement
     public void Update(string description)
     {
         Description = description;
+    }
+    
+    public void UpdateLocalization(Localization localization)
+    {
+        Localization = localization;
     }
 }
