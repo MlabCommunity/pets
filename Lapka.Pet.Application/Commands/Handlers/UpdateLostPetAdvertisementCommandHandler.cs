@@ -3,7 +3,7 @@ using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.Repositories;
 
-namespace Lapka.Pet.Application.Commands;
+namespace Lapka.Pet.Application.Commands.Handlers;
 
 internal sealed class UpdateLostPetAdvertisementCommandHandler : ICommandHandler<UpdateLostPetAdvertisementCommand>
 {
@@ -25,15 +25,7 @@ internal sealed class UpdateLostPetAdvertisementCommandHandler : ICommandHandler
         {
             throw new AdvertisementNotFoundException();
         }
-
-        var pet = await _petRepository.FindByIdAsync(command.PetId);
         
-        if (pet is null)
-        {
-            throw new PetNotFoundException();
-        }
-        
-        pet.Update(command.Name,command.IsSterilized,command.Weight);
         advertisement.Update(command.Description);
 
         await _lostPetAdvertisementRepository.UpdateAsync(advertisement);

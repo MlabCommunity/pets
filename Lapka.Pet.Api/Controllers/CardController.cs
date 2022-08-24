@@ -75,7 +75,7 @@ public class CardController : BaseController
     [SwaggerResponse(404, "If user not found")]
     public async Task<IActionResult> UpdatePet([FromBody] UpdatePetRequest request)
     {
-        var command = new UpdatePetCommand(request.PetId, request.Name, request.IsSterilized, request.Weight);
+        var command = new UpdatePetCommand(request.PetId, GetPrincipalId(),request.Name, request.IsSterilized, request.Weight);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
@@ -86,7 +86,7 @@ public class CardController : BaseController
     [SwaggerOperation(description: "Deletes card")]
     [SwaggerResponse(200, "Card deleted")]
     [SwaggerResponse(404, "If user not found")]
-    public async Task<IActionResult> UpdatePet([FromRoute] Guid petId)
+    public async Task<IActionResult> DeletePet([FromRoute] Guid petId)
     {
         var command = new DeleteCardCommand(petId,GetPrincipalId());
 

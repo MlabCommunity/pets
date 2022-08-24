@@ -1,6 +1,7 @@
 using AutoMapper;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
+using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -35,8 +36,8 @@ internal sealed class
             (advertisements, pet) => new ShelterAdvertisementDto
             {
                 Id = advertisements.Id,
-                OrganizationName = advertisements.Shelter.OrganizationName,
-                Localization = advertisements.Shelter.GetLocalization(),
+                OrganizationName = advertisements.OrganizationName,
+                Localization = advertisements.Localization,
                 IsReserved = advertisements.IsReserved,
                 Description = advertisements.Description,
                 Pet = new PetDto

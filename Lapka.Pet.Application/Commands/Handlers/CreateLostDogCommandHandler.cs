@@ -1,7 +1,7 @@
 using Convey.CQRS.Commands;
+using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
-using Lapka.Pet.Infrastructure.CacheStorage;
 
 namespace Lapka.Pet.Application.Commands.Handlers;
 

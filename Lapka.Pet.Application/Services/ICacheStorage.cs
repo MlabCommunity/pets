@@ -1,4 +1,4 @@
-namespace Lapka.Pet.Infrastructure.CacheStorage;
+namespace Lapka.Pet.Application.Services;
 
 public interface ICacheStorage
 {

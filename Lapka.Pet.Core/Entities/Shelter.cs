@@ -67,12 +67,7 @@ public class Shelter : AggregateRoot
         Advertisements.Add(advertisement);
     }
 
-    public void ReserveAdvertisement(PetId petId)
-    {
-        var advertisement = GetAdvertisement(petId);
-        advertisement.Reserve();
-    }
-
+    
     public void PublishAdvertisement(PetId petId)
     {
         var advertisement = GetAdvertisement(petId);
@@ -103,12 +98,7 @@ public class Shelter : AggregateRoot
         advertisement.Update(description);
     }
 
-    public void UnReserveAdvertisement(PetId petId)
-    {
-        var advertisement = GetAdvertisement(petId);
-        advertisement.UnReserve();
-    }
-
+    
     public void AddWorker(WorkerId worker)
     {
         var exists = Workers.Any(x => x.WorkerId == worker);
