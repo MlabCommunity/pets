@@ -4,5 +4,5 @@ public class ShelterDto
 {
     public Guid Id { get; set; }
     public string OrganizationName { get; set; }
-    public string Localization { get; set; } //np "Warszawa, ul. Wielicka"
+    public string Localization { get; set; }
 }

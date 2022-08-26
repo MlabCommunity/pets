@@ -1,4 +1,3 @@
-using AutoMapper;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Entities;
@@ -27,21 +26,10 @@ internal sealed class GetAllShelterPetsQueryHandler : IQueryHandler<GetAllShelte
             .Include(x => x.Workers)
             .FirstOrDefaultAsync(x => x.Workers.Any(x => x.WorkerId == query.PrincipalId) || x.Id == query.PrincipalId);
 
-        var result = await _pets
+        var pets = await _pets
             .Include(x => x.Photos)
-            .Where(x => x.OwnerId == shelter.Id.Value).Select(x=> new PetDto
-            {
-                DateOfBirth = x.DateOfBirth,
-                Gender = x.Gender,
-                Id = x.Id,
-                IsSterilized = x.IsSterilized,
-                Name = x.Name,
-                Photos = x.Photos.Select(x=>x.PhotoId.Value).ToList(),
-                Type = x.Type,
-                Weight = x.Weight
-            }).ToListAsync();
+            .Where(x => x.OwnerId == shelter.Id.Value).Select(x => x.AsDto()).ToListAsync();
 
-
-        return result;
+        return pets;
     }
 }

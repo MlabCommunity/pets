@@ -25,8 +25,10 @@ internal sealed class CreateLostPetAdvertisementCommandHandler : ICommandHandler
             throw new AdvertisementWithThisPetAlreadyExistsException();
         }
 
-        var advertisement = new LostPetAdvertisement(command.Description, command.IsVisible,
-            command.DateOfDisappearance,new Localization(command.CityOfDisappearance,command.StreetOfDisappearance), command.PetId,command.PrincipalId);
+        var advertisement = new LostPetAdvertisement(command.Description, command.FirstName, command.PhoneNumber,
+            command.IsVisible,
+            command.DateOfDisappearance, new Localization(command.CityOfDisappearance, command.StreetOfDisappearance),
+            command.PetId, command.PrincipalId);
 
         await _lostPetAdvertisementRepository.AddAsync(advertisement);
     }

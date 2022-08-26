@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lapka.Pet.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220823105115_Refactorrrr")]
-    partial class Refactorrrr
+    [Migration("20220825074137_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,11 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
 
                     b.Property<bool>("IsVisible")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("Localization")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Localization");
 
                     b.HasKey("Id");
 
@@ -91,23 +96,20 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Krs")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("Localization")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Localization");
 
                     b.Property<string>("Nip")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("OrganizationName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -249,17 +251,17 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 {
                     b.HasBaseType("Lapka.Pet.Core.Entities.Advertisement");
 
-                    b.Property<string>("CityOfDisappearance")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("DateOfDisappearance")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("PetId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("StreetOfDisappearance")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -276,12 +278,16 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.HasDiscriminator().HasValue("OTHER");
                 });
 
-            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.ShelterAdvertisement", b =>
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.ShelterAdvertisement", b =>
                 {
                     b.HasBaseType("Lapka.Pet.Core.Entities.Advertisement");
 
                     b.Property<bool>("IsReserved")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("OrganizationName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("PetId")
                         .HasColumnType("uuid");
@@ -289,7 +295,10 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<Guid>("ShelterId")
                         .HasColumnType("uuid");
 
-                    b.HasIndex("ShelterId");
+                    b.Property<Guid>("ShelterId1")
+                        .HasColumnType("uuid");
+
+                    b.HasIndex("ShelterId1");
 
                     b.ToTable("ShelterAdvertisements", "pets");
                 });
@@ -335,17 +344,17 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.ShelterAdvertisement", b =>
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.ShelterAdvertisement", b =>
                 {
                     b.HasOne("Lapka.Pet.Core.Entities.Advertisement", null)
                         .WithOne()
-                        .HasForeignKey("Lapka.Pet.Core.ValueObjects.ShelterAdvertisement", "Id")
+                        .HasForeignKey("Lapka.Pet.Core.Entities.ShelterAdvertisement", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Lapka.Pet.Core.Entities.Shelter", "Shelter")
                         .WithMany("Advertisements")
-                        .HasForeignKey("ShelterId")
+                        .HasForeignKey("ShelterId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

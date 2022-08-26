@@ -3,7 +3,6 @@ using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lapka.Pet.Infrastructure.Database.Configurations;
 
@@ -11,12 +10,11 @@ internal sealed class ShelterAdvertisementConfiguration : IEntityTypeConfigurati
 {
     public void Configure(EntityTypeBuilder<ShelterAdvertisement> builder)
     {
-        
         builder.Property(s => s.PetId).HasConversion(id => id.Value, id => new PetId(id));
         builder.Property(s => s.Id).HasConversion(id => id.Value, id => new EntityId(id));
         builder.Property(s => s.ShelterId).HasConversion(id => id.Value, id => new ShelterId(id));
         builder.Property(s => s.OrganizationName).HasConversion(name => name.Value, name => new OrganizationName(name));
-        
+
         builder.ToTable("ShelterAdvertisements");
     }
 }

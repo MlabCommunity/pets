@@ -17,7 +17,8 @@ internal sealed class UpdateShelterPetCommandHandler : ICommandHandler<UpdateShe
     }
 
 
-    public async Task HandleAsync(UpdateShelterPetCommand command, CancellationToken cancellationToken = new CancellationToken())
+    public async Task HandleAsync(UpdateShelterPetCommand command,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         var shelter = await _shelterRepository.FindByIdOrWorkerIdAsync(command.PrincipalId);
 
@@ -27,8 +28,8 @@ internal sealed class UpdateShelterPetCommandHandler : ICommandHandler<UpdateShe
         }
 
         var pet = await _petRepository.FindByIdAsync(command.PetId);
-        
-        pet.Update(command.Name,command.IsSterilized,command.Weight);
+
+        pet.Update(command.Name, command.IsSterilized, command.Weight);
 
         await _petRepository.UpdateAsync(pet);
     }

@@ -1,4 +1,3 @@
-using System.Data;
 using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Core.Entities;
@@ -16,7 +15,8 @@ public class ShelterAdvertisement : Advertisement
     {
     }
 
-    public ShelterAdvertisement(OrganizationName organizationName, Localization localization,ShelterId shelterId,string description, bool isVisible, PetId petId) : base(description, isVisible,localization)
+    public ShelterAdvertisement(OrganizationName organizationName, Localization localization, ShelterId shelterId,
+        string description, bool isVisible, PetId petId) : base(description, isVisible, localization)
     {
         OrganizationName = organizationName;
         ShelterId = shelterId;
@@ -33,8 +33,8 @@ public class ShelterAdvertisement : Advertisement
     {
         IsReserved = false;
     }
-    
-    
+
+
     public void UpdateShelterDetails(OrganizationName organizationName, Localization localization)
     {
         OrganizationName = organizationName;

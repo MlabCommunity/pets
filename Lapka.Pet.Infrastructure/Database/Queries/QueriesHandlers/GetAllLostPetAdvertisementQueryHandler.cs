@@ -1,8 +1,8 @@
-using AutoMapper;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Infrastructure.Database.Contexts;
+using Lapka.Pet.Infrastructure.Mapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
@@ -13,13 +13,11 @@ internal sealed class
 {
     private readonly DbSet<LostPetAdvertisement> _advertisements;
     private readonly DbSet<Core.Entities.Pet> _pets;
-    private readonly IMapper _mapper;
 
-    public GetAllLostPetAdvertisementQueryHandler(AppDbContext context, IMapper mapper)
+    public GetAllLostPetAdvertisementQueryHandler(AppDbContext context)
     {
         _pets = context.Pets;
         _advertisements = context.LostPetAdvertisements;
-        _mapper = mapper;
     }
 
     public async Task<List<LostPetAdvertisementDto>> HandleAsync(GetAllLostPetAdvertisementQuery query,
@@ -28,24 +26,9 @@ internal sealed class
         var advertisements = await _advertisements
             .Where(x => x.IsVisible == true).ToListAsync();
 
-        var result = advertisements
-            .Join(_pets.Include(x=>x.Photos), x => x.PetId.Value, x => x.Id.Value, (advertisements, pet) => new LostPetAdvertisementDto
-            {
-                Localization = advertisements.Localization.ToString(),
-                DateOfDisappearance = advertisements.DateOfDisappearance,
-                Description = advertisements.Description,
-                Pet = new PetDto
-                {
-                    DateOfBirth = pet.DateOfBirth,
-                    Gender = pet.Gender,
-                    Id = pet.Id,
-                    IsSterilized = pet.IsSterilized,
-                    Name = pet.Name,
-                    Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
-                    Type = pet.Type,
-                    Weight = pet.Weight
-                }
-            }).ToList();
+        var result = _advertisements.Where(x => x.IsVisible).ToList()
+            .Join(_pets.Include(x => x.Photos), x => x.PetId.Value, x => x.Id.Value, (advertisements, pet) =>
+                advertisements.AsDto(pet)).ToList();
 
         return result;
     }

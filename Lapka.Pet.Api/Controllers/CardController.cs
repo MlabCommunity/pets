@@ -30,7 +30,7 @@ public class CardController : BaseController
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
     {
         var command = new CreateDogCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
-            request.IsSterilized, request.Weight, request.DogColor, request.DogBreed,request.Photos);
+            request.IsSterilized, request.Weight, request.DogColor, request.DogBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
 
@@ -46,7 +46,7 @@ public class CardController : BaseController
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
     {
         var command = new CreateCatCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
-            request.IsSterilized, request.Weight, request.CatColor, request.CatBreed,request.Photos);
+            request.IsSterilized, request.Weight, request.CatColor, request.CatBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
@@ -61,7 +61,7 @@ public class CardController : BaseController
     public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
     {
         var command = new CreateOtherPetCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
-            request.IsSterilized, request.Weight,request.Photos);
+            request.IsSterilized, request.Weight, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
@@ -75,12 +75,13 @@ public class CardController : BaseController
     [SwaggerResponse(404, "If user not found")]
     public async Task<IActionResult> UpdatePet([FromBody] UpdatePetRequest request)
     {
-        var command = new UpdatePetCommand(request.PetId, GetPrincipalId(),request.Name, request.IsSterilized, request.Weight);
+        var command = new UpdatePetCommand(request.PetId, GetPrincipalId(), request.Name, request.IsSterilized,
+            request.Weight);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [Authorize(Roles = "User,Worker")]
     [HttpDelete("{petId:guid}")]
     [SwaggerOperation(description: "Deletes card")]
@@ -88,12 +89,12 @@ public class CardController : BaseController
     [SwaggerResponse(404, "If user not found")]
     public async Task<IActionResult> DeletePet([FromRoute] Guid petId)
     {
-        var command = new DeleteCardCommand(petId,GetPrincipalId());
+        var command = new DeleteCardCommand(petId, GetPrincipalId());
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [Authorize]
     [HttpGet("{id:guid}")]
     [SwaggerOperation(description: "Updates card")]
@@ -104,6 +105,6 @@ public class CardController : BaseController
         var query = new GetPetQuery(id);
         var result = await _queryDispatcher.QueryAsync(query);
 
-        return OkOrNotFound(result);
+        return Ok(result);
     }
 }

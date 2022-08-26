@@ -7,13 +7,14 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class DeleteCardCommandHandler : ICommandHandler<DeleteCardCommand>
 {
     private readonly IPetRepository _petRepository;
-    
+
     public DeleteCardCommandHandler(IPetRepository petRepository)
     {
         _petRepository = petRepository;
     }
-    
-    public async Task HandleAsync(DeleteCardCommand command, CancellationToken cancellationToken = new CancellationToken())
+
+    public async Task HandleAsync(DeleteCardCommand command,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         var pet = await _petRepository.FindByIdAsync(command.PetId);
 
@@ -21,8 +22,8 @@ internal sealed class DeleteCardCommandHandler : ICommandHandler<DeleteCardComma
         {
             throw new PetNotFoundException();
         }
-        
-        if(pet.OwnerId != command.PrincipalId)
+
+        if (pet.OwnerId != command.PrincipalId)
         {
             throw new PetNotFoundException(); //TODO:FORBIDDEN?
         }

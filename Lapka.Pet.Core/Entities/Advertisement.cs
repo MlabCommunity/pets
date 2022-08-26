@@ -14,7 +14,7 @@ public abstract class Advertisement
     {
     }
 
-    protected Advertisement(string description, bool isVisible,Localization localization)
+    protected Advertisement(string description, bool isVisible, Localization localization)
     {
         Id = Guid.NewGuid();
         Localization = localization;
@@ -36,7 +36,7 @@ public abstract class Advertisement
     {
         Description = description;
     }
-    
+
     public void UpdateLocalization(Localization localization)
     {
         Localization = localization;

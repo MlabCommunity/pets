@@ -14,6 +14,8 @@ internal sealed class LostPetAdvertisementConfiguration : IEntityTypeConfigurati
         builder.Property(s => s.Id).HasConversion(id => id.Value, id => new EntityId(id));
         builder.Property(s => s.UserId).HasConversion(id => id.Value, id => new UserId(id));
         builder.Property(s => s.DateOfDisappearance).HasConversion(id => id.Value, id => new DateOfDisappearance(id));
+        builder.Property(s => s.PhoneNumber).HasConversion(num => num.Value, num => new PhoneNumber(num));
+        builder.Property(s => s.FirstName).HasConversion(name => name.Value, name => new FirstName(name));
 
         builder.ToTable("LostPetAdvertisements");
     }

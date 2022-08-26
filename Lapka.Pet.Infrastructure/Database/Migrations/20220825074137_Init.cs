@@ -19,6 +19,7 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
+                    Localization = table.Column<string>(type: "text", nullable: false),
                     IsVisible = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -53,19 +54,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Photos",
-                schema: "pets",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    PhotoId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Photos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ShelterPets",
                 schema: "pets",
                 columns: table => new
@@ -97,9 +85,10 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     DateOfDisappearance = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    StreetOfDisappearance = table.Column<string>(type: "text", nullable: false),
-                    CityOfDisappearance = table.Column<string>(type: "text", nullable: false),
-                    PetId = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PetId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,14 +103,33 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Photos",
+                schema: "pets",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PhotoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PetId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Photos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Photos_Pets_PetId",
+                        column: x => x.PetId,
+                        principalSchema: "pets",
+                        principalTable: "Pets",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Shelters",
                 schema: "pets",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     OrganizationName = table.Column<string>(type: "text", nullable: false),
-                    Street = table.Column<string>(type: "text", nullable: false),
-                    City = table.Column<string>(type: "text", nullable: false),
+                    Localization = table.Column<string>(type: "text", nullable: false),
                     ZipCode = table.Column<string>(type: "text", nullable: false),
                     VolunteeringId = table.Column<Guid>(type: "uuid", nullable: false),
                     Krs = table.Column<string>(type: "text", nullable: false),
@@ -147,7 +155,9 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     PetId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ShelterId1 = table.Column<Guid>(type: "uuid", nullable: false),
                     ShelterId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrganizationName = table.Column<string>(type: "text", nullable: false),
                     IsReserved = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -161,8 +171,8 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShelterAdvertisements_Shelters_ShelterId",
-                        column: x => x.ShelterId,
+                        name: "FK_ShelterAdvertisements_Shelters_ShelterId1",
+                        column: x => x.ShelterId1,
                         principalSchema: "pets",
                         principalTable: "Shelters",
                         principalColumn: "Id",
@@ -211,10 +221,16 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShelterAdvertisements_ShelterId",
+                name: "IX_Photos_PetId",
+                schema: "pets",
+                table: "Photos",
+                column: "PetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShelterAdvertisements_ShelterId1",
                 schema: "pets",
                 table: "ShelterAdvertisements",
-                column: "ShelterId");
+                column: "ShelterId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Shelters_VolunteeringId",
@@ -242,10 +258,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 schema: "pets");
 
             migrationBuilder.DropTable(
-                name: "Pets",
-                schema: "pets");
-
-            migrationBuilder.DropTable(
                 name: "Photos",
                 schema: "pets");
 
@@ -263,6 +275,10 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Workers",
+                schema: "pets");
+
+            migrationBuilder.DropTable(
+                name: "Pets",
                 schema: "pets");
 
             migrationBuilder.DropTable(

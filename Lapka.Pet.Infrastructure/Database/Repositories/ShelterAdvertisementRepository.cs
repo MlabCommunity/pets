@@ -1,4 +1,3 @@
-using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
@@ -17,7 +16,7 @@ internal sealed class ShelterAdvertisementRepository : IShelterAdvertisementRepo
         _context = context;
         _advertisements = context.ShelterAdvertisements;
     }
-    
+
     public async Task<ShelterAdvertisement> FindByShelterIdAsync(ShelterId id)
         => await _advertisements.FirstOrDefaultAsync(x => x.ShelterId == id.Value);
 

@@ -20,7 +20,7 @@ internal sealed class CreateLostCatCommandHandler : ICommandHandler<CreateLostCa
         CancellationToken cancellationToken = new CancellationToken())
     {
         var cat = Cat.Create(command.OwnerId, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
-            command.Weight, command.CatBreed, command.CatColor,command.Photos);
+            command.Weight, command.CatBreed, command.CatColor, command.Photos);
 
         await _petRepository.AddPetAsync(cat);
         _userCacheStorage.SetPetId(command.OwnerId, cat.Id);

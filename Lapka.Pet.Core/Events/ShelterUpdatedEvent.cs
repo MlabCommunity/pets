@@ -1,4 +1,3 @@
-using Convey.CQRS.Events;
 using Lapka.Pet.Core.DomainThings;
 
 namespace Lapka.Pet.Core.Events;

@@ -17,7 +17,7 @@ public class Other : Pet
     }
 
     public static Other Create(OwnerId ownerId, PetName name, Gender gender,
-        DateOfBirth dateOfBirth, bool isSterilized, Weight weight,ICollection<Guid> photos)
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, ICollection<Guid> photos)
     {
         var other = new Other(ownerId, name, gender, dateOfBirth, isSterilized, weight);
         other.AddPhotos(photos);

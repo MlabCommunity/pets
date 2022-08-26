@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Lapka.Pet.Core.DomainThings;
+﻿using Lapka.Pet.Core.DomainThings;
 
 namespace Confab.Shared.Abstractions.Kernel
 {

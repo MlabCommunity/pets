@@ -2,10 +2,9 @@ using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Api.Requests;
 using Lapka.Pet.Application.Commands;
-using Lapka.Pet.Application.Commands.Handlers;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Application.Services;
-using Lapka.Pet.Infrastructure.CacheStorage;
+using Lapka.Pet.Core.Consts;
 using Lapka.Pet.Infrastructure.Database.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,12 +27,27 @@ public class AdvertisementController : BaseController
     }
 
     [Authorize(Roles = "Shelter,Worker,User")]
-    [HttpGet("shelter")]
-    [SwaggerOperation(description: "Gets shelter advertisements")]
-    [SwaggerResponse(200, "advertisements found", typeof(List<ShelterAdvertisementDto>))]
-    public async Task<ActionResult<List<ShelterAdvertisementDto>>> GetAllShelterAdvertisement()
+    [HttpGet("shelters")]
+    [SwaggerOperation(description: "Gets all shelter advertisements")]
+    [SwaggerResponse(200, "advertisements found", typeof(List<ShelterPetAdvertisementDto>))]
+    public async Task<ActionResult<List<ShelterPetAdvertisementDto>>> GetAllShelterAdvertisement(
+        [FromQuery] PetType? type, [FromQuery] Gender? gender)
     {
-        var query = new GetAllShelterAdvertisementQuery();
+        var query = new GetAllShelterAdvertisementQuery(type, gender);
+
+        var result = await _queryDispatcher.QueryAsync(query);
+        List<object> x = result.Cast<object>().ToList();
+        return Ok(x);
+    }
+
+    [Authorize(Roles = "Shelter,Worker,User")]
+    [HttpGet("shelters/{petId:guid}")]
+    [SwaggerOperation(description: "Gets shelter advertisements details")]
+    [SwaggerResponse(200, "advertisements found", typeof(List<ShelterPetAdvertisementDto>))]
+    public async Task<ActionResult<ShelterAdvertisementDetailsDto>> GetShelterAdvertisementDetails(
+        [FromRoute] Guid petId)
+    {
+        var query = new GetShelterAdvertisementDetailsQuery(petId);
 
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
@@ -48,12 +62,13 @@ public class AdvertisementController : BaseController
     public async Task<IActionResult> CreateLostDog([FromBody] CreateLostDogAdvertisementRequest request)
     {
         var petCommand = new CreateLostDogCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
-            request.IsSterilized, request.Weight, request.DogColor, request.DogBreed,request.Photos);
+            request.IsSterilized, request.Weight, request.DogColor, request.DogBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(petCommand);
         var petId = _userCacheStorage.GetPetId(GetPrincipalId());
-        var advertisementCommand = new CreateLostPetAdvertisementCommand(petId, request.Description, request.IsVisible,
-            request.DateOfDisappearance, request.CityOfDisappearance, request.StreetOfDisappearance,GetPrincipalId());
+        var advertisementCommand = new CreateLostPetAdvertisementCommand(petId, request.Description, request.FirstName,
+            request.PhoneNumber, request.IsVisible,
+            request.DateOfDisappearance, request.CityOfDisappearance, request.StreetOfDisappearance, GetPrincipalId());
 
         await _commandDispatcher.SendAsync(advertisementCommand);
         return NoContent();
@@ -68,12 +83,13 @@ public class AdvertisementController : BaseController
     public async Task<IActionResult> CreateLostCat([FromBody] CreateLostCatAdvertisementRequest request)
     {
         var petCommand = new CreateLostCatCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
-            request.IsSterilized, request.Weight, request.CatColor, request.CatBreed,request.Photos);
+            request.IsSterilized, request.Weight, request.CatColor, request.CatBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(petCommand);
         var petId = _userCacheStorage.GetPetId(GetPrincipalId());
-        var advertisementCommand = new CreateLostPetAdvertisementCommand(petId, request.Description, request.IsVisible,
-            request.DateOfDisappearance, request.CityOfDisappearance, request.StreetOfDisappearance,GetPrincipalId());
+        var advertisementCommand = new CreateLostPetAdvertisementCommand(petId, request.Description, request.FirstName,
+            request.PhoneNumber, request.IsVisible,
+            request.DateOfDisappearance, request.CityOfDisappearance, request.StreetOfDisappearance, GetPrincipalId());
         await _commandDispatcher.SendAsync(advertisementCommand);
         return NoContent();
     }
@@ -88,12 +104,13 @@ public class AdvertisementController : BaseController
     {
         var petCommand = new CreateLostOtherPetCommand(GetPrincipalId(), request.Name, request.Gender,
             request.DateOfBirth,
-            request.IsSterilized, request.Weight,request.Photos);
+            request.IsSterilized, request.Weight, request.Photos);
 
         await _commandDispatcher.SendAsync(petCommand);
         var petId = _userCacheStorage.GetPetId(GetPrincipalId());
-        var advertisementCommand = new CreateLostPetAdvertisementCommand(petId, request.Description, request.IsVisible,
-            request.DateOfDisappearance, request.CityOfDisappearance, request.StreetOfDisappearance,GetPrincipalId());
+        var advertisementCommand = new CreateLostPetAdvertisementCommand(petId, request.Description, request.FirstName,
+            request.PhoneNumber, request.IsVisible,
+            request.DateOfDisappearance, request.CityOfDisappearance, request.StreetOfDisappearance, GetPrincipalId());
         await _commandDispatcher.SendAsync(advertisementCommand);
         return NoContent();
     }
@@ -105,20 +122,21 @@ public class AdvertisementController : BaseController
     {
         var query = new GetAllLostPetAdvertisementQuery();
         var result = await _queryDispatcher.QueryAsync(query);
-
-        return Ok(result);
+        
+        List<object> x = result.Cast<object>().ToList();
+        return Ok(x);
     }
 
     [HttpGet("{petId:guid}")]
     [SwaggerOperation(description: "get lost pet's card")]
-    [SwaggerResponse(200, "Cards found", typeof(LostPetAdvertisementDto))]
+    [SwaggerResponse(200, "Cards found", typeof(LostPetAdvertisementDetailsDto))]
     [SwaggerResponse(404, "Cards not found")]
-    public async Task<ActionResult<LostPetAdvertisementDto>> GetLostPetAdvertisement([FromRoute] Guid petId)
+    public async Task<ActionResult<LostPetAdvertisementDetailsDto>> GetLostPetAdvertisement([FromRoute] Guid petId)
     {
-        var query = new GetLostPetAdvertisementQuery(petId);
+        var query = new GetLostPetAdvertisementDetailsQuery(petId);
         var result = await _queryDispatcher.QueryAsync(query);
 
-        return OkOrNotFound(result);
+        return Ok(result);
     }
 
     [Authorize(Roles = "User,Worker")]
@@ -129,14 +147,16 @@ public class AdvertisementController : BaseController
     public async Task<IActionResult> UpdateLostPetAdvertisement([FromRoute] Guid petId,
         [FromBody] UpdateLostPetAdvertisementRequest request)
     {
-        var advertisementCommand = new UpdateLostPetAdvertisementCommand(petId,GetPrincipalId(),request.Description);
-        var petCommand = new UpdatePetCommand(petId,GetPrincipalId(), request.Name, request.IsSterilized, request.Weight);
+        var advertisementCommand = new UpdateLostPetAdvertisementCommand(petId, GetPrincipalId(), request.Description,
+            request.FirstName, request.PhoneNumber);
+        var petCommand =
+            new UpdatePetCommand(petId, GetPrincipalId(), request.Name, request.IsSterilized, request.Weight);
         await _commandDispatcher.SendAsync(advertisementCommand);
         await _commandDispatcher.SendAsync(petCommand);
 
         return NoContent();
     }
-    
+
     [HttpDelete("{petId:guid}")]
     [SwaggerOperation(description: "delete lost pet's card")]
     [SwaggerResponse(200, "Cards deleted")]

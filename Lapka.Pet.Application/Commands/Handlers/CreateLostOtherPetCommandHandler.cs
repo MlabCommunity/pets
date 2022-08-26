@@ -21,7 +21,7 @@ internal sealed class CreateLostOtherPetCommandHandler : ICommandHandler<CreateL
     {
         var other = Other.Create(command.OwnerId, command.Name, command.Gender, command.DateOfBirth,
             command.IsSterilized,
-            command.Weight,command.Photos);
+            command.Weight, command.Photos);
 
         await _petRepository.AddPetAsync(other);
         _userCacheStorage.SetPetId(command.OwnerId, other.Id);

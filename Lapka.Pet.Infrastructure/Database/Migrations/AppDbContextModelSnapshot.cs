@@ -252,8 +252,16 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<DateTime>("DateOfDisappearance")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("PetId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");

@@ -27,7 +27,7 @@ internal sealed class CreateShelterCatCommandHandler : ICommandHandler<CreateShe
         }
 
         var cat = Cat.Create(shelter.Id.Value, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
-            command.Weight, command.CatBreed, command.CatColor,command.Photos);
+            command.Weight, command.CatBreed, command.CatColor, command.Photos);
 
         await _petRepository.AddPetAsync(cat);
     }

@@ -28,7 +28,7 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
 
         var other = Other.Create(shelter.Id.Value, command.Name, command.Gender,
             command.DateOfBirth,
-            command.IsSterilized, command.Weight,command.Photos);
+            command.IsSterilized, command.Weight, command.Photos);
 
         await _petRepository.AddPetAsync(other);
     }

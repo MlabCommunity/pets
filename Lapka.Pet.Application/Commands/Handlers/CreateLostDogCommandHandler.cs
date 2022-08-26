@@ -20,7 +20,7 @@ internal sealed class CreateLostDogCommandHandler : ICommandHandler<CreateLostDo
         CancellationToken cancellationToken = new CancellationToken())
     {
         var dog = Dog.Create(command.OwnerId, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
-            command.Weight, command.DogBreed, command.DogColor,command.Photos);
+            command.Weight, command.DogBreed, command.DogColor, command.Photos);
 
         await _petRepository.AddPetAsync(dog);
         _userCacheStorage.SetPetId(command.OwnerId, dog.Id);

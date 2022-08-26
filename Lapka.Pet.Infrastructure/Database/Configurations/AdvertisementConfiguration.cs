@@ -12,7 +12,7 @@ internal sealed class AdvertisementConfiguration : IEntityTypeConfiguration<Adve
     public void Configure(EntityTypeBuilder<Advertisement> builder)
     {
         builder.HasKey(x => x.Id);
-        
+
         var localizationConverter = new ValueConverter<Localization, string>(l => l.ToString(),
             l => Localization.Create(l));
 
@@ -21,6 +21,5 @@ internal sealed class AdvertisementConfiguration : IEntityTypeConfiguration<Adve
             .Property(typeof(Localization), "Localization")
             .HasConversion(localizationConverter)
             .HasColumnName("Localization");
-        
     }
 }

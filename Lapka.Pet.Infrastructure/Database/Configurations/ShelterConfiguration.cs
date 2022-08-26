@@ -12,7 +12,7 @@ internal sealed class ShelterConfiguration : IEntityTypeConfiguration<Shelter>
     public void Configure(EntityTypeBuilder<Shelter> builder)
     {
         builder.HasKey(s => s.Id);
-        
+
         var localizationConverter = new ValueConverter<Localization, string>(l => l.ToString(),
             l => Localization.Create(l));
 

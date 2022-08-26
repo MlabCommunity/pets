@@ -1,5 +1,4 @@
 using Confab.Shared.Abstractions.Kernel;
-using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Core.Events;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
@@ -23,8 +22,8 @@ internal sealed class ShelterUpdatedEventHandler : IDomainEventHandler<ShelterUp
         {
             throw new Exception(); //TODO internal? ill ask Adam :)
         }
-        
-        advertisement.UpdateShelterDetails(@event.OrganizationName,new Localization(@event.City,@event.Street));
+
+        advertisement.UpdateShelterDetails(@event.OrganizationName, new Localization(@event.City, @event.Street));
 
         await _advertisementRepository.UpdateAsync(advertisement);
     }

@@ -1,8 +1,8 @@
-using AutoMapper;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Infrastructure.Database.Contexts;
+using Lapka.Pet.Infrastructure.Mapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
@@ -10,11 +10,9 @@ namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 internal sealed class GetVolunteeringQueryHandler : IQueryHandler<GetVolunteeringQuery, VolunteeringDto>
 {
     private readonly DbSet<Shelter> _shelters;
-    private readonly IMapper _mapper;
 
-    public GetVolunteeringQueryHandler(AppDbContext context, IMapper mapper)
+    public GetVolunteeringQueryHandler(AppDbContext context)
     {
-        _mapper = mapper;
         _shelters = context.Shelters;
     }
 
@@ -27,7 +25,6 @@ internal sealed class GetVolunteeringQueryHandler : IQueryHandler<GetVolunteerin
             .Include(x => x.Workers)
             .FirstOrDefaultAsync(x => x.Workers.Any(x => x.WorkerId == query.PrincipalId) || x.Id == query.PrincipalId);
 
-
-        return _mapper.Map<VolunteeringDto>(shelter.Volunteering);
+        return shelter.Volunteering.AsDto();
     }
 }
