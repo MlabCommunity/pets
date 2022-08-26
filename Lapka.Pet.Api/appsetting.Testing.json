@@ -7,16 +7,16 @@
   },
   "AllowedHosts": "*",
   "Postgres": {
-    "ConnectionString": "Password=postgres;Host=host.docker.internal;Port=5441;Database=postgresPet;Username=postgres"
+    "ConnectionString": "Password=postgres;Host=10.10.10.11;Port=5441;Database=postgresPet;Username=postgres"
   },
   "Kestrel": {
     "Endpoints": {
       "Http": {
-        "Url": "http://host.docker.internal:5040",
+        "Url": "http://pet:5040",
         "Protocols": "Http1AndHttp2"
       },
       "gRCP": {
-        "Url": "http://host.docker.internal:5041",
+        "Url": "http://pet:5041",
         "Protocols": "Http2"
       }
     }

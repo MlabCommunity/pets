@@ -122,7 +122,7 @@ public class AdvertisementController : BaseController
     {
         var query = new GetAllLostPetAdvertisementQuery();
         var result = await _queryDispatcher.QueryAsync(query);
-        
+
         List<object> x = result.Cast<object>().ToList();
         return Ok(x);
     }
