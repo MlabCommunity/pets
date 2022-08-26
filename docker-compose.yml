@@ -12,7 +12,7 @@ services:
       - ./volumes/postgres:/var/lib/postgresql/14/data
     restart: unless-stopped
   
-  pet-service:
+  pet:
     container_name: lapka_pet
     build: .
     image: lapka_pet_service

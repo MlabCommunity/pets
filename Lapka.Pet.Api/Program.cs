@@ -26,7 +26,7 @@ var app = builder.Build();
 
 app.MapGrpcService<ShelterGrpcController>();
 
-// Configure the HTTP request pipeline.
+
 //if (app.Environment.IsDevelopment())
 
 
