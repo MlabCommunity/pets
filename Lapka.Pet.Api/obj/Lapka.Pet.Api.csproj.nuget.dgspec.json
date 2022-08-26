@@ -1,0 +1,325 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Api\\Lapka.Pet.Api.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Api\\Lapka.Pet.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Api\\Lapka.Pet.Api.csproj",
+        "projectName": "Lapka.Pet.Api",
+        "projectPath": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Api\\Lapka.Pet.Api.csproj",
+        "packagesPath": "C:\\Users\\w65553\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Api\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\w65553\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Infrastructure\\Lapka.Pet.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Infrastructure\\Lapka.Pet.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Grpc.AspNetCore": {
+              "target": "Package",
+              "version": "[2.47.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.7, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.2.3, )"
+            },
+            "Swashbuckle.AspNetCore.Annotations": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Application\\Lapka.Pet.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Application\\Lapka.Pet.Application.csproj",
+        "projectName": "Lapka.Pet.Application",
+        "projectPath": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Application\\Lapka.Pet.Application.csproj",
+        "packagesPath": "C:\\Users\\w65553\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\w65553\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Core\\Lapka.Pet.Core.csproj": {
+                "projectPath": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Core\\Lapka.Pet.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[11.0.0, )"
+            },
+            "Convey.CQRS.Commands": {
+              "target": "Package",
+              "version": "[1.0.541, )"
+            },
+            "Convey.CQRS.Queries": {
+              "target": "Package",
+              "version": "[1.0.541, )"
+            },
+            "Grpc.Core.Api": {
+              "target": "Package",
+              "version": "[2.47.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.2.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Core\\Lapka.Pet.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Core\\Lapka.Pet.Core.csproj",
+        "projectName": "Lapka.Pet.Core",
+        "projectPath": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Core\\Lapka.Pet.Core.csproj",
+        "packagesPath": "C:\\Users\\w65553\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\w65553\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Convey.CQRS.Events": {
+              "target": "Package",
+              "version": "[1.0.541, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Infrastructure\\Lapka.Pet.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Infrastructure\\Lapka.Pet.Infrastructure.csproj",
+        "projectName": "Lapka.Pet.Infrastructure",
+        "projectPath": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Infrastructure\\Lapka.Pet.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\w65553\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\w65553\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Application\\Lapka.Pet.Application.csproj": {
+                "projectPath": "C:\\Users\\w65553\\RiderProjects\\Lapka.Pet\\Lapka.Pet.Application\\Lapka.Pet.Application.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Convey.CQRS.Commands": {
+              "target": "Package",
+              "version": "[1.0.541, )"
+            },
+            "Convey.CQRS.Queries": {
+              "target": "Package",
+              "version": "[1.0.541, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.7, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[6.10.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.2.3, )"
+            },
+            "Swashbuckle.AspNetCore.Annotations": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\bin\Debug\net6.0\Lapka.Pet.Core.deps.json
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\bin\Debug\net6.0\Lapka.Pet.Core.dll
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\bin\Debug\net6.0\Lapka.Pet.Core.pdb
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\obj\Debug\net6.0\Lapka.Pet.Core.csproj.AssemblyReference.cache
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\obj\Debug\net6.0\Lapka.Pet.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\obj\Debug\net6.0\Lapka.Pet.Core.AssemblyInfoInputs.cache
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\obj\Debug\net6.0\Lapka.Pet.Core.AssemblyInfo.cs
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\obj\Debug\net6.0\Lapka.Pet.Core.csproj.CoreCompileInputs.cache
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\obj\Debug\net6.0\Lapka.Pet.Core.dll
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\obj\Debug\net6.0\refint\Lapka.Pet.Core.dll
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\obj\Debug\net6.0\Lapka.Pet.Core.pdb
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Core\obj\Debug\net6.0\ref\Lapka.Pet.Core.dll
