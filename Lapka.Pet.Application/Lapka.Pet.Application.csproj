@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>Lapka.Pet.Application</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Convey.CQRS.Commands" Version="1.0.541" />
+        <PackageReference Include="Convey.CQRS.Queries" Version="1.0.541" />
+        <PackageReference Include="Grpc.Core.Api" Version="2.47.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Lapka.Pet.Core\Lapka.Pet.Core.csproj" />
+    </ItemGroup>
+
+</Project>
