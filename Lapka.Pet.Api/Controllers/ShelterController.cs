@@ -50,7 +50,7 @@ public class ShelterController : BaseController
         return OkOrNotFound(result);
     }
 
-    [Authorize(Roles = "Shelter")]
+    [Authorize(Policy = "IsWorker")]
     [HttpPost("cards/dog")]
     [SwaggerOperation(description: "Creates shelter's card")]
     [SwaggerResponse(200, "Card created")]
@@ -66,7 +66,7 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
-    [Authorize(Roles = "Shelter")]
+    [Authorize(Policy = "IsWorker")]
     [HttpPost("cards/cat")]
     [SwaggerOperation(description: "Creates shelter's card")]
     [SwaggerResponse(200, "Card created")]
@@ -81,7 +81,7 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
-    [Authorize(Roles = "Shelter")]
+    [Authorize(Policy = "IsWorker")]
     [HttpPost("cards/other")]
     [SwaggerOperation(description: "Creates shelter's card")]
     [SwaggerResponse(200, "Card created")]
@@ -97,22 +97,22 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
-    [Authorize(Roles = "Shelter,Worker")]
-    [HttpPut("cards/{petId:guid}")]
+    [Authorize(Policy = "IsWorker")]
+    [HttpPut("cards")]
     [SwaggerOperation(description: "Updates shelter's card")]
     [SwaggerResponse(200, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     [SwaggerResponse(404, "If shelter not found")]
-    public async Task<IActionResult> UpdateShelterCard([FromBody] UpdatePetRequest request, [FromRoute] Guid petId)
+    public async Task<IActionResult> UpdateShelterCard([FromBody] UpdatePetRequest request)
     {
-        var command = new UpdateShelterPetCommand(GetPrincipalId(), petId, request.Name,
+        var command = new UpdateShelterPetCommand(GetPrincipalId(), request.PetId, request.Name,
             request.IsSterilized, request.Weight);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
 
-    [Authorize(Roles = "Shelter,Worker")]
+    [Authorize(Policy = "IsWorker")]
     [HttpDelete("cards/{petId:guid}")]
     [SwaggerOperation(description: "Deletes shelter's card")]
     [SwaggerResponse(200, "Card deleted")]
@@ -139,7 +139,7 @@ public class ShelterController : BaseController
     }
 
     [Authorize(Roles = "Shelter")]
-    [HttpPut("volunteerings")]
+    [HttpPut("volunteering")]
     [SwaggerOperation(description: "Updates shelter's volunteering")]
     [SwaggerResponse(204, "Volunteering updated")]
     [SwaggerResponse(400, "If data are invalid")]
@@ -152,19 +152,19 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
-    [Authorize(Roles = "Shelter,Worker")]
-    [HttpGet("volunteerings")]
+    
+    [HttpGet("volunteering/{shelterId:guid}")]
     [SwaggerOperation(description: "Gets shelter's volunteering")]
     [SwaggerResponse(200, "Volunteering data found", typeof(VolunteeringDto))]
     [SwaggerResponse(404, "If shelter not found")]
-    public async Task<ActionResult<VolunteeringDto>> GetVolunteering()
+    public async Task<ActionResult<VolunteeringDto>> GetVolunteering([FromRoute] Guid shelterId)
     {
-        var query = new GetVolunteeringQuery(GetPrincipalId());
+        var query = new GetVolunteeringQuery(shelterId);
         var result = await _queryDispatcher.QueryAsync(query);
         return OkOrNotFound(result);
     }
 
-    [Authorize]
+    [Authorize(Roles = "User")]
     [HttpPost("volunteers/{shelterId:guid}")]
     [SwaggerOperation(description: "Adds volunteer to shelter")]
     [SwaggerResponse(204, "Volunteer added")]
@@ -188,7 +188,7 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
-    [Authorize(Roles = "Worker,Shelter")]
+    [Authorize(Policy = "IsWorker")]
     [HttpGet("volunteers")]
     [SwaggerOperation(description: "Gets shelter's volunteers")]
     [SwaggerResponse(200, "Volunteers found", typeof(List<VolunteerDto>))]
@@ -199,7 +199,7 @@ public class ShelterController : BaseController
         return Ok(result);
     }
 
-    [Authorize(Roles = "Shelter,Worker")]
+    [Authorize(Policy = "IsWorker")]
     [HttpGet("advertisements")]
     [SwaggerOperation(description: "Gets shelter's advertisements")]
     [SwaggerResponse(200, "advertisements found", typeof(List<CurrentShelterAdvertisementDetailsDto>))]
@@ -211,7 +211,7 @@ public class ShelterController : BaseController
         return Ok(result);
     }
 
-    [Authorize(Roles = "Shelter,Worker")]
+    [Authorize(Policy = "IsWorker")]
     [HttpDelete("advertisements/{petId:guid}")]
     [SwaggerOperation(description: "Removes advertisement from shelter")]
     [SwaggerResponse(204, "advertisements deleted")]
@@ -223,7 +223,7 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
-    [Authorize(Roles = "Shelter,Worker")]
+    [Authorize(Policy = "IsWorker")]
     [HttpPut("advertisements")]
     [SwaggerOperation(description: "Updates advertisement")]
     [SwaggerResponse(200, "Advertisement updated")]
@@ -235,7 +235,7 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
-    [Authorize(Roles = "Shelter,Worker")]
+    [Authorize(Policy = "IsWorker")]
     [HttpPut("advertisements/publish/{petId:guid}")]
     [SwaggerOperation(description: "Publishes advertisement")]
     [SwaggerResponse(200, "Advertisement published")]
@@ -247,7 +247,7 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
-    [Authorize(Roles = "Shelter,Worker")]
+    [Authorize(Policy = "IsWorker")]
     [HttpPut("advertisements/hide/{petId:guid}")]
     [SwaggerOperation(description: "Hides advertisement")]
     [SwaggerResponse(200, "Advertisement Hided")]
@@ -259,7 +259,7 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
-    [Authorize(Roles = "Shelter,Worker")]
+    [Authorize(Policy = "IsWorker")]
     [HttpPost("advertisements")]
     [SwaggerOperation(description: "Adds advertisement to shelter")]
     [SwaggerResponse(200, "Advertisement added")]
@@ -286,7 +286,7 @@ public class ShelterController : BaseController
         return Ok(result);
     }
 
-    [Authorize(Roles = "Worker,Shelter")]
+    [Authorize(Policy = "IsWorker")]
     [HttpGet("stats")]
     public async Task<ActionResult<StatsDto>> GetShelterStats()
     {

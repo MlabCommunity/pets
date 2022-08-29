@@ -37,7 +37,7 @@ app.UseSwagger(c =>
         if (!httpRequest.Headers.ContainsKey("X-Forwarded-Host"))
             return;
 
-        var basePath = "identity";
+        var basePath = "pet";
         var serverUrl = $"{httpRequest.Scheme}://{httpRequest.Headers["X-Forwarded-Host"]}/{basePath}";
         swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = serverUrl } };
     });

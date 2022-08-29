@@ -6,8 +6,8 @@ namespace Lapka.Pet.Core.Repositories;
 public interface IShelterRepository
 {
     Task AddAsync(Shelter shelter);
-    Task<Shelter> FindByIdAsync(AggregateId Id);
-    Task<Shelter> FindByIdOrWorkerIdAsync(Guid principalId);
+    Task<Shelter> FindByIdAsync(AggregateId id);
+
     Task UpdateAsync(Shelter shelter);
     Task DeleteAsync(Shelter shelter);
 }

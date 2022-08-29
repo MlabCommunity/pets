@@ -65,8 +65,7 @@ public class Shelter : AggregateRoot
 
         Advertisements.Add(advertisement);
     }
-
-
+    
     public void PublishAdvertisement(PetId petId)
     {
         var advertisement = GetAdvertisement(petId);
@@ -96,8 +95,7 @@ public class Shelter : AggregateRoot
         var advertisement = GetAdvertisement(petId);
         advertisement.Update(description);
     }
-
-
+    
     public void AddWorker(WorkerId worker)
     {
         var exists = Workers.Any(x => x.WorkerId == worker);

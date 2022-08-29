@@ -23,9 +23,7 @@ internal sealed class
     public async Task<List<LostPetAdvertisementDto>> HandleAsync(GetAllLostPetAdvertisementQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var advertisements = await _advertisements
-            .Where(x => x.IsVisible == true).ToListAsync();
-
+        
         var result = _advertisements.Where(x => x.IsVisible).ToList()
             .Join(_pets.Include(x => x.Photos), x => x.PetId.Value, x => x.Id.Value, (advertisements, pet) =>
                 advertisements.AsDto(pet)).ToList();

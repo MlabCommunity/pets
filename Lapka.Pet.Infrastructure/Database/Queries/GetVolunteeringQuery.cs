@@ -3,4 +3,4 @@ using Lapka.Pet.Application.Dto;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries;
 
-public record GetVolunteeringQuery(Guid PrincipalId) : IQuery<VolunteeringDto>;
+public record GetVolunteeringQuery(Guid ShelterId) : IQuery<VolunteeringDto>;

@@ -25,25 +25,25 @@ namespace Lapka.Pet.Api {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChVHcnBjL1Byb3Rvcy9wZXQucHJvdG8SClBldC5wcm90b3MaG2dvb2dsZS9w",
-            "cm90b2J1Zi9lbXB0eS5wcm90byKMAQoUQ3JlYXRlU2hlbHRlclJlcXVlc3QS",
+            "cm90b2J1Zi9lbXB0eS5wcm90byKiAQoUQ3JlYXRlU2hlbHRlclJlcXVlc3QS",
             "DwoHdXNlcl9pZBgBIAEoCRIZChFvcmdhbml6YXRpb25fbmFtZRgCIAEoCRIO",
             "CgZzdHJlZXQYAyABKAkSEAoIemlwX2NvZGUYBCABKAkSDAoEY2l0eRgFIAEo",
-            "CRILCgNuaXAYBiABKAkSCwoDa3JzGAcgASgJIicKFERlbGV0ZVNoZWx0ZXJS",
-            "ZXF1ZXN0Eg8KB3VzZXJfaWQYASABKAkiNgoQQWRkV29ya2VyUmVxdWVzdBIP",
-            "Cgd1c2VyX2lkGAEgASgJEhEKCXdvcmtlcl9pZBgCIAEoCSI5ChNSZW1vdmVX",
-            "b3JrZXJSZXF1ZXN0Eg8KB3VzZXJfaWQYASABKAkSEQoJd29ya2VyX2lkGAIg",
-            "ASgJMq4CCgpQZXRTZXJ2aWNlEkkKDUNyZWF0ZVNoZWx0ZXISIC5QZXQucHJv",
-            "dG9zLkNyZWF0ZVNoZWx0ZXJSZXF1ZXN0GhYuZ29vZ2xlLnByb3RvYnVmLkVt",
-            "cHR5EkkKDURlbGV0ZVNoZWx0ZXISIC5QZXQucHJvdG9zLkRlbGV0ZVNoZWx0",
-            "ZXJSZXF1ZXN0GhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5EkEKCUFkZFdvcmtl",
-            "chIcLlBldC5wcm90b3MuQWRkV29ya2VyUmVxdWVzdBoWLmdvb2dsZS5wcm90",
-            "b2J1Zi5FbXB0eRJHCgxSZW1vdmVXb3JrZXISHy5QZXQucHJvdG9zLlJlbW92",
-            "ZVdvcmtlclJlcXVlc3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHlCEKoCDUxh",
-            "cGthLlBldC5BcGliBnByb3RvMw=="));
+            "CRILCgNuaXAYBiABKAkSCwoDa3JzGAcgASgJEhQKDHBob25lX251bWJlchgI",
+            "IAEoCSInChREZWxldGVTaGVsdGVyUmVxdWVzdBIPCgd1c2VyX2lkGAEgASgJ",
+            "IjYKEEFkZFdvcmtlclJlcXVlc3QSDwoHdXNlcl9pZBgBIAEoCRIRCgl3b3Jr",
+            "ZXJfaWQYAiABKAkiOQoTUmVtb3ZlV29ya2VyUmVxdWVzdBIPCgd1c2VyX2lk",
+            "GAEgASgJEhEKCXdvcmtlcl9pZBgCIAEoCTKuAgoKUGV0U2VydmljZRJJCg1D",
+            "cmVhdGVTaGVsdGVyEiAuUGV0LnByb3Rvcy5DcmVhdGVTaGVsdGVyUmVxdWVz",
+            "dBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRJJCg1EZWxldGVTaGVsdGVyEiAu",
+            "UGV0LnByb3Rvcy5EZWxldGVTaGVsdGVyUmVxdWVzdBoWLmdvb2dsZS5wcm90",
+            "b2J1Zi5FbXB0eRJBCglBZGRXb3JrZXISHC5QZXQucHJvdG9zLkFkZFdvcmtl",
+            "clJlcXVlc3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkSRwoMUmVtb3ZlV29y",
+            "a2VyEh8uUGV0LnByb3Rvcy5SZW1vdmVXb3JrZXJSZXF1ZXN0GhYuZ29vZ2xl",
+            "LnByb3RvYnVmLkVtcHR5QhCqAg1MYXBrYS5QZXQuQXBpYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lapka.Pet.Api.CreateShelterRequest), global::Lapka.Pet.Api.CreateShelterRequest.Parser, new[]{ "UserId", "OrganizationName", "Street", "ZipCode", "City", "Nip", "Krs" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lapka.Pet.Api.CreateShelterRequest), global::Lapka.Pet.Api.CreateShelterRequest.Parser, new[]{ "UserId", "OrganizationName", "Street", "ZipCode", "City", "Nip", "Krs", "PhoneNumber" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lapka.Pet.Api.DeleteShelterRequest), global::Lapka.Pet.Api.DeleteShelterRequest.Parser, new[]{ "UserId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lapka.Pet.Api.AddWorkerRequest), global::Lapka.Pet.Api.AddWorkerRequest.Parser, new[]{ "UserId", "WorkerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lapka.Pet.Api.RemoveWorkerRequest), global::Lapka.Pet.Api.RemoveWorkerRequest.Parser, new[]{ "UserId", "WorkerId" }, null, null, null, null)
@@ -94,6 +94,7 @@ namespace Lapka.Pet.Api {
       city_ = other.city_;
       nip_ = other.nip_;
       krs_ = other.krs_;
+      phoneNumber_ = other.phoneNumber_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -187,6 +188,18 @@ namespace Lapka.Pet.Api {
       }
     }
 
+    /// <summary>Field number for the "phone_number" field.</summary>
+    public const int PhoneNumberFieldNumber = 8;
+    private string phoneNumber_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string PhoneNumber {
+      get { return phoneNumber_; }
+      set {
+        phoneNumber_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -209,6 +222,7 @@ namespace Lapka.Pet.Api {
       if (City != other.City) return false;
       if (Nip != other.Nip) return false;
       if (Krs != other.Krs) return false;
+      if (PhoneNumber != other.PhoneNumber) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -223,6 +237,7 @@ namespace Lapka.Pet.Api {
       if (City.Length != 0) hash ^= City.GetHashCode();
       if (Nip.Length != 0) hash ^= Nip.GetHashCode();
       if (Krs.Length != 0) hash ^= Krs.GetHashCode();
+      if (PhoneNumber.Length != 0) hash ^= PhoneNumber.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -269,6 +284,10 @@ namespace Lapka.Pet.Api {
         output.WriteRawTag(58);
         output.WriteString(Krs);
       }
+      if (PhoneNumber.Length != 0) {
+        output.WriteRawTag(66);
+        output.WriteString(PhoneNumber);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -307,6 +326,10 @@ namespace Lapka.Pet.Api {
         output.WriteRawTag(58);
         output.WriteString(Krs);
       }
+      if (PhoneNumber.Length != 0) {
+        output.WriteRawTag(66);
+        output.WriteString(PhoneNumber);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -337,6 +360,9 @@ namespace Lapka.Pet.Api {
       }
       if (Krs.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Krs);
+      }
+      if (PhoneNumber.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(PhoneNumber);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -370,6 +396,9 @@ namespace Lapka.Pet.Api {
       }
       if (other.Krs.Length != 0) {
         Krs = other.Krs;
+      }
+      if (other.PhoneNumber.Length != 0) {
+        PhoneNumber = other.PhoneNumber;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -414,6 +443,10 @@ namespace Lapka.Pet.Api {
             Krs = input.ReadString();
             break;
           }
+          case 66: {
+            PhoneNumber = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -455,6 +488,10 @@ namespace Lapka.Pet.Api {
           }
           case 58: {
             Krs = input.ReadString();
+            break;
+          }
+          case 66: {
+            PhoneNumber = input.ReadString();
             break;
           }
         }

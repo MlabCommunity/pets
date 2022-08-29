@@ -12,14 +12,3 @@ services:
       - ./volumes/postgres:/var/lib/postgresql/14/data
     restart: unless-stopped
   
-  pet:
-    container_name: lapka_pet
-    build: .
-    image: lapka_pet_service
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-    ports:
-      - 5040:5040
-    depends_on:
-      - postgres
-    restart: unless-stopped

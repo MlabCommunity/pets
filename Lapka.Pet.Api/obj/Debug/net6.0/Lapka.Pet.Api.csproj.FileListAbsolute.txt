@@ -66,3 +66,4 @@ C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Api\bin\Debug\net6.0\Convey.CQ
 C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Api\bin\Debug\net6.0\appsettings.Docker.json
 C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Api\bin\Debug\net6.0\rsa-private-key.pem
 C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Api\bin\Debug\net6.0\rsa-public-key.pem
+C:\Users\w65553\RiderProjects\Lapka.Pet\Lapka.Pet.Api\bin\Debug\net6.0\appsetting.Testing.json

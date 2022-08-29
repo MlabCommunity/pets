@@ -1,5 +1,8 @@
+using Lapka.Pet.Infrastructure.Attributes;
+using Lapka.Pet.Infrastructure.Attributes.Handlers;
 using Lapka.Pet.Infrastructure.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +14,9 @@ public static class Extensions
     {
         var jwtOption = configuration.GetOptions<JwtSettings>("JWT");
         services.AddSingleton(jwtOption);
-        services.AddAuthorization();
+        services.AddScoped<IAuthorizationHandler, AuthorizeWorkerHandler>();
+        services.AddAuthorization(options =>
+            options.AddPolicy("IsWorker", policy => policy.Requirements.Add(new IsWorkerRequirement())));
 
         services
             .AddAuthentication(o =>

@@ -22,8 +22,7 @@ internal sealed class GetVolunteeringQueryHandler : IQueryHandler<GetVolunteerin
         var shelter = await _shelters
             .AsNoTracking()
             .Include(x => x.Volunteering)
-            .Include(x => x.Workers)
-            .FirstOrDefaultAsync(x => x.Workers.Any(x => x.WorkerId == query.PrincipalId) || x.Id == query.PrincipalId);
+            .FirstOrDefaultAsync(x=>x.Id==query.ShelterId);
 
         return shelter.Volunteering.AsDto();
     }

@@ -1,5 +1,6 @@
 using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
+using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Lapka.Pet.Infrastructure.Mapper;
@@ -11,13 +12,14 @@ internal sealed class
     GetAllCurrentShelterAdvertisementQueryHandler : IQueryHandler<GetAllCurrentShelterAdvertisementQuery,
         List<CurrentShelterAdvertisementDetailsDto>>
 {
-    private readonly DbSet<Shelter> _shelters;
+    private readonly DbSet<ShelterAdvertisement> _advertisements;
     private readonly DbSet<Core.Entities.Pet> _pet;
+    private readonly IUserCacheStorage _cacheStorage;
 
-    public GetAllCurrentShelterAdvertisementQueryHandler(AppDbContext context
-    )
+    public GetAllCurrentShelterAdvertisementQueryHandler(AppDbContext context, IUserCacheStorage cacheStorage)
     {
-        _shelters = context.Shelters;
+        _cacheStorage = cacheStorage;
+        _advertisements = context.ShelterAdvertisements;
         _pet = context.Pets;
     }
 
@@ -25,15 +27,12 @@ internal sealed class
         GetAllCurrentShelterAdvertisementQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelters
-            .AsNoTracking()
-            .Include(x => x.Advertisements)
-            .Include(x => x.Workers)
-            .FirstOrDefaultAsync(x => x.Workers.Any(w => w.WorkerId == query.PrincipalId) || x.Id == query.PrincipalId);
-
-        var result = shelter.Advertisements.Join(_pet.Include(x => x.Photos), x => x.PetId.Value, x => x.Id.Value,
+        var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
+        var shelter = await _advertisements.Where(x => x.ShelterId == shelterId).ToListAsync();
+        var result =shelter
+            .Join(_pet.Include(x => x.Photos), x => x.PetId.Value, x => x.Id.Value,
             (advertisement, pet) =>
-                advertisement.AsCurrentShelterDto(pet)).ToList();
+                advertisement.AsCurrentShelterAdvertisementDto(pet)).ToList();
 
         return result;
     }

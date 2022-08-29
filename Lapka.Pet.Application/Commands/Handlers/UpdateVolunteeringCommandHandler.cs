@@ -17,7 +17,7 @@ internal sealed class UpdateVolunteeringCommandHandler : ICommandHandler<UpdateV
     public async Task HandleAsync(UpdateVolunteeringCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelterRepository.FindByIdAsync(command.UserId);
+        var shelter = await _shelterRepository.FindByIdAsync(command.PrincipalId);
 
         if (shelter is null)
         {

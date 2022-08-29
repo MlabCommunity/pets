@@ -128,7 +128,7 @@ public class AdvertisementController : BaseController
     }
 
     [HttpGet("{petId:guid}")]
-    [SwaggerOperation(description: "get lost pet's card")]
+    [SwaggerOperation(description: "get lost pet's card details")]
     [SwaggerResponse(200, "Cards found", typeof(LostPetAdvertisementDetailsDto))]
     [SwaggerResponse(404, "Cards not found")]
     public async Task<ActionResult<LostPetAdvertisementDetailsDto>> GetLostPetAdvertisement([FromRoute] Guid petId)
