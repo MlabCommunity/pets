@@ -7,7 +7,7 @@
   },
   "AllowedHosts": "*",
   "Postgres": {
-    "ConnectionString": "Password=qMl1O7pn2l1;Host=10.10.10.11;Port=5441;Database=postgresPet;Username=lapka-user;"
+    "ConnectionString": "Password=qMl1O7pn2l1;Host=10.10.10.11;Port=5433;Database=LapkaPet;Username=lapka-user;"
   },
   "Kestrel": {
     "Endpoints": {
