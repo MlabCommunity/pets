@@ -26,6 +26,7 @@ internal sealed class PetRepository : IPetRepository
     {
         return _pets
             .Include(x=>x.Visits)
+            .ThenInclude(x=>x.VisitTypes)
             .Include(x => x.Photos)
             .FirstOrDefaultAsync(s => s.Id == id);
     }

@@ -10,11 +10,9 @@ namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery, List<VisitDto>>
 {
     private readonly DbSet<Core.Entities.Pet> _pets;
-    private readonly DbSet<Visit> _visits;
-
+    
     public GetAllVisitsQueryHandler(AppDbContext context)
     {
-        _visits = context.Visits;
         _pets = context.Pets;
     }
 
@@ -22,10 +20,12 @@ internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery
         CancellationToken cancellationToken = new CancellationToken())
     {
         
-        
-        var visit = await _visits.Include(x => x.VisitTypes)
-            .FirstOrDefaultAsync(x => x.OwnerId == query.PrincipalId && x.Id.Value == query.PetId);
-        
-        return visit.AsVisitDtos();
+        var pet = await _pets
+            .AsNoTracking()
+            .Include(x => x.Visits)
+            .ThenInclude(x=>x.VisitTypes)
+            .FirstOrDefaultAsync(x => (x.OwnerId == query.PrincipalId && x.Id==query.PetId));
+
+        return pet.AsVisitDtos();
     }
 }
