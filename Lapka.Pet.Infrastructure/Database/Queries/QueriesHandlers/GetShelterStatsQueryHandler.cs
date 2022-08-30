@@ -13,8 +13,8 @@ internal sealed class GetShelterStatsQueryHandler : IQueryHandler<GetShelterStat
 
     private readonly DbSet<Shelter> _shelters;
     private readonly DbSet<Core.Entities.Pet> _pet;
-    
-    public GetShelterStatsQueryHandler(AppDbContext context,IUserCacheStorage cacheStorage)
+
+    public GetShelterStatsQueryHandler(AppDbContext context, IUserCacheStorage cacheStorage)
     {
         _cacheStorage = cacheStorage;
         _shelters = context.Shelters;
@@ -25,11 +25,11 @@ internal sealed class GetShelterStatsQueryHandler : IQueryHandler<GetShelterStat
         CancellationToken cancellationToken = new CancellationToken())
     {
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
-        
+
         var shelter = await _shelters
             .AsNoTracking()
             .Include(x => x.Advertisements)
-            .FirstOrDefaultAsync(x=>x.Id==shelterId);
+            .FirstOrDefaultAsync(x => x.Id == shelterId);
 
 
         var cardCount = await _pet.CountAsync(x => x.OwnerId == shelter.Id.Value);

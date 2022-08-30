@@ -29,10 +29,10 @@ internal sealed class
     {
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
         var shelter = await _advertisements.Where(x => x.ShelterId == shelterId).ToListAsync();
-        var result =shelter
+        var result = shelter
             .Join(_pet.Include(x => x.Photos), x => x.PetId.Value, x => x.Id.Value,
-            (advertisement, pet) =>
-                advertisement.AsCurrentShelterAdvertisementDto(pet)).ToList();
+                (advertisement, pet) =>
+                    advertisement.AsCurrentShelterAdvertisementDto(pet)).ToList();
 
         return result;
     }

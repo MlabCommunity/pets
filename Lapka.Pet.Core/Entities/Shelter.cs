@@ -31,7 +31,7 @@ public class Shelter : AggregateRoot
         ZipCode = zipCode;
         Krs = krs;
         Nip = nip;
-        Volunteering = new Volunteering();
+        Volunteering = new Volunteering(false, "", "", false, "", false, "");
     }
 
     public static Shelter Create(AggregateId Id, Localization localization, ZipCode zipCode,
@@ -65,7 +65,7 @@ public class Shelter : AggregateRoot
 
         Advertisements.Add(advertisement);
     }
-    
+
     public void PublishAdvertisement(PetId petId)
     {
         var advertisement = GetAdvertisement(petId);
@@ -95,7 +95,7 @@ public class Shelter : AggregateRoot
         var advertisement = GetAdvertisement(petId);
         advertisement.Update(description);
     }
-    
+
     public void AddWorker(WorkerId worker)
     {
         var exists = Workers.Any(x => x.WorkerId == worker);
@@ -108,7 +108,7 @@ public class Shelter : AggregateRoot
         Workers.Add(new Worker(worker));
     }
 
-    public void ConfigureVolunteering(Volunteering volunteering)
+    public void UpdateVolunteering(Volunteering volunteering)
     {
         Volunteering = volunteering;
     }

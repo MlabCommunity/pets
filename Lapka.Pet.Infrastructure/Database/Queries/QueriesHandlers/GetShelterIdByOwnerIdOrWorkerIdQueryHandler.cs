@@ -3,7 +3,7 @@ using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lapka.Pet.Infrastructure.Database.Queries;
+namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
 internal sealed class
     GetShelterIdByOwnerIdOrWorkerIdQueryHandler : IQueryHandler<GetShelterIdByOwnerIdOrWorkerIdQuery, Guid>

@@ -10,6 +10,7 @@ internal sealed class ShelterRepository : IShelterRepository
 {
     private readonly DbSet<Shelter> _shelters;
     private readonly IAppDbContext _context;
+
     public ShelterRepository(AppDbContext context)
     {
         _context = context;

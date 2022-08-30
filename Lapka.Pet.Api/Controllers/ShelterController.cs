@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Api.Requests;
@@ -125,7 +124,7 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
-    [Authorize]
+    [Authorize(Policy = "IsWorker")]
     [HttpGet("cards")]
     [SwaggerOperation(description: "Gets shelter's pets")]
     [SwaggerResponse(200, "Pets found", typeof(List<PetDto>))]
@@ -152,7 +151,7 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
-    
+
     [HttpGet("volunteering/{shelterId:guid}")]
     [SwaggerOperation(description: "Gets shelter's volunteering")]
     [SwaggerResponse(200, "Volunteering data found", typeof(VolunteeringDto))]

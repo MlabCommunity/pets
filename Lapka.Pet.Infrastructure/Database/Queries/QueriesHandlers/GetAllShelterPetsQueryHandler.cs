@@ -1,8 +1,8 @@
 using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Application.Services;
-using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Infrastructure.Database.Contexts;
+using Lapka.Pet.Infrastructure.Mapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
@@ -11,8 +11,8 @@ internal sealed class GetAllShelterPetsQueryHandler : IQueryHandler<GetAllShelte
 {
     private readonly IUserCacheStorage _cacheStorage;
     private readonly DbSet<Core.Entities.Pet> _pets;
-    
-    public GetAllShelterPetsQueryHandler(AppDbContext context,IUserCacheStorage cacheStorage)
+
+    public GetAllShelterPetsQueryHandler(AppDbContext context, IUserCacheStorage cacheStorage)
     {
         _cacheStorage = cacheStorage;
         _pets = context.Pets;
@@ -22,7 +22,7 @@ internal sealed class GetAllShelterPetsQueryHandler : IQueryHandler<GetAllShelte
         CancellationToken cancellationToken = new CancellationToken())
     {
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
-        
+
         var pets = await _pets
             .Include(x => x.Photos)
             .Where(x => x.OwnerId == shelterId).Select(x => x.AsDto()).ToListAsync();

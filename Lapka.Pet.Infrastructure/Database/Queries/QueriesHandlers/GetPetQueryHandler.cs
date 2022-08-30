@@ -1,6 +1,7 @@
 using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Infrastructure.Database.Contexts;
+using Lapka.Pet.Infrastructure.Mapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;

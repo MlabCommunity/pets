@@ -12,6 +12,7 @@ internal static class WorkerMapper
     public static WorkerDto AsDto(this Worker worker)
         => new()
         {
-            WorkerId = worker.WorkerId
+            WorkerId = worker.WorkerId,
+            CratedAt = worker.CreatedAt
         };
 }

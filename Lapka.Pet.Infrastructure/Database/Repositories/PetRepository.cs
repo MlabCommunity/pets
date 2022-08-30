@@ -24,7 +24,10 @@ internal sealed class PetRepository : IPetRepository
 
     public Task<Core.Entities.Pet> FindByIdAsync(AggregateId id)
     {
-        return _pets.Include(x => x.Photos).FirstOrDefaultAsync(s => s.Id == id);
+        return _pets
+            .Include(x=>x.Visits)
+            .Include(x => x.Photos)
+            .FirstOrDefaultAsync(s => s.Id == id);
     }
 
     public async Task UpdateAsync(Core.Entities.Pet pet)

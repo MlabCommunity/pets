@@ -1,0 +1,14 @@
+using Lapka.Pet.Core.ValueObjects;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Lapka.Pet.Infrastructure.Database.Configurations;
+
+internal sealed class VisitTypeConfiguration : IEntityTypeConfiguration<VisitType>
+{
+    public void Configure(EntityTypeBuilder<VisitType> builder)
+    {
+        builder.Property<Guid>("Id");
+        builder.ToTable("VisitTypes");
+    }
+}

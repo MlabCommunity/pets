@@ -1,14 +1,10 @@
-using System.Net;
 using System.Security.Claims;
-using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
-using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Infrastructure.Database.Queries;
-using Lapka.Pet.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Lapka.Pet.Infrastructure.Attributes.Handlers;
+namespace Lapka.Pet.Infrastructure.Policy.Handlers;
 
 internal class AuthorizeWorkerHandler : AuthorizationHandler<IsWorkerRequirement>
 {

@@ -13,7 +13,7 @@ internal sealed class GetVolunteersQueryHandler : IQueryHandler<GetVolunteersQue
     private readonly IUserCacheStorage _cacheStorage;
     private readonly DbSet<Shelter> _shelters;
 
-    public GetVolunteersQueryHandler(AppDbContext context,IUserCacheStorage cacheStorage)
+    public GetVolunteersQueryHandler(AppDbContext context, IUserCacheStorage cacheStorage)
     {
         _cacheStorage = cacheStorage;
         _shelters = context.Shelters;
@@ -26,7 +26,7 @@ internal sealed class GetVolunteersQueryHandler : IQueryHandler<GetVolunteersQue
         var shelter = await _shelters
             .AsNoTracking()
             .Include(x => x.Volunteers)
-            .FirstOrDefaultAsync(x=>x.Id==shelterId);
+            .FirstOrDefaultAsync(x => x.Id == shelterId);
 
         return shelter.AsVolunteerDtos();
     }

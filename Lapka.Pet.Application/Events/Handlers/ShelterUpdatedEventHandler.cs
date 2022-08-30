@@ -1,4 +1,4 @@
-using Confab.Shared.Abstractions.Kernel;
+using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Events;
 using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.Repositories;

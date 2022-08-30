@@ -1,6 +1,6 @@
-using Lapka.Pet.Infrastructure.Attributes;
-using Lapka.Pet.Infrastructure.Attributes.Handlers;
 using Lapka.Pet.Infrastructure.Options;
+using Lapka.Pet.Infrastructure.Policy;
+using Lapka.Pet.Infrastructure.Policy.Handlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
