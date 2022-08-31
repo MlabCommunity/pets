@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lapka.Pet.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220830083516_Initt")]
+    [Migration("20220831103337_Initt")]
     partial class Initt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,6 +162,50 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.HasIndex("PetId");
 
                     b.ToTable("Photos", "pets");
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Visit", b =>
+                {
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DateOfVisit")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool?>("HasTookPlace")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("PetId")
+                        .HasColumnType("uuid");
+
+                    b.Property<double?>("WeightOnVisit")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("VisitId");
+
+                    b.HasIndex("PetId");
+
+                    b.ToTable("Visits", "pets");
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.VisitType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("VisitId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VisitId");
+
+                    b.ToTable("VisitTypes", "pets");
                 });
 
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Volunteer", b =>
@@ -346,6 +390,20 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                         .HasForeignKey("PetId");
                 });
 
+            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Visit", b =>
+                {
+                    b.HasOne("Lapka.Pet.Core.Entities.Pet", null)
+                        .WithMany("Visits")
+                        .HasForeignKey("PetId");
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.VisitType", b =>
+                {
+                    b.HasOne("Lapka.Pet.Core.ValueObjects.Visit", null)
+                        .WithMany("VisitTypes")
+                        .HasForeignKey("VisitId");
+                });
+
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Volunteer", b =>
                 {
                     b.HasOne("Lapka.Pet.Core.Entities.Shelter", null)
@@ -389,6 +447,8 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
             modelBuilder.Entity("Lapka.Pet.Core.Entities.Pet", b =>
                 {
                     b.Navigation("Photos");
+
+                    b.Navigation("Visits");
                 });
 
             modelBuilder.Entity("Lapka.Pet.Core.Entities.Shelter", b =>
@@ -398,6 +458,11 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Navigation("Volunteers");
 
                     b.Navigation("Workers");
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Visit", b =>
+                {
+                    b.Navigation("VisitTypes");
                 });
 #pragma warning restore 612, 618
         }

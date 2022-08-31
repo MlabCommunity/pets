@@ -67,15 +67,22 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Volunteerings",
+                name: "Volunteering",
                 schema: "pets",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDonationActive = table.Column<bool>(type: "boolean", nullable: false),
+                    BankAccountNumber = table.Column<string>(type: "text", nullable: false),
+                    DonationDescription = table.Column<string>(type: "text", nullable: false),
+                    IsDailyHelpActive = table.Column<bool>(type: "boolean", nullable: false),
+                    DailyHelpDescription = table.Column<string>(type: "text", nullable: false),
+                    IsTakingDogsOutActive = table.Column<bool>(type: "boolean", nullable: false),
+                    TakingDogsOutDescription = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Volunteerings", x => x.Id);
+                    table.PrimaryKey("PK_Volunteering", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,6 +130,29 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Visits",
+                schema: "pets",
+                columns: table => new
+                {
+                    VisitId = table.Column<Guid>(type: "uuid", nullable: false),
+                    HasTookPlace = table.Column<bool>(type: "boolean", nullable: true),
+                    DateOfVisit = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    WeightOnVisit = table.Column<double>(type: "double precision", nullable: true),
+                    PetId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Visits", x => x.VisitId);
+                    table.ForeignKey(
+                        name: "FK_Visits_Pets_PetId",
+                        column: x => x.PetId,
+                        principalSchema: "pets",
+                        principalTable: "Pets",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Shelters",
                 schema: "pets",
                 columns: table => new
@@ -140,12 +170,31 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 {
                     table.PrimaryKey("PK_Shelters", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Shelters_Volunteerings_VolunteeringId",
+                        name: "FK_Shelters_Volunteering_VolunteeringId",
                         column: x => x.VolunteeringId,
                         principalSchema: "pets",
-                        principalTable: "Volunteerings",
+                        principalTable: "Volunteering",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VisitTypes",
+                schema: "pets",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    VisitId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VisitTypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VisitTypes_Visits_VisitId",
+                        column: x => x.VisitId,
+                        principalSchema: "pets",
+                        principalTable: "Visits",
+                        principalColumn: "VisitId");
                 });
 
             migrationBuilder.CreateTable(
@@ -239,6 +288,18 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 column: "VolunteeringId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Visits_PetId",
+                schema: "pets",
+                table: "Visits",
+                column: "PetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VisitTypes_VisitId",
+                schema: "pets",
+                table: "VisitTypes",
+                column: "VisitId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Volunteers_ShelterId",
                 schema: "pets",
                 table: "Volunteers",
@@ -270,6 +331,10 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 schema: "pets");
 
             migrationBuilder.DropTable(
+                name: "VisitTypes",
+                schema: "pets");
+
+            migrationBuilder.DropTable(
                 name: "Volunteers",
                 schema: "pets");
 
@@ -278,11 +343,11 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 schema: "pets");
 
             migrationBuilder.DropTable(
-                name: "Pets",
+                name: "Advertisements",
                 schema: "pets");
 
             migrationBuilder.DropTable(
-                name: "Advertisements",
+                name: "Visits",
                 schema: "pets");
 
             migrationBuilder.DropTable(
@@ -290,7 +355,11 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 schema: "pets");
 
             migrationBuilder.DropTable(
-                name: "Volunteerings",
+                name: "Pets",
+                schema: "pets");
+
+            migrationBuilder.DropTable(
+                name: "Volunteering",
                 schema: "pets");
         }
     }

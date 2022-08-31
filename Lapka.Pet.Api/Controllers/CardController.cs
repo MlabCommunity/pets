@@ -121,7 +121,7 @@ public class CardController : BaseController
     [HttpGet("visits/{petId:guid}")]
     [SwaggerOperation(description: "Gets visits by petId")]
     [SwaggerResponse(200, "Returns list of visits or empty list")]
-    public async Task<ActionResult<List<VisitDto>>> GetVisits([FromRoute] Guid petId)
+    public async Task<ActionResult<VisitDto>> GetVisits([FromRoute] Guid petId)
     {
         var query = new GetAllVisitsQuery(petId, GetPrincipalId());
 
@@ -135,7 +135,7 @@ public class CardController : BaseController
     [SwaggerOperation(description: "Gets visit by petId")]
     [SwaggerResponse(200, "Returns visit")]
     [SwaggerResponse(404, "If visit or pet not found")]
-    public async Task<ActionResult<VisitDto>> GetVisit([FromRoute] Guid visitId,[FromRoute] Guid petId)
+    public async Task<ActionResult<VisitDetailsDto>> GetVisit([FromRoute] Guid visitId,[FromRoute] Guid petId)
     {
         var query = new GetVisitQuery(petId,visitId, GetPrincipalId());
 
