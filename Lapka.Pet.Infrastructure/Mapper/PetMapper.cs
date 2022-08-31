@@ -2,7 +2,7 @@ using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Consts;
 using Lapka.Pet.Core.Entities;
 
-namespace Lapka.Pet.Infrastructure.Database.Queries;
+namespace Lapka.Pet.Infrastructure.Mapper;
 
 internal static class Extensions
 {
@@ -24,7 +24,8 @@ internal static class Extensions
                     Type = cat.Type,
                     Weight = cat.Weight,
                     CatBreed = cat.Breed,
-                    CatColor = cat.Color
+                    CatColor = cat.Color,
+                    CreatedAt = cat.CreatedAt
                 };
             }
 
@@ -42,7 +43,8 @@ internal static class Extensions
                     Type = dog.Type,
                     Weight = dog.Weight,
                     DogBreed = dog.Breed,
-                    DogColor = dog.Color
+                    DogColor = dog.Color,
+                    CreatedAt = dog.CreatedAt
                 };
             }
 
@@ -58,7 +60,8 @@ internal static class Extensions
                     Photos = other.Photos.Select(x => x.PhotoId.Value).ToList(),
                     Name = other.Name,
                     Type = other.Type,
-                    Weight = other.Weight
+                    Weight = other.Weight,
+                    CreatedAt = other.CreatedAt
                 };
             }
 
@@ -73,7 +76,8 @@ internal static class Extensions
                     Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
                     Name = pet.Name,
                     Type = pet.Type,
-                    Weight = pet.Weight
+                    Weight = pet.Weight,
+                    CreatedAt = pet.CreatedAt
                 };
             }
         }

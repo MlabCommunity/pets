@@ -23,14 +23,20 @@ internal sealed class
     public async Task<List<ShelterPetAdvertisementDto>> HandleAsync(GetAllShelterAdvertisementQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var result = _shelterAdvertisements
-            .Where(x => x.IsVisible == true).ToList().Join(_pet
-                    .Include(x => x.Photos)
-                    .Where(x => ((query.Type == null || query.Type == x.Type) &&
-                                 (query.Gender == null || query.Gender == x.Gender))), //Dumny jestem z tego query 
-                advertisement => advertisement.PetId.Value, pet => pet.Id.Value,
-                (advertisements, pet) => advertisements.AsDto(pet)).ToList();
+        var advertisements = await _shelterAdvertisements
+            .Where(x => x.IsVisible == true).ToListAsync();
 
+        var pets = await _pet.Include(x => x.Photos)
+            .Where(x => ((query.Type == null || query.Type == x.Type) &&
+                         (query.Gender == null || query.Gender == x.Gender)))
+            .ToListAsync();
+
+        var result = advertisements.Join(pets
+                .Where(x => ((query.Type == null || query.Type == x.Type) &&
+                             (query.Gender == null || query.Gender == x.Gender))), //Dumny jestem z tego query 
+            advertisement => advertisement.PetId.Value, pet => pet.Id.Value,
+            (advertisements, pet) => advertisements.AsDto(pet)).ToList();
+        
         return result;
     }
 }

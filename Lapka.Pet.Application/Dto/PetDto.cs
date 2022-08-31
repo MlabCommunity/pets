@@ -12,4 +12,5 @@ public class PetDto
     public DateTime DateOfBirth { get; set; }
     public bool IsSterilized { get; set; }
     public double Weight { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

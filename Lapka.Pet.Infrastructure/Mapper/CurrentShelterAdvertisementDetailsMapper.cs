@@ -6,7 +6,8 @@ namespace Lapka.Pet.Infrastructure.Mapper;
 
 internal static class CurrentShelterAdvertisementDetailsMapper
 {
-    public static CurrentShelterAdvertisementDetailsDto AsCurrentShelterDto(this ShelterAdvertisement advertisement,
+    public static CurrentShelterAdvertisementDetailsDto AsCurrentShelterAdvertisementDto(
+        this ShelterAdvertisement advertisement,
         Core.Entities.Pet pet)
         => new()
         {

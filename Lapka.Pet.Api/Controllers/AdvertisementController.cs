@@ -29,7 +29,7 @@ public class AdvertisementController : BaseController
     [Authorize(Roles = "Shelter,Worker,User")]
     [HttpGet("shelters")]
     [SwaggerOperation(description: "Gets all shelter advertisements")]
-    [SwaggerResponse(200, "advertisements found", typeof(List<ShelterPetAdvertisementDto>))]
+    [SwaggerResponse(200, "advertisements found or returns empty list", typeof(List<ShelterPetAdvertisementDto>))]
     public async Task<ActionResult<List<ShelterPetAdvertisementDto>>> GetAllShelterAdvertisement(
         [FromQuery] PetType? type, [FromQuery] Gender? gender)
     {
@@ -42,8 +42,8 @@ public class AdvertisementController : BaseController
 
     [Authorize(Roles = "Shelter,Worker,User")]
     [HttpGet("shelters/{petId:guid}")]
-    [SwaggerOperation(description: "Gets shelter advertisements details")]
-    [SwaggerResponse(200, "advertisements found", typeof(List<ShelterPetAdvertisementDto>))]
+    [SwaggerOperation(description: "Gets shelter's advertisement details")]
+    [SwaggerResponse(200, "advertisements found", typeof(List<ShelterAdvertisementDetailsDto>))]
     public async Task<ActionResult<ShelterAdvertisementDetailsDto>> GetShelterAdvertisementDetails(
         [FromRoute] Guid petId)
     {
@@ -53,12 +53,11 @@ public class AdvertisementController : BaseController
         return Ok(result);
     }
 
-    [Authorize]
+    [Authorize(Roles = "User,Worker")]
     [HttpPost("dog")]
     [SwaggerOperation(description: "Creates lost pet's card")]
     [SwaggerResponse(200, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
-    [SwaggerResponse(404, "If shelter not found")]
     public async Task<IActionResult> CreateLostDog([FromBody] CreateLostDogAdvertisementRequest request)
     {
         var petCommand = new CreateLostDogCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
@@ -74,12 +73,11 @@ public class AdvertisementController : BaseController
         return NoContent();
     }
 
-    [Authorize]
+    [Authorize(Roles = "User,Worker")]
     [HttpPost("cat")]
     [SwaggerOperation(description: "Creates lost pet's card")]
     [SwaggerResponse(200, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
-    [SwaggerResponse(404, "If shelter not found")]
     public async Task<IActionResult> CreateLostCat([FromBody] CreateLostCatAdvertisementRequest request)
     {
         var petCommand = new CreateLostCatCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
@@ -94,12 +92,11 @@ public class AdvertisementController : BaseController
         return NoContent();
     }
 
-    [Authorize]
+    [Authorize(Roles = "User,Worker")]
     [HttpPost("other")]
     [SwaggerOperation(description: "Creates lost pet's card")]
     [SwaggerResponse(200, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
-    [SwaggerResponse(404, "If shelter not found")]
     public async Task<IActionResult> CreateLostOtherPet([FromBody] CreateLostOtherPetAdvertisementRequest request)
     {
         var petCommand = new CreateLostOtherPetCommand(GetPrincipalId(), request.Name, request.Gender,
@@ -117,7 +114,7 @@ public class AdvertisementController : BaseController
 
     [HttpGet]
     [SwaggerOperation(description: "get all lost pet's card")]
-    [SwaggerResponse(200, "Cards found", typeof(List<LostPetAdvertisementDto>))]
+    [SwaggerResponse(200, "Cards found or returns empty list", typeof(List<LostPetAdvertisementDto>))]
     public async Task<ActionResult<List<LostPetAdvertisementDto>>> GetAllLostPetAdvertisement()
     {
         var query = new GetAllLostPetAdvertisementQuery();
@@ -128,15 +125,15 @@ public class AdvertisementController : BaseController
     }
 
     [HttpGet("{petId:guid}")]
-    [SwaggerOperation(description: "get lost pet's card")]
-    [SwaggerResponse(200, "Cards found", typeof(LostPetAdvertisementDetailsDto))]
-    [SwaggerResponse(404, "Cards not found")]
+    [SwaggerOperation(description: "get lost pet's card details")]
+    [SwaggerResponse(200, "Card found", typeof(LostPetAdvertisementDetailsDto))]
+    [SwaggerResponse(404, "Card not found")]
     public async Task<ActionResult<LostPetAdvertisementDetailsDto>> GetLostPetAdvertisement([FromRoute] Guid petId)
     {
         var query = new GetLostPetAdvertisementDetailsQuery(petId);
         var result = await _queryDispatcher.QueryAsync(query);
 
-        return Ok(result);
+        return OkOrNotFound(result);
     }
 
     [Authorize(Roles = "User,Worker")]

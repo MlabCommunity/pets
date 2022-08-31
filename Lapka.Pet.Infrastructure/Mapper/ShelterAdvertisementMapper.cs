@@ -4,7 +4,7 @@ using Lapka.Pet.Core.Entities;
 
 namespace Lapka.Pet.Infrastructure.Mapper;
 
-internal static class ShelterAdvertisementMapper
+internal static class ShelterAdvertisementMapper 
 {
     public static ShelterPetAdvertisementDto AsDto(this ShelterAdvertisement advertisement, Core.Entities.Pet pet)
     {

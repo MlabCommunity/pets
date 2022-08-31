@@ -16,4 +16,10 @@ internal sealed class UserCacheStorage : IUserCacheStorage
 
     public Guid GetPetId(Guid ownerId)
         => _cacheStorage.Get<Guid>(ownerId.ToString());
+
+    public void SetShelterId(Guid principalId, Guid shelterId)
+        => _cacheStorage.Set(principalId.ToString(), shelterId);
+
+    public Guid GetShelterId(Guid principalId)
+        => _cacheStorage.Get<Guid>(principalId.ToString());
 }

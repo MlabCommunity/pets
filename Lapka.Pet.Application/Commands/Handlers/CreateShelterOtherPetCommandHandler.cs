@@ -1,5 +1,6 @@
 using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
+using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
 
@@ -9,17 +10,21 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
 {
     private readonly IPetRepository _petRepository;
     private readonly IShelterRepository _shelterRepository;
+    private readonly IUserCacheStorage _cacheStorage;
 
-    public CreateShelterOtherPetCommandHandler(IPetRepository petRepository, IShelterRepository shelterRepository)
+    public CreateShelterOtherPetCommandHandler(IPetRepository petRepository, IShelterRepository shelterRepository,
+        IUserCacheStorage cacheStorage)
     {
         _petRepository = petRepository;
         _shelterRepository = shelterRepository;
+        _cacheStorage = cacheStorage;
     }
 
     public async Task HandleAsync(CreateShelterOtherPetCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelterRepository.FindByIdOrWorkerIdAsync(command.PrincipalId);
+        var shelterId = _cacheStorage.GetShelterId(command.PrincipalId);
+        var shelter = await _shelterRepository.FindByIdAsync(shelterId);
 
         if (shelter is null)
         {

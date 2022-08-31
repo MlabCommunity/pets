@@ -2,23 +2,16 @@ namespace Lapka.Pet.Core.ValueObjects;
 
 public record Volunteering
 {
-    public bool IsDonationActive { get; }
-    public string BankAccountNumber { get; }
-    public string DonationDescription { get; }
-    public bool IsDailyHelpActive { get; }
-    public string DailyHelpDescription { get; }
-    public bool IsTakingDogsOutActive { get; }
-    public string TakingDogsOutDescription { get; }
+    public bool IsDonationActive { get; init; }
+    public string BankAccountNumber { get; init; }
+    public string DonationDescription { get; init; }
+    public bool IsDailyHelpActive { get; init; }
+    public string DailyHelpDescription { get; init; }
+    public bool IsTakingDogsOutActive { get; init; }
+    public string TakingDogsOutDescription { get; init; }
 
-    public Volunteering()
+    private Volunteering()
     {
-        IsDonationActive = false;
-        IsDailyHelpActive = false;
-        IsTakingDogsOutActive = false;
-        TakingDogsOutDescription = "";
-        BankAccountNumber = ""; //TODO ADD VALIDATION
-        DonationDescription = "";
-        DailyHelpDescription = "";
     }
 
     public Volunteering(bool isDonationActive, string bankAccountNumber, string donationDescription,

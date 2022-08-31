@@ -23,17 +23,13 @@ internal sealed class ShelterRepository : IShelterRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Shelter> FindByIdAsync(AggregateId Id)
-        => await _shelters.Include(x => x.Advertisements).Include(x => x.Volunteers).Include(x => x.Volunteering)
-            .Include(x => x.Workers)
-            .FirstOrDefaultAsync(x => x.Id == Id);
-
-    public async Task<Shelter> FindByIdOrWorkerIdAsync(Guid principalId)
-        => await _shelters.Include(x => x.Advertisements)
+    public async Task<Shelter> FindByIdAsync(AggregateId id)
+        => await _shelters
+            .Include(x => x.Advertisements)
             .Include(x => x.Volunteers)
             .Include(x => x.Volunteering)
             .Include(x => x.Workers)
-            .FirstOrDefaultAsync(x => x.Workers.Any(x => x.WorkerId == principalId) || x.Id == principalId);
+            .FirstOrDefaultAsync(x => x.Id == id);
 
 
     public async Task UpdateAsync(Shelter shelter)

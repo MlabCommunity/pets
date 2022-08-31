@@ -1,5 +1,6 @@
-using Confab.Shared.Abstractions.Kernel;
+using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Events;
+using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
 
@@ -20,7 +21,7 @@ internal sealed class ShelterUpdatedEventHandler : IDomainEventHandler<ShelterUp
 
         if (advertisement is null)
         {
-            throw new Exception(); //TODO internal? ill ask Adam :)
+            throw new AdvertisementNotFoundException();
         }
 
         advertisement.UpdateShelterDetails(@event.OrganizationName, new Localization(@event.City, @event.Street));

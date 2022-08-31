@@ -1,5 +1,6 @@
 using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
+using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Repositories;
 
 namespace Lapka.Pet.Application.Commands.Handlers;
@@ -7,16 +8,19 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class HideShelterAdvertisementCommandHandler : ICommandHandler<HideShelterAdvertisementCommand>
 {
     private readonly IShelterRepository _shelterRepository;
+    private readonly IUserCacheStorage _cacheStorage;
 
-    public HideShelterAdvertisementCommandHandler(IShelterRepository shelterRepository)
+    public HideShelterAdvertisementCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage)
     {
         _shelterRepository = shelterRepository;
+        _cacheStorage = cacheStorage;
     }
 
     public async Task HandleAsync(HideShelterAdvertisementCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelterRepository.FindByIdOrWorkerIdAsync(command.PrincipalId);
+        var shelterId = _cacheStorage.GetShelterId(command.PrincipalId);
+        var shelter = await _shelterRepository.FindByIdAsync(shelterId);
 
         if (shelter is null)
         {

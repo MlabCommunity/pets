@@ -17,14 +17,14 @@ internal sealed class UpdateVolunteeringCommandHandler : ICommandHandler<UpdateV
     public async Task HandleAsync(UpdateVolunteeringCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = await _shelterRepository.FindByIdAsync(command.UserId);
+        var shelter = await _shelterRepository.FindByIdAsync(command.ShelterId);
 
         if (shelter is null)
         {
             throw new ShelterNotFoundException();
         }
 
-        shelter.ConfigureVolunteering(new Volunteering(command.IsDonationActive, command.BankAccountNumber,
+        shelter.UpdateVolunteering(new Volunteering(command.IsDonationActive, command.BankAccountNumber,
             command.DonationDescription, command.IsDailyHelpActive, command.DailyHelpDescription,
             command.IsTakingDogsOutActive, command.TakingDogsOutDescription));
 
