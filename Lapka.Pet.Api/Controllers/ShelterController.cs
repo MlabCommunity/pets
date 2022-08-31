@@ -54,7 +54,6 @@ public class ShelterController : BaseController
     [SwaggerOperation(description: "Creates shelter's card")]
     [SwaggerResponse(200, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
-    [SwaggerResponse(404, "If shelter not found")]
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
     {
         var command = new CreateShelterDogCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
@@ -70,7 +69,6 @@ public class ShelterController : BaseController
     [SwaggerOperation(description: "Creates shelter's card")]
     [SwaggerResponse(200, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
-    [SwaggerResponse(404, "If shelter not found")]
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
     {
         var command = new CreateShelterCatCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
@@ -85,7 +83,6 @@ public class ShelterController : BaseController
     [SwaggerOperation(description: "Creates shelter's card")]
     [SwaggerResponse(200, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
-    [SwaggerResponse(404, "If shelter not found")]
     public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
     {
         var command = new CreateShelterOtherPetCommand(GetPrincipalId(), request.Name, request.Gender,
@@ -101,7 +98,6 @@ public class ShelterController : BaseController
     [SwaggerOperation(description: "Updates shelter's card")]
     [SwaggerResponse(200, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
-    [SwaggerResponse(404, "If shelter not found")]
     public async Task<IActionResult> UpdateShelterCard([FromBody] UpdatePetRequest request)
     {
         var command = new UpdateShelterPetCommand(GetPrincipalId(), request.PetId, request.Name,
@@ -115,7 +111,6 @@ public class ShelterController : BaseController
     [HttpDelete("cards/{petId:guid}")]
     [SwaggerOperation(description: "Deletes shelter's card")]
     [SwaggerResponse(200, "Card deleted")]
-    [SwaggerResponse(404, "If shelter not found")]
     public async Task<IActionResult> DeleteShelterCard([FromRoute] Guid petId)
     {
         var command = new DeleteShelterPetCommand(GetPrincipalId(), petId);
@@ -165,9 +160,8 @@ public class ShelterController : BaseController
 
     [Authorize(Roles = "User")]
     [HttpPost("volunteers/{shelterId:guid}")]
-    [SwaggerOperation(description: "Adds volunteer to shelter")]
+    [SwaggerOperation(description: "Adds Principal user as volunteer to shelter")]
     [SwaggerResponse(204, "Volunteer added")]
-    [SwaggerResponse(404, "If shelter or user not found")]
     public async Task<IActionResult> AddVolunteer([FromRoute] Guid shelterId)
     {
         var command = new AddVolunteerCommand(GetPrincipalId(), GetPrincipalEmail(), shelterId);
@@ -177,7 +171,7 @@ public class ShelterController : BaseController
 
     [Authorize]
     [HttpDelete("volunteers/{shelterId:guid}")]
-    [SwaggerOperation(description: "Removes volunteer from shelter")]
+    [SwaggerOperation(description: "Removes Principal user as volunteer from shelter")]
     [SwaggerResponse(204, "Volunteer added")]
     [SwaggerResponse(404, "If shelter or user not found")]
     public async Task<IActionResult> DeleteVolunteer([FromRoute] Guid shelterId)

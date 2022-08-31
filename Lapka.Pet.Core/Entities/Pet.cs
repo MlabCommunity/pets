@@ -1,6 +1,7 @@
 using System.Windows.Input;
 using Lapka.Pet.Core.Consts;
 using Lapka.Pet.Core.DomainThings;
+using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Exceptions;
 
@@ -58,44 +59,68 @@ public abstract class Pet : AggregateRoot
         }
     }
 
-    public void AddVisit(Visit visit,Guid ownerId)
+    public void AddVisit(Visit visit, Guid ownerId)
     {
         if (ownerId != OwnerId)
         {
             throw new DomainForbidden();
         }
-        
+
         if (visit.HasTookPlace)
         {
-            var lastVisit = Visits.Where(x => x.DateOfVisit < DateTime.UtcNow).OrderByDescending(c => c.DateOfVisit).FirstOrDefault();
+            var lastVisit = Visits.Where(x => x.DateOfVisit < DateTime.UtcNow).OrderByDescending(c => c.DateOfVisit)
+                .FirstOrDefault();
 
-            if (lastVisit.DateOfVisit < visit.DateOfVisit)
+            if (lastVisit is not null && lastVisit.DateOfVisit <= visit.DateOfVisit)
+            {
+                Weight = visit.WeightOnVisit;
+            }
+            else if (lastVisit is null)
             {
                 Weight = visit.WeightOnVisit;
             }
         }
+
         Visits.Add(visit);
     }
 
-    public void RemoveVisit(EntityId visitId,OwnerId ownerId)
+    public void RemoveVisit(EntityId visitId, OwnerId ownerId)
     {
         if (ownerId != OwnerId)
         {
             throw new DomainForbidden();
         }
+
         var visit = Visits.FirstOrDefault(x => x.VisitId == visitId);
         Visits.Remove(visit);
     }
 
-    public void UpdateVisit(Visit visit,OwnerId ownerId)
+    public void UpdateVisit(Guid visitId, Guid ownerId, bool hasTookPlace, DateTime dateOfVisit, string description,
+        HashSet<CareType> visitTypes, double weightOnVisit)
     {
         if (ownerId != OwnerId)
         {
             throw new DomainForbidden();
         }
-        var updatedVisit = Visits.FirstOrDefault(x => x.VisitId == visit.VisitId);
 
-        updatedVisit = visit;
+        var visit = Visits.FirstOrDefault(x => x.VisitId == visitId);
+
+        if (visit is null)
+        {
+            throw new VisitNotFoundException();
+        }
+
+        visit.Update(hasTookPlace, dateOfVisit, description, visitTypes, weightOnVisit);
+
+        if (visit.HasTookPlace)
+        {
+            var lastVisit = Visits.Where(x => x.DateOfVisit < DateTime.UtcNow).OrderByDescending(c => c.DateOfVisit)
+                .FirstOrDefault();
+
+            if (lastVisit.DateOfVisit <= visit.DateOfVisit || lastVisit is null)
+            {
+                Weight = visit.WeightOnVisit;
+            }
+        }
     }
-    
 }

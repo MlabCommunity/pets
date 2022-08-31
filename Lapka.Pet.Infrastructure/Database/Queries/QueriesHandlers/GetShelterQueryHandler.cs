@@ -18,9 +18,7 @@ internal sealed class GetShelterQueryHandler : IQueryHandler<GetShelterQuery, Sh
 
     public async Task<ShelterDto> HandleAsync(GetShelterQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-    {
-        var shelter = await _shelters.FirstOrDefaultAsync(x => x.Id == query.Id);
-
-        return shelter.AsDto();
-    }
+        => await _shelters.Where(x => x.Id == query.Id)
+            .Select(x => x.AsDto())
+            .FirstOrDefaultAsync();
 }

@@ -20,12 +20,12 @@ internal sealed class GetVisitQueryHandler : IQueryHandler<GetVisitQuery, VisitD
 
     public async Task<VisitDto> HandleAsync(GetVisitQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-    {
-        var pet = await _pets
+        => await _pets.Where(x => x.Id == query.PetId && x.OwnerId == query.PrincipalId)
             .Include(x => x.Visits)
-            .ThenInclude(x=>x.VisitTypes)
-            .FirstOrDefaultAsync(x=>x.Id==query.PetId && x.OwnerId ==query.PrincipalId);
+            .ThenInclude(x => x.VisitTypes)
+            .Select(x => x.Visits
+                .FirstOrDefault(x => x.VisitId == query.VisitId).AsVisitDto())
+            .FirstOrDefaultAsync();
 
-        return pet.Visits.Select(x => x.AsVisitDto()).FirstOrDefault(x => x.VisitId == query.VisitId);
-    }
+
 }

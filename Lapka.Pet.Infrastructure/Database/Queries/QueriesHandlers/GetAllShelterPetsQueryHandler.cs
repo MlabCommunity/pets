@@ -25,7 +25,8 @@ internal sealed class GetAllShelterPetsQueryHandler : IQueryHandler<GetAllShelte
 
         var pets = await _pets
             .Include(x => x.Photos)
-            .Where(x => x.OwnerId == shelterId).Select(x => x.AsDto()).ToListAsync();
+            .Where(x => x.OwnerId == shelterId)
+            .Select(x => x.AsDto()).ToListAsync();
 
         return pets;
     }

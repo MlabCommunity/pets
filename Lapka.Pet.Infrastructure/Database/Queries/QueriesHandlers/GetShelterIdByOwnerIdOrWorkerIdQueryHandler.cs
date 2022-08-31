@@ -17,12 +17,8 @@ internal sealed class
 
     public async Task<Guid> HandleAsync(GetShelterIdByOwnerIdOrWorkerIdQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-    {
-        var id = _shelters
+        => await _shelters
             .Include(x => x.Workers)
             .Where(x => x.Workers.Any(x => x.WorkerId == query.PrincipalId) || x.Id == query.PrincipalId)
-            .Select(x => x.Id.Value);
-
-        return await id.FirstAsync();
-    }
+            .Select(x => x.Id.Value).FirstOrDefaultAsync();
 }

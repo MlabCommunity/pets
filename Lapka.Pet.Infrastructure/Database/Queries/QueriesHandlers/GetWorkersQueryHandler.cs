@@ -18,9 +18,9 @@ internal sealed class GetWorkersQueryHandler : IQueryHandler<GetWorkersQuery, Li
 
     public async Task<List<WorkerDto>> HandleAsync(GetWorkersQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-    {
-        var shelter = await _shelters.Include(x => x.Workers).FirstOrDefaultAsync(x => x.Id == query.PrincipalId);
-
-        return shelter.AsWorkerDtos();
-    }
+        => await _shelters
+            .Where(x => x.Id == query.PrincipalId)
+            .Include(x => x.Workers)
+            .Select(x => x.Workers.Select(x => x.AsDto()).ToList())
+            .FirstOrDefaultAsync();
 }

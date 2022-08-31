@@ -23,11 +23,12 @@ internal sealed class GetVolunteersQueryHandler : IQueryHandler<GetVolunteersQue
         CancellationToken cancellationToken = new CancellationToken())
     {
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
-        var shelter = await _shelters
+        var volunteerDtos = await _shelters
             .AsNoTracking()
+            .Where(x => x.Id == shelterId)
             .Include(x => x.Volunteers)
-            .FirstOrDefaultAsync(x => x.Id == shelterId);
+            .Select(x => x.Volunteers.Select(x => x.AsDto()).ToList()).FirstOrDefaultAsync();
 
-        return shelter.AsVolunteerDtos();
+        return volunteerDtos;
     }
 }

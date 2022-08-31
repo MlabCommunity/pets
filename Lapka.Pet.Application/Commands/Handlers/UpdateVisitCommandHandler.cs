@@ -23,7 +23,7 @@ internal sealed class UpdateVisitCommandHandler : ICommandHandler<UpdateVisitCom
             throw new PetNotFoundException();
         }
         
-        pet.UpdateVisit(new Visit(command.HasTookPlace,command.DateOfVisit,command.Description,command.VisitTypes,command.WeightOnVisit),command.PrincipalId);
+        pet.UpdateVisit(command.VisitId,command.PrincipalId, command.HasTookPlace,command.DateOfVisit,command.Description,command.VisitTypes,command.WeightOnVisit);
 
         await _petRepository.UpdateAsync(pet);
     }

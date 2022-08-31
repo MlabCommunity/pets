@@ -17,5 +17,8 @@ internal sealed class GetAllPetsQueryHandler : IQueryHandler<GetAllPetsQuery, Li
 
     public async Task<List<PetDto>> HandleAsync(GetAllPetsQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-        => await _pets.Include(x=>x.Photos).Where(x => x.OwnerId == query.PrincipalId).Select(x => x.AsDto()).ToListAsync();
+        => await _pets
+            .Include(x=>x.Photos)
+            .Where(x => x.OwnerId == query.PrincipalId)
+            .Select(x => x.AsDto()).ToListAsync();
 }
