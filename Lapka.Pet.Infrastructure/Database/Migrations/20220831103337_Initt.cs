@@ -4,7 +4,7 @@
 
 namespace Lapka.Pet.Infrastructure.Database.Migrations
 {
-    public partial class Rename : Migration
+    public partial class Initt : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

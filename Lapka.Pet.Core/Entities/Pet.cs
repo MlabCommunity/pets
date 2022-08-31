@@ -66,21 +66,21 @@ public abstract class Pet : AggregateRoot
             throw new DomainForbidden();
         }
 
-        if (visit.HasTookPlace)
+        if (visit.HasTookPlace == true && visit.WeightOnVisit is not null)
         {
             var lastVisit = Visits.Where(x => x.DateOfVisit < DateTime.UtcNow).OrderByDescending(c => c.DateOfVisit)
                 .FirstOrDefault();
 
             if (lastVisit is not null && lastVisit.DateOfVisit <= visit.DateOfVisit)
             {
-                Weight = visit.WeightOnVisit;
+                Weight = visit.WeightOnVisit.Value;
             }
             else if (lastVisit is null)
             {
-                Weight = visit.WeightOnVisit;
+                Weight = visit.WeightOnVisit.Value;
             }
         }
-
+        
         Visits.Add(visit);
     }
 
@@ -112,14 +112,14 @@ public abstract class Pet : AggregateRoot
 
         visit.Update(hasTookPlace, dateOfVisit, description, visitTypes, weightOnVisit);
 
-        if (visit.HasTookPlace)
+        if (visit.HasTookPlace == true)
         {
             var lastVisit = Visits.Where(x => x.DateOfVisit < DateTime.UtcNow).OrderByDescending(c => c.DateOfVisit)
                 .FirstOrDefault();
 
             if (lastVisit.DateOfVisit <= visit.DateOfVisit || lastVisit is null)
             {
-                Weight = visit.WeightOnVisit;
+                Weight = visit.WeightOnVisit.Value;
             }
         }
     }

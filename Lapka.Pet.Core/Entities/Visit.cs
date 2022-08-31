@@ -6,17 +6,17 @@ namespace Lapka.Pet.Core.ValueObjects;
 public class Visit
 {
     public EntityId VisitId { get;private set; }
-    public bool HasTookPlace { get;private set; }
+    public bool? HasTookPlace { get;private set; }
     public DateTime DateOfVisit { get;private set; }
     public string Description { get;private set;}
     public HashSet<VisitType> VisitTypes = new HashSet<VisitType>();
-    public Weight WeightOnVisit { get; private set; }
+    public WeightOnVisit? WeightOnVisit { get; private set; }
 
     private Visit()
     {
     }
 
-    public Visit(bool hasTookPlace, DateTime dateOfVisit, string description, ICollection<CareType> visitTypes, Weight weightOnVisit)
+    public Visit(bool? hasTookPlace, DateTime dateOfVisit, string description, ICollection<CareType> visitTypes, WeightOnVisit? weightOnVisit)
     {
         VisitId = Guid.NewGuid();
         HasTookPlace = hasTookPlace;

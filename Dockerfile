@@ -2,13 +2,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
-EXPOSE 5040
 COPY Lapka.Pet.Api/Lapka.Pet.Api.csproj Lapka.Pet.Api/Lapka.Pet.Api.csproj
 COPY Lapka.Pet.Application/Lapka.Pet.Application.csproj Lapka.Pet.Application/Lapka.Pet.Application.csproj
 COPY Lapka.Pet.Core/Lapka.Pet.Core.csproj Lapka.Pet.Core/Lapka.Pet.Core.csproj
 COPY Lapka.Pet.Infrastructure/Lapka.Pet.Infrastructure.csproj Lapka.Pet.Infrastructure/Lapka.Pet.Infrastructure.csproj
 COPY Lapka.Pet.Api/rsa-public-key.pem Lapka.Pet.Api/rsa-public-key.pem
-COPY Lapka.Pet.Api/rsa-private-key.pem Lapka.Pet.Api/rsa-private-key.pem
 RUN dotnet restore Lapka.Pet.Api
 
 COPY . .

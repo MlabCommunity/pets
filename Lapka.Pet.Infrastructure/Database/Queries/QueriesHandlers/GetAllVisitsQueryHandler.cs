@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
-internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery, List<VisitDto>>
+internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery, VisitDto>
 {
     private readonly DbSet<Core.Entities.Pet> _pets;
 
@@ -16,12 +16,35 @@ internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery
         _pets = context.Pets;
     }
 
-    public async Task<List<VisitDto>> HandleAsync(GetAllVisitsQuery query,
+    public async Task<VisitDto> HandleAsync(GetAllVisitsQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-        => await _pets
+    {
+       var incomingVisits = await _pets
             .AsNoTracking()
             .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
             .Include(x => x.Visits)
             .ThenInclude(x => x.VisitTypes)
-            .Select(x => x.Visits.Select(x => x.AsVisitDto()).ToList()).FirstOrDefaultAsync();
+            
+            .Select(x => x.Visits
+                .Where(x=>x.DateOfVisit>DateTime.UtcNow)
+                .Select(x => x.AsVisitDetailsDto()).ToList())
+            .FirstOrDefaultAsync();
+       
+       var lastVisits = await _pets
+           .AsNoTracking()
+           .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
+           .Include(x => x.Visits)
+           .ThenInclude(x => x.VisitTypes)
+           .Select(x => x.Visits
+               .Where(x=>x.DateOfVisit<DateTime.UtcNow)
+               .Select(x => x.AsVisitDetailsDto()).ToList())
+           .FirstOrDefaultAsync();
+
+       return new VisitDto
+       {
+           LastVisits = lastVisits,
+           IncomingVisits = incomingVisits
+       };
+    }
+        
 }

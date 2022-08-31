@@ -174,13 +174,13 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("HasTookPlace")
+                    b.Property<bool?>("HasTookPlace")
                         .HasColumnType("boolean");
 
                     b.Property<Guid?>("PetId")
                         .HasColumnType("uuid");
 
-                    b.Property<double>("WeightOnVisit")
+                    b.Property<double?>("WeightOnVisit")
                         .HasColumnType("double precision");
 
                     b.HasKey("VisitId");
