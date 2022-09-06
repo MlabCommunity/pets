@@ -10,7 +10,7 @@ namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
 internal sealed class
     GetAllCurrentShelterAdvertisementQueryHandler : IQueryHandler<GetAllCurrentShelterAdvertisementQuery,
-        List<CurrentShelterAdvertisementDetailsDto>>
+        Application.Dto.PagedResult<CurrentShelterAdvertisementDetailsDto>>
 {
     private readonly DbSet<ShelterAdvertisement> _advertisements;
     private readonly DbSet<Core.Entities.Pet> _pet;
@@ -23,18 +23,28 @@ internal sealed class
         _pet = context.Pets;
     }
 
-    public async Task<List<CurrentShelterAdvertisementDetailsDto>> HandleAsync(
+    public async Task<Application.Dto.PagedResult<CurrentShelterAdvertisementDetailsDto>> HandleAsync(
         GetAllCurrentShelterAdvertisementQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
+        
         var advertisements = await _advertisements
-            .Where(x => x.ShelterId == shelterId).ToListAsync();
+            .Where(x => x.ShelterId == shelterId)
+            .ToListAsync();
+        
         var result =
             advertisements.Join(_pet.Include(x => x.Photos), x => x.PetId.Value, x => x.Id.Value,
                 (advertisement, pet) =>
-                    advertisement.AsCurrentShelterAdvertisementDto(pet)).ToList();
+                    advertisement.AsCurrentShelterAdvertisementDto(pet))
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToList();
 
-        return result;
+        var count = await _advertisements
+            .Where(x => x.ShelterId == shelterId)
+            .CountAsync();
+        
+        return new Application.Dto.PagedResult<CurrentShelterAdvertisementDetailsDto>(result,count,query.PageSize,query.PageNumber);
     }
 }

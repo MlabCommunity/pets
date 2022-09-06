@@ -17,4 +17,12 @@ internal static class VisitMapper
             VisitType = visit.VisitTypes
         };
     
+    public static VisitDto AsVisitDto(this Visit visit)
+        => new()
+        {
+            VisitId = visit.VisitId,
+            Description = visit.Description,
+            DateOfVisit = visit.DateOfVisit,
+        };
+    
 }

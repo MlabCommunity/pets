@@ -122,14 +122,13 @@ public class ShelterController : BaseController
     [Authorize(Policy = "IsWorker")]
     [HttpGet("cards")]
     [SwaggerOperation(description: "Gets shelter's pets")]
-    [SwaggerResponse(200, "Pets found", typeof(List<PetDto>))]
-    public async Task<ActionResult<List<PetDto>>> GetAllShelterPets()
+    [SwaggerResponse(200, "Pets found", typeof(Application.Dto.PagedResult<PetDto>))]
+    public async Task<ActionResult<Application.Dto.PagedResult<PetDto>>> GetAllShelterPets([FromQuery] int pageNumber =1,[FromQuery] int pageSize=10)
     {
-        var query = new GetAllShelterPetsQuery(GetPrincipalId());
+        var query = new GetAllShelterPetsQuery(GetPrincipalId(),pageNumber,pageSize);
         var result = await _queryDispatcher.QueryAsync(query);
-
-        List<object> x = result.Cast<object>().ToList();
-        return Ok(x);
+        
+        return Ok(result);
     }
 
     [Authorize(Roles = "Shelter")]
@@ -195,10 +194,10 @@ public class ShelterController : BaseController
     [Authorize(Policy = "IsWorker")]
     [HttpGet("advertisements")]
     [SwaggerOperation(description: "Gets shelter's advertisements")]
-    [SwaggerResponse(200, "advertisements found", typeof(List<CurrentShelterAdvertisementDetailsDto>))]
-    public async Task<ActionResult<List<CurrentShelterAdvertisementDetailsDto>>> GetAllCurrentShelterAdvertisement()
+    [SwaggerResponse(200, "advertisements found", typeof(Application.Dto.PagedResult<CurrentShelterAdvertisementDetailsDto>))]
+    public async Task<ActionResult<Application.Dto.PagedResult<CurrentShelterAdvertisementDetailsDto>>> GetAllCurrentShelterAdvertisement([FromQuery] int pageNumber =1,[FromQuery] int pageSize=10)
     {
-        var query = new GetAllCurrentShelterAdvertisementQuery(GetPrincipalId());
+        var query = new GetAllCurrentShelterAdvertisementQuery(GetPrincipalId(),pageNumber,pageSize);
 
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);

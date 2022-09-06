@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
-internal sealed class GetAllPetsQueryHandler : IQueryHandler<GetAllPetsQuery, List<PetDto>>
+internal sealed class GetAllPetsQueryHandler : IQueryHandler<GetAllPetsQuery, Application.Dto.PagedResult<PetDto>>
 {
     private readonly DbSet<Core.Entities.Pet> _pets;
 
@@ -15,10 +15,19 @@ internal sealed class GetAllPetsQueryHandler : IQueryHandler<GetAllPetsQuery, Li
         _pets = context.Pets;
     }
 
-    public async Task<List<PetDto>> HandleAsync(GetAllPetsQuery query,
+    public async Task<Application.Dto.PagedResult<PetDto>> HandleAsync(GetAllPetsQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-        => await _pets
+    {
+        var result =await _pets
             .Include(x=>x.Photos)
             .Where(x => x.OwnerId == query.PrincipalId)
+            .Skip(query.PageSize *(query.PageNumber-1))
+            .Take(query.PageSize)
             .Select(x => x.AsDto()).ToListAsync();
+
+        var count = await _pets
+            .Where(x => x.OwnerId == query.PrincipalId)
+            .CountAsync();
+        return new Application.Dto.PagedResult<PetDto>(result,count,query.PageSize,query.PageNumber);
+    } 
 }

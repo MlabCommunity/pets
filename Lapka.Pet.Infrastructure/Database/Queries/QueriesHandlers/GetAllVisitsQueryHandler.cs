@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
-internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery, VisitDto>
+internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery, VisitResponseDto>
 {
     private readonly DbSet<Core.Entities.Pet> _pets;
 
@@ -16,35 +16,54 @@ internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery
         _pets = context.Pets;
     }
 
-    public async Task<VisitDto> HandleAsync(GetAllVisitsQuery query,
+    public async Task<VisitResponseDto> HandleAsync(GetAllVisitsQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
-       var incomingVisits = await _pets
+        var incomingVisits = await _pets
             .AsNoTracking()
             .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
             .Include(x => x.Visits)
             .ThenInclude(x => x.VisitTypes)
-            
             .Select(x => x.Visits
-                .Where(x=>x.DateOfVisit>DateTime.UtcNow)
-                .Select(x => x.AsVisitDetailsDto()).ToList())
+                .Where(x => x.DateOfVisit > DateTime.UtcNow)
+                .Select(x => x.AsVisitDto())
+                .Skip(query.IncomingVisitPageSize * (query.IncomingVisitPageNumber - 1))
+                .Take(query.IncomingVisitPageSize)
+                .ToList())
             .FirstOrDefaultAsync();
-       
-       var lastVisits = await _pets
-           .AsNoTracking()
-           .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
-           .Include(x => x.Visits)
-           .ThenInclude(x => x.VisitTypes)
-           .Select(x => x.Visits
-               .Where(x=>x.DateOfVisit<DateTime.UtcNow)
-               .Select(x => x.AsVisitDetailsDto()).ToList())
-           .FirstOrDefaultAsync();
 
-       return new VisitDto
-       {
-           LastVisits = lastVisits,
-           IncomingVisits = incomingVisits
-       };
-    }
+        var incomingVisitCount = await _pets.Include(x => x.Visits)
+            .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
+            .Select(x => x.Visits
+                .Where(x => x.DateOfVisit > DateTime.UtcNow)
+                .Count())
+            .FirstOrDefaultAsync();
+
+        var lastVisits = await _pets
+            .AsNoTracking()
+            .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
+            .Include(x => x.Visits)
+            .ThenInclude(x => x.VisitTypes)
+            .Select(x => x.Visits
+                .Where(x => x.DateOfVisit < DateTime.UtcNow)
+                .Select(x => x.AsVisitDto())
+                .Skip(query.LastVisitPageSize * (query.LastVisitPageNumber - 1))
+                .Take(query.LastVisitPageSize)
+                .ToList())
+            .FirstOrDefaultAsync();
         
+        var lastVisitCount = await _pets
+            .Include(x => x.Visits)
+            .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
+            .Select(x => x.Visits
+                .Where(x => x.DateOfVisit > DateTime.UtcNow)
+                .Count())
+            .FirstOrDefaultAsync();
+
+        return new VisitResponseDto
+        {
+            LastVisits = new Application.Dto.PagedResult<VisitDto>(lastVisits,lastVisitCount,query.LastVisitPageSize,query.LastVisitPageNumber),
+            IncomingVisits = new Application.Dto.PagedResult<VisitDto>(incomingVisits,incomingVisitCount,query.IncomingVisitPageSize,query.IncomingVisitPageNumber)
+        };
+    }
 }

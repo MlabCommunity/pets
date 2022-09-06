@@ -1,15 +1,14 @@
 ﻿{
-  "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:39719",
-      "sslPort": 44359
+      "applicationUrl": "http://localhost:26023",
+      "sslPort": 44338
     }
   },
   "profiles": {
-    "Scheme.Api": {
+    "Lapka.Pet.Api": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
