@@ -1,7 +1,8 @@
-namespace Lapka.Pet.Application.Dto;
+﻿namespace Lapka.Pet.Application.Dto;
 
 public class VisitDto
 {
-    public List<VisitDetailsDto> IncomingVisits { get; set; }
-    public List<VisitDetailsDto> LastVisits { get; set; }
+    public Guid VisitId { get; set; }
+    public DateTime DateOfVisit { get; set; }
+    public string Description { get; set; }
 }

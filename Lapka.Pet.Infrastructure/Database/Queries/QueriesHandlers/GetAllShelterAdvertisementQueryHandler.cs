@@ -9,7 +9,7 @@ namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
 internal sealed class
     GetAllShelterAdvertisementQueryHandler : IQueryHandler<GetAllShelterAdvertisementQuery,
-        List<ShelterPetAdvertisementDto>>
+        Application.Dto.PagedResult<ShelterPetAdvertisementDto>>
 {
     private readonly DbSet<ShelterAdvertisement> _shelterAdvertisements;
     private readonly DbSet<Core.Entities.Pet> _pet;
@@ -20,11 +20,13 @@ internal sealed class
         _pet = context.Pets;
     }
 
-    public async Task<List<ShelterPetAdvertisementDto>> HandleAsync(GetAllShelterAdvertisementQuery query,
+    public async Task<Application.Dto.PagedResult<ShelterPetAdvertisementDto>> HandleAsync(
+        GetAllShelterAdvertisementQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
         var advertisements = await _shelterAdvertisements
-            .Where(x => x.IsVisible == true).ToListAsync();
+            .Where(x => x.IsVisible == true)
+            .ToListAsync();
 
         var pets = await _pet.Include(x => x.Photos)
             .Where(x => ((query.Type == null || query.Type == x.Type) &&
@@ -32,11 +34,18 @@ internal sealed class
             .ToListAsync();
 
         var result = advertisements.Join(pets
-                .Where(x => ((query.Type == null || query.Type == x.Type) &&
-                             (query.Gender == null || query.Gender == x.Gender))), //Dumny jestem z tego query 
-            advertisement => advertisement.PetId.Value, pet => pet.Id.Value,
-            (advertisements, pet) => advertisements.AsDto(pet)).ToList();
-        
-        return result;
+                    .Where(x => ((query.Type == null || query.Type == x.Type) &&
+                                 (query.Gender == null || query.Gender == x.Gender))), //Dumny jestem z tego query 
+                advertisement => advertisement.PetId.Value, pet => pet.Id.Value,
+                (advertisements, pet) => advertisements.AsDto(pet))
+            .Skip(query.PageSize * (query.PageNumber - 1))
+            .Take(query.PageSize)
+            .ToList();
+
+        var count = await _shelterAdvertisements
+            .Where(x => x.IsVisible == true)
+            .CountAsync();
+
+        return new Application.Dto.PagedResult<ShelterPetAdvertisementDto>(result, count, query.PageSize, query.PageNumber);
     }
 }

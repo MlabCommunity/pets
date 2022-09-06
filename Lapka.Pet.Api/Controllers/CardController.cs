@@ -87,8 +87,8 @@ public class CardController : BaseController
     public async Task<IActionResult> DeletePet([FromRoute] Guid petId)
     {
         var command = new DeleteCardCommand(petId, GetPrincipalId());
-
         await _commandDispatcher.SendAsync(command);
+
         return NoContent();
     }
 
@@ -104,80 +104,83 @@ public class CardController : BaseController
 
         return OkOrNotFound(result);
     }
-    
+
     [Authorize]
     [HttpGet]
     [SwaggerOperation(description: "Gets all cards")]
     [SwaggerResponse(200)]
-    public async Task<ActionResult<PetDto>> GetPets()
+    public async Task<ActionResult<Application.Dto.PagedResult<PetDto>>> GetPets([FromQuery] int pageNumber =1,[FromQuery] int pageSize=10)
     {
-        var query = new GetAllPetsQuery(GetPrincipalId());
+        var query = new GetAllPetsQuery(GetPrincipalId(), pageNumber, pageSize);
         var result = await _queryDispatcher.QueryAsync(query);
-        List<object> x = result.Cast<object>().ToList();
-        return Ok(x);
+        return Ok(result);
     }
 
     [Authorize]
     [HttpGet("visits/{petId:guid}")]
     [SwaggerOperation(description: "Gets visits by petId")]
     [SwaggerResponse(200, "Returns list of visits or empty list")]
-    public async Task<ActionResult<VisitDto>> GetVisits([FromRoute] Guid petId)
+    public async Task<ActionResult<VisitResponseDto>> GetVisits([FromRoute] Guid petId,
+        [FromQuery] int incomingVisitPageNumber =1, [FromQuery] int incomingVisitPageSize =10,
+        [FromQuery] int lastVisitPageNumber=1, [FromQuery] int lastVisitPageSize=10)
     {
-        var query = new GetAllVisitsQuery(petId, GetPrincipalId());
-
+        var query = new GetAllVisitsQuery(petId, GetPrincipalId(), incomingVisitPageNumber, incomingVisitPageSize,
+            lastVisitPageNumber, lastVisitPageSize);
         var result = await _queryDispatcher.QueryAsync(query);
 
         return Ok(result);
     }
-    
+
     [Authorize]
     [HttpGet("visits/{petId:guid}/{visitId:guid}")]
     [SwaggerOperation(description: "Gets visit by petId")]
     [SwaggerResponse(200, "Returns visit")]
     [SwaggerResponse(404, "If visit or pet not found")]
-    public async Task<ActionResult<VisitDetailsDto>> GetVisit([FromRoute] Guid visitId,[FromRoute] Guid petId)
+    public async Task<ActionResult<VisitDetailsDto>> GetVisit([FromRoute] Guid visitId, [FromRoute] Guid petId)
     {
-        var query = new GetVisitQuery(petId,visitId, GetPrincipalId());
-
+        var query = new GetVisitQuery(petId, visitId, GetPrincipalId());
         var result = await _queryDispatcher.QueryAsync(query);
 
         return OkOrNotFound(result);
     }
-    
+
     [Authorize]
     [HttpDelete("visits/{petId:guid}/{visitId:guid}")]
     [SwaggerOperation(description: "Deletes visit by petId and visitId")]
     [SwaggerResponse(204, "Visit deleted")]
-    public async Task<ActionResult<VisitDto>> DeleteVisit([FromRoute] Guid visitId,[FromRoute] Guid petId)
+    public async Task<ActionResult<VisitResponseDto>> DeleteVisit([FromRoute] Guid visitId, [FromRoute] Guid petId)
     {
         var command = new DeleteVisitCommand(petId, visitId, GetPrincipalId());
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
-    
+
+
     [Authorize]
     [HttpPost("visits/{petId:guid}")]
     [SwaggerOperation(description: "Adds visit")]
     [SwaggerResponse(204, "Visit added")]
     [SwaggerResponse(404, "Pet not found")]
-    public async Task<IActionResult> CreateVisit([FromBody] CreateVisitRequest request,[FromRoute] Guid petId)
+    public async Task<IActionResult> CreateVisit([FromBody] CreateVisitRequest request, [FromRoute] Guid petId)
     {
-        var command = new CreateVisitCommand(petId,GetPrincipalId(),request.HasTookPlace,request.DateOfVisit,request.Description,request.VisitTypes,request.WeightOnVisit);
+        var command = new CreateVisitCommand(petId, GetPrincipalId(), request.HasTookPlace, request.DateOfVisit,
+            request.Description, request.VisitTypes, request.WeightOnVisit);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [Authorize]
     [HttpPut("visits/{petId:guid}/{visitId:guid}")]
     [SwaggerOperation(description: "Adds visit")]
     [SwaggerResponse(204, "Visit added")]
     [SwaggerResponse(404, "Pet not found")]
-    public async Task<IActionResult> UpdateVisit([FromBody] UpdateVisitRequest request,[FromRoute] Guid petId,[FromRoute] Guid visitId)
+    public async Task<IActionResult> UpdateVisit([FromBody] UpdateVisitRequest request, [FromRoute] Guid petId,
+        [FromRoute] Guid visitId)
     {
-        var command = new UpdateVisitCommand(petId,visitId,GetPrincipalId(),request.HasTookPlace,request.DateOfVisit,request.Description,request.VisitTypes,request.WeightOnVisit);
+        var command = new UpdateVisitCommand(petId, visitId, GetPrincipalId(), request.HasTookPlace,
+            request.DateOfVisit, request.Description, request.VisitTypes, request.WeightOnVisit);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();

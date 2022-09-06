@@ -29,15 +29,14 @@ public class AdvertisementController : BaseController
     [Authorize(Roles = "Shelter,Worker,User")]
     [HttpGet("shelters")]
     [SwaggerOperation(description: "Gets all shelter advertisements")]
-    [SwaggerResponse(200, "advertisements found or returns empty list", typeof(List<ShelterPetAdvertisementDto>))]
-    public async Task<ActionResult<List<ShelterPetAdvertisementDto>>> GetAllShelterAdvertisement(
-        [FromQuery] PetType? type, [FromQuery] Gender? gender)
+    [SwaggerResponse(200, "advertisements found or returns empty list", typeof(Application.Dto.PagedResult<ShelterPetAdvertisementDto>))]
+    public async Task<ActionResult<Application.Dto.PagedResult<ShelterPetAdvertisementDto>>> GetAllShelterAdvertisement(
+        [FromQuery] PetType? type, [FromQuery] Gender? gender,[FromQuery] int pageNumber =1,[FromQuery] int pageSize=10)
     {
-        var query = new GetAllShelterAdvertisementQuery(type, gender);
+        var query = new GetAllShelterAdvertisementQuery(type, gender,pageNumber,pageSize);
 
         var result = await _queryDispatcher.QueryAsync(query);
-        List<object> x = result.Cast<object>().ToList();
-        return Ok(x);
+        return Ok(result);
     }
 
     [Authorize(Roles = "Shelter,Worker,User")]
@@ -115,13 +114,11 @@ public class AdvertisementController : BaseController
     [HttpGet]
     [SwaggerOperation(description: "get all lost pet's card")]
     [SwaggerResponse(200, "Cards found or returns empty list", typeof(List<LostPetAdvertisementDto>))]
-    public async Task<ActionResult<List<LostPetAdvertisementDto>>> GetAllLostPetAdvertisement()
+    public async Task<ActionResult<List<LostPetAdvertisementDto>>> GetAllLostPetAdvertisement([FromQuery] int pageNumber =1,[FromQuery] int pageSize=10)
     {
-        var query = new GetAllLostPetAdvertisementQuery();
+        var query = new GetAllLostPetAdvertisementQuery(pageNumber,pageSize);
         var result = await _queryDispatcher.QueryAsync(query);
-
-        List<object> x = result.Cast<object>().ToList();
-        return Ok(x);
+        return Ok(result);
     }
 
     [HttpGet("{petId:guid}")]
