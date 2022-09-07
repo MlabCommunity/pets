@@ -1,9 +1,8 @@
-using Lapka.Pet.Core.Consts;
 using Lapka.Pet.Core.DomainThings;
+using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using VisitType = Lapka.Pet.Core.ValueObjects.VisitType;
 
 namespace Lapka.Pet.Infrastructure.Database.Configurations;
 

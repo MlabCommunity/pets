@@ -1,7 +1,6 @@
 using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Core.Repositories;
-using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Application.Commands.Handlers;
 

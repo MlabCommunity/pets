@@ -1,3 +1,4 @@
+using Convey;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Lapka.Pet.Infrastructure.Database.Repositories;
@@ -10,20 +11,19 @@ namespace Lapka.Pet.Infrastructure.Database;
 
 public static class Extensions
 {
-    public static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPostgresss(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IPetRepository, PetRepository>();
         services.AddScoped<IShelterRepository, ShelterRepository>();
         services.AddScoped<ILostPetAdvertisementRepository, LostPetAdvertisementRepository>();
         services.AddScoped<IShelterAdvertisementRepository, ShelterAdvertisementRepository>();
-
-
+        
         var options = configuration.GetOptions<PostgresOptions>("Postgres");
         services.AddDbContext<AppDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString));
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
         services.AddScoped<IAppDbContext, AppDbContext>();
+        
         return services;
     }
 }

@@ -14,7 +14,7 @@
         <PackageReference Include="Grpc.Core.Api" Version="2.47.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
-
+    
     <ItemGroup>
       <ProjectReference Include="..\Lapka.Pet.Core\Lapka.Pet.Core.csproj" />
     </ItemGroup>

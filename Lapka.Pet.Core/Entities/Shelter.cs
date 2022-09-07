@@ -21,7 +21,7 @@ public class Shelter : AggregateRoot
     {
     }
 
-    private Shelter(AggregateId id, OrganizationName organizationName, Localization localization, ZipCode zipCode,
+    internal Shelter(AggregateId id, OrganizationName organizationName, Localization localization, ZipCode zipCode,
         Krs krs,
         Nip nip)
     {

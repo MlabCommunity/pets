@@ -1,4 +1,4 @@
-using Lapka.Pet.Infrastructure.Options;
+using Convey;
 using Lapka.Pet.Infrastructure.Policy;
 using Lapka.Pet.Infrastructure.Policy.Handlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

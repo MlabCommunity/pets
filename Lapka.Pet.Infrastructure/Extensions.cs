@@ -14,12 +14,13 @@ public static class Extensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddPostgres(configuration);
+        services.AddPostgresss(configuration);
         services.AddHostedService<AppInitializer>();
         services.AddScoped<ExceptionMiddleware>();
         services.AddScoped<ICacheStorage, CacheStorage.CacheStorage>();
         services.AddScoped<IUserCacheStorage, UserCacheStorage>();
 
+        
         return services;
     }
 

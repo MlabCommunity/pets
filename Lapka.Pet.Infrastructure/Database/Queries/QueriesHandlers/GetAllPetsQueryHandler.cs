@@ -1,4 +1,3 @@
-using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Lapka.Pet.Infrastructure.Mapper;
@@ -6,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
-internal sealed class GetAllPetsQueryHandler : IQueryHandler<GetAllPetsQuery, Application.Dto.PagedResult<PetDto>>
+internal sealed class GetAllPetsQueryHandler : Convey.CQRS.Queries.IQueryHandler<GetAllPetsQuery, PagedResult<PetDto>>
 {
     private readonly DbSet<Core.Entities.Pet> _pets;
 
@@ -15,7 +14,7 @@ internal sealed class GetAllPetsQueryHandler : IQueryHandler<GetAllPetsQuery, Ap
         _pets = context.Pets;
     }
 
-    public async Task<Application.Dto.PagedResult<PetDto>> HandleAsync(GetAllPetsQuery query,
+    public async Task<PagedResult<PetDto>> HandleAsync(GetAllPetsQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
         var result =await _pets
@@ -28,6 +27,6 @@ internal sealed class GetAllPetsQueryHandler : IQueryHandler<GetAllPetsQuery, Ap
         var count = await _pets
             .Where(x => x.OwnerId == query.PrincipalId)
             .CountAsync();
-        return new Application.Dto.PagedResult<PetDto>(result,count,query.PageSize,query.PageNumber);
+        return new PagedResult<PetDto>(result,count,query.PageSize,query.PageNumber);
     } 
 }

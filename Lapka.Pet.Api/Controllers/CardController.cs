@@ -1,5 +1,3 @@
-using System.Text.Json;
-using AutoMapper.Execution;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Api.Requests;

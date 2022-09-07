@@ -1,5 +1,4 @@
-using Lapka.Pet.Core.Consts;
-using VisitType = Lapka.Pet.Core.ValueObjects.VisitType;
+using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Application.Dto;
 

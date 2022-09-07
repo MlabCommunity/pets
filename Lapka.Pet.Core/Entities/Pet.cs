@@ -1,9 +1,7 @@
-using System.Windows.Input;
 using Lapka.Pet.Core.Consts;
 using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.ValueObjects;
-using Lapka.Pet.Infrastructure.Exceptions;
 
 namespace Lapka.Pet.Core.Entities;
 
