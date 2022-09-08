@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Api.Requests;
