@@ -35,16 +35,26 @@ public class ShelterController : BaseController
 
         return NoContent();
     }
-
-    [Authorize(Roles = "Shelter")]
-    [HttpGet]
+    
+    [HttpGet("{shelterId:guid}")]
     [SwaggerOperation(description: "Gets shelter data")]
     [SwaggerResponse(200, "shelter found", typeof(ShelterDto))]
     [SwaggerResponse(404, "shelter not found")]
-    public async Task<ActionResult<ShelterDto>> GetShelter()
+    public async Task<ActionResult<ShelterDto>> GetShelter([FromRoute] Guid shelterId )
     {
-        var query = new GetShelterQuery(GetPrincipalId());
+        var query = new GetShelterQuery(shelterId);
 
+        var result = await _queryDispatcher.QueryAsync(query);
+        return OkOrNotFound(result);
+    }
+    
+    [HttpGet("details/{shelterId:guid}")]
+    [SwaggerOperation(description: "Gets shelter data")]
+    [SwaggerResponse(200, "shelter found", typeof(ShelterDetailsDto))]
+    [SwaggerResponse(404, "shelter not found")]
+    public async Task<ActionResult<ShelterDetailsDto>> GetShelterDetails([FromRoute] Guid shelterId )
+    {
+        var query = new GetShelterDetailsQuery(shelterId);
         var result = await _queryDispatcher.QueryAsync(query);
         return OkOrNotFound(result);
     }
