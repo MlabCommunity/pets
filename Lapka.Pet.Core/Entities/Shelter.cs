@@ -125,6 +125,10 @@ public class Shelter : AggregateRoot
         return worker;
     }
 
+    public bool WorkerExists(WorkerId workerId)
+        => Workers.Any(x => x.WorkerId == workerId);
+
+
     public void Update(OrganizationName organizationName, Localization localization, ZipCode zipCode, Krs krs, Nip nip)
     {
         Localization = localization;

@@ -11,7 +11,7 @@ namespace Lapka.Pet.Infrastructure.Database;
 
 public static class Extensions
 {
-    public static IServiceCollection AddPostgresss(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IPetRepository, PetRepository>();
         services.AddScoped<IShelterRepository, ShelterRepository>();

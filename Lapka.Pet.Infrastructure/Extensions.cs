@@ -1,3 +1,5 @@
+using Convey;
+using Convey.MessageBrokers.RabbitMQ;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Infrastructure.CacheStorage;
 using Lapka.Pet.Infrastructure.Database;
@@ -14,12 +16,12 @@ public static class Extensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddPostgresss(configuration);
+
+        services.AddPostgres(configuration);
         services.AddHostedService<AppInitializer>();
         services.AddScoped<ExceptionMiddleware>();
         services.AddScoped<ICacheStorage, CacheStorage.CacheStorage>();
         services.AddScoped<IUserCacheStorage, UserCacheStorage>();
-
         
         return services;
     }
