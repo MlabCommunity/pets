@@ -8,7 +8,7 @@ internal static class ShelterMapper
     public static ShelterDto AsDto(this Shelter shelter)
         => new()
         {
-
+            Id = shelter.Id,
             OrganizationName = shelter.OrganizationName,
             Localization = shelter.Localization.ToString()
         };
