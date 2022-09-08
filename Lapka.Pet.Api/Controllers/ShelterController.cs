@@ -36,13 +36,13 @@ public class ShelterController : BaseController
         return NoContent();
     }
     
-    [HttpGet("{shelterId:guid}")]
+    [HttpGet]
     [SwaggerOperation(description: "Gets shelter data")]
     [SwaggerResponse(200, "shelter found", typeof(ShelterDto))]
     [SwaggerResponse(404, "shelter not found")]
-    public async Task<ActionResult<ShelterDto>> GetShelter([FromRoute] Guid shelterId )
+    public async Task<ActionResult<ShelterDto>> GetShelter()
     {
-        var query = new GetShelterQuery(shelterId);
+        var query = new GetShelterQuery(GetPrincipalId());
 
         var result = await _queryDispatcher.QueryAsync(query);
         return OkOrNotFound(result);
