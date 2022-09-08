@@ -24,7 +24,7 @@ public class CardController : BaseController
     [Authorize(Roles = "User,Worker")]
     [HttpPost("dog")]
     [SwaggerOperation(description: "Create card")]
-    [SwaggerResponse(200, "Card created")]
+    [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
     {
@@ -39,7 +39,7 @@ public class CardController : BaseController
     [Authorize(Roles = "User,Worker")]
     [HttpPost("cat")]
     [SwaggerOperation(description: "Create card")]
-    [SwaggerResponse(200, "Card created")]
+    [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
     {
@@ -53,7 +53,7 @@ public class CardController : BaseController
     [Authorize(Roles = "User,Worker")]
     [HttpPost("other")]
     [SwaggerOperation(description: "Creates card")]
-    [SwaggerResponse(200, "Card created")]
+    [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
     {
@@ -67,7 +67,7 @@ public class CardController : BaseController
     [Authorize(Roles = "User,Worker")]
     [HttpPut]
     [SwaggerOperation(description: "Updates card")]
-    [SwaggerResponse(200, "Card updated")]
+    [SwaggerResponse(204, "Card updated")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> UpdatePet([FromBody] UpdatePetRequest request)
     {
@@ -81,7 +81,7 @@ public class CardController : BaseController
     [Authorize(Roles = "User,Worker")]
     [HttpDelete("{petId:guid}")]
     [SwaggerOperation(description: "Deletes card")]
-    [SwaggerResponse(200, "Card deleted")]
+    [SwaggerResponse(204, "Card deleted")]
     public async Task<IActionResult> DeletePet([FromRoute] Guid petId)
     {
         var command = new DeleteCardCommand(petId, GetPrincipalId());
@@ -106,7 +106,7 @@ public class CardController : BaseController
     [Authorize]
     [HttpGet]
     [SwaggerOperation(description: "Gets all cards")]
-    [SwaggerResponse(200)]
+    [SwaggerResponse(200,"cards found or returns empty list")]
     public async Task<ActionResult<Application.Dto.PagedResult<PetDto>>> GetPets([FromQuery] int pageNumber =1,[FromQuery] int pageSize=10)
     {
         var query = new GetAllPetsQuery(GetPrincipalId(), pageNumber, pageSize);

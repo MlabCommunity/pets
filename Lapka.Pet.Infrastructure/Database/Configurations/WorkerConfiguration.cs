@@ -11,6 +11,10 @@ internal sealed class WorkerConfiguration : IEntityTypeConfiguration<Worker>
         builder.Property<Guid>("Id");
 
         builder.Property(s => s.WorkerId).HasConversion(id => id.Value, id => new WorkerId(id));
+        builder.Property(s => s.FirstName).HasConversion(id => id.Value, id => new FirstName(id));
+        builder.Property(s => s.LastName).HasConversion(id => id.Value, id => new LastName(id));
+        builder.Property(s => s.Email).HasConversion(id => id.Value, id => new Email(id));
+        builder.Property(s => s.WorkerId).HasConversion(id => id.Value, id => new WorkerId(id));
 
         builder.ToTable("Workers");
     }

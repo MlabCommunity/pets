@@ -42,6 +42,7 @@ public class AdvertisementController : BaseController
     [HttpGet("shelters/{petId:guid}")]
     [SwaggerOperation(description: "Gets shelter's advertisement details")]
     [SwaggerResponse(200, "advertisements found", typeof(List<ShelterAdvertisementDetailsDto>))]
+    [SwaggerResponse(404, "advertisements not found", typeof(List<ShelterAdvertisementDetailsDto>))]
     public async Task<ActionResult<ShelterAdvertisementDetailsDto>> GetShelterAdvertisementDetails(
         [FromRoute] Guid petId)
     {

@@ -2,6 +2,7 @@ using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Repositories;
+using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Application.Commands.Handlers;
 
@@ -10,7 +11,7 @@ internal sealed class AddWorkerCommandHandler : ICommandHandler<AddWorkerCommand
     private readonly IShelterRepository _shelterRepository;
     private readonly IIdentityGrpcClient _client;
 
-    public AddWorkerCommandHandler(IShelterRepository shelterRepository,IIdentityGrpcClient client)
+    public AddWorkerCommandHandler(IShelterRepository shelterRepository, IIdentityGrpcClient client)
     {
         _client = client;
         _shelterRepository = shelterRepository;
@@ -26,10 +27,9 @@ internal sealed class AddWorkerCommandHandler : ICommandHandler<AddWorkerCommand
             throw new ShelterNotFoundException();
         }
 
-        shelter.AddWorker(command.WorkerId);
+        var result = await _client.GiveWorkerRole(command.Email);
 
-        await _client.GiveWorkerRole(command.WorkerId);
-
+        shelter.AddWorker(new Worker(result.WorkerId, command.Email, result.FirstName, result.LastName));
         await _shelterRepository.UpdateAsync(shelter);
     }
 }

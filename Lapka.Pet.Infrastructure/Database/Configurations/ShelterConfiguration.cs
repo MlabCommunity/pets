@@ -17,6 +17,7 @@ internal sealed class ShelterConfiguration : IEntityTypeConfiguration<Shelter>
             l => Localization.Create(l));
 
         builder.Property(s => s.Id).HasConversion(id => id.Value, id => new AggregateId(id));
+        builder.Property(s => s.ProfilePhotoId).HasConversion(id => id.Value, id => new ProfilePhotoId(id));
         builder.Property(s => s.OrganizationName).HasConversion(name => name.Value, name => new OrganizationName(name));
         builder.Property(s => s.ZipCode).HasConversion(zipCode => zipCode.Value, zipCode => new ZipCode(zipCode));
         builder.Property(s => s.Nip).HasConversion(nip => nip.Value, nip => new Nip(nip));

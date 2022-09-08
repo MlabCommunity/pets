@@ -1,7 +1,9 @@
-﻿namespace Lapka.Pet.Application.Services;
+﻿using Lapka.Pet.Application.Dto;
 
-public interface IIdentityGrpcClient 
+namespace Lapka.Pet.Application.Services;
+
+public interface IIdentityGrpcClient
 {
-    Task GiveWorkerRole(Guid userId);
+    Task<WorkerDto> GiveWorkerRole(string email);
     Task RemoveWorkerRole(Guid userId);
 }

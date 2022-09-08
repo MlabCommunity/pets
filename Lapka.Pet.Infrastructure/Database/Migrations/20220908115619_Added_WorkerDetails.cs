@@ -1,10 +1,11 @@
-﻿#nullable disable
-
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
 
 namespace Lapka.Pet.Infrastructure.Database.Migrations
 {
-    public partial class Init : Migration
+    public partial class Added_WorkerDetails : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -158,6 +159,7 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     OrganizationName = table.Column<string>(type: "text", nullable: false),
+                    ProfilePhotoId = table.Column<Guid>(type: "uuid", nullable: false),
                     Localization = table.Column<string>(type: "text", nullable: false),
                     ZipCode = table.Column<string>(type: "text", nullable: false),
                     VolunteeringId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -255,6 +257,9 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     WorkerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
                     ShelterId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>

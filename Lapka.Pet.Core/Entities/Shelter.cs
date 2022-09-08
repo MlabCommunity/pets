@@ -8,6 +8,7 @@ namespace Lapka.Pet.Core.Entities;
 public class Shelter : AggregateRoot
 {
     public OrganizationName OrganizationName { get; private set; }
+    public ProfilePhotoId ProfilePhotoId { get; private set; }
     public ICollection<ShelterAdvertisement> Advertisements = new List<ShelterAdvertisement>();
     public Localization Localization { get; private set; }
     public ZipCode ZipCode { get; private set; }
@@ -26,6 +27,7 @@ public class Shelter : AggregateRoot
         Nip nip)
     {
         Id = id;
+        ProfilePhotoId = Guid.Empty;
         OrganizationName = organizationName;
         Localization = localization;
         ZipCode = zipCode;
@@ -40,6 +42,16 @@ public class Shelter : AggregateRoot
     {
         var shelter = new Shelter(Id, organizationName, localization, zipCode, krs, nip);
         return shelter;
+    }
+    
+    public void RemoveProfilePhoto()
+    {
+        ProfilePhotoId = Guid.Empty;
+    }
+
+    public void ChangeProfilePhoto(ProfilePhotoId profilePhotoId)
+    {
+        ProfilePhotoId = profilePhotoId;
     }
 
     public void AddAdvertisement(ShelterAdvertisement shelterAdvertisement)
@@ -96,16 +108,16 @@ public class Shelter : AggregateRoot
         advertisement.Update(description);
     }
 
-    public void AddWorker(WorkerId worker)
+    public void AddWorker(Worker worker)
     {
-        var exists = Workers.Any(x => x.WorkerId == worker);
+        var exists = Workers.Any(x => x.WorkerId == worker.WorkerId);
 
         if (exists)
         {
             throw new WorkerAlreadyExistsException();
         }
 
-        Workers.Add(new Worker(worker));
+        Workers.Add(worker);
     }
 
     public void UpdateVolunteering(Volunteering volunteering)
