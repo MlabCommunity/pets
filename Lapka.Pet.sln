@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lapka.Pet.Infrastructure", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lapka.Pet.Api", "Lapka.Pet.Api\Lapka.Pet.Api.csproj", "{40381492-1059-46DD-9C95-57D9E45440B5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A7D96BF6-FB05-4D9B-A4A8-1AAF1639EB30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lapka.Pet.UnitTests", "Lapka.Pet.UnitTests\Lapka.Pet.UnitTests.csproj", "{52ECE1F8-F391-408F-8E9D-9D687E9ECEA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,12 @@ Global
 		{40381492-1059-46DD-9C95-57D9E45440B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40381492-1059-46DD-9C95-57D9E45440B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40381492-1059-46DD-9C95-57D9E45440B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52ECE1F8-F391-408F-8E9D-9D687E9ECEA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52ECE1F8-F391-408F-8E9D-9D687E9ECEA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52ECE1F8-F391-408F-8E9D-9D687E9ECEA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52ECE1F8-F391-408F-8E9D-9D687E9ECEA8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{52ECE1F8-F391-408F-8E9D-9D687E9ECEA8} = {A7D96BF6-FB05-4D9B-A4A8-1AAF1639EB30}
 	EndGlobalSection
 EndGlobal

@@ -48,6 +48,32 @@ public class ShelterController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return OkOrNotFound(result);
     }
+    
+    [Authorize(Roles = "Shelter")]
+    [HttpPost("workers/{workerId:guid}")]
+    [SwaggerOperation(description: "Adds worker to shelter")]
+    [SwaggerResponse(204, "Worker added")]
+    [SwaggerResponse(404, "shelter not found")]
+    public async Task<IActionResult> AddWorker([FromRoute] Guid workerId)
+    {
+        var command = new AddWorkerCommand(GetPrincipalId(),workerId);
+
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
+    [Authorize(Roles = "Shelter")]
+    [HttpDelete("workers/{workerId:guid}")]
+    [SwaggerOperation(description: "Deletes worker to shelter")]
+    [SwaggerResponse(204, "Worker deleted")]
+    [SwaggerResponse(404, "shelter or worker not found")]
+    public async Task<IActionResult> RemoveWorker([FromRoute] Guid workerId)
+    {
+        var command = new RemoveWorkerCommand(GetPrincipalId(),workerId);
+
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
 
     [Authorize(Policy = "IsWorker")]
     [HttpPost("cards/dog")]

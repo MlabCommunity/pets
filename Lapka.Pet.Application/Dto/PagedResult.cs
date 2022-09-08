@@ -2,7 +2,7 @@ namespace Lapka.Pet.Application.Dto;
 
 public class PagedResult<T>
 {
-    public List<T> Items { get; protected set; }
+    public List<object> Items { get; protected set; }
     public int TotalPages { get; protected set; }
     public int ItemFrom { get; protected set; }
     public int ItemsTo { get; protected set; }
@@ -10,7 +10,7 @@ public class PagedResult<T>
 
     public PagedResult(List<T> items, int totalCount, int pageSize, int pageNumber)
     {
-        Items = items;
+        Items =  items.Cast<object>().ToList(); // TODO : Ask Adam how to solve it
         TotalItemsCount = totalCount;
         ItemFrom = pageSize * (pageNumber - 1) + 1;
         ItemsTo = ItemFrom + pageSize - 1;

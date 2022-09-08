@@ -25,8 +25,7 @@ public class AdvertisementController : BaseController
         _queryDispatcher = queryDispatcher;
         _userCacheStorage = userCacheStorage;
     }
-
-    [Authorize(Roles = "Shelter,Worker,User")]
+    
     [HttpGet("shelters")]
     [SwaggerOperation(description: "Gets all shelter advertisements")]
     [SwaggerResponse(200, "advertisements found or returns empty list", typeof(Application.Dto.PagedResult<ShelterPetAdvertisementDto>))]
@@ -38,8 +37,7 @@ public class AdvertisementController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
     }
-
-    [Authorize(Roles = "Shelter,Worker,User")]
+    
     [HttpGet("shelters/{petId:guid}")]
     [SwaggerOperation(description: "Gets shelter's advertisement details")]
     [SwaggerResponse(200, "advertisements found", typeof(List<ShelterAdvertisementDetailsDto>))]

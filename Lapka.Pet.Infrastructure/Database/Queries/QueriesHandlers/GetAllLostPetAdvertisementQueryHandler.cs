@@ -1,4 +1,3 @@
-using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Infrastructure.Database.Contexts;
@@ -8,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Lapka.Pet.Infrastructure.Database.Queries.QueriesHandlers;
 
 internal sealed class
-    GetAllLostPetAdvertisementQueryHandler : IQueryHandler<GetAllLostPetAdvertisementQuery,
-        Application.Dto.PagedResult<LostPetAdvertisementDto>>
+    GetAllLostPetAdvertisementQueryHandler : Convey.CQRS.Queries.IQueryHandler<GetAllLostPetAdvertisementQuery,
+        PagedResult<LostPetAdvertisementDto>>
 {
     private readonly DbSet<LostPetAdvertisement> _advertisements;
     private readonly DbSet<Core.Entities.Pet> _pets;
@@ -20,7 +19,7 @@ internal sealed class
         _advertisements = context.LostPetAdvertisements;
     }
 
-    public async Task<Application.Dto.PagedResult<LostPetAdvertisementDto>> HandleAsync(GetAllLostPetAdvertisementQuery query,
+    public async Task<PagedResult<LostPetAdvertisementDto>> HandleAsync(GetAllLostPetAdvertisementQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
         var advertisements = await _advertisements.Where(x => x.IsVisible).ToListAsync();
@@ -37,6 +36,6 @@ internal sealed class
             .Where(x => x.IsVisible)
             .CountAsync();
 
-        return new Application.Dto.PagedResult<LostPetAdvertisementDto>(result,count,query.PageSize,query.PageNumber);
+        return new PagedResult<LostPetAdvertisementDto>(result,count,query.PageSize,query.PageNumber);
     }
 }

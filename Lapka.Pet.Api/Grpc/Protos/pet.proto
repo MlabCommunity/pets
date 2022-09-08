@@ -5,9 +5,6 @@ import "google/protobuf/empty.proto";
 service PetService
 {
   rpc CreateShelter(CreateShelterRequest) returns (google.protobuf.Empty);
-  rpc DeleteShelter(DeleteShelterRequest) returns (google.protobuf.Empty);
-  rpc AddWorker(AddWorkerRequest) returns (google.protobuf.Empty);
-  rpc RemoveWorker(RemoveWorkerRequest) returns (google.protobuf.Empty);
 }
 message CreateShelterRequest
 {
@@ -19,21 +16,4 @@ message CreateShelterRequest
   string nip = 6;
   string krs = 7;
   string phone_number = 8;
-}
-
-message DeleteShelterRequest
-{
-  string user_id = 1;
-}
-
-message AddWorkerRequest
-{
-  string user_id = 1;
-  string worker_id=2;
-}
-
-message RemoveWorkerRequest
-{
-  string user_id = 1;
-  string worker_id=2;
 }

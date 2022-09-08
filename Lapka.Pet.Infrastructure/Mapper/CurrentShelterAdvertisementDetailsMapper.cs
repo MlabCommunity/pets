@@ -1,6 +1,5 @@
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Entities;
-using Lapka.Pet.Infrastructure.Database.Queries;
 
 namespace Lapka.Pet.Infrastructure.Mapper;
 

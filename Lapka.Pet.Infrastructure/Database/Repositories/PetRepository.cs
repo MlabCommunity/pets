@@ -1,5 +1,6 @@
 using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Repositories;
+using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,13 +24,12 @@ internal sealed class PetRepository : IPetRepository
     }
 
     public Task<Core.Entities.Pet> FindByIdAsync(AggregateId id)
-    {
-        return _pets
-            .Include(x=>x.Visits)
-            .ThenInclude(x=>x.VisitTypes)
+        => _pets
+            .Include(x => x.Visits)
+            .ThenInclude(x => x.VisitTypes)
             .Include(x => x.Photos)
             .FirstOrDefaultAsync(s => s.Id == id);
-    }
+
 
     public async Task UpdateAsync(Core.Entities.Pet pet)
     {
@@ -47,5 +47,12 @@ internal sealed class PetRepository : IPetRepository
     {
         var pet = await FindByIdAsync(petId);
         await RemoveAsync(pet);
+    }
+
+    public async Task RemoveByOwnerIdAsync(OwnerId ownerId)
+    {
+        var pets = await _pets.Where(x => x.OwnerId == ownerId).ToListAsync();
+        _pets.RemoveRange(pets);
+        await _context.SaveChangesAsync();
     }
 }

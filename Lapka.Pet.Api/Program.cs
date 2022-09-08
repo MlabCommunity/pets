@@ -1,7 +1,12 @@
 using System.Text.Json.Serialization;
+using Convey;
+using Convey.MessageBrokers.CQRS;
+using Convey.MessageBrokers.RabbitMQ;
 using Lapka.Pet.Api.Grpc;
 using Lapka.Pet.Application;
+using Lapka.Pet.Application.IntegrationEvents;
 using Lapka.Pet.Infrastructure;
+using Lapka.Pet.Infrastructure.gRPC;
 using Lapka.Pet.Infrastructure.Jwt;
 using Microsoft.OpenApi.Models;
 
@@ -17,6 +22,7 @@ builder.Services.AddSwaggerConfiguration();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddGrpc();
+builder.Services.AddGrpcServices(builder.Configuration);
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
@@ -24,9 +30,9 @@ var app = builder.Build();
 
 app.MapGrpcService<ShelterGrpcController>();
 
-
-//if (app.Environment.IsDevelopment())
-
+app.UseConvey();
+app.UseRabbitMq()
+    .SubscribeEvent<UserDeletedEvent>();
 
 app.UseSwagger(c =>
 {
