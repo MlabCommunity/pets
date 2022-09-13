@@ -1,32 +1,42 @@
+using System.Collections;
+using System.Collections.ObjectModel;
 using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Events;
 using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.ValueObjects;
+using Microsoft.VisualBasic;
 
 namespace Lapka.Pet.Core.Entities;
 
 public class Shelter : AggregateRoot
 {
+    private readonly List<Volunteer> _volunteers = new();
+    private readonly List<Worker> _workers = new();
+    private readonly List<ShelterAdvertisement> _advertisements = new();
+
     public OrganizationName OrganizationName { get; private set; }
     public ProfilePhotoId ProfilePhotoId { get; private set; }
-    public ICollection<ShelterAdvertisement> Advertisements = new List<ShelterAdvertisement>();
+    public Email Email { get; private set; }
     public Localization Localization { get; private set; }
     public ZipCode ZipCode { get; private set; }
-    public ICollection<Worker> Workers = new List<Worker>();
     public Volunteering Volunteering { get; private set; }
-    public ICollection<Volunteer> Volunteers = new List<Volunteer>();
     public Krs Krs { get; private set; }
     public Nip Nip { get; private set; }
+    public ICollection<ShelterAdvertisement> Advertisements => _advertisements;
+    public ICollection<Volunteer> Volunteers => _volunteers;
+    public ICollection<Worker> Workers => _workers;
 
     private Shelter()
     {
     }
 
-    internal Shelter(AggregateId id, OrganizationName organizationName, Localization localization, ZipCode zipCode,
+    internal Shelter(AggregateId id, Email email, OrganizationName organizationName, Localization localization,
+        ZipCode zipCode,
         Krs krs,
         Nip nip)
     {
         Id = id;
+        Email = email;
         ProfilePhotoId = Guid.Empty;
         OrganizationName = organizationName;
         Localization = localization;
@@ -36,23 +46,18 @@ public class Shelter : AggregateRoot
         Volunteering = new Volunteering(false, "", "", false, "", false, "");
     }
 
-    public static Shelter Create(AggregateId Id, Localization localization, ZipCode zipCode,
+    public static Shelter Create(AggregateId Id, Email email, Localization localization, ZipCode zipCode,
         OrganizationName organizationName,
         Krs krs, Nip nip)
     {
-        var shelter = new Shelter(Id, organizationName, localization, zipCode, krs, nip);
+        var shelter = new Shelter(Id, email, organizationName, localization, zipCode, krs, nip);
         return shelter;
     }
-    
-    public void RemoveProfilePhoto()
-    {
-        ProfilePhotoId = Guid.Empty;
-    }
+
 
     public void ChangeProfilePhoto(ProfilePhotoId profilePhotoId)
-    {
-        ProfilePhotoId = profilePhotoId;
-    }
+        => ProfilePhotoId = profilePhotoId != Guid.Empty ? profilePhotoId : Guid.Empty;
+
 
     public void AddAdvertisement(ShelterAdvertisement shelterAdvertisement)
     {
@@ -151,6 +156,12 @@ public class Shelter : AggregateRoot
 
         AddEvent(new ShelterUpdatedEvent(Id, organizationName, localization.Street, localization.City, zipCode, krs,
             nip));
+    }
+
+    public void Update(Email email, ProfilePhotoId profilePhotoId)
+    {
+        ChangeProfilePhoto(profilePhotoId);
+        Email = email;
     }
 
     public void RemoveWorker(WorkerId workerId)

@@ -3,7 +3,7 @@ using Convey.CQRS.Queries;
 using Lapka.Pet.Api.Requests;
 using Lapka.Pet.Application.Commands;
 using Lapka.Pet.Application.Dto;
-using Lapka.Pet.Infrastructure.Database.Queries;
+using Lapka.Pet.Application.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -35,7 +35,7 @@ public class ShelterController : BaseController
 
         return NoContent();
     }
-    
+
     [HttpGet]
     [SwaggerOperation(description: "Gets shelter data")]
     [SwaggerResponse(200, "shelter found", typeof(ShelterDto))]
@@ -47,18 +47,18 @@ public class ShelterController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return OkOrNotFound(result);
     }
-    
+
     [HttpGet("details/{shelterId:guid}")]
     [SwaggerOperation(description: "Gets shelter data")]
     [SwaggerResponse(200, "shelter found", typeof(ShelterDetailsDto))]
     [SwaggerResponse(404, "shelter not found")]
-    public async Task<ActionResult<ShelterDetailsDto>> GetShelterDetails([FromRoute] Guid shelterId )
+    public async Task<ActionResult<ShelterDetailsDto>> GetShelterDetails([FromRoute] Guid shelterId)
     {
         var query = new GetShelterDetailsQuery(shelterId);
         var result = await _queryDispatcher.QueryAsync(query);
         return OkOrNotFound(result);
     }
-    
+
     [Authorize(Roles = "Shelter")]
     [HttpPost("workers/{workerEmail}")]
     [SwaggerOperation(description: "Adds worker to shelter")]
@@ -66,12 +66,12 @@ public class ShelterController : BaseController
     [SwaggerResponse(404, "shelter not found")]
     public async Task<IActionResult> AddWorker([FromRoute] string workerEmail)
     {
-        var command = new AddWorkerCommand(GetPrincipalId(),workerEmail);
+        var command = new AddWorkerCommand(GetPrincipalId(), workerEmail);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [Authorize(Roles = "Shelter")]
     [HttpDelete("workers/{workerId:guid}")]
     [SwaggerOperation(description: "Deletes worker to shelter")]
@@ -79,7 +79,7 @@ public class ShelterController : BaseController
     [SwaggerResponse(404, "shelter or worker not found")]
     public async Task<IActionResult> RemoveWorker([FromRoute] Guid workerId)
     {
-        var command = new RemoveWorkerCommand(GetPrincipalId(),workerId);
+        var command = new RemoveWorkerCommand(GetPrincipalId(), workerId);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
@@ -159,11 +159,12 @@ public class ShelterController : BaseController
     [HttpGet("cards")]
     [SwaggerOperation(description: "Gets shelter's pets")]
     [SwaggerResponse(200, "Pets found or returns empty list", typeof(Application.Dto.PagedResult<PetDto>))]
-    public async Task<ActionResult<Application.Dto.PagedResult<PetDto>>> GetAllShelterPets([FromQuery] int pageNumber =1,[FromQuery] int pageSize=10)
+    public async Task<ActionResult<Application.Dto.PagedResult<PetDto>>> GetAllShelterPets(
+        [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        var query = new GetAllShelterPetsQuery(GetPrincipalId(),pageNumber,pageSize);
+        var query = new GetAllShelterPetsQuery(GetPrincipalId(), pageNumber, pageSize);
         var result = await _queryDispatcher.QueryAsync(query);
-        
+
         return Ok(result);
     }
 
@@ -199,7 +200,7 @@ public class ShelterController : BaseController
     [SwaggerResponse(204, "Volunteer added")]
     public async Task<IActionResult> AddVolunteer([FromRoute] Guid shelterId)
     {
-        var command = new AddVolunteerCommand(GetPrincipalId(), GetPrincipalEmail(), shelterId);
+        var command = new AddVolunteerCommand(GetPrincipalId(), shelterId);
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
@@ -230,10 +231,12 @@ public class ShelterController : BaseController
     [Authorize(Policy = "IsWorker")]
     [HttpGet("advertisements")]
     [SwaggerOperation(description: "Gets shelter's advertisements")]
-    [SwaggerResponse(200, "advertisements found or returns empty list", typeof(Application.Dto.PagedResult<CurrentShelterAdvertisementDetailsDto>))]
-    public async Task<ActionResult<Application.Dto.PagedResult<CurrentShelterAdvertisementDetailsDto>>> GetAllCurrentShelterAdvertisement([FromQuery] int pageNumber =1,[FromQuery] int pageSize=10)
+    [SwaggerResponse(200, "advertisements found or returns empty list",
+        typeof(Application.Dto.PagedResult<CurrentShelterAdvertisementDetailsDto>))]
+    public async Task<ActionResult<Application.Dto.PagedResult<CurrentShelterAdvertisementDetailsDto>>>
+        GetAllCurrentShelterAdvertisement([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        var query = new GetAllCurrentShelterAdvertisementQuery(GetPrincipalId(),pageNumber,pageSize);
+        var query = new GetAllCurrentShelterAdvertisementQuery(GetPrincipalId(), pageNumber, pageSize);
 
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);

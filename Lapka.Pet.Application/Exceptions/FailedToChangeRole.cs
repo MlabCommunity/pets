@@ -2,7 +2,7 @@
 
 public class FailedToChangeRole : ProjectException
 {
-    public FailedToChangeRole(string message, Exception inner = null) : base("Failed to change role:" + message,500)
+    public FailedToChangeRole(string message, Exception inner = null) : base("Failed to change role:" + message, 500)
     {
     }
 }

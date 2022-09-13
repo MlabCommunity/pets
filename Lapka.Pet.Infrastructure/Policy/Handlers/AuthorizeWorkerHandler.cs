@@ -1,8 +1,11 @@
 using System.Security.Claims;
 using Convey.CQRS.Queries;
+using Lapka.Pet.Application.Exceptions;
+using Lapka.Pet.Application.Queries;
 using Lapka.Pet.Application.Services;
-using Lapka.Pet.Infrastructure.Database.Queries;
+using Lapka.Pet.Core.Exceptions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Lapka.Pet.Infrastructure.Policy.Handlers;
 
@@ -21,14 +24,23 @@ internal class AuthorizeWorkerHandler : AuthorizationHandler<IsWorkerRequirement
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
         IsWorkerRequirement requirement)
     {
-        var principalId = Guid.Parse(context.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+
+        var stringId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        
+        if (string.IsNullOrWhiteSpace(stringId))
+        {
+            throw new ProjectUnauthorized();
+        }
+        
+        var principalId = Guid.Parse(stringId);
 
         var query = new GetShelterIdByOwnerIdOrWorkerIdQuery(principalId);
         var shelterId = await _queryDispatcher.QueryAsync(query);
 
         if (shelterId == Guid.Empty)
         {
-            context.Fail();
+            throw new DomainForbidden();
         }
 
         _cacheStorage.SetShelterId(principalId, shelterId);

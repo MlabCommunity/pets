@@ -26,7 +26,7 @@ internal sealed class DeleteLostPetAdvertisementCommandHandler : ICommandHandler
             throw new AdvertisementNotFoundException();
         }
 
-        await _lostPetAdvertisementRepository.DeleteAsync(advertisement); //TODO chyba nie da sie tego ogrnac eventami
+        await _lostPetAdvertisementRepository.DeleteAsync(advertisement);
         await _petRepository.RemoveByIdAsync(advertisement.PetId.Value);
     }
 }

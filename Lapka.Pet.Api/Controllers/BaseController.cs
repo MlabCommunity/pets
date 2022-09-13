@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Lapka.Pet.Api.Controllers;
 
 [ApiController]
-[Route("api/pets/[controller]s")]
+[Route("[controller]s")]
 public abstract class BaseController : ControllerBase
 {
     protected ActionResult<TResult> OkOrNotFound<TResult>(TResult result)

@@ -3,7 +3,7 @@ using Convey.CQRS.Queries;
 using Lapka.Pet.Api.Requests;
 using Lapka.Pet.Application.Commands;
 using Lapka.Pet.Application.Dto;
-using Lapka.Pet.Infrastructure.Database.Queries;
+using Lapka.Pet.Application.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -106,8 +106,9 @@ public class CardController : BaseController
     [Authorize]
     [HttpGet]
     [SwaggerOperation(description: "Gets all cards")]
-    [SwaggerResponse(200,"cards found or returns empty list")]
-    public async Task<ActionResult<Application.Dto.PagedResult<PetDto>>> GetPets([FromQuery] int pageNumber =1,[FromQuery] int pageSize=10)
+    [SwaggerResponse(200, "cards found or returns empty list")]
+    public async Task<ActionResult<Application.Dto.PagedResult<PetDto>>> GetPets([FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
     {
         var query = new GetAllPetsQuery(GetPrincipalId(), pageNumber, pageSize);
         var result = await _queryDispatcher.QueryAsync(query);
@@ -119,8 +120,8 @@ public class CardController : BaseController
     [SwaggerOperation(description: "Gets visits by petId")]
     [SwaggerResponse(200, "Returns list of visits or empty list")]
     public async Task<ActionResult<VisitResponseDto>> GetVisits([FromRoute] Guid petId,
-        [FromQuery] int incomingVisitPageNumber =1, [FromQuery] int incomingVisitPageSize =10,
-        [FromQuery] int lastVisitPageNumber=1, [FromQuery] int lastVisitPageSize=10)
+        [FromQuery] int incomingVisitPageNumber = 1, [FromQuery] int incomingVisitPageSize = 10,
+        [FromQuery] int lastVisitPageNumber = 1, [FromQuery] int lastVisitPageSize = 10)
     {
         var query = new GetAllVisitsQuery(petId, GetPrincipalId(), incomingVisitPageNumber, incomingVisitPageSize,
             lastVisitPageNumber, lastVisitPageSize);

@@ -13,7 +13,8 @@ internal sealed class UpdateVisitCommandHandler : ICommandHandler<UpdateVisitCom
         _petRepository = petRepository;
     }
 
-    public async Task HandleAsync(UpdateVisitCommand command, CancellationToken cancellationToken = new CancellationToken())
+    public async Task HandleAsync(UpdateVisitCommand command,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         var pet = await _petRepository.FindByIdAsync(command.PetId);
 
@@ -21,8 +22,9 @@ internal sealed class UpdateVisitCommandHandler : ICommandHandler<UpdateVisitCom
         {
             throw new PetNotFoundException();
         }
-        
-        pet.UpdateVisit(command.VisitId,command.PrincipalId, command.HasTookPlace,command.DateOfVisit,command.Description,command.VisitTypes,command.WeightOnVisit);
+
+        pet.UpdateVisit(command.VisitId, command.PrincipalId, command.HasTookPlace, command.DateOfVisit,
+            command.Description, command.VisitTypes, command.WeightOnVisit);
 
         await _petRepository.UpdateAsync(pet);
     }

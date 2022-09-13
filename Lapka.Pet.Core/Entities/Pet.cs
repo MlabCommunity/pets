@@ -78,7 +78,7 @@ public abstract class Pet : AggregateRoot
                 Weight = visit.WeightOnVisit.Value;
             }
         }
-        
+
         Visits.Add(visit);
     }
 

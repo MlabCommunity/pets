@@ -12,13 +12,13 @@ public interface IAppDbContext
     DbSet<Cat> Cats { get; set; }
     DbSet<Dog> Dogs { get; set; }
     DbSet<Volunteering> Volunteerings { get; set; }
-    DbSet<Volunteer> Volunteers { get; set; }
     DbSet<ShelterAdvertisement> ShelterAdvertisements { get; set; }
     DbSet<LostPetAdvertisement> LostPetAdvertisements { get; set; }
     DbSet<Advertisement> Advertisements { get; set; }
     DbSet<Photo> Photos { get; set; }
     DbSet<Visit> Visits { get; set; }
     DbSet<VisitType> VisitTypes { get; set; }
+    DbSet<Volunteer> Volunteers { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

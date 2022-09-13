@@ -94,6 +94,10 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Krs")
                         .IsRequired()
                         .HasColumnType("text");
@@ -160,20 +164,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.ToTable("Visits", "pets");
                 });
 
-            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.PetId", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("Value")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ShelterPets", "pets");
-                });
-
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Photo", b =>
                 {
                     b.Property<Guid>("Id")
@@ -214,10 +204,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<Guid?>("ShelterId")
                         .HasColumnType("uuid");
@@ -288,6 +274,9 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
 
                     b.Property<Guid?>("ShelterId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("WorkerId")
                         .HasColumnType("uuid");

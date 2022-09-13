@@ -6,7 +6,6 @@ namespace Lapka.Pet.Infrastructure.Mapper;
 
 internal static class WorkerMapper
 {
-    
     public static WorkerDto AsDto(this Worker worker)
         => new()
         {

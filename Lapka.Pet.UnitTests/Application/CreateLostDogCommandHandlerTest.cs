@@ -22,7 +22,7 @@ public class CreateLostDogCommandHandlerTest
         //ARRANGE
         var command = new CreateLostDogCommand(Guid.NewGuid(), "name", Gender.Male, DateTime.Now.AddYears(-1), true, 2,
             DogColor.DOG_BLACK, DogBreed.DOG_HUSKY, new Collection<Guid>());
-        
+
         //ACT
         var exception = await Record.ExceptionAsync(() => Act(command));
 
@@ -42,7 +42,7 @@ public class CreateLostDogCommandHandlerTest
     {
         _repository = Substitute.For<IPetRepository>();
         _cacheStorage = Substitute.For<IUserCacheStorage>();
-        _commandHandler = new CreateLostDogCommandHandler(_repository,_cacheStorage);
+        _commandHandler = new CreateLostDogCommandHandler(_repository, _cacheStorage);
     }
 
     #endregion

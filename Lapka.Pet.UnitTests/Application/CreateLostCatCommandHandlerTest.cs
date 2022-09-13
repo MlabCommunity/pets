@@ -22,14 +22,14 @@ public class CreateLostCatCommandHandlerTest
         //ARRANGE
         var command = new CreateLostCatCommand(Guid.NewGuid(), "name", Gender.Male, DateTime.Now.AddYears(-1), true, 2,
             CatColor.CAT_BLACK, CatBreed.CAT_ELO, new Collection<Guid>());
-        
+
         //ACT
         var exception = await Record.ExceptionAsync(() => Act(command));
 
         //ASSERT
         exception.ShouldBeNull();
         await _repository.Received(1).AddPetAsync(Arg.Any<Core.Entities.Pet>());
-         _cacheStorage.Received(1).SetPetId(Arg.Any<Guid>(), Arg.Any<Guid>());
+        _cacheStorage.Received(1).SetPetId(Arg.Any<Guid>(), Arg.Any<Guid>());
     }
 
     #region ARRANGE
@@ -42,7 +42,7 @@ public class CreateLostCatCommandHandlerTest
     {
         _repository = Substitute.For<IPetRepository>();
         _cacheStorage = Substitute.For<IUserCacheStorage>();
-        _commandHandler = new CreateLostCatCommandHandler(_repository,_cacheStorage);
+        _commandHandler = new CreateLostCatCommandHandler(_repository, _cacheStorage);
     }
 
     #endregion

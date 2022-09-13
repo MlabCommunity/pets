@@ -16,4 +16,5 @@ message CreateShelterRequest
   string nip = 6;
   string krs = 7;
   string phone_number = 8;
+  string email=9;
 }

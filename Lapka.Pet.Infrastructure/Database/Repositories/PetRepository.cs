@@ -48,11 +48,4 @@ internal sealed class PetRepository : IPetRepository
         var pet = await FindByIdAsync(petId);
         await RemoveAsync(pet);
     }
-
-    public async Task RemoveByOwnerIdAsync(OwnerId ownerId)
-    {
-        var pets = await _pets.Where(x => x.OwnerId == ownerId).ToListAsync();
-        _pets.RemoveRange(pets);
-        await _context.SaveChangesAsync();
-    }
 }

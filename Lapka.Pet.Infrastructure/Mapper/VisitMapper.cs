@@ -5,7 +5,6 @@ namespace Lapka.Pet.Infrastructure.Mapper;
 
 internal static class VisitMapper
 {
-    
     public static VisitDetailsDto AsVisitDetailsDto(this Visit visit)
         => new()
         {
@@ -16,7 +15,7 @@ internal static class VisitMapper
             DateOfVisit = visit.DateOfVisit,
             VisitType = visit.VisitTypes
         };
-    
+
     public static VisitDto AsVisitDto(this Visit visit)
         => new()
         {
@@ -24,5 +23,4 @@ internal static class VisitMapper
             Description = visit.Description,
             DateOfVisit = visit.DateOfVisit,
         };
-    
 }

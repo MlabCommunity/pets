@@ -7,7 +7,7 @@ public class ProfilePhotoId : TypeId
     public ProfilePhotoId(Guid value) : base(value)
     {
     }
-    
+
     public static implicit operator ProfilePhotoId(Guid id)
         => new(id);
 }
