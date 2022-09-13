@@ -16,7 +16,8 @@ public static class Extensions
         services.AddSingleton(jwtOption);
         services.AddScoped<IAuthorizationHandler, AuthorizeWorkerHandler>();
         services.AddAuthorization(options =>
-            options.AddPolicy("IsWorker", policy => policy.Requirements.Add(new IsWorkerRequirement())));
+            options.AddPolicy("IsWorker", policy => policy.Requirements
+                .Add(new IsWorkerRequirement())));
 
         services
             .AddAuthentication(o =>
@@ -25,7 +26,10 @@ public static class Extensions
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
-                opts => { opts.TokenValidationParameters = JwtParamsFactory.CreateParameters(jwtOption); });
+                opts =>
+                {
+                    opts.TokenValidationParameters = JwtParamsFactory.CreateParameters(jwtOption);
+                });
 
         return services;
     }

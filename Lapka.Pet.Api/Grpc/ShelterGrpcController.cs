@@ -16,12 +16,12 @@ public class ShelterGrpcController : PetService.PetServiceBase //TODO: Nazewnict
 
     public override async Task<Empty> CreateShelter(CreateShelterRequest request, ServerCallContext context)
     {
-        var command = new CreateShelterCommand(Guid.Parse(request.UserId), request.OrganizationName, request.Street,
+        var command = new CreateShelterCommand(Guid.Parse(request.UserId), request.Email, request.OrganizationName,
+            request.Street,
             request.ZipCode, request.City, request.Nip, request.Krs);
 
         await _commandDispatcher.SendAsync(command);
 
         return new();
     }
-    
 }

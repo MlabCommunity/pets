@@ -12,11 +12,10 @@ internal static class ShelterMapper
             OrganizationName = shelter.OrganizationName,
             Localization = shelter.Localization.ToString()
         };
-    
+
     public static ShelterDetailsDto AsDetailsDto(this Shelter shelter)
         => new()
         {
-
             OrganizationName = shelter.OrganizationName,
             Street = shelter.Localization.Street,
             City = shelter.Localization.City,

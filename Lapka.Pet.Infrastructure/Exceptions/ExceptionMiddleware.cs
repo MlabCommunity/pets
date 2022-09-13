@@ -35,5 +35,13 @@ internal sealed class ExceptionMiddleware : IMiddleware
         {
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
         }
+        catch (ProjectForbidden ex)
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+        }
+        catch (ProjectUnauthorized ex)
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        }
     }
 }

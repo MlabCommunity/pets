@@ -1,6 +1,7 @@
 using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
+using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,7 +31,6 @@ internal sealed class ShelterRepository : IShelterRepository
             .Include(x => x.Volunteering)
             .Include(x => x.Workers)
             .FirstOrDefaultAsync(x => x.Id == id);
-
 
     public async Task UpdateAsync(Shelter shelter)
     {

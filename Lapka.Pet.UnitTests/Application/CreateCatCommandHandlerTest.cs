@@ -21,7 +21,7 @@ public class CreateCatCommandHandlerTest
         //ARRANGE
         var command = new CreateCatCommand(Guid.NewGuid(), "name", Gender.Male, DateTime.Now.AddYears(-1), true, 2,
             CatColor.CAT_BLACK, CatBreed.CAT_SIEMA, new Collection<Guid>());
-        
+
         //ACT
         var exception = await Record.ExceptionAsync(() => Act(command));
 

@@ -14,7 +14,6 @@ public static class Extensions
 {
     public static IServiceProvider AddApplication(this IServiceCollection services)
     {
-        
         var builder = services.AddConvey()
             .AddCommandHandlers()
             .AddInMemoryCommandDispatcher()

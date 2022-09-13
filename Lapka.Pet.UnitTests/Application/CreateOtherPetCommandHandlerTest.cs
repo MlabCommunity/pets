@@ -20,14 +20,14 @@ public class CreateOtherPetCommandHandlerTest
     {
         //ARRANGE
         var command = new CreateOtherPetCommand(Guid.NewGuid(), "name", Gender.Male, DateTime.Now.AddYears(-1), true, 2,
-             new Collection<Guid>());
-        
+            new Collection<Guid>());
+
         //ACT
         var exception = await Record.ExceptionAsync(() => Act(command));
 
         //ASSERT
         exception.ShouldBeNull();
-        
+
         await _repository.Received(1).AddPetAsync(Arg.Any<Core.Entities.Pet>());
     }
 

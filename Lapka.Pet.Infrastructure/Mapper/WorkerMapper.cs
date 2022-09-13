@@ -6,13 +6,14 @@ namespace Lapka.Pet.Infrastructure.Mapper;
 
 internal static class WorkerMapper
 {
-    public static List<WorkerDto> AsWorkerDtos(this Shelter shelter)
-        => new List<WorkerDto>(shelter.Workers.Select(x => x.AsDto()));
-
     public static WorkerDto AsDto(this Worker worker)
         => new()
         {
+            Email = worker.Email,
+            FirstName = worker.FirstName,
+            LastName = worker.LastName,
             WorkerId = worker.WorkerId,
+            Stauts = worker.Status,
             CratedAt = worker.CreatedAt
         };
 }

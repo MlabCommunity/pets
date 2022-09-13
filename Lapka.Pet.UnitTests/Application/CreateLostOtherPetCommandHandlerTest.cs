@@ -20,9 +20,10 @@ public class CreateLostOtherPetCommandHandlerTest
     public async Task HandleAsync_On_Success()
     {
         //ARRANGE
-        var command = new CreateLostOtherPetCommand(Guid.NewGuid(), "name", Gender.Male, DateTime.Now.AddYears(-1), true, 2,
-           new Collection<Guid>());
-        
+        var command = new CreateLostOtherPetCommand(Guid.NewGuid(), "name", Gender.Male, DateTime.Now.AddYears(-1),
+            true, 2,
+            new Collection<Guid>());
+
         //ACT
         var exception = await Record.ExceptionAsync(() => Act(command));
 
@@ -42,7 +43,7 @@ public class CreateLostOtherPetCommandHandlerTest
     {
         _repository = Substitute.For<IPetRepository>();
         _cacheStorage = Substitute.For<IUserCacheStorage>();
-        _commandHandler = new CreateLostOtherPetCommandHandler(_repository,_cacheStorage);
+        _commandHandler = new CreateLostOtherPetCommandHandler(_repository, _cacheStorage);
     }
 
     #endregion

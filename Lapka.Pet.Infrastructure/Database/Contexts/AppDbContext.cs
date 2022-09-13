@@ -20,6 +20,7 @@ internal class AppDbContext : DbContext, IAppDbContext
     public DbSet<Visit> Visits { get; set; }
     public DbSet<VisitType> VisitTypes { get; set; }
 
+
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }

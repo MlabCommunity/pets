@@ -4,7 +4,7 @@ using Lapka.Pet.Core.Entities;
 
 namespace Lapka.Pet.Infrastructure.Mapper;
 
-internal static class ShelterAdvertisementMapper 
+internal static class ShelterAdvertisementMapper
 {
     public static ShelterPetAdvertisementDto AsDto(this ShelterAdvertisement advertisement, Core.Entities.Pet pet)
     {
@@ -16,14 +16,13 @@ internal static class ShelterAdvertisementMapper
                 return new ShelterCatAdvertisementDto()
                 {
                     OrganizationName = advertisement.OrganizationName,
-                    Localization = advertisement.Localization.ToString(),
+
                     PetId = cat.Id,
                     Name = cat.Name,
                     DateOfBirth = cat.DateOfBirth,
                     Gender = cat.Gender,
                     Photos = cat.Photos.Select(x => x.PhotoId.Value).ToList(),
-                    CatBreed = cat.Breed,
-                    CatColor = cat.Color
+                    Breed = cat.Breed,
                 };
             }
 
@@ -33,14 +32,12 @@ internal static class ShelterAdvertisementMapper
                 return new ShelterDogAdvertisementDto()
                 {
                     OrganizationName = advertisement.OrganizationName,
-                    Localization = advertisement.Localization.ToString(),
                     PetId = pet.Id,
                     Name = pet.Name,
                     DateOfBirth = pet.DateOfBirth,
                     Gender = pet.Gender,
                     Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
-                    DogBreed = dog.Breed,
-                    DogColor = dog.Color
+                    Breed = dog.Breed,
                 };
             }
 
@@ -50,7 +47,6 @@ internal static class ShelterAdvertisementMapper
                 return new ShelterOtherPetAdvertisementDto
                 {
                     OrganizationName = advertisement.OrganizationName,
-                    Localization = advertisement.Localization.ToString(),
                     PetId = pet.Id,
                     Name = pet.Name,
                     DateOfBirth = pet.DateOfBirth,
@@ -64,7 +60,6 @@ internal static class ShelterAdvertisementMapper
                 return new ShelterPetAdvertisementDto
                 {
                     OrganizationName = advertisement.OrganizationName,
-                    Localization = advertisement.Localization.ToString(),
                     PetId = pet.Id,
                     Name = pet.Name,
                     DateOfBirth = pet.DateOfBirth,

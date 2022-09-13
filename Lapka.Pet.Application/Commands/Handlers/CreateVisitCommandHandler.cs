@@ -7,7 +7,6 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 
 internal sealed class CreateVisitCommandHandler : ICommandHandler<CreateVisitCommand>
 {
-
     private readonly IPetRepository _petRepository;
 
     public CreateVisitCommandHandler(IPetRepository petRepository)
@@ -15,7 +14,8 @@ internal sealed class CreateVisitCommandHandler : ICommandHandler<CreateVisitCom
         _petRepository = petRepository;
     }
 
-    public async Task HandleAsync(CreateVisitCommand command, CancellationToken cancellationToken = new CancellationToken())
+    public async Task HandleAsync(CreateVisitCommand command,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         var pet = await _petRepository.FindByIdAsync(command.PetId);
 
@@ -23,8 +23,10 @@ internal sealed class CreateVisitCommandHandler : ICommandHandler<CreateVisitCom
         {
             throw new PetNotFoundException();
         }
-        
-        pet.AddVisit(new Visit(command.HasTookPlace,command.DateOfVisit,command.Description,command.VisitTypes,command.WeightOnVisit),command.PrincipalId);
+
+        pet.AddVisit(
+            new Visit(command.HasTookPlace, command.DateOfVisit, command.Description, command.VisitTypes,
+                command.WeightOnVisit), command.PrincipalId);
 
         await _petRepository.UpdateAsync(pet);
     }

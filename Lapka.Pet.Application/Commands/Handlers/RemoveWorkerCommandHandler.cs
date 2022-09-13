@@ -10,7 +10,7 @@ internal sealed class RemoveWorkerCommandHandler : ICommandHandler<RemoveWorkerC
     private readonly IShelterRepository _shelterRepository;
     private readonly IIdentityGrpcClient _client;
 
-    public RemoveWorkerCommandHandler(IShelterRepository shelterRepository,IIdentityGrpcClient client)
+    public RemoveWorkerCommandHandler(IShelterRepository shelterRepository, IIdentityGrpcClient client)
     {
         _shelterRepository = shelterRepository;
         _client = client;

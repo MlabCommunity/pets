@@ -4,9 +4,9 @@ using Convey.CQRS.Queries;
 using Lapka.Pet.Api.Requests;
 using Lapka.Pet.Application.Commands;
 using Lapka.Pet.Application.Dto;
+using Lapka.Pet.Application.Queries;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Consts;
-using Lapka.Pet.Infrastructure.Database.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -26,22 +26,25 @@ public class AdvertisementController : BaseController
         _queryDispatcher = queryDispatcher;
         _userCacheStorage = userCacheStorage;
     }
-    
+
     [HttpGet("shelters")]
     [SwaggerOperation(description: "Gets all shelter advertisements")]
-    [SwaggerResponse(200, "advertisements found or returns empty list", typeof(Application.Dto.PagedResult<ShelterPetAdvertisementDto>))]
+    [SwaggerResponse(200, "advertisements found or returns empty list",
+        typeof(Application.Dto.PagedResult<ShelterPetAdvertisementDto>))]
     public async Task<ActionResult<Application.Dto.PagedResult<ShelterPetAdvertisementDto>>> GetAllShelterAdvertisement(
-        [FromQuery] PetType? type, [FromQuery] Gender? gender,[FromQuery] int pageNumber =1,[FromQuery] int pageSize=10)
+        [FromQuery] PetType? type, [FromQuery] Gender? gender, [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
     {
-        var query = new GetAllShelterAdvertisementQuery(type, gender,pageNumber,pageSize);
+        var query = new GetAllShelterAdvertisementQuery(type, gender, pageNumber, pageSize);
 
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
     }
-    
+
     [HttpGet("shelters/{petId:guid}")]
     [SwaggerOperation(description: "Gets shelter's advertisement details")]
     [SwaggerResponse(200, "advertisements found", typeof(List<ShelterAdvertisementDetailsDto>))]
+    [SwaggerResponse(404, "advertisements not found", typeof(List<ShelterAdvertisementDetailsDto>))]
     public async Task<ActionResult<ShelterAdvertisementDetailsDto>> GetShelterAdvertisementDetails(
         [FromRoute] Guid petId)
     {
@@ -113,9 +116,10 @@ public class AdvertisementController : BaseController
     [HttpGet]
     [SwaggerOperation(description: "get all lost pet's card")]
     [SwaggerResponse(200, "Cards found or returns empty list", typeof(List<LostPetAdvertisementDto>))]
-    public async Task<ActionResult<List<LostPetAdvertisementDto>>> GetAllLostPetAdvertisement([FromQuery] int pageNumber =1,[FromQuery] int pageSize=10)
+    public async Task<ActionResult<List<LostPetAdvertisementDto>>> GetAllLostPetAdvertisement(
+        [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        var query = new GetAllLostPetAdvertisementQuery(pageNumber,pageSize);
+        var query = new GetAllLostPetAdvertisementQuery(pageNumber, pageSize);
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
     }

@@ -1,4 +1,4 @@
-using Convey.CQRS.Commands;
+﻿using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
@@ -24,8 +24,7 @@ internal sealed class AddVolunteerCommandHandler : ICommandHandler<AddVolunteerC
             throw new ShelterNotFoundException();
         }
 
-        shelter.AddVolunteer(new Volunteer(command.PrincipalEmail, command.PrincipalId));
-
+        shelter.AddVolunteer(new Volunteer(command.PrincipalId));
         await _shelterRepository.UpdateAsync(shelter);
     }
 }

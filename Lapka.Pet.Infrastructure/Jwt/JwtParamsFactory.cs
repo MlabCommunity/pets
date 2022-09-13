@@ -5,7 +5,6 @@ namespace Lapka.Pet.Infrastructure.Jwt;
 
 public static class JwtParamsFactory
 {
-    
     public static TokenValidationParameters CreateParameters(JwtSettings settings)
     {
         var publicRsa = RSA.Create();

@@ -94,6 +94,10 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Krs")
                         .IsRequired()
                         .HasColumnType("text");
@@ -110,6 +114,9 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<string>("OrganizationName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid>("ProfilePhotoId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Version")
                         .IsConcurrencyToken()
@@ -129,40 +136,7 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.ToTable("Shelters", "pets");
                 });
 
-            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.PetId", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("Value")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ShelterPets", "pets");
-                });
-
-            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Photo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("PetId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("PhotoId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PetId");
-
-                    b.ToTable("Photos", "pets");
-                });
-
-            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Visit", b =>
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.Visit", b =>
                 {
                     b.Property<Guid>("VisitId")
                         .HasColumnType("uuid");
@@ -190,6 +164,25 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.ToTable("Visits", "pets");
                 });
 
+            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Photo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("PetId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PhotoId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PetId");
+
+                    b.ToTable("Photos", "pets");
+                });
+
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.VisitType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -211,10 +204,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<Guid?>("ShelterId")
                         .HasColumnType("uuid");
@@ -271,8 +260,23 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid?>("ShelterId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("WorkerId")
                         .HasColumnType("uuid");
@@ -381,6 +385,13 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Navigation("Volunteering");
                 });
 
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.Visit", b =>
+                {
+                    b.HasOne("Lapka.Pet.Core.Entities.Pet", null)
+                        .WithMany("Visits")
+                        .HasForeignKey("PetId");
+                });
+
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Photo", b =>
                 {
                     b.HasOne("Lapka.Pet.Core.Entities.Pet", null)
@@ -388,16 +399,9 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                         .HasForeignKey("PetId");
                 });
 
-            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Visit", b =>
-                {
-                    b.HasOne("Lapka.Pet.Core.Entities.Pet", null)
-                        .WithMany("Visits")
-                        .HasForeignKey("PetId");
-                });
-
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.VisitType", b =>
                 {
-                    b.HasOne("Lapka.Pet.Core.ValueObjects.Visit", null)
+                    b.HasOne("Lapka.Pet.Core.Entities.Visit", null)
                         .WithMany("VisitTypes")
                         .HasForeignKey("VisitId");
                 });
@@ -458,7 +462,7 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Navigation("Workers");
                 });
 
-            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Visit", b =>
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.Visit", b =>
                 {
                     b.Navigation("VisitTypes");
                 });
