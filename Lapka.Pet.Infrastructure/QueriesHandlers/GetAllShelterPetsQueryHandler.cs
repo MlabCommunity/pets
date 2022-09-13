@@ -26,12 +26,13 @@ internal sealed class
 
         var result = await _pets
             .Include(x => x.Photos)
+            .OrderByDescending(x=>x.CreatedAt)
             .Where(x => x.OwnerId == shelterId)
             .Skip(query.PageSize * (query.PageNumber - 1))
             .Take(query.PageSize)
             .Select(x => x.AsDto())
-            .OrderBy(x => x.CreatedAt)
             .ToListAsync();
+
 
         var count = await _pets
             .Where(x => x.OwnerId == shelterId)
