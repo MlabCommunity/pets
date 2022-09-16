@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class WorkerNotFoundException : DomainException
+internal class WorkerNotFoundException : DomainException
 {
-    public WorkerNotFoundException() : base("Worker not found")
+    internal WorkerNotFoundException() : base("Worker not found")
     {
     }
 }

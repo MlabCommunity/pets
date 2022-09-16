@@ -8,7 +8,7 @@ public record Photo
     {
     }
 
-    public Photo(Guid photoId)
+    public Photo(PhotoId photoId)
     {
         PhotoId = photoId;
     }

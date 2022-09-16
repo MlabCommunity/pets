@@ -16,7 +16,7 @@ internal sealed class CreateDogCommandHandler : ICommandHandler<CreateDogCommand
     public async Task HandleAsync(CreateDogCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var dog = Dog.Create(command.OwnerId, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
+        var dog = Dog.Create(command.OwnerId,command.ProfilePhotoId, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
             command.Weight, command.DogBreed, command.DogColor, command.Photos);
 
         await _petRepository.AddPetAsync(dog);

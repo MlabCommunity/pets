@@ -13,19 +13,19 @@ public class Dog : Pet
     {
     }
 
-    private Dog(OwnerId ownerId, PetName name, Gender gender,
+    private Dog(OwnerId ownerId,ProfilePhotoId profilePhotoId, PetName name, Gender gender,
         DateOfBirth dateOfBirth, bool isSterilized, Weight weight, DogBreed breed, DogColor color) : base(ownerId,
-        PetType.DOG, name, gender, dateOfBirth, isSterilized, weight)
+        profilePhotoId,PetType.DOG, name, gender, dateOfBirth, isSterilized, weight)
     {
         Breed = breed;
         Color = color;
     }
 
-    public static Dog Create(OwnerId ownerId, PetName name, Gender gender,
+    public static Dog Create(OwnerId ownerId,ProfilePhotoId profilePhotoId, PetName name, Gender gender,
         DateOfBirth dateOfBirth, bool isSterilized, Weight weight, DogBreed breed, DogColor color,
         ICollection<Guid> photos)
     {
-        var dog = new Dog(ownerId, name, gender, dateOfBirth, isSterilized, weight, breed, color);
+        var dog = new Dog(ownerId,profilePhotoId, name, gender, dateOfBirth, isSterilized, weight, breed, color);
         dog.AddPhotos(photos);
         return dog;
     }

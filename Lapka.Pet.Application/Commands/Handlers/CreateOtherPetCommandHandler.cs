@@ -16,7 +16,7 @@ internal sealed class CreateOtherPetCommandHandler : ICommandHandler<CreateOther
     public async Task HandleAsync(CreateOtherPetCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var other = Other.Create(command.OwnerId, command.Name, command.Gender, command.DateOfBirth,
+        var other = Other.Create(command.OwnerId,command.ProfilePhotoId, command.Name, command.Gender, command.DateOfBirth,
             command.IsSterilized, command.Weight, command.Photos);
 
         await _petRepository.AddPetAsync(other);

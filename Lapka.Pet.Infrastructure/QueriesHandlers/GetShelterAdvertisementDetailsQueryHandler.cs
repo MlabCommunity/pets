@@ -10,24 +10,25 @@ namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 
 internal sealed class
     GetShelterAdvertisementDetailsQueryHandler : IQueryHandler<GetShelterAdvertisementDetailsQuery,
-        ShelterAdvertisementDetailsDto>
+        ShelterPetAdvertisementDetailsDto>
 {
-    private readonly DbSet<ShelterAdvertisement> _shelterAdvertisements;
-    private readonly DbSet<Core.Entities.Pet> _pet;
+    private readonly DbSet<ShelterPet> _shelterPets;
 
 
     public GetShelterAdvertisementDetailsQueryHandler(AppDbContext context)
     {
-        _shelterAdvertisements = context.ShelterAdvertisements;
-        _pet = context.Pets;
+        _shelterPets = context.ShelterPets;
     }
 
-    public async Task<ShelterAdvertisementDetailsDto> HandleAsync(GetShelterAdvertisementDetailsQuery query,
+    public async Task<ShelterPetAdvertisementDetailsDto> HandleAsync(GetShelterAdvertisementDetailsQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-    {
-        var advertisement = await _shelterAdvertisements.FirstOrDefaultAsync(x => x.PetId == query.PetId);
-        var pet = await _pet.Include(x => x.Photos).FirstOrDefaultAsync(x => x.Id == query.PetId);
+        => await _shelterPets
+            .Include(x=>x.Localization)
+            .Include(x => x.Photos)
+            .Where(x => x.Id == query.PetId)
+            .Select(x => x.AsAdvertisementDetailsDto(query.Longitude, query.Latitude))
+            .FirstOrDefaultAsync();
 
-        return advertisement.AsDetailsDto(pet);
-    }
+
+
 }

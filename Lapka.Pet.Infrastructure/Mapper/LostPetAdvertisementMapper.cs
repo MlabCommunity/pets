@@ -6,53 +6,38 @@ namespace Lapka.Pet.Infrastructure.Mapper;
 
 internal static class LostPetAdvertisementMapper
 {
-    public static LostPetAdvertisementDto AsDto(this LostPetAdvertisement advertisement, Core.Entities.Pet pet)
+    public static LostPetAdvertisementDto AsDto(this LostPet pet)
     {
         switch (pet.Type)
         {
             case PetType.CAT:
             {
-                var cat = (Cat)pet;
+                var cat = (LostCat)pet;
                 return new LostCatAdvertisementDto
                 {
                     DateOfBirth = cat.DateOfBirth,
                     Gender = cat.Gender,
                     PetId = cat.Id,
-                    Photos = cat.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    ProfilePhotoId = cat.ProfilePhotoId,
                     Name = cat.Name,
-                    CatBreed = cat.Breed,
-                    CatColor = cat.Color
+                    Breed = cat.CatBreed
                 };
             }
 
             case PetType.DOG:
             {
-                var dog = (Dog)pet;
+                var dog = (LostDog)pet;
                 return new LostDogAdvertisementDto
                 {
                     DateOfBirth = dog.DateOfBirth,
                     Gender = dog.Gender,
                     PetId = dog.Id,
-                    Photos = dog.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    ProfilePhotoId = dog.ProfilePhotoId,
                     Name = dog.Name,
-                    DogBreed = dog.Breed,
-                    DogColor = dog.Color
+                    DogBreed = dog.DogBreed
                 };
             }
-
-            case PetType.OTHER:
-            {
-                var other = (Other)pet;
-                return new LostOtherPetAdvertisementDto
-                {
-                    DateOfBirth = other.DateOfBirth,
-                    Gender = other.Gender,
-                    PetId = other.Id,
-                    Photos = other.Photos.Select(x => x.PhotoId.Value).ToList(),
-                    Name = other.Name,
-                };
-            }
-
+            
             default:
             {
                 return new LostPetAdvertisementDto
@@ -60,7 +45,7 @@ internal static class LostPetAdvertisementMapper
                     DateOfBirth = pet.DateOfBirth,
                     PetId = pet.Id,
                     Gender = pet.Gender,
-                    Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    ProfilePhotoId = pet.ProfilePhotoId,
                     Name = pet.Name,
                 };
             }

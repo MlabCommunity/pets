@@ -13,17 +13,15 @@ internal sealed class PetConfiguration : IEntityTypeConfiguration<Core.Entities.
     {
         builder.HasKey(s => s.Id);
 
-        builder.Property(s => s.Id).HasConversion(id => id.Value, id => new AggregateId(id));
+        builder.Property(s => s.Id).HasConversion(id => id.Value, id => new PetId(id));
         builder.Property(s => s.OwnerId).HasConversion(id => id.Value, id => new OwnerId(id));
+        builder.Property(s => s.ProfilePhotoId).HasConversion(id => id.Value, id => new ProfilePhotoId(id));
+        
         builder.Property(s => s.Name).HasConversion(name => name.Value, name => new PetName(name));
         builder.Property(s => s.DateOfBirth).HasConversion(dateOfBirth => dateOfBirth.Value,
             dateOfBirth => new DateOfBirth(dateOfBirth));
-
-        builder.HasMany(typeof(Photo), "Photos");
-        builder.HasMany(typeof(Visit), "Visits");
-
         builder.Property(s => s.Weight).HasConversion(weight => weight.Value, weight => new Weight(weight));
-        builder.HasDiscriminator<string>("Discriminator").HasValue<Other>(PetType.OTHER.ToString())
-            .HasValue<Dog>(PetType.DOG.ToString()).HasValue<Cat>(PetType.CAT.ToString());
+
+        builder.ToTable("Pets");
     }
 }

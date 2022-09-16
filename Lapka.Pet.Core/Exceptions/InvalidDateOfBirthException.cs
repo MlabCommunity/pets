@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class InvalidDateOfBirthException : DomainException
+internal class InvalidDateOfBirthException : DomainException
 {
-    public InvalidDateOfBirthException() : base("Invalid date of birth")
+    internal InvalidDateOfBirthException() : base("Invalid date of birth")
     {
     }
 }

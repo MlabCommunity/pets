@@ -8,14 +8,11 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 
 internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<CreateShelterOtherPetCommand>
 {
-    private readonly IPetRepository _petRepository;
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
 
-    public CreateShelterOtherPetCommandHandler(IPetRepository petRepository, IShelterRepository shelterRepository,
-        IUserCacheStorage cacheStorage)
+    public CreateShelterOtherPetCommandHandler( IShelterRepository shelterRepository, IUserCacheStorage cacheStorage)
     {
-        _petRepository = petRepository;
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;
     }
@@ -31,10 +28,11 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
             throw new ShelterNotFoundException();
         }
 
-        var other = Other.Create(shelter.Id.Value, command.Name, command.Gender,
-            command.DateOfBirth,
-            command.IsSterilized, command.Weight, command.Photos);
+        var other = new ShelterOther(command.PrincipalId, command.ProfilePhotoId, command.Name, command.Gender,
+            command.DateOfBirth, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
+            command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude);
 
-        await _petRepository.AddPetAsync(other);
+        shelter.AddPet(other);
+        await _shelterRepository.UpdateAsync(shelter);
     }
 }

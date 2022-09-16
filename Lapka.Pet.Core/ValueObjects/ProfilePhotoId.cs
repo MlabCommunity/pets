@@ -4,7 +4,7 @@ namespace Lapka.Pet.Core.ValueObjects;
 
 public class ProfilePhotoId : TypeId
 {
-    public ProfilePhotoId(Guid value) : base(value)
+    public ProfilePhotoId(Guid value) : base(value != Guid.Empty ? value : Guid.Empty)
     {
     }
 

@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class InvalidKrsException : DomainException
+internal class InvalidKrsException : DomainException
 {
-    public InvalidKrsException() : base("Invalid KRS")
+    internal InvalidKrsException() : base("Invalid KRS")
     {
     }
 }

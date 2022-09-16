@@ -3,7 +3,7 @@ using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Core.Entities;
 
-public sealed class Cat : Pet
+public class Cat : Pet
 {
     public CatBreed Breed { get; private set; }
     public CatColor Color { get; private set; }
@@ -12,20 +12,20 @@ public sealed class Cat : Pet
     {
     }
 
-    private Cat(OwnerId ownerId, PetName name, Gender gender,
+    private Cat(OwnerId ownerId, ProfilePhotoId profilePhotoId, PetName name, Gender gender,
         DateOfBirth dateOfBirth, bool isSterilized, Weight weight, CatBreed breed, CatColor color) : base(
-        ownerId,
+        ownerId, profilePhotoId,
         PetType.CAT, name, gender, dateOfBirth, isSterilized, weight)
     {
         Breed = breed;
         Color = color;
     }
 
-    public static Cat Create(OwnerId ownerId, PetName name, Gender gender,
+    public static Cat Create(OwnerId ownerId, ProfilePhotoId profilePhotoId, PetName name, Gender gender,
         DateOfBirth dateOfBirth, bool isSterilized, Weight weight, CatBreed breed, CatColor color,
         ICollection<Guid> photos)
     {
-        var cat = new Cat(ownerId, name, gender, dateOfBirth, isSterilized, weight, breed, color);
+        var cat = new Cat(ownerId, profilePhotoId, name, gender, dateOfBirth, isSterilized, weight, breed, color);
         cat.AddPhotos(photos);
         return cat;
     }

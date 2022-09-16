@@ -12,22 +12,20 @@ internal sealed class
     GetLostPetAdvertisementDetailsQueryHandler : IQueryHandler<GetLostPetAdvertisementDetailsQuery,
         LostPetAdvertisementDetailsDto>
 {
-    private readonly DbSet<LostPetAdvertisement> _advertisements;
-    private readonly DbSet<Core.Entities.Pet> _pets;
-
+    private readonly DbSet<LostPet> _lostPets;
+    
     public GetLostPetAdvertisementDetailsQueryHandler(AppDbContext context)
     {
-        _pets = context.Pets;
-        _advertisements = context.LostPetAdvertisements;
+        _lostPets = context.LostPets;
     }
 
     public async Task<LostPetAdvertisementDetailsDto> HandleAsync(GetLostPetAdvertisementDetailsQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-    {
-        var pet = await _pets.Include(x => x.Photos).FirstOrDefaultAsync(x => x.Id == query.PetId);
+    => await _lostPets
+        .Include(x=>x.Localization)
+        .Include(x => x.Photos)
+        .Where(x=>x.Id==query.PetId)
+        .Select(x=>x.AsDetailsDto(query.Longitude,query.Latitude))
+        .FirstOrDefaultAsync();
 
-        var advertisements = await _advertisements.FirstOrDefaultAsync(x => x.PetId == query.PetId);
-
-        return advertisements.AsDetailsDto(pet);
-    }
 }

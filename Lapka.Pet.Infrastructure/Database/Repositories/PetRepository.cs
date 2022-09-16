@@ -8,7 +8,7 @@ namespace Lapka.Pet.Infrastructure.Database.Repositories;
 
 internal sealed class PetRepository : IPetRepository
 {
-    private readonly IAppDbContext _context;
+    private readonly AppDbContext _context;
     private readonly DbSet<Core.Entities.Pet> _pets;
 
     public PetRepository(AppDbContext context)
@@ -23,7 +23,7 @@ internal sealed class PetRepository : IPetRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task<Core.Entities.Pet> FindByIdAsync(AggregateId id)
+    public Task<Core.Entities.Pet> FindByIdAsync(PetId id)
         => _pets
             .Include(x => x.Visits)
             .ThenInclude(x => x.VisitTypes)
@@ -43,7 +43,7 @@ internal sealed class PetRepository : IPetRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task RemoveByIdAsync(AggregateId petId)
+    public async Task RemoveByIdAsync(PetId petId)
     {
         var pet = await FindByIdAsync(petId);
         await RemoveAsync(pet);

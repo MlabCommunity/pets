@@ -3,6 +3,7 @@ using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Application.Queries;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Entities;
+using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Lapka.Pet.Infrastructure.Mapper;
 using Microsoft.EntityFrameworkCore;
@@ -24,12 +25,13 @@ internal sealed class GetVolunteersQueryHandler : IQueryHandler<GetVolunteersQue
         CancellationToken cancellationToken = new CancellationToken())
     {
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
-        var volunteerDtos = await _shelters
-            .AsNoTracking()
-            .Where(x => x.Id == shelterId)
-            .Include(x => x.Volunteers)
-            .Select(x => x.Volunteers.Select(x => x.AsDto()).ToList()).FirstOrDefaultAsync();
 
-        return null;
+        var shelter = await _shelters
+            .Include(x=>x.Volunteers)
+            .FirstOrDefaultAsync(x => x.Id == shelterId);
+
+        return shelter.Volunteers
+            .Select(x=>x.AsDto())
+            .ToList();
     }
 }

@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class VisitNotFoundException : DomainException
+internal class VisitNotFoundException : DomainException
 {
-    public VisitNotFoundException() : base("Visit not found")
+    internal VisitNotFoundException() : base("Visit not found")
     {
     }
 }

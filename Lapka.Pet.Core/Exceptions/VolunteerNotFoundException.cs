@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class VolunteerNotFoundException : DomainException
+internal class VolunteerNotFoundException : DomainException
 {
-    public VolunteerNotFoundException() : base("Volunteer not found")
+    internal VolunteerNotFoundException() : base("Volunteer not found")
     {
     }
 }

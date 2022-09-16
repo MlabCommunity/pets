@@ -13,9 +13,9 @@ internal sealed class UserUpdatedEventHandler : IEventHandler<UserUpdatedEvent>
 {
     private readonly DbSet<Shelter> _shelters;
     private readonly DbSet<Worker> _workers;
-    private readonly IAppDbContext _context;
+    private readonly AppDbContext _context;
 
-    public UserUpdatedEventHandler(IAppDbContext context, IShelterRepository shelterRepository)
+    public UserUpdatedEventHandler(AppDbContext context, IShelterRepository shelterRepository)
     {
         _shelters = context.Shelters;
         _context = context;
@@ -31,14 +31,12 @@ internal sealed class UserUpdatedEventHandler : IEventHandler<UserUpdatedEvent>
             {
                 var shelter = await _shelters.FirstOrDefaultAsync(x => x.Id == @event.UserId);
 
-                if (shelter is null)
+                if (shelter is not null)
                 {
-                    throw new ShelterNotFoundException();
+                    shelter.Update(@event.Email,@event.FirstName,@event.LastName, Guid.Parse(@event.ProfilePictureId));
+
+                    await _context.SaveChangesAsync();   
                 }
-
-                shelter.Update(@event.Email, Guid.Parse(@event.ProfilePictureId));
-
-                await _context.SaveChangesAsync();
             }
                 break;
             case "Worker":

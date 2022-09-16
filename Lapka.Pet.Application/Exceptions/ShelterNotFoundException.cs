@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Application.Exceptions;
 
-public class ShelterNotFoundException : ProjectException
+internal class ShelterNotFoundException : ProjectException
 {
-    public ShelterNotFoundException() : base("Shelter not found.")
+    internal ShelterNotFoundException() : base("Shelter not found.")
     {
     }
 }

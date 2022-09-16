@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="Grpc\Protos\pet.proto">
+        <Protobuf Include="Grpc\Protos\Pet.proto">
             <Generator>MSBuild:Compile</Generator>
         </Protobuf>
     </ItemGroup>

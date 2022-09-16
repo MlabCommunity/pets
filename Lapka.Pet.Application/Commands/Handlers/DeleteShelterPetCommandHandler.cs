@@ -8,15 +8,12 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class DeleteShelterPetCommandHandler : ICommandHandler<DeleteShelterPetCommand>
 {
     private readonly IShelterRepository _shelterRepository;
-    private readonly IPetRepository _petRepository;
     private readonly IUserCacheStorage _cacheStorage;
 
 
-    public DeleteShelterPetCommandHandler(IShelterRepository shelterRepository, IPetRepository petRepository,
-        IUserCacheStorage cacheStorage)
+    public DeleteShelterPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage)
     {
         _shelterRepository = shelterRepository;
-        _petRepository = petRepository;
         _cacheStorage = cacheStorage;
     }
 
@@ -32,8 +29,9 @@ internal sealed class DeleteShelterPetCommandHandler : ICommandHandler<DeleteShe
             throw new ShelterNotFoundException();
         }
 
-        var pet = await _petRepository.FindByIdAsync(command.PetId);
-
-        await _petRepository.RemoveAsync(pet);
+        shelter.RemovePet(command.PetId);
+        
+        await _shelterRepository.UpdateAsync(shelter);
+        
     }
 }

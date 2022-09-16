@@ -24,8 +24,7 @@ internal class AuthorizeWorkerHandler : AuthorizationHandler<IsWorkerRequirement
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
         IsWorkerRequirement requirement)
     {
-
-
+        
         var stringId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
         
         if (string.IsNullOrWhiteSpace(stringId))

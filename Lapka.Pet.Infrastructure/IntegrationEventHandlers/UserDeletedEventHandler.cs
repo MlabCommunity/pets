@@ -12,11 +12,11 @@ internal sealed class UserDeletedEventHandler : IEventHandler<UserDeletedEvent>
 {
     private readonly DbSet<Shelter> _shelters;
     private readonly DbSet<Worker> _workers;
-    private readonly IAppDbContext _context;
+    private readonly AppDbContext _context;
     private readonly DbSet<Core.Entities.Pet> _pets;
     private readonly DbSet<Volunteer> _volunteers;
 
-    public UserDeletedEventHandler(IAppDbContext context)
+    public UserDeletedEventHandler(AppDbContext context)
     {
         _context = context;
         _pets = context.Pets;
@@ -38,8 +38,7 @@ internal sealed class UserDeletedEventHandler : IEventHandler<UserDeletedEvent>
                 {
                     _shelters.Remove(shelter);
                 }
-            }
-                break;
+            } break;
             case "Worker" or "User":
             {
                 var worker = await _workers.FirstOrDefaultAsync(x => x.WorkerId == @event.UserId);
@@ -53,8 +52,7 @@ internal sealed class UserDeletedEventHandler : IEventHandler<UserDeletedEvent>
 
 
                 _volunteers.RemoveRange(volunteer);
-            }
-                break;
+            } break;
         }
 
         var pets = await _pets.Where(x => x.OwnerId == @event.UserId).ToListAsync();

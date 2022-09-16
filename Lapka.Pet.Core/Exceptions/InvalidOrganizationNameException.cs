@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class InvalidOrganizationNameException : DomainException
+internal class InvalidOrganizationNameException : DomainException
 {
-    public InvalidOrganizationNameException() : base("Invalid organization name, max lenght is 100 characters")
+    internal InvalidOrganizationNameException() : base("Invalid organization name, max lenght is 100 characters")
     {
     }
 }

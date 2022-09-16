@@ -7,23 +7,20 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 
 internal sealed class CreateLostOtherPetCommandHandler : ICommandHandler<CreateLostOtherPetCommand>
 {
-    private readonly IPetRepository _petRepository;
-    private readonly IUserCacheStorage _userCacheStorage;
+    private readonly ILostPetRepository _repository;
 
-    public CreateLostOtherPetCommandHandler(IPetRepository petRepository, IUserCacheStorage userCacheStorage)
+    public CreateLostOtherPetCommandHandler(ILostPetRepository repository)
     {
-        _petRepository = petRepository;
-        _userCacheStorage = userCacheStorage;
+        _repository = repository;
     }
 
     public async Task HandleAsync(CreateLostOtherPetCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var other = Other.Create(command.OwnerId, command.Name, command.Gender, command.DateOfBirth,
-            command.IsSterilized,
-            command.Weight, command.Photos);
+        var other = new LostOther(command.OwnerId, command.ProfilePhotoId, command.Name, command.Gender,
+            command.DateOfBirth, command.IsSterilized, command.Weight, command.DateOfDisappearance, command.PhoneNumber,
+            command.Longitude, command.Latitude, command.IsVisible, command.FirstName, command.Description);
 
-        await _petRepository.AddPetAsync(other);
-        _userCacheStorage.SetPetId(command.OwnerId, other.Id);
+        await _repository.AddAsync(other);
     }
 }

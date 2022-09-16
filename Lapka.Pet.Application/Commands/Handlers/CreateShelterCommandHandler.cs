@@ -17,8 +17,7 @@ internal sealed class CreateShelterCommandHandler : ICommandHandler<CreateShelte
     public async Task HandleAsync(CreateShelterCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelter = Shelter.Create(command.UserId, command.Email, new Localization(command.City, command.Street),
-            command.ZipCode,
+        var shelter = Shelter.Create(command.UserId, command.Email,command.FirstName,command.LastName,command.PhoneNumber, command.Longitude,command.Latitude,
             command.OrganizationName,
             command.Krs, command.Nip);
 

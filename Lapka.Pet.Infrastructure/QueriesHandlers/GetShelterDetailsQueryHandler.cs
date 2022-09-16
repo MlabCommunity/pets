@@ -19,7 +19,9 @@ internal sealed class GetShelterDetailsQueryHandler : IQueryHandler<GetShelterDe
 
     public async Task<ShelterDetailsDto> HandleAsync(GetShelterDetailsQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-        => await _shelters.Where(x => x.Id == query.ShelterId)
+        => await _shelters
+            .Include(x=>x.Localization)
+            .Where(x => x.Id == query.ShelterId)
             .Select(x => x.AsDetailsDto())
             .FirstOrDefaultAsync();
 }

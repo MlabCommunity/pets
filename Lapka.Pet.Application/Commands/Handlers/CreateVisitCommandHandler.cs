@@ -24,8 +24,7 @@ internal sealed class CreateVisitCommandHandler : ICommandHandler<CreateVisitCom
             throw new PetNotFoundException();
         }
 
-        pet.AddVisit(
-            new Visit(command.HasTookPlace, command.DateOfVisit, command.Description, command.VisitTypes,
+        pet.AddVisit(new Visit(command.HasTookPlace, command.DateOfVisit, command.Description, command.VisitTypes,
                 command.WeightOnVisit), command.PrincipalId);
 
         await _petRepository.UpdateAsync(pet);

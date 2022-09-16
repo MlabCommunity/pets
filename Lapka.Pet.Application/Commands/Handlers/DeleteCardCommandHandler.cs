@@ -25,7 +25,7 @@ internal sealed class DeleteCardCommandHandler : ICommandHandler<DeleteCardComma
 
         if (pet.OwnerId != command.PrincipalId)
         {
-            throw new PetNotFoundException(); //TODO:FORBIDDEN?
+            throw new ProjectForbidden();
         }
 
         await _petRepository.RemoveAsync(pet);
