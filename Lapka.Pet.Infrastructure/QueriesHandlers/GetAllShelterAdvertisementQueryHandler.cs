@@ -35,12 +35,8 @@ internal sealed class GetAllShelterAdvertisementQueryHandler : Convey.CQRS.Queri
             .OrderBy(x => x.Distance)
             .Skip(query.PageSize * (query.PageNumber - 1))
             .Take(query.PageSize).ToList();
-        
-        var count = await _shelterPets
-            .Where(x => x.IsVisible == true &&
-                        (query.Type == null || query.Type == x.Type) &&
-                        (query.Gender == null || query.Gender == x.Gender))
-            .CountAsync();
+
+        var count = pets.Count();
         
         return new PagedResult<ShelterPetAdvertisementDto>
             (result, count, query.PageSize, query.PageNumber);
