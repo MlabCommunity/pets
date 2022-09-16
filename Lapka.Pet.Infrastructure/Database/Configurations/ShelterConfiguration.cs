@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.ValueObjects;
@@ -14,22 +15,15 @@ internal sealed class ShelterConfiguration : IEntityTypeConfiguration<Shelter>
     {
         builder.HasKey(s => s.Id);
 
-        var localizationConverter = new ValueConverter<Localization, string>(l => l.ToString(),
-            l => Localization.Create(l));
-
-        builder.Property(s => s.Id).HasConversion(id => id.Value, id => new AggregateId(id));
+        builder.Property(s => s.Id).HasConversion(x => x.Value, x => new ShelterId(x));
         builder.Property(s => s.Email).HasConversion(x => x.Value, x => new Email(x));
-        builder.Property(s => s.ProfilePhotoId).HasConversion(id => id.Value, id => new ProfilePhotoId(id));
-        builder.Property(s => s.OrganizationName).HasConversion(name => name.Value, name => new OrganizationName(name));
-        builder.Property(s => s.ZipCode).HasConversion(zipCode => zipCode.Value, zipCode => new ZipCode(zipCode));
-        builder.Property(s => s.Nip).HasConversion(nip => nip.Value, nip => new Nip(nip));
-        builder.Property(s => s.Krs).HasConversion(krs => krs.Value, krs => new Krs(krs));
-
-        builder.HasOne(typeof(Volunteering), "Volunteering");
-        builder
-            .Property(typeof(Localization), "Localization")
-            .HasConversion(localizationConverter)
-            .HasColumnName("Localization");
+        builder.Property(s => s.ProfilePhotoId).HasConversion(x => x.Value, x => new ProfilePhotoId(x));
+        builder.Property(s => s.OrganizationName).HasConversion(x => x.Value, x => new OrganizationName(x));
+        builder.Property(s => s.Nip).HasConversion(x => x.Value, x => new Nip(x));
+        builder.Property(s => s.Krs).HasConversion(x => x.Value, x => new Krs(x));
+        builder.Property(s => s.FirstName).HasConversion(x => x.Value, x => new FirstName(x));
+        builder.Property(s => s.LastName).HasConversion(x => x.Value, x => new LastName(x));
+        builder.Property(s => s.PhoneNumber).HasConversion(x => x.Value, x => new PhoneNumber(x));
 
         builder.Property(s => s.Version).IsConcurrencyToken();
         builder.ToTable("Shelters");

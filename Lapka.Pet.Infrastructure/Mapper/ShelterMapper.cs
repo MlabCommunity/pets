@@ -1,5 +1,6 @@
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Entities;
+using Lapka.Pet.Infrastructure.Services;
 
 namespace Lapka.Pet.Infrastructure.Mapper;
 
@@ -10,17 +11,21 @@ internal static class ShelterMapper
         {
             Id = shelter.Id,
             OrganizationName = shelter.OrganizationName,
-            Localization = shelter.Localization.ToString()
+            ProfilePhotoId = shelter.ProfilePhotoId,
+            FirstName = shelter.FirstName,
+            LastName = shelter.LastName,
         };
-
-    public static ShelterDetailsDto AsDetailsDto(this Shelter shelter)
+    
+    public static ShelterDto AsDto(this Shelter shelter,double longitude,double latitude)
         => new()
         {
+            Id = shelter.Id,
             OrganizationName = shelter.OrganizationName,
-            Street = shelter.Localization.Street,
-            City = shelter.Localization.City,
-            Krs = shelter.Krs,
-            Nip = shelter.Nip,
-            ZipCode = shelter.ZipCode
+            ProfilePhotoId = shelter.ProfilePhotoId,
+            FirstName = shelter.FirstName,
+            LastName = shelter.LastName,
+            Distance = shelter.Localization.CalculateDistance(longitude,latitude),
+            Localization = shelter.Localization.AsDto()
         };
+    
 }

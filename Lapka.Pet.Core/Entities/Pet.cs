@@ -5,29 +5,35 @@ using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Core.Entities;
 
-public abstract class Pet : AggregateRoot
+public abstract class Pet : AggregateRoot<PetId>
 {
+    private readonly List<Photo> _photos = new();
+    private readonly List<Visit> _visits = new();
+
     public OwnerId OwnerId { get; private set; }
+    public ProfilePhotoId ProfilePhotoId { get; private set; }
     public PetType Type { get; private set; }
-    public ICollection<Photo> Photos = new List<Photo>();
     public PetName Name { get; private set; }
     public Gender Gender { get; private set; }
-    public ICollection<Visit> Visits = new List<Visit>();
     public DateOfBirth DateOfBirth { get; private set; }
     public bool IsSterilized { get; private set; }
     public Weight Weight { get; private set; }
     public DateTime CreatedAt { get; private set; }
+    
+    public ICollection<Photo> Photos => _photos;
+    public ICollection<Visit> Visits => _visits;
 
     protected Pet()
     {
     }
 
-    protected Pet(OwnerId ownerId, PetType type, PetName name, Gender gender, DateOfBirth dateOfBirth,
+    protected Pet(OwnerId ownerId,ProfilePhotoId profilePhotoId, PetType type, PetName name, Gender gender, DateOfBirth dateOfBirth,
         bool isSterilized,
         Weight weight)
     {
         Id = Guid.NewGuid();
         OwnerId = ownerId;
+        ProfilePhotoId = profilePhotoId;
         Type = type;
         Weight = weight;
         DateOfBirth = dateOfBirth;
@@ -44,12 +50,12 @@ public abstract class Pet : AggregateRoot
         Weight = weight;
     }
 
-    public void AddPhoto(Photo photo)
+    private void AddPhoto(Photo photo)
     {
         Photos.Add(photo);
     }
 
-    public void AddPhotos(ICollection<Guid> photoIds)
+    protected void AddPhotos(ICollection<Guid> photoIds)
     {
         foreach (var photo in photoIds)
         {
@@ -93,7 +99,7 @@ public abstract class Pet : AggregateRoot
         Visits.Remove(visit);
     }
 
-    public void UpdateVisit(Guid visitId, Guid ownerId, bool hasTookPlace, DateTime dateOfVisit, string description,
+    public void UpdateVisit(OwnerId ownerId,Guid visitId, bool hasTookPlace, DateTime dateOfVisit, string description,
         HashSet<CareType> visitTypes, double weightOnVisit)
     {
         if (ownerId != OwnerId)

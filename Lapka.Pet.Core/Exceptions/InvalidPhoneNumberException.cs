@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class InvalidPhoneNumberException : DomainException
+internal class InvalidPhoneNumberException : DomainException
 {
-    public InvalidPhoneNumberException() : base("Invalid phone number")
+    internal InvalidPhoneNumberException() : base("Invalid phone number")
     {
     }
 }

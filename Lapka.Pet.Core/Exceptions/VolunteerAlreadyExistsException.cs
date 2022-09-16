@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class VolunteerAlreadyExistsException : DomainException
+internal class VolunteerAlreadyExistsException : DomainException
 {
-    public VolunteerAlreadyExistsException() : base("Volunteer already exists")
+    internal VolunteerAlreadyExistsException() : base("Volunteer already exists")
     {
     }
 }

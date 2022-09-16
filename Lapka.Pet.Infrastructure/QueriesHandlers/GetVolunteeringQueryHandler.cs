@@ -20,7 +20,7 @@ internal sealed class GetVolunteeringQueryHandler : IQueryHandler<GetVolunteerin
     public async Task<VolunteeringDto> HandleAsync(GetVolunteeringQuery query,
         CancellationToken cancellationToken = new CancellationToken())
         => await _shelters
-            // .AsNoTracking()
+            .AsNoTracking()
             .Where(x => x.Id == query.ShelterId)
             .Include(x => x.Volunteering)
             .Select(x => x.Volunteering.AsDto()).FirstOrDefaultAsync();

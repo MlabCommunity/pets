@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.ComTypes;
 using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Application.Services;
@@ -8,14 +9,11 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 
 internal sealed class CreateShelterCatCommandHandler : ICommandHandler<CreateShelterCatCommand>
 {
-    private readonly IPetRepository _petRepository;
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
 
-    public CreateShelterCatCommandHandler(IPetRepository petRepository, IShelterRepository shelterRepository,
-        IUserCacheStorage cacheStorage)
+    public CreateShelterCatCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage)
     {
-        _petRepository = petRepository;
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;
     }
@@ -31,9 +29,12 @@ internal sealed class CreateShelterCatCommandHandler : ICommandHandler<CreateShe
             throw new ShelterNotFoundException();
         }
 
-        var cat = Cat.Create(shelter.Id.Value, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
-            command.Weight, command.CatBreed, command.CatColor, command.Photos);
+        var cat = new ShelterCat(command.PrincipalId, command.ProfilePhotoId, command.Name, command.Gender,
+            command.DateOfBirth, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
+            command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude,command.CatColor,command.CatBreed);
 
-        await _petRepository.AddPetAsync(cat);
+        shelter.AddPet(cat);
+
+        await _shelterRepository.UpdateAsync(shelter);
     }
 }

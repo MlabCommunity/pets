@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class InvalidZipCodeException : DomainException
+internal class InvalidZipCodeException : DomainException
 {
-    public InvalidZipCodeException() : base("Invalid zip code")
+    internal InvalidZipCodeException() : base("Invalid zip code")
     {
     }
 }

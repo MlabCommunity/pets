@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class InvalidEmailException : DomainException
+internal class InvalidEmailException : DomainException
 {
-    public InvalidEmailException() : base("Invalid email")
+    internal InvalidEmailException() : base("Invalid email")
     {
     }
 }

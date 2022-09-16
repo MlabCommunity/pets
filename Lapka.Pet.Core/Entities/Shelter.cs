@@ -8,21 +8,23 @@ using Microsoft.VisualBasic;
 
 namespace Lapka.Pet.Core.Entities;
 
-public class Shelter : AggregateRoot
+public class Shelter : AggregateRoot<ShelterId>
 {
     private readonly List<Volunteer> _volunteers = new();
     private readonly List<Worker> _workers = new();
-    private readonly List<ShelterAdvertisement> _advertisements = new();
+    private readonly List<ShelterPet> _shelterPets = new();
 
     public OrganizationName OrganizationName { get; private set; }
     public ProfilePhotoId ProfilePhotoId { get; private set; }
     public Email Email { get; private set; }
-    public Localization Localization { get; private set; }
-    public ZipCode ZipCode { get; private set; }
-    public Volunteering Volunteering { get; private set; }
+    public Localization Localization { get; private set; } 
+    public PhoneNumber PhoneNumber { get; private set; }
     public Krs Krs { get; private set; }
     public Nip Nip { get; private set; }
-    public ICollection<ShelterAdvertisement> Advertisements => _advertisements;
+    public FirstName FirstName { get; private set; }
+    public LastName LastName { get; private set; }
+    public Volunteering Volunteering { get; private set; }
+    public ICollection<ShelterPet> ShelterPets => _shelterPets;
     public ICollection<Volunteer> Volunteers => _volunteers;
     public ICollection<Worker> Workers => _workers;
 
@@ -30,89 +32,72 @@ public class Shelter : AggregateRoot
     {
     }
 
-    internal Shelter(AggregateId id, Email email, OrganizationName organizationName, Localization localization,
-        ZipCode zipCode,
-        Krs krs,
-        Nip nip)
+    internal Shelter(ShelterId id, Email email,FirstName firstName,LastName lastName,PhoneNumber phoneNumber, OrganizationName organizationName, double longitude, double latitude,
+        Krs krs, Nip nip)
     {
         Id = id;
         Email = email;
+        FirstName = firstName;
+        LastName = lastName;
+        PhoneNumber = phoneNumber;
         ProfilePhotoId = Guid.Empty;
         OrganizationName = organizationName;
-        Localization = localization;
-        ZipCode = zipCode;
+        Localization = new Localization(longitude, latitude);
         Krs = krs;
         Nip = nip;
         Volunteering = new Volunteering(false, "", "", false, "", false, "");
     }
 
-    public static Shelter Create(AggregateId Id, Email email, Localization localization, ZipCode zipCode,
-        OrganizationName organizationName,
-        Krs krs, Nip nip)
+    public static Shelter Create(ShelterId Id, Email email,FirstName firstName,LastName lastName,PhoneNumber phoneNumber, double longitude, double latitude,
+        OrganizationName organizationName, Krs krs, Nip nip)
     {
-        var shelter = new Shelter(Id, email, organizationName, localization, zipCode, krs, nip);
+        var shelter = new Shelter(Id, email,firstName,lastName,phoneNumber, organizationName, longitude, latitude, krs, nip);
         return shelter;
     }
-
-
-    public void ChangeProfilePhoto(ProfilePhotoId profilePhotoId)
-        => ProfilePhotoId = profilePhotoId != Guid.Empty ? profilePhotoId : Guid.Empty;
-
-
-    public void AddAdvertisement(ShelterAdvertisement shelterAdvertisement)
+    
+    public void AddPet(ShelterPet shelterPet)
     {
-        var exists = Advertisements.Any(a => a.PetId == shelterAdvertisement.PetId);
-
-        if (exists)
-        {
-            throw new AdvertisementAlreadyExistsException();
-        }
-
-        Advertisements.Add(shelterAdvertisement);
+        ShelterPets.Add(shelterPet);
     }
 
-    public void RemoveAdvertisement(PetId petId)
+    public void RemovePet(PetId petId)
     {
-        var advertisement = Advertisements.SingleOrDefault(x => x.PetId == petId);
-
-        if (advertisement is null)
-        {
-            throw new AdvertisementNotFoundException();
-        }
-
-        Advertisements.Add(advertisement);
+        var pet = GetShelterPet(petId);
+        
+        ShelterPets.Remove(pet);
     }
 
-    public void PublishAdvertisement(PetId petId)
+    public void PublishPet(PetId petId)
     {
-        var advertisement = GetAdvertisement(petId);
+        var advertisement = GetShelterPet(petId);
         advertisement.Publish();
     }
 
-    public void HideAdvertisement(PetId petId)
+    public void HidePet(PetId petId)
     {
-        var advertisement = GetAdvertisement(petId);
+        var advertisement = GetShelterPet(petId);
         advertisement.Hide();
     }
 
-    private ShelterAdvertisement GetAdvertisement(PetId petId)
+    public void UpdatePet(PetId petId, string description, PetName petName, bool isSterilized, Weight weight)
     {
-        var advertisement = Advertisements.SingleOrDefault(x => x.PetId == petId);
+        var pet = GetShelterPet(petId);
 
-        if (advertisement is null)
+        pet.Update(description, petName, isSterilized, weight);
+    }
+
+    private ShelterPet GetShelterPet(PetId petId)
+    {
+        var pet = ShelterPets.SingleOrDefault(x => x.Id == petId);
+
+        if (pet is null)
         {
-            throw new AdvertisementNotFoundException();
+            throw new PetNotFoundException();
         }
 
-        return advertisement;
+        return pet;
     }
-
-    public void UpdateAdvertisement(PetId petId, string description)
-    {
-        var advertisement = GetAdvertisement(petId);
-        advertisement.Update(description);
-    }
-
+    
     public void AddWorker(Worker worker)
     {
         var exists = Workers.Any(x => x.WorkerId == worker.WorkerId);
@@ -129,7 +114,7 @@ public class Shelter : AggregateRoot
     {
         Volunteering = volunteering;
     }
-
+    
     private Worker GetWorker(WorkerId workerId)
     {
         var worker = Workers.SingleOrDefault(x => x.WorkerId == workerId);
@@ -142,25 +127,22 @@ public class Shelter : AggregateRoot
         return worker;
     }
 
-    public bool WorkerExists(WorkerId workerId)
-        => Workers.Any(x => x.WorkerId == workerId);
-
-
-    public void Update(OrganizationName organizationName, Localization localization, ZipCode zipCode, Krs krs, Nip nip)
+    public void Update(OrganizationName organizationName, double longitude, double latitude,PhoneNumber phoneNumber , Krs krs,
+        Nip nip)
     {
-        Localization = localization;
-        ZipCode = zipCode;
+        Localization = new Localization(longitude, latitude);
         OrganizationName = organizationName;
         Krs = krs;
         Nip = nip;
-
-        AddEvent(new ShelterUpdatedEvent(Id, organizationName, localization.Street, localization.City, zipCode, krs,
-            nip));
+        PhoneNumber = phoneNumber;
+        
+        AddEvent(new ShelterUpdatedEvent(Id, organizationName, longitude, latitude, krs, nip));
     }
 
-    public void Update(Email email, ProfilePhotoId profilePhotoId)
+    public void Update(Email email,FirstName firstName,LastName lastName, ProfilePhotoId profilePhotoId)
     {
-        ChangeProfilePhoto(profilePhotoId);
+        FirstName = firstName;
+        LastName = lastName;
         Email = email;
     }
 

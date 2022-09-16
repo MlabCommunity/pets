@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class InvalidDateOfDisappearanceException : DomainException
+internal class InvalidDateOfDisappearanceException : DomainException
 {
-    public InvalidDateOfDisappearanceException() : base("Invalid date of disappearance")
+    internal InvalidDateOfDisappearanceException() : base("Invalid date of disappearance")
     {
     }
 }

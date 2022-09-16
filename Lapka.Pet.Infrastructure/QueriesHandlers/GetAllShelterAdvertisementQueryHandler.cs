@@ -3,49 +3,47 @@ using Lapka.Pet.Application.Queries;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Lapka.Pet.Infrastructure.Mapper;
+using Lapka.Pet.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 
-internal sealed class
-    GetAllShelterAdvertisementQueryHandler : Convey.CQRS.Queries.IQueryHandler<GetAllShelterAdvertisementQuery,
+internal sealed class GetAllShelterAdvertisementQueryHandler : Convey.CQRS.Queries.IQueryHandler<GetAllShelterAdvertisementQuery,
         PagedResult<ShelterPetAdvertisementDto>>
 {
-    private readonly DbSet<ShelterAdvertisement> _shelterAdvertisements;
-    private readonly DbSet<Core.Entities.Pet> _pet;
-
+    private readonly DbSet<ShelterPet> _shelterPets;
+    
     public GetAllShelterAdvertisementQueryHandler(AppDbContext context)
     {
-        _shelterAdvertisements = context.ShelterAdvertisements;
-        _pet = context.Pets;
+        _shelterPets = context.ShelterPets;
     }
 
     public async Task<PagedResult<ShelterPetAdvertisementDto>> HandleAsync(
         GetAllShelterAdvertisementQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var advertisements = await _shelterAdvertisements
-            .Where(x => x.IsVisible == true)
+        var pets = await _shelterPets
+            .Include(x => x.Photos)
+            .Include(x => x.Localization)
+            .Where(x => x.IsVisible == true &&
+                        (query.Type == null || query.Type == x.Type) &&
+                        (query.Gender == null || query.Gender == x.Gender))
+            .Select(x => x.AsAdvertisementDto(query.Latitude, query.Longitude))
             .ToListAsync();
 
-        var pets = await _pet.Include(x => x.Photos)
-            .Where(x => ((query.Type == null || query.Type == x.Type) &&
-                         (query.Gender == null || query.Gender == x.Gender)))
-            .ToListAsync();
-
-        var result = advertisements.Join(pets
-                    .Where(x => ((query.Type == null || query.Type == x.Type) &&
-                                 (query.Gender == null || query.Gender == x.Gender))), //Dumny jestem z tego query 
-                advertisement => advertisement.PetId.Value, pet => pet.Id.Value,
-                (advertisements, pet) => advertisements.AsDto(pet))
+        var result = pets 
+            .OrderBy(x => x.Distance)
             .Skip(query.PageSize * (query.PageNumber - 1))
-            .Take(query.PageSize)
-            .ToList();
-
-        var count = await _shelterAdvertisements
-            .Where(x => x.IsVisible == true)
+            .Take(query.PageSize).ToList();
+        
+        var count = await _shelterPets
+            .Where(x => x.IsVisible == true &&
+                        (query.Type == null || query.Type == x.Type) &&
+                        (query.Gender == null || query.Gender == x.Gender))
             .CountAsync();
+        
+        return new PagedResult<ShelterPetAdvertisementDto>
+            (result, count, query.PageSize, query.PageNumber);
 
-        return new PagedResult<ShelterPetAdvertisementDto>(result, count, query.PageSize, query.PageNumber);
     }
 }

@@ -10,7 +10,7 @@ namespace Lapka.Pet.Infrastructure.Database.Repositories;
 internal sealed class ShelterRepository : IShelterRepository
 {
     private readonly DbSet<Shelter> _shelters;
-    private readonly IAppDbContext _context;
+    private readonly AppDbContext _context;
 
     public ShelterRepository(AppDbContext context)
     {
@@ -24,9 +24,10 @@ internal sealed class ShelterRepository : IShelterRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Shelter> FindByIdAsync(AggregateId id)
+    public async Task<Shelter> FindByIdAsync(ShelterId id)
         => await _shelters
-            .Include(x => x.Advertisements)
+            .Include(x=>x.Localization)
+            .Include(x => x.ShelterPets)
             .Include(x => x.Volunteers)
             .Include(x => x.Volunteering)
             .Include(x => x.Workers)

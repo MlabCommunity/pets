@@ -16,7 +16,7 @@ internal sealed class CreateCatCommandHandler : ICommandHandler<CreateCatCommand
     public async Task HandleAsync(CreateCatCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var cat = Cat.Create(command.OwnerId, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
+        var cat = Cat.Create(command.OwnerId,command.ProfilePhotoId,command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
             command.Weight, command.CatBreed, command.CatColor, command.Photos);
 
         await _petRepository.AddPetAsync(cat);

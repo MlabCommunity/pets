@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class InvalidNipException : DomainException
+internal class InvalidNipException : DomainException
 {
-    public InvalidNipException() : base("Invalid Nip")
+    internal InvalidNipException() : base("Invalid Nip")
     {
     }
 }

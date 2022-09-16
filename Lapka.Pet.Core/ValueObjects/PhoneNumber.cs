@@ -1,3 +1,6 @@
+using System.Text.RegularExpressions;
+using Lapka.Pet.Core.Exceptions;
+
 namespace Lapka.Pet.Core.ValueObjects;
 
 public record PhoneNumber
@@ -6,10 +9,10 @@ public record PhoneNumber
 
     public PhoneNumber(string value)
     {
-        //     if (!Regex.IsMatch(value, @"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"))
-        //   {
-        //       throw new InvalidPhoneNumberException();
-        //   }  TODO add regex
+        if (!Regex.IsMatch(value, @"^\d{9,10}$"))
+        {
+            throw new InvalidPhoneNumberException();
+        }
 
         Value = value;
     }

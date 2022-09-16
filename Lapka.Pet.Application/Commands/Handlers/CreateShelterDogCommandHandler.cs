@@ -31,9 +31,13 @@ internal sealed class CreateShelterDogCommandHandler : ICommandHandler<CreateShe
             throw new ShelterNotFoundException();
         }
 
-        var dog = Dog.Create(shelter.Id.Value, command.Name, command.Gender, command.DateOfBirth, command.IsSterilized,
-            command.Weight, command.DogBreed, command.DogColor, command.Photos);
+        var dog = new ShelterDog(command.PrincipalId, command.ProfilePhotoId, command.Name, command.Gender,
+            command.DateOfBirth, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
+            command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude, command.DogBreed,
+            command.DogColor);
 
-        await _petRepository.AddPetAsync(dog);
+        shelter.AddPet(dog);
+        
+        await _shelterRepository.UpdateAsync(shelter);
     }
 }

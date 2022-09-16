@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Core.Exceptions;
 
-public class InvalidPetNameException : DomainException
+internal class InvalidPetNameException : DomainException
 {
-    public InvalidPetNameException() : base("Invalid pet name, max length is 20 characters")
+    internal InvalidPetNameException() : base("Invalid pet name, max length is 20 characters")
     {
     }
 }

@@ -5,7 +5,7 @@ using Lapka.Pet.Application.Commands;
 
 namespace Lapka.Pet.Api.Grpc;
 
-public class ShelterGrpcController : PetService.PetServiceBase //TODO: Nazewnictwo - controller
+public class ShelterGrpcController : PetService.PetServiceBase 
 {
     private readonly ICommandDispatcher _commandDispatcher;
 
@@ -16,12 +16,13 @@ public class ShelterGrpcController : PetService.PetServiceBase //TODO: Nazewnict
 
     public override async Task<Empty> CreateShelter(CreateShelterRequest request, ServerCallContext context)
     {
-        var command = new CreateShelterCommand(Guid.Parse(request.UserId), request.Email, request.OrganizationName,
-            request.Street,
-            request.ZipCode, request.City, request.Nip, request.Krs);
-
+        
+        var command = new CreateShelterCommand(Guid.Parse(request.UserId), request.Email,request.FirstName,request.LastName, request.PhoneNumber,request.OrganizationName,
+            request.Longitude,
+            request.Latitude, request.Nip, request.Krs);
+        
         await _commandDispatcher.SendAsync(command);
-
+       
         return new();
     }
 }

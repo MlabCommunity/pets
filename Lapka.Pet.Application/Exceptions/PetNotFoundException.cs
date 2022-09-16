@@ -1,8 +1,8 @@
 namespace Lapka.Pet.Application.Exceptions;
 
-public class PetNotFoundException : ProjectException
+internal class PetNotFoundException : ProjectException
 {
-    public PetNotFoundException() : base("Pet not found", 404)
+    internal PetNotFoundException() : base("Pet not found", 404)
     {
     }
 }

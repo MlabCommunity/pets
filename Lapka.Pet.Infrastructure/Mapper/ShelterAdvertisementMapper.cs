@@ -1,70 +1,62 @@
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Consts;
 using Lapka.Pet.Core.Entities;
+using Lapka.Pet.Infrastructure.Services;
 
 namespace Lapka.Pet.Infrastructure.Mapper;
 
 internal static class ShelterAdvertisementMapper
 {
-    public static ShelterPetAdvertisementDto AsDto(this ShelterAdvertisement advertisement, Core.Entities.Pet pet)
+    public static ShelterPetAdvertisementDto AsAdvertisementDto(this ShelterPet pet,double latitude,double longitude)
     {
         switch (pet.Type)
         {
             case PetType.CAT:
             {
-                var cat = (Cat)pet;
-                return new ShelterCatAdvertisementDto()
+                var cat = (ShelterCat)pet;
+                return new ShelterCatAdvertisementDto
                 {
-                    OrganizationName = advertisement.OrganizationName,
-
+                    OrganizationName = cat.OrganizationName,
                     PetId = cat.Id,
                     Name = cat.Name,
                     DateOfBirth = cat.DateOfBirth,
                     Gender = cat.Gender,
-                    Photos = cat.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    ProfilePhotoId = cat.ProfilePhotoId,
+                    Distance = cat.Localization.CalculateDistance(longitude, latitude),
+                    Localization = cat.Localization.AsDto(),
                     Breed = cat.Breed,
                 };
             }
 
             case PetType.DOG:
             {
-                var dog = (Dog)pet;
-                return new ShelterDogAdvertisementDto()
+                var dog = (ShelterDog)pet;
+                return new ShelterDogAdvertisementDto
                 {
-                    OrganizationName = advertisement.OrganizationName,
-                    PetId = pet.Id,
-                    Name = pet.Name,
-                    DateOfBirth = pet.DateOfBirth,
-                    Gender = pet.Gender,
-                    Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
-                    Breed = dog.Breed,
+                    OrganizationName = pet.OrganizationName,
+                    PetId = dog.Id,
+                    Name = dog.Name,
+                    DateOfBirth = dog.DateOfBirth,
+                    Gender = dog.Gender,
+                    ProfilePhotoId = dog.ProfilePhotoId,
+                    Distance = dog.Localization.CalculateDistance(longitude, latitude),
+                    Localization = dog.Localization.AsDto(),
+                    Breed = dog.DogBreed,
                 };
             }
-
-            case PetType.OTHER:
-            {
-                var other = (Other)pet;
-                return new ShelterOtherPetAdvertisementDto
-                {
-                    OrganizationName = advertisement.OrganizationName,
-                    PetId = pet.Id,
-                    Name = pet.Name,
-                    DateOfBirth = pet.DateOfBirth,
-                    Gender = pet.Gender,
-                    Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
-                };
-            }
-
+            
             default:
             {
                 return new ShelterPetAdvertisementDto
                 {
-                    OrganizationName = advertisement.OrganizationName,
+                    OrganizationName = pet.OrganizationName,
                     PetId = pet.Id,
                     Name = pet.Name,
                     DateOfBirth = pet.DateOfBirth,
                     Gender = pet.Gender,
-                    Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    Distance = pet.Localization.CalculateDistance(longitude, latitude),
+                    Localization = pet.Localization.AsDto(),
+                    ProfilePhotoId = pet.ProfilePhotoId,
                 };
             }
         }

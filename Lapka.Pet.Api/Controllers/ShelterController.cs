@@ -28,7 +28,7 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> UpdateShelter([FromBody] UpdateShelterRequest request)
     {
-        var command = new UpdateShelterCommand(GetPrincipalId(), request.Street, request.Street, request.ZipCode,
+        var command = new UpdateShelterCommand(GetPrincipalId(), request.Longitude,request.Latitude,request.PhoneNumber,
             request.OrganizationName, request.Krs, request.Nip);
 
         await _commandDispatcher.SendAsync(command);
@@ -36,6 +36,7 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
+    [Authorize(Policy = "IsWorker")]
     [HttpGet]
     [SwaggerOperation(description: "Gets shelter data")]
     [SwaggerResponse(200, "shelter found", typeof(ShelterDto))]
@@ -92,7 +93,7 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
     {
-        var command = new CreateShelterDogCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
+        var command = new CreateShelterDogCommand(GetPrincipalId(),request.ProfilePhotoId,request.Description,request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.DogColor, request.DogBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
@@ -107,7 +108,7 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
     {
-        var command = new CreateShelterCatCommand(GetPrincipalId(), request.Name, request.Gender, request.DateOfBirth,
+        var command = new CreateShelterCatCommand(GetPrincipalId(),request.ProfilePhotoId,request.Description,request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.CatColor, request.CatBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
@@ -121,7 +122,7 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
     {
-        var command = new CreateShelterOtherPetCommand(GetPrincipalId(), request.Name, request.Gender,
+        var command = new CreateShelterOtherPetCommand(GetPrincipalId(),request.ProfilePhotoId,request.Description,request.IsVisible, request.Name, request.Gender,
             request.DateOfBirth,
             request.IsSterilized, request.Weight, request.Photos);
 
@@ -134,11 +135,9 @@ public class ShelterController : BaseController
     [SwaggerOperation(description: "Updates shelter's card")]
     [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
-    public async Task<IActionResult> UpdateShelterCard([FromBody] UpdatePetRequest request)
+    public async Task<IActionResult> UpdateShelterCard([FromBody] UpdateShelterPetRequest request)
     {
-        var command = new UpdateShelterPetCommand(GetPrincipalId(), request.PetId, request.Name,
-            request.IsSterilized, request.Weight);
-
+        var command = new UpdateShelterPetCommand(GetPrincipalId(),  request.PetId, request. Description,request.PetName,request.IsSterilized,request.Weight);
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
@@ -166,6 +165,30 @@ public class ShelterController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
 
         return Ok(result);
+    }
+    
+    [Authorize(Policy = "IsWorker")]
+    [HttpPut("cards/publish/{petId:guid}")]
+    [SwaggerOperation(description: "Publishes pet")]
+    [SwaggerResponse(204, "Pet published")]
+    [SwaggerResponse(404, "If pet not found")]
+    public async Task<IActionResult> PublishAdvertisement([FromRoute] Guid petId)
+    {
+        var command = new PublishShelterPetCommand(GetPrincipalId(), petId);
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+
+    [Authorize(Policy = "IsWorker")]
+    [HttpPut("cards/hide/{petId:guid}")]
+    [SwaggerOperation(description: "Hides pet")]
+    [SwaggerResponse(204, "pet hided")]
+    [SwaggerResponse(404, "If pet not found")]
+    public async Task<IActionResult> HideAdvertisement([FromRoute] Guid petId)
+    {
+        var command = new HideShelterPetCommand(GetPrincipalId(), petId);
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
     }
 
     [Authorize(Roles = "Shelter")]
@@ -227,84 +250,7 @@ public class ShelterController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
     }
-
-    [Authorize(Policy = "IsWorker")]
-    [HttpGet("advertisements")]
-    [SwaggerOperation(description: "Gets shelter's advertisements")]
-    [SwaggerResponse(200, "advertisements found or returns empty list",
-        typeof(Application.Dto.PagedResult<CurrentShelterAdvertisementDetailsDto>))]
-    public async Task<ActionResult<Application.Dto.PagedResult<CurrentShelterAdvertisementDetailsDto>>>
-        GetAllCurrentShelterAdvertisement([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
-    {
-        var query = new GetAllCurrentShelterAdvertisementQuery(GetPrincipalId(), pageNumber, pageSize);
-
-        var result = await _queryDispatcher.QueryAsync(query);
-        return Ok(result);
-    }
-
-    [Authorize(Policy = "IsWorker")]
-    [HttpDelete("advertisements/{petId:guid}")]
-    [SwaggerOperation(description: "Removes advertisement from shelter")]
-    [SwaggerResponse(204, "advertisements deleted")]
-    public async Task<IActionResult> DeleteShelterAdvertisement([FromRoute] Guid petId)
-    {
-        var command = new DeleteShelterAdvertisementCommand(GetPrincipalId(), petId);
-        await _commandDispatcher.SendAsync(command);
-
-        return NoContent();
-    }
-
-    [Authorize(Policy = "IsWorker")]
-    [HttpPut("advertisements")]
-    [SwaggerOperation(description: "Updates advertisement")]
-    [SwaggerResponse(204, "Advertisement updated")]
-    [SwaggerResponse(400, "If data are invalid")]
-    public async Task<IActionResult> UpdateShelterAdvertisement([FromBody] UpdateShelterAdvertisementRequest request)
-    {
-        var command = new UpdateShelterAdvertisementCommand(GetPrincipalId(), request.PetId, request.Description);
-        await _commandDispatcher.SendAsync(command);
-        return NoContent();
-    }
-
-    [Authorize(Policy = "IsWorker")]
-    [HttpPut("advertisements/publish/{petId:guid}")]
-    [SwaggerOperation(description: "Publishes advertisement")]
-    [SwaggerResponse(204, "Advertisement published")]
-    [SwaggerResponse(404, "If advertisement not found")]
-    public async Task<IActionResult> PublishAdvertisement([FromRoute] Guid petId)
-    {
-        var command = new PublishShelterAdvertisementCommand(GetPrincipalId(), petId);
-        await _commandDispatcher.SendAsync(command);
-        return NoContent();
-    }
-
-    [Authorize(Policy = "IsWorker")]
-    [HttpPut("advertisements/hide/{petId:guid}")]
-    [SwaggerOperation(description: "Hides advertisement")]
-    [SwaggerResponse(204, "Advertisement Hided")]
-    [SwaggerResponse(404, "If advertisement not found")]
-    public async Task<IActionResult> HideAdvertisement([FromRoute] Guid petId)
-    {
-        var command = new HideShelterAdvertisementCommand(GetPrincipalId(), petId);
-        await _commandDispatcher.SendAsync(command);
-        return NoContent();
-    }
-
-    [Authorize(Policy = "IsWorker")]
-    [HttpPost("advertisements")]
-    [SwaggerOperation(description: "Adds advertisement to shelter")]
-    [SwaggerResponse(204, "Advertisement added")]
-    [SwaggerResponse(404, "If advertisement not found")]
-    public async Task<IActionResult> CreateShelterAdvertisement([FromBody] CreateShelterAdvertisementRequest request)
-    {
-        var command =
-            new CreateShelterAdvertisementCommand(GetPrincipalId(), request.PetId, request.Description,
-                request.IsVisible);
-        await _commandDispatcher.SendAsync(command);
-
-        return NoContent();
-    }
-
+    
     [Authorize(Roles = "Shelter")]
     [HttpGet("workers")]
     [SwaggerOperation(description: "Gets shelter's workers")]

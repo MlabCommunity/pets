@@ -26,6 +26,7 @@ internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery
             .ThenInclude(x => x.VisitTypes)
             .Select(x => x.Visits
                 .Where(x => x.DateOfVisit > DateTime.UtcNow)
+                .OrderBy(x=>x.DateOfVisit)
                 .Select(x => x.AsVisitDto())
                 .Skip(query.IncomingVisitPageSize * (query.IncomingVisitPageNumber - 1))
                 .Take(query.IncomingVisitPageSize)
@@ -46,6 +47,7 @@ internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery
             .ThenInclude(x => x.VisitTypes)
             .Select(x => x.Visits
                 .Where(x => x.DateOfVisit < DateTime.UtcNow)
+                .OrderByDescending(x=>x.DateOfVisit)
                 .Select(x => x.AsVisitDto())
                 .Skip(query.LastVisitPageSize * (query.LastVisitPageNumber - 1))
                 .Take(query.LastVisitPageSize)

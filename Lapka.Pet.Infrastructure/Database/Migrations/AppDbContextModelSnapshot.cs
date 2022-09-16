@@ -23,28 +23,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Lapka.Pet.Core.Entities.Advertisement", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsVisible")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Localization")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("Localization");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Advertisements", "pets");
-                });
-
             modelBuilder.Entity("Lapka.Pet.Core.Entities.Pet", b =>
                 {
                     b.Property<Guid>("Id")
@@ -55,10 +33,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
@@ -73,6 +47,9 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("ProfilePhotoId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
@@ -85,8 +62,6 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Pets", "pets");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Pet");
                 });
 
             modelBuilder.Entity("Lapka.Pet.Core.Entities.Shelter", b =>
@@ -98,20 +73,30 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Krs")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Localization")
+                    b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("Localization");
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LocalizationId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Nip")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("OrganizationName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -125,11 +110,9 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.Property<Guid>("VolunteeringId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("LocalizationId");
 
                     b.HasIndex("VolunteeringId");
 
@@ -162,6 +145,23 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.HasIndex("PetId");
 
                     b.ToTable("Visits", "pets");
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Localization", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Localization", "pets");
                 });
 
             modelBuilder.Entity("Lapka.Pet.Core.ValueObjects.Photo", b =>
@@ -293,14 +293,12 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.HasBaseType("Lapka.Pet.Core.Entities.Pet");
 
                     b.Property<int>("Breed")
-                        .HasColumnType("integer")
-                        .HasColumnName("cat_bread");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Color")
-                        .HasColumnType("integer")
-                        .HasColumnName("cat_color");
+                        .HasColumnType("integer");
 
-                    b.HasDiscriminator().HasValue("CAT");
+                    b.ToTable("Cats", "pets");
                 });
 
             modelBuilder.Entity("Lapka.Pet.Core.Entities.Dog", b =>
@@ -308,79 +306,139 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                     b.HasBaseType("Lapka.Pet.Core.Entities.Pet");
 
                     b.Property<int>("Breed")
-                        .HasColumnType("integer")
-                        .HasColumnName("dog_bread");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Color")
-                        .HasColumnType("integer")
-                        .HasColumnName("dog_color");
+                        .HasColumnType("integer");
 
-                    b.HasDiscriminator().HasValue("DOG");
+                    b.ToTable("Dogs", "pets");
                 });
 
-            modelBuilder.Entity("Lapka.Pet.Core.Entities.LostPetAdvertisement", b =>
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.LostPet", b =>
                 {
-                    b.HasBaseType("Lapka.Pet.Core.Entities.Advertisement");
+                    b.HasBaseType("Lapka.Pet.Core.Entities.Pet");
 
                     b.Property<DateTime>("DateOfDisappearance")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("PetId")
+                    b.Property<bool>("IsVisible")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("LocalizationId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                    b.HasIndex("LocalizationId");
 
-                    b.ToTable("LostPetAdvertisements", "pets");
+                    b.ToTable("LostPet", "pets");
                 });
 
-            modelBuilder.Entity("Lapka.Pet.Core.Entities.Other", b =>
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.ShelterPet", b =>
                 {
                     b.HasBaseType("Lapka.Pet.Core.Entities.Pet");
 
-                    b.HasDiscriminator().HasValue("OTHER");
-                });
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-            modelBuilder.Entity("Lapka.Pet.Core.Entities.ShelterAdvertisement", b =>
-                {
-                    b.HasBaseType("Lapka.Pet.Core.Entities.Advertisement");
-
-                    b.Property<bool>("IsReserved")
+                    b.Property<bool>("IsVisible")
                         .HasColumnType("boolean");
+
+                    b.Property<Guid>("LocalizationId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("OrganizationName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("PetId")
+                    b.Property<Guid?>("ShelterId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ShelterId")
-                        .HasColumnType("uuid");
+                    b.HasIndex("LocalizationId");
 
-                    b.Property<Guid>("ShelterId1")
-                        .HasColumnType("uuid");
+                    b.HasIndex("ShelterId");
 
-                    b.HasIndex("ShelterId1");
+                    b.ToTable("ShelterPets", "pets");
+                });
 
-                    b.ToTable("ShelterAdvertisements", "pets");
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.LostCat", b =>
+                {
+                    b.HasBaseType("Lapka.Pet.Core.Entities.LostPet");
+
+                    b.Property<int>("CatBreed")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CatColor")
+                        .HasColumnType("integer");
+
+                    b.ToTable("LostCats", "pets");
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.LostDog", b =>
+                {
+                    b.HasBaseType("Lapka.Pet.Core.Entities.LostPet");
+
+                    b.Property<int>("DogBreed")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DogColor")
+                        .HasColumnType("integer");
+
+                    b.ToTable("LostDogs", "pets");
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.ShelterCat", b =>
+                {
+                    b.HasBaseType("Lapka.Pet.Core.Entities.ShelterPet");
+
+                    b.Property<int>("Breed")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Color")
+                        .HasColumnType("integer");
+
+                    b.ToTable("ShelterCats", "pets");
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.ShelterDog", b =>
+                {
+                    b.HasBaseType("Lapka.Pet.Core.Entities.ShelterPet");
+
+                    b.Property<int>("Color")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DogBreed")
+                        .HasColumnType("integer");
+
+                    b.ToTable("ShelterDogs", "pets");
                 });
 
             modelBuilder.Entity("Lapka.Pet.Core.Entities.Shelter", b =>
                 {
+                    b.HasOne("Lapka.Pet.Core.ValueObjects.Localization", "Localization")
+                        .WithMany()
+                        .HasForeignKey("LocalizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Lapka.Pet.Core.ValueObjects.Volunteering", "Volunteering")
                         .WithMany()
                         .HasForeignKey("VolunteeringId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Localization");
 
                     b.Navigation("Volunteering");
                 });
@@ -420,30 +478,96 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
                         .HasForeignKey("ShelterId");
                 });
 
-            modelBuilder.Entity("Lapka.Pet.Core.Entities.LostPetAdvertisement", b =>
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.Cat", b =>
                 {
-                    b.HasOne("Lapka.Pet.Core.Entities.Advertisement", null)
+                    b.HasOne("Lapka.Pet.Core.Entities.Pet", null)
                         .WithOne()
-                        .HasForeignKey("Lapka.Pet.Core.Entities.LostPetAdvertisement", "Id")
+                        .HasForeignKey("Lapka.Pet.Core.Entities.Cat", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Lapka.Pet.Core.Entities.ShelterAdvertisement", b =>
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.Dog", b =>
                 {
-                    b.HasOne("Lapka.Pet.Core.Entities.Advertisement", null)
+                    b.HasOne("Lapka.Pet.Core.Entities.Pet", null)
                         .WithOne()
-                        .HasForeignKey("Lapka.Pet.Core.Entities.ShelterAdvertisement", "Id")
+                        .HasForeignKey("Lapka.Pet.Core.Entities.Dog", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.LostPet", b =>
+                {
+                    b.HasOne("Lapka.Pet.Core.Entities.Pet", null)
+                        .WithOne()
+                        .HasForeignKey("Lapka.Pet.Core.Entities.LostPet", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Lapka.Pet.Core.Entities.Shelter", "Shelter")
-                        .WithMany("Advertisements")
-                        .HasForeignKey("ShelterId1")
+                    b.HasOne("Lapka.Pet.Core.ValueObjects.Localization", "Localization")
+                        .WithMany()
+                        .HasForeignKey("LocalizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Shelter");
+                    b.Navigation("Localization");
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.ShelterPet", b =>
+                {
+                    b.HasOne("Lapka.Pet.Core.Entities.Pet", null)
+                        .WithOne()
+                        .HasForeignKey("Lapka.Pet.Core.Entities.ShelterPet", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lapka.Pet.Core.ValueObjects.Localization", "Localization")
+                        .WithMany()
+                        .HasForeignKey("LocalizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lapka.Pet.Core.Entities.Shelter", null)
+                        .WithMany("ShelterPets")
+                        .HasForeignKey("ShelterId");
+
+                    b.Navigation("Localization");
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.LostCat", b =>
+                {
+                    b.HasOne("Lapka.Pet.Core.Entities.LostPet", null)
+                        .WithOne()
+                        .HasForeignKey("Lapka.Pet.Core.Entities.LostCat", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.LostDog", b =>
+                {
+                    b.HasOne("Lapka.Pet.Core.Entities.LostPet", null)
+                        .WithOne()
+                        .HasForeignKey("Lapka.Pet.Core.Entities.LostDog", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.ShelterCat", b =>
+                {
+                    b.HasOne("Lapka.Pet.Core.Entities.ShelterPet", null)
+                        .WithOne()
+                        .HasForeignKey("Lapka.Pet.Core.Entities.ShelterCat", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lapka.Pet.Core.Entities.ShelterDog", b =>
+                {
+                    b.HasOne("Lapka.Pet.Core.Entities.ShelterPet", null)
+                        .WithOne()
+                        .HasForeignKey("Lapka.Pet.Core.Entities.ShelterDog", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lapka.Pet.Core.Entities.Pet", b =>
@@ -455,7 +579,7 @@ namespace Lapka.Pet.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("Lapka.Pet.Core.Entities.Shelter", b =>
                 {
-                    b.Navigation("Advertisements");
+                    b.Navigation("ShelterPets");
 
                     b.Navigation("Volunteers");
 

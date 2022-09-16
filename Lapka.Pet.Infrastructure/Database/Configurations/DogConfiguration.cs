@@ -1,4 +1,4 @@
-using Lapka.Pet.Core.Entities;
+﻿using Lapka.Pet.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +8,6 @@ internal sealed class DogConfiguration : IEntityTypeConfiguration<Dog>
 {
     public void Configure(EntityTypeBuilder<Dog> builder)
     {
-        builder.Property(s => s.Breed).HasColumnName("dog_bread");
-        builder.Property(s => s.Color).HasColumnName("dog_color");
+        builder.ToTable("Dogs");
     }
 }

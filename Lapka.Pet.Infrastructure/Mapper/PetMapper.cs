@@ -17,14 +17,10 @@ internal static class PetMapper
                 {
                     DateOfBirth = cat.DateOfBirth,
                     Gender = cat.Gender,
-                    Id = cat.Id,
-                    IsSterilized = cat.IsSterilized,
-                    Photos = cat.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    PetId = cat.Id,
+                    ProfilePhotoId = cat.ProfilePhotoId,
                     Name = cat.Name,
-                    Type = cat.Type,
-                    Weight = cat.Weight,
                     CatBreed = cat.Breed,
-                    CatColor = cat.Color,
                     CreatedAt = cat.CreatedAt
                 };
             }
@@ -36,32 +32,11 @@ internal static class PetMapper
                 {
                     DateOfBirth = dog.DateOfBirth,
                     Gender = dog.Gender,
-                    Id = dog.Id,
-                    IsSterilized = dog.IsSterilized,
-                    Photos = dog.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    PetId = dog.Id,
+                    ProfilePhotoId = dog.ProfilePhotoId,
                     Name = dog.Name,
-                    Type = dog.Type,
-                    Weight = dog.Weight,
                     DogBreed = dog.Breed,
-                    DogColor = dog.Color,
                     CreatedAt = dog.CreatedAt
-                };
-            }
-
-            case PetType.OTHER:
-            {
-                var other = (Other)pet;
-                return new OtherDto
-                {
-                    DateOfBirth = other.DateOfBirth,
-                    Gender = other.Gender,
-                    Id = other.Id,
-                    IsSterilized = other.IsSterilized,
-                    Photos = other.Photos.Select(x => x.PhotoId.Value).ToList(),
-                    Name = other.Name,
-                    Type = other.Type,
-                    Weight = other.Weight,
-                    CreatedAt = other.CreatedAt
                 };
             }
 
@@ -71,12 +46,9 @@ internal static class PetMapper
                 {
                     DateOfBirth = pet.DateOfBirth,
                     Gender = pet.Gender,
-                    Id = pet.Id,
-                    IsSterilized = pet.IsSterilized,
-                    Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    PetId = pet.Id,
+                    ProfilePhotoId = pet.ProfilePhotoId,
                     Name = pet.Name,
-                    Type = pet.Type,
-                    Weight = pet.Weight,
                     CreatedAt = pet.CreatedAt
                 };
             }
