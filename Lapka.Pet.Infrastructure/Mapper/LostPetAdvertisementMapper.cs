@@ -18,7 +18,7 @@ internal static class LostPetAdvertisementMapper
                     DateOfBirth = cat.DateOfBirth,
                     Gender = cat.Gender,
                     PetId = cat.Id,
-                    ProfilePhotoId = cat.ProfilePhotoId,
+                    ProfilePhoto = cat.ProfilePhoto,
                     Name = cat.Name,
                     Breed = cat.CatBreed
                 };
@@ -32,7 +32,7 @@ internal static class LostPetAdvertisementMapper
                     DateOfBirth = dog.DateOfBirth,
                     Gender = dog.Gender,
                     PetId = dog.Id,
-                    ProfilePhotoId = dog.ProfilePhotoId,
+                    ProfilePhoto = dog.ProfilePhoto,
                     Name = dog.Name,
                     DogBreed = dog.DogBreed
                 };
@@ -45,7 +45,7 @@ internal static class LostPetAdvertisementMapper
                     DateOfBirth = pet.DateOfBirth,
                     PetId = pet.Id,
                     Gender = pet.Gender,
-                    ProfilePhotoId = pet.ProfilePhotoId,
+                    ProfilePhoto = pet.ProfilePhoto,
                     Name = pet.Name,
                 };
             }

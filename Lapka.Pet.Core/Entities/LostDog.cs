@@ -13,12 +13,12 @@ public class LostDog : LostPet
     }
 
 
-    public LostDog(OwnerId ownerId, ProfilePhotoId profilePhotoId, PetName name,
+    public LostDog(OwnerId ownerId, ProfilePhoto profilePhoto, PetName name,
         Gender gender, DateOfBirth dateOfBirth, bool isSterilized, Weight weight,
         DateOfDisappearance dateOfDisappearance, PhoneNumber phoneNumber, Longitude longitude, Latitude latitude,
-        bool isVisible, FirstName firstName, string description, DogBreed dogBreed, DogColor dogColor) : base(ownerId,
-        profilePhotoId, PetType.DOG, name, gender, dateOfBirth, isSterilized, weight, dateOfDisappearance, phoneNumber,
-        longitude, latitude, isVisible, firstName, description)
+        bool isVisible, FirstName firstName, string description, DogBreed dogBreed, DogColor dogColor,ICollection<string> photos) : base(ownerId,
+        profilePhoto, PetType.DOG, name, gender, dateOfBirth, isSterilized, weight, dateOfDisappearance, phoneNumber,
+        longitude, latitude, isVisible, firstName, description,photos)
     {
         DogBreed = dogBreed;
         DogColor = dogColor;

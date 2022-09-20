@@ -11,7 +11,7 @@ public abstract class Pet : AggregateRoot<PetId>
     private readonly List<Visit> _visits = new();
 
     public OwnerId OwnerId { get; private set; }
-    public ProfilePhotoId ProfilePhotoId { get; private set; }
+    public ProfilePhoto ProfilePhoto { get; private set; }
     public PetType Type { get; private set; }
     public PetName Name { get; private set; }
     public Gender Gender { get; private set; }
@@ -27,13 +27,13 @@ public abstract class Pet : AggregateRoot<PetId>
     {
     }
 
-    protected Pet(OwnerId ownerId,ProfilePhotoId profilePhotoId, PetType type, PetName name, Gender gender, DateOfBirth dateOfBirth,
+    protected Pet(OwnerId ownerId,ProfilePhoto profilePhoto, PetType type, PetName name, Gender gender, DateOfBirth dateOfBirth,
         bool isSterilized,
-        Weight weight)
+        Weight weight,ICollection<string> photos)
     {
         Id = Guid.NewGuid();
         OwnerId = ownerId;
-        ProfilePhotoId = profilePhotoId;
+        ProfilePhoto = profilePhoto;
         Type = type;
         Weight = weight;
         DateOfBirth = dateOfBirth;
@@ -41,8 +41,9 @@ public abstract class Pet : AggregateRoot<PetId>
         Gender = gender;
         IsSterilized = isSterilized;
         CreatedAt = DateTime.UtcNow;
+        AddPhotos(photos);
     }
-
+    
     public void Update(PetName name, bool isSterilized, Weight weight)
     {
         Name = name;
@@ -55,9 +56,9 @@ public abstract class Pet : AggregateRoot<PetId>
         Photos.Add(photo);
     }
 
-    protected void AddPhotos(ICollection<Guid> photoIds)
+    protected void AddPhotos(ICollection<string> photos)
     {
-        foreach (var photo in photoIds)
+        foreach (var photo in photos)
         {
             AddPhoto(new Photo(photo));
         }
@@ -118,7 +119,8 @@ public abstract class Pet : AggregateRoot<PetId>
 
         if (visit.HasTookPlace == true)
         {
-            var lastVisit = Visits.Where(x => x.DateOfVisit < DateTime.UtcNow).OrderByDescending(c => c.DateOfVisit)
+            var lastVisit = Visits.Where(x => x.DateOfVisit < DateTime.UtcNow)
+                .OrderByDescending(c => c.DateOfVisit)
                 .FirstOrDefault();
 
             if (lastVisit.DateOfVisit <= visit.DateOfVisit || lastVisit is null)

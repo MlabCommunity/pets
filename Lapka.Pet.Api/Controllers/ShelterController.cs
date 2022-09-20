@@ -93,7 +93,7 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
     {
-        var command = new CreateShelterDogCommand(GetPrincipalId(),request.ProfilePhotoId,request.Description,request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
+        var command = new CreateShelterDogCommand(GetPrincipalId(),request.ProfilePhoto,request.Description,request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.DogColor, request.DogBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
@@ -204,8 +204,7 @@ public class ShelterController : BaseController
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-
-
+    
     [HttpGet("volunteering/{shelterId:guid}")]
     [SwaggerOperation(description: "Gets shelter's volunteering")]
     [SwaggerResponse(200, "Volunteering data found", typeof(VolunteeringDto))]

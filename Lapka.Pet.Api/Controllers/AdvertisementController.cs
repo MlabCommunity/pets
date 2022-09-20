@@ -59,7 +59,7 @@ public class AdvertisementController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateLostDog([FromBody] CreateLostDogAdvertisementRequest request)
     {
-        var command = new CreateLostDogCommand(GetPrincipalId(), request.ProfilePhotoId, request.Name, request.Gender,
+        var command = new CreateLostDogCommand(GetPrincipalId(), request.ProfilePhoto, request.Name, request.Gender,
             request.DateOfBirth,
             request.IsSterilized,
             request.Weight, request.DogColor, request.DogBreed, request.Photos, request.Description, request.FirstName,
@@ -95,7 +95,7 @@ public class AdvertisementController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateLostOtherPet([FromBody] CreateLostOtherPetAdvertisementRequest request)
     {
-        var command = new CreateLostOtherPetCommand(GetPrincipalId(), request.ProfilePhotoId, request.Name,
+        var command = new CreateLostOtherPetCommand(GetPrincipalId(), request.ProfilePhoto, request.Name,
             request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.Photos, request.Description,
             request.FirstName, request.PhoneNumber, request.IsVisible, request.DateOfDisappearance, request.Longitude,

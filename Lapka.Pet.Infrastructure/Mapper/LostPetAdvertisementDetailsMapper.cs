@@ -20,8 +20,8 @@ internal static class LostPetAdvertisementDetailsMapper
                     DateOfBirth = cat.DateOfBirth,
                     Gender = cat.Gender,
                     PetId = cat.Id,
-                    ProfilePhotoId = cat.ProfilePhotoId,
-                    Photos = cat.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    ProfilePhoto = cat.ProfilePhoto,
+                    Photos = cat.Photos.Select(x => x.PhotoLink.Value).ToList(),
                     Name = cat.Name,
                     Breed = cat.CatBreed,
                     Color = cat.CatColor,
@@ -34,13 +34,13 @@ internal static class LostPetAdvertisementDetailsMapper
             case PetType.DOG:
             {
                 var dog = (LostDog)pet;
-                return new LostPetAdvertisementDetailsDto
+                return new LostDogAdvertisementDetailsDto
                 {
                     DateOfBirth = dog.DateOfBirth,
                     Gender = dog.Gender,
                     PetId = dog.Id,
-                    ProfilePhotoId = dog.ProfilePhotoId,
-                    Photos = dog.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    ProfilePhoto = dog.ProfilePhoto,
+                    Photos = dog.Photos.Select(x => x.PhotoLink.Value).ToList(),
                     Name = dog.Name,
                     Weight = dog.Weight,
                     Distance = dog.Localization.CalculateDistance(longitude, latitude),
@@ -55,8 +55,8 @@ internal static class LostPetAdvertisementDetailsMapper
                     DateOfBirth = pet.DateOfBirth,
                     Gender = pet.Gender,
                     PetId = pet.Id,
-                    ProfilePhotoId = pet.ProfilePhotoId,
-                    Photos = pet.Photos.Select(x => x.PhotoId.Value).ToList(),
+                    ProfilePhoto = pet.ProfilePhoto,
+                    Photos = pet.Photos.Select(x => x.PhotoLink.Value).ToList(),
                     Name = pet.Name,
                     Weight = pet.Weight,
                     Distance = pet.Localization.CalculateDistance(longitude, latitude),

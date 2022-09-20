@@ -9,7 +9,7 @@ public class ShelterPetAdvertisementDto
     public string Name { get; set; }
     public DateTime DateOfBirth { get; set; }
     public Gender Gender { get; set; }
-    public Guid ProfilePhotoId { get; set; }
+    public string ProfilePhoto { get; set; }
     public double  Distance { get; set; }
     public LocalizationDto Localization { get;set; }
 }

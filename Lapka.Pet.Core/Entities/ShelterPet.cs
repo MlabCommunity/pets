@@ -16,10 +16,10 @@ public class ShelterPet : Pet
     {
     }
 
-    public ShelterPet(OwnerId ownerId, ProfilePhotoId profilePhotoId, PetType type, PetName name, Gender gender,
+    public ShelterPet(OwnerId ownerId, ProfilePhoto profilePhoto, PetType type, PetName name, Gender gender,
         DateOfBirth dateOfBirth, bool isSterilized, Weight weight, string description,
-        OrganizationName organizationName, bool isVisible, Longitude longitude, Latitude latitude) : base(ownerId,
-        profilePhotoId, type, name, gender, dateOfBirth, isSterilized, weight)
+        OrganizationName organizationName, bool isVisible, Longitude longitude, Latitude latitude,ICollection<string> photos) : base(ownerId,
+        profilePhoto, type, name, gender, dateOfBirth, isSterilized, weight,photos)
     {
         Description = description;
         OrganizationName = organizationName;

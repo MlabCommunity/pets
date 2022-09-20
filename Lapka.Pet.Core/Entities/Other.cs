@@ -9,18 +9,17 @@ public class Other : Pet
     {
     }
 
-    private Other(OwnerId ownerId,ProfilePhotoId profilePhotoId, PetName name, Gender gender,
-        DateOfBirth dateOfBirth, bool isSterilized, Weight weight) : base(
+    private Other(OwnerId ownerId,ProfilePhoto profilePhoto, PetName name, Gender gender,
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight,ICollection<string> photos) : base(
         ownerId,
-        profilePhotoId,PetType.OTHER, name, gender, dateOfBirth, isSterilized, weight)
+        profilePhoto,PetType.OTHER, name, gender, dateOfBirth, isSterilized, weight,photos)
     {
     }
 
-    public static Other Create(OwnerId ownerId,ProfilePhotoId profilePhotoId, PetName name, Gender gender,
-        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, ICollection<Guid> photos)
+    public static Other Create(OwnerId ownerId,ProfilePhoto profilePhoto, PetName name, Gender gender,
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, ICollection<string> photos)
     {
-        var other = new Other(ownerId, profilePhotoId,name, gender, dateOfBirth, isSterilized, weight);
-        other.AddPhotos(photos);
+        var other = new Other(ownerId, profilePhoto,name, gender, dateOfBirth, isSterilized, weight,photos);
         return other;
     }
 }

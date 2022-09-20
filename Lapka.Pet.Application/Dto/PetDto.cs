@@ -6,7 +6,7 @@ public class PetDto
 {
     public Guid PetId { get; set; }
     public string Name { get; set; }
-    public Guid ProfilePhotoId { get; set; }
+    public string ProfilePhoto { get; set; }
     public Gender Gender { get; set; }
     public DateTime DateOfBirth { get; set; }
     public DateTime CreatedAt { get; set; }

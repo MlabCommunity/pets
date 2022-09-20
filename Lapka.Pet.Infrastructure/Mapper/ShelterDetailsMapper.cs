@@ -10,7 +10,7 @@ public static class ShelterDetailsMapper
         {
             Id = shelter.Id,
             OrganizationName = shelter.OrganizationName,
-            ProfilePhotoId = shelter.ProfilePhotoId,
+            ProfilePhoto = shelter.ProfilePhoto,
             FirstName = shelter.FirstName,
             Nip = shelter.Nip,
             Krs = shelter.Krs,

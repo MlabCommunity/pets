@@ -17,6 +17,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true)
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
 builder.Services.AddSwaggerGen();
@@ -34,19 +35,8 @@ app.UseConvey();
 app.UseRabbitMq()
     .SubscribeEvent<UserDeletedEvent>();
 
-app.UseSwagger(c =>
-{
-    c.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
-    {
-        if (!httpRequest.Headers.ContainsKey("X-Forwarded-Host"))
-            return;
 
-        var basePath = "pet";
-        var serverUrl = $"{httpRequest.Scheme}://{httpRequest.Headers["X-Forwarded-Host"]}/{basePath}";
-        swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = serverUrl } };
-    });
-});
-app.UseSwaggerUI();
+app.UseSwaggerDocs();
 
 app.UseMiddleware();
 

@@ -40,6 +40,5 @@ internal sealed class GetAllShelterAdvertisementQueryHandler : Convey.CQRS.Queri
         
         return new PagedResult<ShelterPetAdvertisementDto>
             (result, count, query.PageSize, query.PageNumber);
-
     }
 }

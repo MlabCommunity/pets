@@ -15,7 +15,7 @@ public class Shelter : AggregateRoot<ShelterId>
     private readonly List<ShelterPet> _shelterPets = new();
 
     public OrganizationName OrganizationName { get; private set; }
-    public ProfilePhotoId ProfilePhotoId { get; private set; }
+    public ProfilePhoto ProfilePhoto { get; private set; }
     public Email Email { get; private set; }
     public Localization Localization { get; private set; } 
     public PhoneNumber PhoneNumber { get; private set; }
@@ -40,7 +40,7 @@ public class Shelter : AggregateRoot<ShelterId>
         FirstName = firstName;
         LastName = lastName;
         PhoneNumber = phoneNumber;
-        ProfilePhotoId = Guid.Empty;
+        ProfilePhoto = null;
         OrganizationName = organizationName;
         Localization = new Localization(longitude, latitude);
         Krs = krs;
@@ -139,7 +139,7 @@ public class Shelter : AggregateRoot<ShelterId>
         AddEvent(new ShelterUpdatedEvent(Id, organizationName, longitude, latitude, krs, nip));
     }
 
-    public void Update(Email email,FirstName firstName,LastName lastName, ProfilePhotoId profilePhotoId)
+    public void Update(Email email,FirstName firstName,LastName lastName, ProfilePhoto profilePhoto)
     {
         FirstName = firstName;
         LastName = lastName;

@@ -11,7 +11,7 @@ internal static class ShelterMapper
         {
             Id = shelter.Id,
             OrganizationName = shelter.OrganizationName,
-            ProfilePhotoId = shelter.ProfilePhotoId,
+            ProfilePhoto = shelter.ProfilePhoto,
             FirstName = shelter.FirstName,
             LastName = shelter.LastName,
         };
@@ -21,9 +21,10 @@ internal static class ShelterMapper
         {
             Id = shelter.Id,
             OrganizationName = shelter.OrganizationName,
-            ProfilePhotoId = shelter.ProfilePhotoId,
+            ProfilePhoto = shelter.ProfilePhoto,
             FirstName = shelter.FirstName,
             LastName = shelter.LastName,
+            PhoneNumber = shelter.PhoneNumber,
             Distance = shelter.Localization.CalculateDistance(longitude,latitude),
             Localization = shelter.Localization.AsDto()
         };

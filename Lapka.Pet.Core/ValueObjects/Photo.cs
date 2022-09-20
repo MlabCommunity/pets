@@ -2,14 +2,14 @@ namespace Lapka.Pet.Core.ValueObjects;
 
 public record Photo
 {
-    public PhotoId PhotoId { get; }
+    public PhotoLink PhotoLink { get; }
 
     private Photo()
     {
     }
 
-    public Photo(PhotoId photoId)
+    public Photo(PhotoLink photoLink)
     {
-        PhotoId = photoId;
+        PhotoLink = photoLink;
     }
 }
