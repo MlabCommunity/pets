@@ -35,6 +35,7 @@ public static class Extensions
     {
         services.AddSwaggerGen(c =>
         {
+            c.EnableAnnotations();
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
@@ -64,5 +65,23 @@ public static class Extensions
         services.AddEndpointsApiExplorer();
 
         return services;
+    }
+    
+    public static IApplicationBuilder UseSwaggerDocs(this IApplicationBuilder app)
+    {
+        return
+        app.UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
+                {
+                    if (!httpRequest.Headers.ContainsKey("X-Forwarded-Host"))
+                        return;
+
+                    var basePath = "pet";
+                    var serverUrl = $"{httpRequest.Scheme}://{httpRequest.Headers["X-Forwarded-Host"]}/{basePath}";
+                    swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = serverUrl } };
+                });
+            })
+            .UseSwaggerUI();
     }
 }

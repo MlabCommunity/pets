@@ -93,7 +93,7 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
     {
-        var command = new CreateShelterDogCommand(GetPrincipalId(),request.ProfilePhotoId,request.Description,request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
+        var command = new CreateShelterDogCommand(GetPrincipalId(),request.ProfilePhoto,request.Description,request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.DogColor, request.DogBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
@@ -204,8 +204,7 @@ public class ShelterController : BaseController
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-
-
+    
     [HttpGet("volunteering/{shelterId:guid}")]
     [SwaggerOperation(description: "Gets shelter's volunteering")]
     [SwaggerResponse(200, "Volunteering data found", typeof(VolunteeringDto))]
@@ -217,7 +216,7 @@ public class ShelterController : BaseController
         return OkOrNotFound(result);
     }
 
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User,Worker")]
     [HttpPost("volunteers/{shelterId:guid}")]
     [SwaggerOperation(description: "Adds Principal user as volunteer to shelter")]
     [SwaggerResponse(204, "Volunteer added")]
@@ -226,6 +225,17 @@ public class ShelterController : BaseController
         var command = new AddVolunteerCommand(GetPrincipalId(), shelterId);
         await _commandDispatcher.SendAsync(command);
         return NoContent();
+    }
+    
+    [Authorize(Roles = "User")]
+    [HttpGet("volunteers/{longitude:double}/{latitude:double}")]
+    [SwaggerOperation(description: "Gets shelters list")]
+    [SwaggerResponse(200, "Returns list of shelters")]
+    public async Task<ActionResult<Application.Dto.PagedResult<ShelterDto>>> GetShelterList([FromRoute] double longitude,[FromRoute] double latitude)
+    {
+        var query = new GetAllSheltersQuery(longitude,latitude);
+        var result =await _queryDispatcher.QueryAsync(query);
+        return Ok(result);
     }
 
     [Authorize]

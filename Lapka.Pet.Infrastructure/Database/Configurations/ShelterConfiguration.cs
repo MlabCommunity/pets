@@ -17,7 +17,7 @@ internal sealed class ShelterConfiguration : IEntityTypeConfiguration<Shelter>
 
         builder.Property(s => s.Id).HasConversion(x => x.Value, x => new ShelterId(x));
         builder.Property(s => s.Email).HasConversion(x => x.Value, x => new Email(x));
-        builder.Property(s => s.ProfilePhotoId).HasConversion(x => x.Value, x => new ProfilePhotoId(x));
+        builder.Property(s => s.ProfilePhoto).HasConversion(x => x.Value, x => new ProfilePhoto(x));
         builder.Property(s => s.OrganizationName).HasConversion(x => x.Value, x => new OrganizationName(x));
         builder.Property(s => s.Nip).HasConversion(x => x.Value, x => new Nip(x));
         builder.Property(s => s.Krs).HasConversion(x => x.Value, x => new Krs(x));

@@ -12,21 +12,20 @@ public class Cat : Pet
     {
     }
 
-    private Cat(OwnerId ownerId, ProfilePhotoId profilePhotoId, PetName name, Gender gender,
-        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, CatBreed breed, CatColor color) : base(
-        ownerId, profilePhotoId,
-        PetType.CAT, name, gender, dateOfBirth, isSterilized, weight)
+    private Cat(OwnerId ownerId, ProfilePhoto profilePhoto, PetName name, Gender gender,
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, CatBreed breed, CatColor color,ICollection<string> photos) : base(
+        ownerId, profilePhoto,
+        PetType.CAT, name, gender, dateOfBirth, isSterilized, weight,photos)
     {
         Breed = breed;
         Color = color;
     }
 
-    public static Cat Create(OwnerId ownerId, ProfilePhotoId profilePhotoId, PetName name, Gender gender,
+    public static Cat Create(OwnerId ownerId, ProfilePhoto profilePhoto, PetName name, Gender gender,
         DateOfBirth dateOfBirth, bool isSterilized, Weight weight, CatBreed breed, CatColor color,
-        ICollection<Guid> photos)
+        ICollection<string> photos)
     {
-        var cat = new Cat(ownerId, profilePhotoId, name, gender, dateOfBirth, isSterilized, weight, breed, color);
-        cat.AddPhotos(photos);
+        var cat = new Cat(ownerId, profilePhoto, name, gender, dateOfBirth, isSterilized, weight, breed, color,photos);
         return cat;
     }
 }

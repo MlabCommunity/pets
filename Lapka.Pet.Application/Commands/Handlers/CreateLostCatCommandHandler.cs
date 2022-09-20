@@ -17,10 +17,10 @@ internal sealed class CreateLostCatCommandHandler : ICommandHandler<CreateLostCa
     public async Task HandleAsync(CreateLostCatCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var cat = new LostCat(command.OwnerId, command.ProfilePhotoId, command.Name, command.Gender,
+        var cat = new LostCat(command.OwnerId, command.ProfilePhoto, command.Name, command.Gender,
             command.DateOfBirth, command.IsSterilized, command.Weight, command.DateOfDisappearance, command.PhoneNumber,
             command.Longitude, command.Latitude, command.IsVisible, command.FirstName, command.Description,
-            command.CatBreed, command.CatColor);
+            command.CatBreed, command.CatColor,command.Photos);
 
         await _repository.AddAsync(cat);
     }

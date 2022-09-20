@@ -12,11 +12,11 @@ public class ShelterCat : ShelterPet
     {
     }
 
-    public ShelterCat(OwnerId ownerId, ProfilePhotoId profilePhotoId, PetName name, Gender gender,
+    public ShelterCat(OwnerId ownerId, ProfilePhoto profilePhoto, PetName name, Gender gender,
         DateOfBirth dateOfBirth, bool isSterilized, Weight weight, string description,
         OrganizationName organizationName, bool isVisible, Longitude longitude, Latitude latitude, CatColor color,
-        CatBreed breed) : base(ownerId, profilePhotoId, PetType.CAT, name, gender, dateOfBirth, isSterilized, weight,
-        description, organizationName, isVisible, longitude, latitude)
+        CatBreed breed,ICollection<string> photos) : base(ownerId, profilePhoto, PetType.CAT, name, gender, dateOfBirth, isSterilized, weight,
+        description, organizationName, isVisible, longitude, latitude,photos)
     {
         Color = color;
         Breed = breed;

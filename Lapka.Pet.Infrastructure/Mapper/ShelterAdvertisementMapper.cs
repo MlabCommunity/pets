@@ -21,7 +21,7 @@ internal static class ShelterAdvertisementMapper
                     Name = cat.Name,
                     DateOfBirth = cat.DateOfBirth,
                     Gender = cat.Gender,
-                    ProfilePhotoId = cat.ProfilePhotoId,
+                    ProfilePhoto = cat.ProfilePhoto,
                     Distance = cat.Localization.CalculateDistance(longitude, latitude),
                     Localization = cat.Localization.AsDto(),
                     Breed = cat.Breed,
@@ -38,7 +38,7 @@ internal static class ShelterAdvertisementMapper
                     Name = dog.Name,
                     DateOfBirth = dog.DateOfBirth,
                     Gender = dog.Gender,
-                    ProfilePhotoId = dog.ProfilePhotoId,
+                    ProfilePhoto = dog.ProfilePhoto,
                     Distance = dog.Localization.CalculateDistance(longitude, latitude),
                     Localization = dog.Localization.AsDto(),
                     Breed = dog.DogBreed,
@@ -56,7 +56,7 @@ internal static class ShelterAdvertisementMapper
                     Gender = pet.Gender,
                     Distance = pet.Localization.CalculateDistance(longitude, latitude),
                     Localization = pet.Localization.AsDto(),
-                    ProfilePhotoId = pet.ProfilePhotoId,
+                    ProfilePhoto = pet.ProfilePhoto,
                 };
             }
         }

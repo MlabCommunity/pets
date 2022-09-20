@@ -28,7 +28,7 @@ public class CardController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
     {
-        var command = new CreateDogCommand(GetPrincipalId(),request.ProfilePhotoId, request.Name, request.Gender, request.DateOfBirth,
+        var command = new CreateDogCommand(GetPrincipalId(),request.ProfilePhoto, request.Name, request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.DogColor, request.DogBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);

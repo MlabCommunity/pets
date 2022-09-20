@@ -29,9 +29,9 @@ internal sealed class CreateShelterCatCommandHandler : ICommandHandler<CreateShe
             throw new ShelterNotFoundException();
         }
 
-        var cat = new ShelterCat(command.PrincipalId, command.ProfilePhotoId, command.Name, command.Gender,
+        var cat = new ShelterCat(command.PrincipalId, command.ProfilePhoto, command.Name, command.Gender,
             command.DateOfBirth, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
-            command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude,command.CatColor,command.CatBreed);
+            command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude,command.CatColor,command.CatBreed,command.Photos);
 
         shelter.AddPet(cat);
 

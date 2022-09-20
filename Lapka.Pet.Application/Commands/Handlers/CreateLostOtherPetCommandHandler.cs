@@ -17,9 +17,9 @@ internal sealed class CreateLostOtherPetCommandHandler : ICommandHandler<CreateL
     public async Task HandleAsync(CreateLostOtherPetCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var other = new LostOther(command.OwnerId, command.ProfilePhotoId, command.Name, command.Gender,
+        var other = new LostOther(command.OwnerId, command.ProfilePhoto, command.Name, command.Gender,
             command.DateOfBirth, command.IsSterilized, command.Weight, command.DateOfDisappearance, command.PhoneNumber,
-            command.Longitude, command.Latitude, command.IsVisible, command.FirstName, command.Description);
+            command.Longitude, command.Latitude, command.IsVisible, command.FirstName, command.Description,command.Photos);
 
         await _repository.AddAsync(other);
     }

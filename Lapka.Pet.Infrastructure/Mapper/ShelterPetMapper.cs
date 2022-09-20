@@ -20,24 +20,24 @@ internal static class ShelterPetMapper
                     Id = cat.Id,
                     IsSterilized = cat.IsSterilized,
                     Name = cat.Name,
+                    ProfilePhot = cat.ProfilePhoto,
                     Type = cat.Type,
                     Weight = cat.Weight,
                     Color = cat.Color,
                     CreatedAt = cat.CreatedAt
                 };
-
-            }
+            } 
 
             case PetType.DOG:
             {
                 var dog = (ShelterDog)pet;
                 return new ShelterDogDto
                 {
-
                     Gender = dog.Gender,
                     Id = dog.Id,
                     IsSterilized = dog.IsSterilized,
                     Name = dog.Name,
+                    ProfilePhot = dog.ProfilePhoto,
                     Type = dog.Type,
                     Weight = dog.Weight,
                     Color = dog.Color,
@@ -55,6 +55,7 @@ internal static class ShelterPetMapper
                     Name = pet.Name,
                     Type = pet.Type,
                     Weight = pet.Weight,
+                    ProfilePhot = pet.ProfilePhoto,
                     CreatedAt = pet.CreatedAt
                 };
             }

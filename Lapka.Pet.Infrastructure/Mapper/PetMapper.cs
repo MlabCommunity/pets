@@ -18,7 +18,7 @@ internal static class PetMapper
                     DateOfBirth = cat.DateOfBirth,
                     Gender = cat.Gender,
                     PetId = cat.Id,
-                    ProfilePhotoId = cat.ProfilePhotoId,
+                    ProfilePhoto = cat.ProfilePhoto,
                     Name = cat.Name,
                     CatBreed = cat.Breed,
                     CreatedAt = cat.CreatedAt
@@ -33,7 +33,7 @@ internal static class PetMapper
                     DateOfBirth = dog.DateOfBirth,
                     Gender = dog.Gender,
                     PetId = dog.Id,
-                    ProfilePhotoId = dog.ProfilePhotoId,
+                    ProfilePhoto = dog.ProfilePhoto,
                     Name = dog.Name,
                     DogBreed = dog.Breed,
                     CreatedAt = dog.CreatedAt
@@ -47,7 +47,7 @@ internal static class PetMapper
                     DateOfBirth = pet.DateOfBirth,
                     Gender = pet.Gender,
                     PetId = pet.Id,
-                    ProfilePhotoId = pet.ProfilePhotoId,
+                    ProfilePhoto = pet.ProfilePhoto,
                     Name = pet.Name,
                     CreatedAt = pet.CreatedAt
                 };
