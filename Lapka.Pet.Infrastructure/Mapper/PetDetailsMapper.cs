@@ -20,7 +20,7 @@ public static class PetDetailsMapper
                     PetId = cat.Id,
                     ProfilePhoto = cat.ProfilePhoto,
                     Name = cat.Name,
-                    Photos = cat.Photos.Select(x => x.Value).ToList(),
+                    Photos = cat.Photos.Select(x => x.Link.Value).ToList(),
                     Color = cat.Color,
                     Breed = cat.Breed,
                     IsSterilized = cat.IsSterilized,
@@ -38,7 +38,7 @@ public static class PetDetailsMapper
                     PetId = dog.Id,
                     ProfilePhoto = dog.ProfilePhoto,
                     Name = dog.Name,
-                    Photos = dog.Photos.Select(x => x.Value).ToList(),
+                    Photos = dog.Photos.Select(x => x.Link.Value).ToList(),
                     Color = dog.Color,
                     Breed = dog.Breed,
                     IsSterilized = dog.IsSterilized,
@@ -55,7 +55,7 @@ public static class PetDetailsMapper
                     PetId = pet.Id,
                     ProfilePhoto = pet.ProfilePhoto,
                     Name = pet.Name,
-                    Photos = pet.Photos.Select(x => x.Value).ToList(),
+                    Photos = pet.Photos.Select(x => x.Link.Value).ToList(),
                     IsSterilized = pet.IsSterilized,
                     Weight = pet.Weight
                 };

@@ -17,7 +17,7 @@ internal sealed class
     public GetAllShelterPetsQueryHandler(AppDbContext context, IUserCacheStorage cacheStorage)
     {
         _cacheStorage = cacheStorage;
-        _pets = context.ShelterPets;
+        _pets= context.ShelterPets;
     }
 
     public async Task<PagedResult<ShelterPetDto>> HandleAsync(GetAllShelterPetsQuery query,
@@ -25,7 +25,6 @@ internal sealed class
     {
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
         var result = await _pets
-            .Include(x => x.Photos)
             .OrderByDescending(x=>x.CreatedAt)
             .Where(x => x.OwnerId == shelterId)
             .Skip(query.PageSize * (query.PageNumber - 1))

@@ -9,5 +9,7 @@ internal sealed class PhotoConfiguration : IEntityTypeConfiguration<Photo>
     public void Configure(EntityTypeBuilder<Photo> builder)
     {
         builder.Property<Guid>("Id");
+
+        builder.Property(s => s.Link).HasConversion(x => x.Value, x => new PhotoLink(x));
     }
 }
