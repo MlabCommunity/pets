@@ -60,7 +60,7 @@ public abstract class Pet : AggregateRoot<PetId>
     {
         foreach (var photo in photos)
         {
-            AddPhoto(photo);
+            AddPhoto(new Photo(photo));
         }
     }
 
