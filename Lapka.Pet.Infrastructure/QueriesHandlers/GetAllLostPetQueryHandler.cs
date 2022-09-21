@@ -29,7 +29,8 @@ internal sealed class
             .Take(query.PageSize).ToListAsync();
         
         var count = await _lostPets
-            .Where(x => x.IsVisible)
+            .Where(x => (query.Type == null || query.Type == x.Type) && 
+                        (query.Gender == null || query.Gender == x.Gender) && x.IsVisible==true)
             .CountAsync(); 
 
         return  new PagedResult<LostPetAdvertisementDto>(result, count, query.PageSize, query.PageNumber);

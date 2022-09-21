@@ -27,7 +27,7 @@ internal sealed class ShelterRepository : IShelterRepository
     public async Task<Shelter> FindByIdAsync(ShelterId id)
         => await _shelters
             .Include(x=>x.Localization)
-            .Include(x => x.ShelterPets)
+            .Include(x => x.ShelterPets).ThenInclude(x=>x.Photos)
             .Include(x => x.Volunteers)
             .Include(x => x.Volunteering)
             .Include(x => x.Workers)
