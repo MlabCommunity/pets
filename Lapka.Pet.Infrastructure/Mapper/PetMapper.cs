@@ -20,7 +20,7 @@ internal static class PetMapper
                     PetId = cat.Id,
                     ProfilePhoto = cat.ProfilePhoto,
                     Name = cat.Name,
-                    CatBreed = cat.Breed,
+                    Breed = cat.Breed,
                     CreatedAt = cat.CreatedAt
                 };
             }
@@ -35,7 +35,7 @@ internal static class PetMapper
                     PetId = dog.Id,
                     ProfilePhoto = dog.ProfilePhoto,
                     Name = dog.Name,
-                    DogBreed = dog.Breed,
+                    Breed = dog.Breed,
                     CreatedAt = dog.CreatedAt
                 };
             }

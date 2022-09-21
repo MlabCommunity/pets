@@ -31,6 +31,7 @@ internal sealed class ShelterRepository : IShelterRepository
             .Include(x => x.Volunteers)
             .Include(x => x.Volunteering)
             .Include(x => x.Workers)
+            .Include(x=>x.Archives)
             .FirstOrDefaultAsync(x => x.Id == id);
 
     public async Task UpdateAsync(Shelter shelter)

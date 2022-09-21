@@ -8,6 +8,7 @@ internal class AppDbContext : DbContext
 {
     public DbSet<Shelter> Shelters { get; set; }
     public DbSet<Worker> Workers { get; set; }
+    public DbSet<Archive> Archives { get; set; }
     public DbSet<Core.Entities.Pet> Pets { get; set; }
     public DbSet<Cat> Cats { get; set; }
     public DbSet<Dog> Dogs { get; set; }

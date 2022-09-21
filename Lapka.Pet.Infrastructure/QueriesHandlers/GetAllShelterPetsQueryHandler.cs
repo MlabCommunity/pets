@@ -24,7 +24,6 @@ internal sealed class
         CancellationToken cancellationToken = new CancellationToken())
     {
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
-
         var result = await _pets
             .Include(x => x.Photos)
             .OrderByDescending(x=>x.CreatedAt)
