@@ -8,14 +8,13 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 
 internal sealed class CreateShelterDogCommandHandler : ICommandHandler<CreateShelterDogCommand>
 {
-    private readonly IPetRepository _petRepository;
+
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
 
-    public CreateShelterDogCommandHandler(IPetRepository petRepository, IShelterRepository shelterRepository,
+    public CreateShelterDogCommandHandler( IShelterRepository shelterRepository,
         IUserCacheStorage userCacheStorage)
     {
-        _petRepository = petRepository;
         _shelterRepository = shelterRepository;
         _cacheStorage = userCacheStorage;
     }

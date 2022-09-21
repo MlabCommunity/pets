@@ -11,8 +11,7 @@ public record Worker
     public FirstName FirstName { get; init; }
     public LastName LastName { get; init; }
     public DateTime CreatedAt { get; }
-
-
+    
     private Worker()
     {
     }

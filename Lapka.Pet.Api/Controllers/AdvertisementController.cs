@@ -41,9 +41,9 @@ public class AdvertisementController : BaseController
 
     [HttpGet("shelters/{petId:guid}/{longitude:double}/{latitude:double}")]
     [SwaggerOperation(description: "Gets shelter's advertisement details")]
-    [SwaggerResponse(200, "advertisements found", typeof(List<ShelterAdvertisementDetailsDto>))]
-    [SwaggerResponse(404, "advertisements not found", typeof(List<ShelterAdvertisementDetailsDto>))]
-    public async Task<ActionResult<ShelterAdvertisementDetailsDto>> GetShelterAdvertisementDetails(
+    [SwaggerResponse(200, "advertisements found", typeof(List<ShelterPetAdvertisementDetailsDto>))]
+    [SwaggerResponse(404, "advertisements not found")]
+    public async Task<ActionResult<ShelterPetAdvertisementDetailsDto>> GetShelterAdvertisementDetails(
         [FromRoute] Guid petId, [FromRoute] double longitude, [FromRoute] double latitude)
     {
         var query = new GetShelterAdvertisementDetailsQuery(petId, longitude, latitude);
