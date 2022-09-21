@@ -1,3 +1,5 @@
-﻿namespace Lapka.Pet.Application.Commands;
+﻿using Convey.CQRS.Commands;
 
-public record ArchiveShelterPetCommand();
+namespace Lapka.Pet.Application.Commands;
+
+public record ArchiveShelterPetCommand(Guid PetId,Guid PrincipalId) : ICommand;

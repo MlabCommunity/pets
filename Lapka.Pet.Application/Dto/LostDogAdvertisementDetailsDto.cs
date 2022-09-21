@@ -4,6 +4,6 @@ namespace Lapka.Pet.Application.Dto;
 
 public class LostDogAdvertisementDetailsDto : LostPetAdvertisementDetailsDto
 {
-    public DogBreed DogBreed { get; set; }
-    public DogColor DogColor { get; set; }
+    public DogBreed Breed { get; set; }
+    public DogColor Color { get; set; }
 }

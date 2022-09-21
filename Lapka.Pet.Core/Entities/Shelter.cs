@@ -13,9 +13,10 @@ public class Shelter : AggregateRoot<ShelterId>
     private readonly List<Volunteer> _volunteers = new();
     private readonly List<Worker> _workers = new();
     private readonly List<ShelterPet> _shelterPets = new();
+    private readonly List<Archive> _archives = new();
 
     public OrganizationName OrganizationName { get; private set; }
-    public ProfilePhoto ProfilePhoto { get; private set; }
+    public ProfilePhoto? ProfilePhoto { get; private set; }
     public Email Email { get; private set; }
     public Localization Localization { get; private set; } 
     public PhoneNumber PhoneNumber { get; private set; }
@@ -27,6 +28,7 @@ public class Shelter : AggregateRoot<ShelterId>
     public ICollection<ShelterPet> ShelterPets => _shelterPets;
     public ICollection<Volunteer> Volunteers => _volunteers;
     public ICollection<Worker> Workers => _workers;
+    public ICollection<Archive> Archives => _archives;
 
     private Shelter()
     {
@@ -144,6 +146,7 @@ public class Shelter : AggregateRoot<ShelterId>
         FirstName = firstName;
         LastName = lastName;
         Email = email;
+        ProfilePhoto = profilePhoto;
     }
 
     public void RemoveWorker(WorkerId workerId)
@@ -182,5 +185,11 @@ public class Shelter : AggregateRoot<ShelterId>
         }
 
         return volunteer;
+    }
+
+    public void ArchivePet(Guid petId)
+    {
+        RemovePet(petId);
+        _archives.Add(new Archive(petId));
     }
 }

@@ -3,4 +3,4 @@ using Lapka.Pet.Application.Dto;
 
 namespace Lapka.Pet.Application.Queries;
 
-public record GetArchiveStatsInYear(Guid PrincipalId) :IQuery<ChartInYearDto>;
+public record GetArchiveStatsInYearQuery(Guid PrincipalId) :IQuery<ChartInYearDto>;

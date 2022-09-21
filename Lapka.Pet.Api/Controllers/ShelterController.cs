@@ -28,7 +28,8 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> UpdateShelter([FromBody] UpdateShelterRequest request)
     {
-        var command = new UpdateShelterCommand(GetPrincipalId(), request.Longitude,request.Latitude,request.PhoneNumber,
+        var command = new UpdateShelterCommand(GetPrincipalId(), request.Longitude, request.Latitude,
+            request.PhoneNumber,
             request.OrganizationName, request.Krs, request.Nip);
 
         await _commandDispatcher.SendAsync(command);
@@ -93,7 +94,8 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
     {
-        var command = new CreateShelterDogCommand(GetPrincipalId(),request.ProfilePhoto,request.Description,request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
+        var command = new CreateShelterDogCommand(GetPrincipalId(), request.ProfilePhoto, request.Description,
+            request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.DogColor, request.DogBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
@@ -108,7 +110,8 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
     {
-        var command = new CreateShelterCatCommand(GetPrincipalId(),request.ProfilePhotoId,request.Description,request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
+        var command = new CreateShelterCatCommand(GetPrincipalId(), request.ProfilePhotoId, request.Description,
+            request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.CatColor, request.CatBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
@@ -122,12 +125,37 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
     {
-        var command = new CreateShelterOtherPetCommand(GetPrincipalId(),request.ProfilePhotoId,request.Description,request.IsVisible, request.Name, request.Gender,
+        var command = new CreateShelterOtherPetCommand(GetPrincipalId(), request.ProfilePhotoId, request.Description,
+            request.IsVisible, request.Name, request.Gender,
             request.DateOfBirth,
             request.IsSterilized, request.Weight, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
+    }
+
+    [Authorize(Policy = "IsWorker")]
+    [HttpPost("cards/archive/{petId:guid}")]
+    [SwaggerOperation(description: "Adds shelter's card to archive")]
+    [SwaggerResponse(204, "Card added to archive")]
+    [SwaggerResponse(404, "Pet not found")]
+    public async Task<IActionResult> ArchiveShelterPet([FromRoute] Guid petId)
+    {
+        var command = new ArchiveShelterPetCommand(petId, GetPrincipalId());
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+
+    [Authorize(Policy = "IsWorker")]
+    [HttpGet("cards/archive/chart/year")]
+    [SwaggerOperation(description: "Gets shelter's stats grouped by months in current year")]
+    [SwaggerResponse(204, "Card created")]
+    [SwaggerResponse(400, "If data are invalid")]
+    public async Task<IActionResult> GetArchiveStats()
+    {
+        var query = new GetArchiveStatsInYearQuery(GetPrincipalId());
+        var resul = await _queryDispatcher.QueryAsync(query);
+        return Ok(resul);
     }
 
     [Authorize(Policy = "IsWorker")]
@@ -137,7 +165,8 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> UpdateShelterCard([FromBody] UpdateShelterPetRequest request)
     {
-        var command = new UpdateShelterPetCommand(GetPrincipalId(),  request.PetId, request. Description,request.PetName,request.IsSterilized,request.Weight);
+        var command = new UpdateShelterPetCommand(GetPrincipalId(), request.PetId, request.Description, request.PetName,
+            request.IsSterilized, request.Weight);
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
@@ -166,7 +195,7 @@ public class ShelterController : BaseController
 
         return Ok(result);
     }
-    
+
     [Authorize(Policy = "IsWorker")]
     [HttpPut("cards/publish/{petId:guid}")]
     [SwaggerOperation(description: "Publishes pet")]
@@ -204,7 +233,7 @@ public class ShelterController : BaseController
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [HttpGet("volunteering/{shelterId:guid}")]
     [SwaggerOperation(description: "Gets shelter's volunteering")]
     [SwaggerResponse(200, "Volunteering data found", typeof(VolunteeringDto))]
@@ -226,15 +255,16 @@ public class ShelterController : BaseController
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [Authorize(Roles = "User")]
     [HttpGet("volunteers/{longitude:double}/{latitude:double}")]
     [SwaggerOperation(description: "Gets shelters list")]
     [SwaggerResponse(200, "Returns list of shelters")]
-    public async Task<ActionResult<Application.Dto.PagedResult<ShelterDto>>> GetShelterList([FromRoute] double longitude,[FromRoute] double latitude)
+    public async Task<ActionResult<Application.Dto.PagedResult<ShelterDto>>> GetShelterList(
+        [FromRoute] double longitude, [FromRoute] double latitude)
     {
-        var query = new GetAllSheltersQuery(longitude,latitude);
-        var result =await _queryDispatcher.QueryAsync(query);
+        var query = new GetAllSheltersQuery(longitude, latitude);
+        var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
     }
 
@@ -260,7 +290,7 @@ public class ShelterController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
     }
-    
+
     [Authorize(Roles = "Shelter")]
     [HttpGet("workers")]
     [SwaggerOperation(description: "Gets shelter's workers")]
