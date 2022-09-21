@@ -1,6 +1,8 @@
 ﻿namespace Lapka.Pet.Core.Exceptions;
 
-public class InvalidUrlException
+internal class InvalidUrlException : DomainException
 {
-    
+    internal InvalidUrlException() : base("Invalid Url")
+    {
+    }
 }

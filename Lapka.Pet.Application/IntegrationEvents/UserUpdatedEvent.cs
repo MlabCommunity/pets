@@ -1,6 +1,7 @@
 ﻿using Convey.CQRS.Events;
+using Convey.MessageBrokers;
 
 namespace Lapka.Pet.Application.IntegrationEvents;
 
-public record UserUpdatedEvent(Guid UserId, string Role, string FirstName, string LastName, string ProfilePictureId,
-    string Email) : IEvent;
+[Message("identity")]
+public record UserUpdatedEvent(Guid UserId, string Role, string FirstName, string LastName, string ProfilePicture, string Email) : IEvent;

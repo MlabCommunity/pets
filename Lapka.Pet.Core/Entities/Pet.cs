@@ -11,7 +11,7 @@ public abstract class Pet : AggregateRoot<PetId>
     private readonly List<Visit> _visits = new();
 
     public OwnerId OwnerId { get; private set; }
-    public ProfilePhoto ProfilePhoto { get; private set; }
+    public ProfilePhoto? ProfilePhoto { get; private set; }
     public PetType Type { get; private set; }
     public PetName Name { get; private set; }
     public Gender Gender { get; private set; }
@@ -60,7 +60,7 @@ public abstract class Pet : AggregateRoot<PetId>
     {
         foreach (var photo in photos)
         {
-            AddPhoto(new Photo(photo));
+            AddPhoto(photo);
         }
     }
 

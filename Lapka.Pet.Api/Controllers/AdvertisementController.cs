@@ -108,7 +108,7 @@ public class AdvertisementController : BaseController
     [HttpGet]
     [SwaggerOperation(description: "get all lost pet's card")]
     [SwaggerResponse(200, "Cards found or returns empty list", typeof(List<LostPetAdvertisementDto>))]
-    public async Task<ActionResult<List<LostPetAdvertisementDto>>> GetAllLostPetAdvertisement(
+    public async Task<ActionResult<Application.Dto.PagedResult<LostPetAdvertisementDto>>> GetAllLostPetAdvertisement(
         [FromQuery] PetType? type, [FromQuery] Gender? gender, [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10)
     {

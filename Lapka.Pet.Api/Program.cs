@@ -33,7 +33,8 @@ app.MapGrpcService<ShelterGrpcController>();
 
 app.UseConvey();
 app.UseRabbitMq()
-    .SubscribeEvent<UserDeletedEvent>();
+    .SubscribeEvent<UserDeletedEvent>()
+    .SubscribeEvent<UserUpdatedEvent>();
 
 
 app.UseSwaggerDocs();
