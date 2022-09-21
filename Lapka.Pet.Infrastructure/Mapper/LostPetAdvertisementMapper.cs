@@ -34,7 +34,7 @@ internal static class LostPetAdvertisementMapper
                     PetId = dog.Id,
                     ProfilePhoto = dog.ProfilePhoto,
                     Name = dog.Name,
-                    DogBreed = dog.DogBreed
+                    Breed = dog.DogBreed
                 };
             }
             

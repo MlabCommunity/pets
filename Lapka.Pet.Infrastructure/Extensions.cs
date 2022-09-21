@@ -59,7 +59,7 @@ public static class Extensions
                     new string[] { }
                 }
             });
-            c.EnableAnnotations();
+
         });
         //services.AddFluentValidationRulesToSwagger();
         services.AddEndpointsApiExplorer();
