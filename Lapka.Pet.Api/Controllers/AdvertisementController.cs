@@ -25,7 +25,7 @@ public class AdvertisementController : BaseController
     }
 
     [HttpGet("shelters/{longitude:double}/{latitude:double}")]
-    [SwaggerOperation(description: "Gets all shelter advertisements")]
+    [SwaggerOperation(summary: "Gets all shelter advertisements")]
     [SwaggerResponse(200, "advertisements found or returns empty list",
         typeof(Application.Dto.PagedResult<ShelterPetAdvertisementDto>))]
     public async Task<ActionResult<Application.Dto.PagedResult<ShelterPetAdvertisementDto>>> GetAllShelterAdvertisement(
@@ -40,7 +40,7 @@ public class AdvertisementController : BaseController
     }
 
     [HttpGet("shelters/{petId:guid}/{longitude:double}/{latitude:double}")]
-    [SwaggerOperation(description: "Gets shelter's advertisement details")]
+    [SwaggerOperation(summary: "Gets shelter's advertisement details")]
     [SwaggerResponse(200, "advertisements found", typeof(List<ShelterPetAdvertisementDetailsDto>))]
     [SwaggerResponse(404, "advertisements not found")]
     public async Task<ActionResult<ShelterPetAdvertisementDetailsDto>> GetShelterAdvertisementDetails(
@@ -54,7 +54,7 @@ public class AdvertisementController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPost("dog")]
-    [SwaggerOperation(description: "Creates lost pet's card")]
+    [SwaggerOperation(summary: "Creates lost pet's card")]
     [SwaggerResponse(200, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateLostDog([FromBody] CreateLostDogAdvertisementRequest request)
@@ -72,7 +72,7 @@ public class AdvertisementController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPost("cat")]
-    [SwaggerOperation(description: "Creates lost pet's card")]
+    [SwaggerOperation(summary: "Creates lost pet's card")]
     [SwaggerResponse(200, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateLostCat([FromBody] CreateLostCatAdvertisementRequest request)
@@ -90,7 +90,7 @@ public class AdvertisementController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPost("other")]
-    [SwaggerOperation(description: "Creates lost pet's card")]
+    [SwaggerOperation(summary: "Creates lost pet's card")]
     [SwaggerResponse(200, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateLostOtherPet([FromBody] CreateLostOtherPetAdvertisementRequest request)
@@ -106,7 +106,7 @@ public class AdvertisementController : BaseController
     }
 
     [HttpGet]
-    [SwaggerOperation(description: "get all lost pet's card")]
+    [SwaggerOperation(summary: "Gets all lost pet's card")]
     [SwaggerResponse(200, "Cards found or returns empty list", typeof(List<LostPetAdvertisementDto>))]
     public async Task<ActionResult<Application.Dto.PagedResult<LostPetAdvertisementDto>>> GetAllLostPetAdvertisement(
         [FromQuery] PetType? type, [FromQuery] Gender? gender, [FromQuery] int pageNumber = 1,
@@ -118,7 +118,7 @@ public class AdvertisementController : BaseController
     }
 
     [HttpGet("{petId:guid}/{longitude:double}/{latitude:double}")]
-    [SwaggerOperation(description: "get lost pet's card details")]
+    [SwaggerOperation(summary: "Gets lost pet's card details")]
     [SwaggerResponse(200, "Card found", typeof(LostPetAdvertisementDetailsDto))]
     [SwaggerResponse(404, "Card not found")]
     public async Task<ActionResult<LostPetAdvertisementDetailsDto>> GetLostPetAdvertisementDetails(
@@ -132,7 +132,7 @@ public class AdvertisementController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPut("{petId:guid}")]
-    [SwaggerOperation(description: "update lost pet's card")]
+    [SwaggerOperation(summary: "Updates lost pet's card")]
     [SwaggerResponse(200, "Cards updated")]
     [SwaggerResponse(404, "Cards not found")]
     public async Task<IActionResult> UpdateLostPetAdvertisement([FromRoute] Guid petId,
@@ -149,7 +149,7 @@ public class AdvertisementController : BaseController
     }
 
     [HttpDelete("{petId:guid}")]
-    [SwaggerOperation(description: "delete lost pet's card")]
+    [SwaggerOperation(summary: "Deletes lost pet's card")]
     [SwaggerResponse(200, "Cards deleted")]
     [SwaggerResponse(404, "Cards not found")]
     public async Task<IActionResult> DeleteLostPetAdvertisement([FromRoute] Guid petId)

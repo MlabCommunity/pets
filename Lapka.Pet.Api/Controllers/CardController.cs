@@ -23,7 +23,7 @@ public class CardController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPost("dog")]
-    [SwaggerOperation(description: "Create card")]
+    [SwaggerOperation(summary: "Creates card")]
     [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
@@ -38,7 +38,7 @@ public class CardController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPost("cat")]
-    [SwaggerOperation(description: "Create card")]
+    [SwaggerOperation(summary: "Creates card")]
     [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
@@ -52,7 +52,7 @@ public class CardController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPost("other")]
-    [SwaggerOperation(description: "Creates card")]
+    [SwaggerOperation(summary: "Creates card")]
     [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
@@ -66,7 +66,7 @@ public class CardController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPut]
-    [SwaggerOperation(description: "Updates card")]
+    [SwaggerOperation(summary: "Updates card")]
     [SwaggerResponse(204, "Card updated")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> UpdatePet([FromBody] UpdatePetRequest request)
@@ -80,7 +80,7 @@ public class CardController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpDelete("{petId:guid}")]
-    [SwaggerOperation(description: "Deletes card")]
+    [SwaggerOperation(summary: "Deletes card")]
     [SwaggerResponse(204, "Card deleted")]
     public async Task<IActionResult> DeletePet([FromRoute] Guid petId)
     {
@@ -92,7 +92,7 @@ public class CardController : BaseController
 
     [Authorize]
     [HttpGet("{petId:guid}")]
-    [SwaggerOperation(description: "Gets card")]
+    [SwaggerOperation(summary: "Gets card")]
     [SwaggerResponse(200, "Card found")]
     [SwaggerResponse(404, "Card not found")]
     public async Task<ActionResult<PetDto>> GetPet(Guid petId)
@@ -105,7 +105,7 @@ public class CardController : BaseController
 
     [Authorize]
     [HttpGet]
-    [SwaggerOperation(description: "Gets all cards")]
+    [SwaggerOperation(summary: "Gets all cards")]
     [SwaggerResponse(200, "cards found or returns empty list")]
     public async Task<ActionResult<Application.Dto.PagedResult<PetDto>>> GetPets([FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10)
@@ -117,7 +117,7 @@ public class CardController : BaseController
 
     [Authorize]
     [HttpGet("visits/{petId:guid}")]
-    [SwaggerOperation(description: "Gets visits by petId")]
+    [SwaggerOperation(summary: "Gets visits by petId")]
     [SwaggerResponse(200, "Returns list of visits or empty list")]
     public async Task<ActionResult<VisitResponseDto>> GetVisits([FromRoute] Guid petId,
         [FromQuery] int incomingVisitPageNumber = 1, [FromQuery] int incomingVisitPageSize = 10,
@@ -132,7 +132,7 @@ public class CardController : BaseController
 
     [Authorize]
     [HttpGet("visits/{petId:guid}/{visitId:guid}")]
-    [SwaggerOperation(description: "Gets visit by petId")]
+    [SwaggerOperation(summary: "Gets visit by petId")]
     [SwaggerResponse(200, "Returns visit")]
     [SwaggerResponse(404, "If visit or pet not found")]
     public async Task<ActionResult<VisitDetailsDto>> GetVisit([FromRoute] Guid visitId, [FromRoute] Guid petId)
@@ -145,7 +145,7 @@ public class CardController : BaseController
 
     [Authorize]
     [HttpDelete("visits/{petId:guid}/{visitId:guid}")]
-    [SwaggerOperation(description: "Deletes visit by petId and visitId")]
+    [SwaggerOperation(summary: "Deletes visit by petId and visitId")]
     [SwaggerResponse(204, "Visit deleted")]
     public async Task<ActionResult<VisitResponseDto>> DeleteVisit([FromRoute] Guid visitId, [FromRoute] Guid petId)
     {
@@ -158,7 +158,7 @@ public class CardController : BaseController
 
     [Authorize]
     [HttpPost("visits/{petId:guid}")]
-    [SwaggerOperation(description: "Adds visit")]
+    [SwaggerOperation(summary: "Adds visit")]
     [SwaggerResponse(204, "Visit added")]
     [SwaggerResponse(404, "Pet not found")]
     public async Task<IActionResult> CreateVisit([FromBody] CreateVisitRequest request, [FromRoute] Guid petId)
@@ -172,7 +172,7 @@ public class CardController : BaseController
 
     [Authorize]
     [HttpPut("visits/{petId:guid}/{visitId:guid}")]
-    [SwaggerOperation(description: "Adds visit")]
+    [SwaggerOperation(summary: "Adds visit")]
     [SwaggerResponse(204, "Visit added")]
     [SwaggerResponse(404, "Pet not found")]
     public async Task<IActionResult> UpdateVisit([FromBody] UpdateVisitRequest request, [FromRoute] Guid petId,

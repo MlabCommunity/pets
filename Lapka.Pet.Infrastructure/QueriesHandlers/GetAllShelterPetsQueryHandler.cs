@@ -12,31 +12,35 @@ internal sealed class
     GetAllShelterPetsQueryHandler : Convey.CQRS.Queries.IQueryHandler<GetAllShelterPetsQuery, PagedResult<ShelterPetDto>>
 {
     private readonly IUserCacheStorage _cacheStorage;
-    private readonly DbSet<ShelterPet> _pets;
+    private readonly DbSet<Shelter> _shelters;
 
     public GetAllShelterPetsQueryHandler(AppDbContext context, IUserCacheStorage cacheStorage)
     {
         _cacheStorage = cacheStorage;
-        _pets= context.ShelterPets;
+        _shelters= context.Shelters;
     }
 
     public async Task<PagedResult<ShelterPetDto>> HandleAsync(GetAllShelterPetsQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
-        var result = await _pets
-            .OrderByDescending(x=>x.CreatedAt)
+
+        var shelterPets = await _shelters
+            .Include(x => x.ShelterPets)
+            .Where(x => x.Id == shelterId)
+            .Select(x => x.ShelterPets.ToList())
+            .FirstOrDefaultAsync();
+
+        var retult = shelterPets
+            .OrderByDescending(x => x.CreatedAt)
             .Where(x => x.OwnerId == shelterId)
             .Skip(query.PageSize * (query.PageNumber - 1))
             .Take(query.PageSize)
             .Select(x => x.AsDto())
-            .ToListAsync();
-
-
-        var count = await _pets
-            .Where(x => x.OwnerId == shelterId)
-            .CountAsync();
+            .ToList();
         
-        return new PagedResult<ShelterPetDto>(result, count, query.PageSize, query.PageNumber);
+        var count = shelterPets.Count();
+        
+        return new PagedResult<ShelterPetDto>(retult, count, query.PageSize, query.PageNumber);
     }
 }
