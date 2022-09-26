@@ -23,7 +23,7 @@ public class ShelterController : BaseController
 
     [Authorize(Roles = "Shelter")]
     [HttpPut]
-    [SwaggerOperation(description: "Updates shelter")]
+    [SwaggerOperation(summary: "Updates shelter")]
     [SwaggerResponse(204)]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> UpdateShelter([FromBody] UpdateShelterRequest request)
@@ -39,7 +39,7 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpGet]
-    [SwaggerOperation(description: "Gets shelter data")]
+    [SwaggerOperation(summary: "Gets shelter data")]
     [SwaggerResponse(200, "shelter found", typeof(ShelterDto))]
     [SwaggerResponse(404, "shelter not found")]
     public async Task<ActionResult<ShelterDto>> GetShelter()
@@ -51,7 +51,7 @@ public class ShelterController : BaseController
     }
 
     [HttpGet("details/{shelterId:guid}")]
-    [SwaggerOperation(description: "Gets shelter data")]
+    [SwaggerOperation(summary: "Gets shelter data")]
     [SwaggerResponse(200, "shelter found", typeof(ShelterDetailsDto))]
     [SwaggerResponse(404, "shelter not found")]
     public async Task<ActionResult<ShelterDetailsDto>> GetShelterDetails([FromRoute] Guid shelterId)
@@ -63,7 +63,7 @@ public class ShelterController : BaseController
 
     [Authorize(Roles = "Shelter")]
     [HttpPost("workers/{workerEmail}")]
-    [SwaggerOperation(description: "Adds worker to shelter")]
+    [SwaggerOperation(summary: "Adds worker to shelter")]
     [SwaggerResponse(204, "Worker added")]
     [SwaggerResponse(404, "shelter not found")]
     public async Task<IActionResult> AddWorker([FromRoute] string workerEmail)
@@ -76,7 +76,7 @@ public class ShelterController : BaseController
 
     [Authorize(Roles = "Shelter")]
     [HttpDelete("workers/{workerId:guid}")]
-    [SwaggerOperation(description: "Deletes worker to shelter")]
+    [SwaggerOperation(summary: "Deletes worker to shelter")]
     [SwaggerResponse(204, "Worker deleted")]
     [SwaggerResponse(404, "shelter or worker not found")]
     public async Task<IActionResult> RemoveWorker([FromRoute] Guid workerId)
@@ -89,7 +89,7 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpPost("cards/dog")]
-    [SwaggerOperation(description: "Creates shelter's card")]
+    [SwaggerOperation(summary: "Creates shelter's card")]
     [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
@@ -105,7 +105,7 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpPost("cards/cat")]
-    [SwaggerOperation(description: "Creates shelter's card")]
+    [SwaggerOperation(summary: "Creates shelter's card")]
     [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
@@ -120,7 +120,7 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpPost("cards/other")]
-    [SwaggerOperation(description: "Creates shelter's card")]
+    [SwaggerOperation(summary: "Creates shelter's card")]
     [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
@@ -136,7 +136,7 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpPost("cards/archive/{petId:guid}")]
-    [SwaggerOperation(description: "Adds shelter's card to archive")]
+    [SwaggerOperation(summary: "Adds shelter's card to archive")]
     [SwaggerResponse(204, "Card added to archive")]
     [SwaggerResponse(404, "Pet not found")]
     public async Task<IActionResult> ArchiveShelterPet([FromRoute] Guid petId)
@@ -148,19 +148,44 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpGet("cards/archive/chart/year")]
-    [SwaggerOperation(description: "Gets shelter's stats grouped by months in current year")]
-    [SwaggerResponse(204, "Card created")]
-    [SwaggerResponse(400, "If data are invalid")]
-    public async Task<IActionResult> GetArchiveStats()
+    [SwaggerOperation(summary: "Gets shelter's stats grouped by months in current year")]
+    [SwaggerResponse(200, "")]
+    public async Task<ActionResult<YearDto>> GetArchiveStatsInYear()
     {
         var query = new GetArchiveStatsInYearQuery(GetPrincipalId());
         var resul = await _queryDispatcher.QueryAsync(query);
         return Ok(resul);
     }
+    
+    [Authorize(Policy = "IsWorker")]
+    [HttpGet("cards/archive/chart/month")]
+    [SwaggerOperation(summary: "Gets shelter's stats grouped by days of the week in current month")]
+    [SwaggerResponse(204, "Card created")]
+    [SwaggerResponse(400, "If data are invalid")]
+    public async Task<ActionResult<MonthDto>> GetArchiveStatsInMonth()
+    {
+        var query = new GetArchiveStatsInMonthQuery(GetPrincipalId());
+        var resul = await _queryDispatcher.QueryAsync(query);
+        return Ok(resul);
+        
+    }
+
+    [Authorize(Policy = "IsWorker")]
+    [HttpGet("cards/archive/chart/week")]
+    [SwaggerOperation(summary: "Gets shelter's stats grouped by days of the week in current week")]
+    [SwaggerResponse(204, "Card created")]
+    [SwaggerResponse(400, "If data are invalid")]
+    public async Task<ActionResult<WeekDto>> GetArchiveStatsInWeek()
+    {
+        var query = new GetArchiveStatsInWeekQuery(GetPrincipalId());
+        var resul = await _queryDispatcher.QueryAsync(query);
+        return Ok(resul);
+
+    }
 
     [Authorize(Policy = "IsWorker")]
     [HttpPut("cards")]
-    [SwaggerOperation(description: "Updates shelter's card")]
+    [SwaggerOperation(summary: "Updates shelter's card")]
     [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> UpdateShelterCard([FromBody] UpdateShelterPetRequest request)
@@ -173,7 +198,7 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpDelete("cards/{petId:guid}")]
-    [SwaggerOperation(description: "Deletes shelter's card")]
+    [SwaggerOperation(summary: "Deletes shelter's card")]
     [SwaggerResponse(204, "Card deleted")]
     public async Task<IActionResult> DeleteShelterCard([FromRoute] Guid petId)
     {
@@ -185,7 +210,7 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpGet("cards")]
-    [SwaggerOperation(description: "Gets shelter's pets")]
+    [SwaggerOperation(summary: "Gets shelter's pets")]
     [SwaggerResponse(200, "Pets found or returns empty list", typeof(Application.Dto.PagedResult<PetDto>))]
     public async Task<ActionResult<Application.Dto.PagedResult<PetDto>>> GetAllShelterPets(
         [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
@@ -198,7 +223,7 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpPut("cards/publish/{petId:guid}")]
-    [SwaggerOperation(description: "Publishes pet")]
+    [SwaggerOperation(summary: "Publishes pet")]
     [SwaggerResponse(204, "Pet published")]
     [SwaggerResponse(404, "If pet not found")]
     public async Task<IActionResult> PublishAdvertisement([FromRoute] Guid petId)
@@ -210,7 +235,7 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpPut("cards/hide/{petId:guid}")]
-    [SwaggerOperation(description: "Hides pet")]
+    [SwaggerOperation(summary: "Hides pet")]
     [SwaggerResponse(204, "pet hided")]
     [SwaggerResponse(404, "If pet not found")]
     public async Task<IActionResult> HideAdvertisement([FromRoute] Guid petId)
@@ -222,7 +247,7 @@ public class ShelterController : BaseController
 
     [Authorize(Roles = "Shelter")]
     [HttpPut("volunteering")]
-    [SwaggerOperation(description: "Updates shelter's volunteering")]
+    [SwaggerOperation(summary: "Updates shelter's volunteering")]
     [SwaggerResponse(204, "Volunteering updated")]
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> UpdateVolunteering([FromBody] UpdateVolunteeringRequest request)
@@ -235,7 +260,7 @@ public class ShelterController : BaseController
     }
 
     [HttpGet("volunteering/{shelterId:guid}")]
-    [SwaggerOperation(description: "Gets shelter's volunteering")]
+    [SwaggerOperation(summary: "Gets shelter's volunteering")]
     [SwaggerResponse(200, "Volunteering data found", typeof(VolunteeringDto))]
     [SwaggerResponse(404, "If shelter not found")]
     public async Task<ActionResult<VolunteeringDto>> GetVolunteering([FromRoute] Guid shelterId)
@@ -247,7 +272,7 @@ public class ShelterController : BaseController
 
     [Authorize(Roles = "User,Worker")]
     [HttpPost("volunteers/{shelterId:guid}")]
-    [SwaggerOperation(description: "Adds Principal user as volunteer to shelter")]
+    [SwaggerOperation(summary: "Adds Principal user as volunteer to shelter")]
     [SwaggerResponse(204, "Volunteer added")]
     public async Task<IActionResult> AddVolunteer([FromRoute] Guid shelterId)
     {
@@ -258,7 +283,7 @@ public class ShelterController : BaseController
 
     [Authorize(Roles = "User")]
     [HttpGet("volunteers/{longitude:double}/{latitude:double}")]
-    [SwaggerOperation(description: "Gets shelters list")]
+    [SwaggerOperation(summary: "Gets shelters list")]
     [SwaggerResponse(200, "Returns list of shelters")]
     public async Task<ActionResult<Application.Dto.PagedResult<ShelterDto>>> GetShelterList(
         [FromRoute] double longitude, [FromRoute] double latitude)
@@ -270,7 +295,7 @@ public class ShelterController : BaseController
 
     [Authorize]
     [HttpDelete("volunteers/{shelterId:guid}")]
-    [SwaggerOperation(description: "Removes Principal user as volunteer from shelter")]
+    [SwaggerOperation(summary: "Removes Principal user as volunteer from shelter")]
     [SwaggerResponse(204, "Volunteer added")]
     [SwaggerResponse(404, "If shelter or user not found")]
     public async Task<IActionResult> DeleteVolunteer([FromRoute] Guid shelterId)
@@ -282,7 +307,7 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpGet("volunteers")]
-    [SwaggerOperation(description: "Gets shelter's volunteers")]
+    [SwaggerOperation(summary: "Gets shelter's volunteers")]
     [SwaggerResponse(200, "Volunteers found or returns empty list", typeof(List<VolunteerDto>))]
     public async Task<ActionResult<List<VolunteerDto>>> GetVolunteers()
     {
@@ -293,7 +318,7 @@ public class ShelterController : BaseController
 
     [Authorize(Roles = "Shelter")]
     [HttpGet("workers")]
-    [SwaggerOperation(description: "Gets shelter's workers")]
+    [SwaggerOperation(summary: "Gets shelter's workers")]
     [SwaggerResponse(200, "workers found or returns empty list", typeof(List<WorkerDto>))]
     public async Task<ActionResult<List<WorkerDto>>> GetWorkers()
     {
@@ -305,7 +330,7 @@ public class ShelterController : BaseController
 
     [Authorize(Policy = "IsWorker")]
     [HttpGet("stats")]
-    [SwaggerOperation(description: "Gets shelter's stats")]
+    [SwaggerOperation(summary: "Gets shelter's stats")]
     [SwaggerResponse(200, "", typeof(StatsDto))]
     public async Task<ActionResult<StatsDto>> GetShelterStats()
     {

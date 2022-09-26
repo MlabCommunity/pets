@@ -1,6 +1,6 @@
 ﻿namespace Lapka.Pet.Application.Dto;
 
-public class ChartInYearDto
+public class YearDto
 {
     public int January { get; set; }
     public int February { get; set; }
@@ -14,4 +14,6 @@ public class ChartInYearDto
     public int October { get; set; }
     public int November { get; set; }
     public int December { get; set; }
+
+    
 }

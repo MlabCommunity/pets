@@ -26,6 +26,8 @@ internal static class LostPetAdvertisementDetailsMapper
                     Breed = cat.CatBreed,
                     Color = cat.CatColor,
                     Weight = cat.Weight,
+                    PhoneNumber = cat.PhoneNumber,
+                    FirstName = cat.FirstName,
                     Distance = cat.Localization.CalculateDistance(longitude, latitude),
                     Localization = cat.Localization.AsDto()
                 };
@@ -40,8 +42,12 @@ internal static class LostPetAdvertisementDetailsMapper
                     Gender = dog.Gender,
                     PetId = dog.Id,
                     ProfilePhoto = dog.ProfilePhoto,
+                    Breed = dog.DogBreed,
+                    Color = dog.DogColor,
                     Photos = dog.Photos.Select(x => x.Link.Value).ToList(),
                     Name = dog.Name,
+                    PhoneNumber = dog.PhoneNumber,
+                    FirstName = dog.FirstName,
                     Weight = dog.Weight,
                     Distance = dog.Localization.CalculateDistance(longitude, latitude),
                     Localization = dog.Localization.AsDto()
@@ -58,6 +64,9 @@ internal static class LostPetAdvertisementDetailsMapper
                     ProfilePhoto = pet.ProfilePhoto,
                     Photos = pet.Photos.Select(x => x.Link.Value).ToList(),
                     Name = pet.Name,
+                    PhoneNumber = pet.PhoneNumber,
+                    
+                    FirstName = pet.FirstName,
                     Weight = pet.Weight,
                     Distance = pet.Localization.CalculateDistance(longitude, latitude),
                     Localization = pet.Localization.AsDto()
