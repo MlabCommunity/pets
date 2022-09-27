@@ -177,7 +177,7 @@ public class AdvertisementController : BaseController
     }
     
     [Authorize]
-    [HttpPost("cards/like/{petId:guid}")]
+    [HttpPost("shelters/like/{petId:guid}")]
     [SwaggerOperation(summary: "Adds like to pet")]
     [SwaggerResponse(204,"Like Added")]
     public async Task<IActionResult> LikePet([FromRoute] Guid petId)
@@ -190,7 +190,7 @@ public class AdvertisementController : BaseController
     }
     
     [Authorize]
-    [HttpDelete("cards/like/{petId:guid}")]
+    [HttpDelete("shelters/like/{petId:guid}")]
     [SwaggerOperation(summary: "Removes like from pet")]
     [SwaggerResponse(204,"Like Removed")]
     public async Task<IActionResult> UnLikePet([FromRoute] Guid petId)
