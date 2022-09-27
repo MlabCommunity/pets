@@ -220,6 +220,19 @@ public class ShelterController : BaseController
 
         return Ok(result);
     }
+    
+    [Authorize(Policy = "IsWorker")]
+    [HttpGet("cards/liked")]
+    [SwaggerOperation(summary: "Gets liked shelter's pets")]
+    [SwaggerResponse(200, "Pets found or returns empty list", typeof(Application.Dto.PagedResult<PetDto>))]
+    public async Task<ActionResult<Application.Dto.PagedResult<PetDto>>> GetAllLikedShelterPets(
+        [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    {
+        var query = new GetAllLikedShelterPetsQuery(GetPrincipalId(), pageNumber, pageSize);
+        var result = await _queryDispatcher.QueryAsync(query);
+
+        return Ok(result);
+    }
 
     [Authorize(Policy = "IsWorker")]
     [HttpPut("cards/publish/{petId:guid}")]

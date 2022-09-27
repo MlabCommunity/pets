@@ -61,4 +61,14 @@ internal static class ShelterPetMapper
             }
         }
     }
+
+    public static LikedShelterPetsDto AsLikedDto(
+        this ShelterPet pet,int count)
+        => new()
+        {
+            Name = pet.Name,
+            Count = count,
+            ProfilePhoto = pet.ProfilePhoto,
+            Type = pet.Type
+        };
 }

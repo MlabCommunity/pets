@@ -90,7 +90,7 @@ public class CardController : BaseController
         return NoContent();
     }
 
-    [Authorize]
+    [Authorize(Roles = "User,Worker")]
     [HttpGet("{petId:guid}")]
     [SwaggerOperation(summary: "Gets card")]
     [SwaggerResponse(200, "Card found")]
