@@ -34,7 +34,7 @@ internal sealed class UserUpdatedEventHandler : IEventHandler<UserUpdatedEvent>
 
                 if (shelter is not null)
                 {
-                    shelter.Update(@event.Email,@event.FirstName,@event.LastName, @event.ProfilePicture);
+                    shelter.Update( string.IsNullOrWhiteSpace(@event.Email) ?shelter.Email : @event.Email,@event.FirstName,@event.LastName, @event.ProfilePicture);
                     _shelters.Update(shelter);
                     await _context.SaveChangesAsync();   
                 }
