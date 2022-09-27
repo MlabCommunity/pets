@@ -49,7 +49,7 @@ public class AdvertisementController : BaseController
         [FromQuery] PetType? type, [FromQuery] Gender? gender, [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10)
     {
-        var query = new GetAllLikedPetsQuery(GetPrincipalId(),type, gender, longitude,latitude,pageNumber, pageSize);
+        var query = new GetAllLikedPetsQuery(string.IsNullOrWhiteSpace(User.FindFirstValue(ClaimTypes.NameIdentifier))? Guid.Empty : GetPrincipalId(),type, gender, longitude,latitude,pageNumber, pageSize);
 
         var result = await _queryDispatcher.QueryAsync(query);
         
