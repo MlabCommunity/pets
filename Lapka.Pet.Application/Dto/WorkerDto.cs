@@ -7,5 +7,5 @@ public class WorkerDto
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public DateTime? CratedAt { get; set; }
-    public bool? Stauts { get; set; }
+    public bool? Status { get; set; }
 }
