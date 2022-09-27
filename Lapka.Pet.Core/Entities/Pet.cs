@@ -154,5 +154,12 @@ public abstract class Pet : AggregateRoot<PetId>
     }
 
     public bool IsLiked(UserId userId)
-        => Likes.Any(x => x.UserId == userId);
+    {
+        if (userId.IsEmpty())
+        {
+            return false;
+        }
+        return Likes.Any(x => x.UserId == userId);
+    }
+        
 }

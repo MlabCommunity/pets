@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
 using Lapka.Pet.Api.Requests;
@@ -62,7 +63,8 @@ public class AdvertisementController : BaseController
     public async Task<ActionResult<ShelterPetAdvertisementDetailsDto>> GetShelterAdvertisementDetails(
         [FromRoute] Guid petId, [FromRoute] double longitude, [FromRoute] double latitude)
     {
-        var query = new GetShelterAdvertisementDetailsQuery(GetPrincipalId(),petId, longitude, latitude);
+        
+        var query = new GetShelterAdvertisementDetailsQuery(string.IsNullOrWhiteSpace(User.FindFirstValue(ClaimTypes.NameIdentifier))? Guid.Empty : GetPrincipalId(),petId, longitude, latitude);
 
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
