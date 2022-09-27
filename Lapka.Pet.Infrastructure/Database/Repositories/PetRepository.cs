@@ -27,6 +27,7 @@ internal sealed class PetRepository : IPetRepository
         => _pets
             .Include(x => x.Visits)
             .ThenInclude(x => x.VisitTypes)
+            .Include(x=>x.Likes)
             .Include(x => x.Photos)
             .FirstOrDefaultAsync(s => s.Id == id);
 
@@ -41,11 +42,5 @@ internal sealed class PetRepository : IPetRepository
     {
         _pets.Remove(pet);
         await _context.SaveChangesAsync();
-    }
-
-    public async Task RemoveByIdAsync(PetId petId)
-    {
-        var pet = await FindByIdAsync(petId);
-        await RemoveAsync(pet);
     }
 }

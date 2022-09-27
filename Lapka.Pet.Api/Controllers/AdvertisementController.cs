@@ -38,6 +38,22 @@ public class AdvertisementController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
     }
+    
+    [HttpGet("shelters/liked/{longitude:double}/{latitude:double}")]
+    [SwaggerOperation(summary: "Gets all liked shelter advertisements")]
+    [SwaggerResponse(200, "advertisements found or returns empty list",
+        typeof(Application.Dto.PagedResult<ShelterPetAdvertisementDto>))]
+    public async Task<ActionResult<Application.Dto.PagedResult<ShelterPetAdvertisementDto>>> GetAllLikedShelterAdvertisement(
+        [FromRoute] double longitude, [FromRoute] double latitude,
+        [FromQuery] PetType? type, [FromQuery] Gender? gender, [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var query = new GetAllLikedPetsQuery(GetPrincipalId(),type, gender, longitude,latitude,pageNumber, pageSize);
+
+        var result = await _queryDispatcher.QueryAsync(query);
+        
+        return Ok(result);
+    }
 
     [HttpGet("shelters/{petId:guid}/{longitude:double}/{latitude:double}")]
     [SwaggerOperation(summary: "Gets shelter's advertisement details")]
@@ -46,7 +62,7 @@ public class AdvertisementController : BaseController
     public async Task<ActionResult<ShelterPetAdvertisementDetailsDto>> GetShelterAdvertisementDetails(
         [FromRoute] Guid petId, [FromRoute] double longitude, [FromRoute] double latitude)
     {
-        var query = new GetShelterAdvertisementDetailsQuery(petId, longitude, latitude);
+        var query = new GetShelterAdvertisementDetailsQuery(GetPrincipalId(),petId, longitude, latitude);
 
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
@@ -77,7 +93,7 @@ public class AdvertisementController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateLostCat([FromBody] CreateLostCatAdvertisementRequest request)
     {
-        var command = new CreateLostCatCommand(GetPrincipalId(), request.ProfilePhotoId, request.Name, request.Gender,
+        var command = new CreateLostCatCommand(GetPrincipalId(), request.ProfilePhoto, request.Name, request.Gender,
             request.DateOfBirth,
             request.IsSterilized, request.Weight, request.CatColor, request.CatBreed, request.Photos,
             request.Description,
@@ -157,6 +173,32 @@ public class AdvertisementController : BaseController
         var command = new DeleteLostPetAdvertisementCommand(petId, GetPrincipalId());
         await _commandDispatcher.SendAsync(command);
 
+        return NoContent();
+    }
+    
+    [Authorize]
+    [HttpPost("shelters/like/{petId:guid}")]
+    [SwaggerOperation(summary: "Adds like to pet")]
+    [SwaggerResponse(204,"Like Added")]
+    public async Task<IActionResult> LikePet([FromRoute] Guid petId)
+    {
+        var command = new LikePetCommand(GetPrincipalId(),petId);
+
+        await _commandDispatcher.SendAsync(command);
+        
+        return NoContent();
+    }
+    
+    [Authorize]
+    [HttpDelete("shelters/like/{petId:guid}")]
+    [SwaggerOperation(summary: "Removes like from pet")]
+    [SwaggerResponse(204,"Like Removed")]
+    public async Task<IActionResult> UnLikePet([FromRoute] Guid petId)
+    {
+        var command = new UnLikePetCommand(GetPrincipalId(),petId);
+
+        await _commandDispatcher.SendAsync(command);
+        
         return NoContent();
     }
 }

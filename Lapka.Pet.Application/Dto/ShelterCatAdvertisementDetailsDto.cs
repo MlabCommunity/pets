@@ -6,7 +6,5 @@ public class ShelterCatAdvertisementDetailsDto : ShelterPetAdvertisementDetailsD
 {
     public CatColor Color { get; set; }
     public CatBreed Breed { get; set; }
-    public bool IsSterilized { get; set; }
-    public decimal Weight { get; set; }
-    public string Description { get; set; }
+
 }

@@ -6,12 +6,12 @@ namespace Lapka.Pet.Core.Entities;
 
 public class ShelterPet : Pet
 {
+    
     public string Description { get; private set; }
     public OrganizationName OrganizationName { get; private set; }
     public bool IsVisible { get; private set; }
     public Localization Localization { get; private set; }
-
-
+    
     protected ShelterPet()
     {
     }
@@ -48,5 +48,4 @@ public class ShelterPet : Pet
         OrganizationName = organizationName;
         Localization = new Localization(longitude, latitude);
     }
-    
 }

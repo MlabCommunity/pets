@@ -13,6 +13,7 @@ internal class AppDbContext : DbContext
     public DbSet<Cat> Cats { get; set; }
     public DbSet<Dog> Dogs { get; set; }
     public DbSet<Volunteering> Volunteerings { get; set; }
+    public DbSet<Like> Likes { get; set; }
     public DbSet<Volunteer> Volunteers { get; set; }
     public DbSet<ShelterPet> ShelterPets { get; set; }
     public DbSet<LostPet> LostPets { get; set; }

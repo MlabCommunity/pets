@@ -110,7 +110,7 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
     {
-        var command = new CreateShelterCatCommand(GetPrincipalId(), request.ProfilePhotoId, request.Description,
+        var command = new CreateShelterCatCommand(GetPrincipalId(), request.ProfilePhoto, request.Description,
             request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.CatColor, request.CatBreed, request.Photos);
 
@@ -125,7 +125,7 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
     {
-        var command = new CreateShelterOtherPetCommand(GetPrincipalId(), request.ProfilePhotoId, request.Description,
+        var command = new CreateShelterOtherPetCommand(GetPrincipalId(), request.ProfilePhoto, request.Description,
             request.IsVisible, request.Name, request.Gender,
             request.DateOfBirth,
             request.IsSterilized, request.Weight, request.Photos);

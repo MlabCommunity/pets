@@ -43,7 +43,7 @@ public class CardController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
     {
-        var command = new CreateCatCommand(GetPrincipalId(),request.ProfilePhotoId, request.Name, request.Gender, request.DateOfBirth,
+        var command = new CreateCatCommand(GetPrincipalId(),request.ProfilePhoto, request.Name, request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.CatColor, request.CatBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
@@ -57,7 +57,7 @@ public class CardController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
     {
-        var command = new CreateOtherPetCommand(GetPrincipalId(),request.ProfilePhotoId, request.Name, request.Gender, request.DateOfBirth,
+        var command = new CreateOtherPetCommand(GetPrincipalId(),request.ProfilePhoto, request.Name, request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.Photos);
 
         await _commandDispatcher.SendAsync(command);

@@ -15,6 +15,7 @@ public static class ShelterDetailsMapper
             Nip = shelter.Nip,
             Krs = shelter.Krs,
             LastName = shelter.LastName,
+            PhoneNumber = shelter.PhoneNumber,
             Localization = shelter.Localization.AsDto()
         };
 }

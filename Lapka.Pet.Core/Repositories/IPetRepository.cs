@@ -9,5 +9,5 @@ public interface IPetRepository
     Task<Entities.Pet> FindByIdAsync(PetId petId);
     Task UpdateAsync(Entities.Pet pet);
     Task RemoveAsync(Entities.Pet pet);
-    Task RemoveByIdAsync(PetId petId);
+
 }
