@@ -9,7 +9,7 @@ public class ShelterPetDto
     public PetType Type { get; set; }
     public Gender Gender { get; set; }
     public double Weight { get; set; }
-    public string ProfilePhot { get; set; }
+    public string ProfilePhoto { get; set; }
     public bool IsSterilized { get; set; }
     public DateTime CreatedAt { get; set; }
 }

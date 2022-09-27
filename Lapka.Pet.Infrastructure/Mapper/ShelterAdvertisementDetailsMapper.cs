@@ -7,7 +7,7 @@ namespace Lapka.Pet.Infrastructure.Mapper;
 
 internal static class ShelterAdvertisementDetailsMapper
 {
-    public static ShelterPetAdvertisementDetailsDto AsAdvertisementDetailsDto(this ShelterPet pet,double longitude,double latitude)
+    public static ShelterPetAdvertisementDetailsDto AsAdvertisementDetailsDto(this ShelterPet pet,double longitude,double latitude,Guid PrincipalId)
     {
         switch (pet.Type)
         {
@@ -24,7 +24,11 @@ internal static class ShelterAdvertisementDetailsMapper
                     Gender = cat.Gender,
                     Photos = cat.Photos.Select(x => x.Link.Value).ToList(),
                     Breed = cat.Breed,
+                    Color = cat.Color,
+                    IsSterilized = cat.IsSterilized,
+                    Weight = cat.Weight,
                     Description = cat.Description,
+                    IsLiked = cat.IsLiked(PrincipalId),
                     Distance = cat.Localization.CalculateDistance(longitude, latitude),
                     Localization = cat.Localization.AsDto()
                 };
@@ -43,6 +47,10 @@ internal static class ShelterAdvertisementDetailsMapper
                     ProfilePhoto = dog.ProfilePhoto,
                     Photos = dog.Photos.Select(x => x.Link.Value).ToList(),
                     Breed = dog.DogBreed,
+                    Color = dog.Color,
+                    IsSterilized = dog.IsSterilized,
+                    IsLiked = dog.IsLiked(PrincipalId),
+                    Weight = dog.Weight,
                     Description = dog.Description,
                     Distance = dog.Localization.CalculateDistance(longitude, latitude),
                     Localization = dog.Localization.AsDto()
@@ -58,6 +66,9 @@ internal static class ShelterAdvertisementDetailsMapper
                     Name = pet.Name,
                     DateOfBirth = pet.DateOfBirth,
                     ProfilePhoto = pet.ProfilePhoto,
+                    IsLiked = pet.IsLiked(PrincipalId),
+                    IsSterilized = pet.IsSterilized,
+                    Weight = pet.Weight,
                     Photos = pet.Photos.Select(x => x.Link.Value).ToList(),
                     Description = pet.Description,
                     Distance = pet.Localization.CalculateDistance(longitude, latitude),

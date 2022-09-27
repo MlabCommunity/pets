@@ -6,6 +6,7 @@ using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Z.EntityFramework.Plus;
 
 namespace Lapka.Pet.Infrastructure.IntegrationEventHandlers;
 
@@ -51,11 +52,11 @@ internal sealed class UserUpdatedEventHandler : IEventHandler<UserUpdatedEvent>
                         FirstName = @event.FirstName,
                         LastName = @event.LastName
                     };
+                    _workers.Update(worker);
+                    await _context.SaveChangesAsync();
                 }
 
-                await _context.SaveChangesAsync();
-            }
-                break;
+            }break;
         }
     }
 }

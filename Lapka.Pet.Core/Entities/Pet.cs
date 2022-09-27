@@ -9,6 +9,7 @@ public abstract class Pet : AggregateRoot<PetId>
 {
     private readonly List<Photo> _photos = new();
     private readonly List<Visit> _visits = new();
+    private readonly List<Like> _likes = new();
 
     public OwnerId OwnerId { get; private set; }
     public ProfilePhoto? ProfilePhoto { get; private set; }
@@ -19,17 +20,19 @@ public abstract class Pet : AggregateRoot<PetId>
     public bool IsSterilized { get; private set; }
     public Weight Weight { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    
+
     public ICollection<Photo> Photos => _photos;
     public ICollection<Visit> Visits => _visits;
+    public ICollection<Like> Likes => _likes;
 
     protected Pet()
     {
     }
 
-    protected Pet(OwnerId ownerId,ProfilePhoto profilePhoto, PetType type, PetName name, Gender gender, DateOfBirth dateOfBirth,
+    protected Pet(OwnerId ownerId, ProfilePhoto profilePhoto, PetType type, PetName name, Gender gender,
+        DateOfBirth dateOfBirth,
         bool isSterilized,
-        Weight weight,ICollection<string> photos)
+        Weight weight, ICollection<string> photos)
     {
         Id = Guid.NewGuid();
         OwnerId = ownerId;
@@ -43,7 +46,7 @@ public abstract class Pet : AggregateRoot<PetId>
         CreatedAt = DateTime.UtcNow;
         AddPhotos(photos);
     }
-    
+
     public void Update(PetName name, bool isSterilized, Weight weight)
     {
         Name = name;
@@ -100,7 +103,7 @@ public abstract class Pet : AggregateRoot<PetId>
         Visits.Remove(visit);
     }
 
-    public void UpdateVisit(OwnerId ownerId,Guid visitId, bool hasTookPlace, DateTime dateOfVisit, string description,
+    public void UpdateVisit(OwnerId ownerId, Guid visitId, bool hasTookPlace, DateTime dateOfVisit, string description,
         HashSet<CareType> visitTypes, double weightOnVisit)
     {
         if (ownerId != OwnerId)
@@ -129,4 +132,27 @@ public abstract class Pet : AggregateRoot<PetId>
             }
         }
     }
+
+    public void Like(UserId userId)
+    {
+        var exists = Likes.Any(x => x.UserId == userId);
+
+        if (!exists)
+        {
+            Likes.Add(new Like(userId));
+        }
+    }
+
+    public void UnLike(UserId userId)
+    {
+        var like = Likes.FirstOrDefault(x => x.UserId == userId);
+
+        if (like is not null)
+        {
+            Likes.Remove(like);
+        }
+    }
+
+    public bool IsLiked(UserId userId)
+        => Likes.Any(x => x.UserId == userId);
 }
