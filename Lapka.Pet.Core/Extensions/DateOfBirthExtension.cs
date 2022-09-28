@@ -24,6 +24,7 @@ public static class DateOfBirthExtension
 
         double exactAge = (double)years + (days / yearDays);
 
-        return (int)((exactAge) * 12);
+        var months = (int)((exactAge) * 12);
+        return months < 1 ? 1 : months;
     }
 }
