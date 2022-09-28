@@ -8,6 +8,6 @@ public class LostPetAdvertisementDto
     public string ProfilePhoto { get; set; }
     public string Name { get; set; }
     public Gender Gender { get; set; }
-    public double Age { get; set; }
+    public int Age { get; set; }
 
 }

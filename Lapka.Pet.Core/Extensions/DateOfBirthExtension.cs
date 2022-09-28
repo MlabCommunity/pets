@@ -4,7 +4,7 @@ namespace Lapka.Pet.Core.Extensions;
 
 public static class DateOfBirthExtension
 {
-    public static double CalculateAge(this DateOfBirth dateOfBirth)
+    public static int CalculateAgeInMonths(this DateOfBirth dateOfBirth)
     {
         DateTime today = DateTime.UtcNow.AddDays(8);
 
@@ -24,16 +24,7 @@ public static class DateOfBirthExtension
 
         double exactAge = (double)years + (days / yearDays);
 
-        if (exactAge < 1)
-        {
-            if (exactAge < 0.1)
-            {
-                return 0.1;
-            }
-
-            return Math.Round(exactAge, 1);
-        }
-
-        return Math.Floor(exactAge);
+        var months = (int)((exactAge) * 12);
+        return months < 1 ? 1 : months;
     }
 }

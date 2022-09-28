@@ -16,7 +16,7 @@ internal static class LostPetAdvertisementMapper
                 var cat = (LostCat)pet;
                 return new LostCatAdvertisementDto
                 {
-                    Age = cat.DateOfBirth.CalculateAge(),
+                    Age = cat.DateOfBirth.CalculateAgeInMonths(),
                     Gender = cat.Gender,
                     PetId = cat.Id,
                     ProfilePhoto = cat.ProfilePhoto,
@@ -30,7 +30,7 @@ internal static class LostPetAdvertisementMapper
                 var dog = (LostDog)pet;
                 return new LostDogAdvertisementDto
                 {
-                    Age = dog.DateOfBirth.CalculateAge(),
+                    Age = dog.DateOfBirth.CalculateAgeInMonths(),
                     Gender = dog.Gender,
                     PetId = dog.Id,
                     ProfilePhoto = dog.ProfilePhoto,
@@ -43,7 +43,7 @@ internal static class LostPetAdvertisementMapper
             {
                 return new LostPetAdvertisementDto
                 {
-                    Age = pet.DateOfBirth.CalculateAge(),
+                    Age = pet.DateOfBirth.CalculateAgeInMonths(),
                     PetId = pet.Id,
                     Gender = pet.Gender,
                     ProfilePhoto = pet.ProfilePhoto,

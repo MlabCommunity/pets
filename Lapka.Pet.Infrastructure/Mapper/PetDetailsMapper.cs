@@ -16,7 +16,7 @@ public static class PetDetailsMapper
                 var cat = (Cat)pet;
                 return new CatDetailsDto
                 {
-                    Age = cat.DateOfBirth.CalculateAge(),
+                    Age = cat.DateOfBirth.CalculateAgeInMonths(),
                     Gender = cat.Gender,
                     PetId = cat.Id,
                     ProfilePhoto = cat.ProfilePhoto,
@@ -34,7 +34,7 @@ public static class PetDetailsMapper
                 var dog = (Dog)pet;
                 return new DogDetailsDto
                 {
-                    Age = dog.DateOfBirth.CalculateAge(),
+                    Age = dog.DateOfBirth.CalculateAgeInMonths(),
                     Gender = dog.Gender,
                     PetId = dog.Id,
                     ProfilePhoto = dog.ProfilePhoto,
@@ -51,7 +51,7 @@ public static class PetDetailsMapper
             {
                 return new PetDetailsDto
                 {
-                    Age = pet.DateOfBirth.CalculateAge(),
+                    Age = pet.DateOfBirth.CalculateAgeInMonths(),
                     Gender = pet.Gender,
                     PetId = pet.Id,
                     ProfilePhoto = pet.ProfilePhoto,
