@@ -1,6 +1,7 @@
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Consts;
 using Lapka.Pet.Core.Entities;
+using Lapka.Pet.Core.Extensions;
 using Lapka.Pet.Infrastructure.Services;
 
 namespace Lapka.Pet.Infrastructure.Mapper;
@@ -17,7 +18,7 @@ internal static class LostPetAdvertisementDetailsMapper
                 var cat = (LostCat)pet;
                 return new LostCatAdvertisementDetailsDto
                 {
-                    DateOfBirth = cat.DateOfBirth,
+                    Age = cat.DateOfBirth.CalculateAge(),
                     Gender = cat.Gender,
                     PetId = cat.Id,
                     ProfilePhoto = cat.ProfilePhoto,
@@ -39,7 +40,7 @@ internal static class LostPetAdvertisementDetailsMapper
                 var dog = (LostDog)pet;
                 return new LostDogAdvertisementDetailsDto
                 {
-                    DateOfBirth = dog.DateOfBirth,
+                    Age = dog.DateOfBirth.CalculateAge(),
                     Gender = dog.Gender,
                     PetId = dog.Id,
                     ProfilePhoto = dog.ProfilePhoto,
@@ -60,7 +61,7 @@ internal static class LostPetAdvertisementDetailsMapper
             {
                 return new LostPetAdvertisementDetailsDto
                 {
-                    DateOfBirth = pet.DateOfBirth,
+                    Age = pet.DateOfBirth.CalculateAge(),
                     Gender = pet.Gender,
                     PetId = pet.Id,
                     ProfilePhoto = pet.ProfilePhoto,

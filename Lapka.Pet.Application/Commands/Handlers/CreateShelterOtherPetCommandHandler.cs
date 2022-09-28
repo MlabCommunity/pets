@@ -29,7 +29,7 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
         }
 
         var other = new ShelterOther(command.PrincipalId, command.ProfilePhoto, command.Name, command.Gender,
-            command.DateOfBirth, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
+            command.Age, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
             command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude,command.Photos);
 
         shelter.AddPet(other);

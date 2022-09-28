@@ -4,6 +4,7 @@ using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
+using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Application.Commands.Handlers;
 
@@ -30,7 +31,7 @@ internal sealed class CreateShelterCatCommandHandler : ICommandHandler<CreateShe
         }
 
         var cat = new ShelterCat(command.PrincipalId, command.ProfilePhoto, command.Name, command.Gender,
-            command.DateOfBirth, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
+            command.Age, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
             command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude,command.CatColor,command.CatBreed,command.Photos);
 
         shelter.AddPet(cat);

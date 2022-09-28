@@ -16,6 +16,20 @@ public record DateOfBirth
         Value = value;
     }
 
+    public DateOfBirth(double age)
+    {
+        var dob = DateTime.UtcNow;
+        var days = age * 365.25;
+        var value = dob.AddDays(-days);
+        
+        if (value > DateTime.Now || value < DateTime.Now.AddYears(-50))
+        {
+            throw new InvalidDateOfBirthException();
+        }
+
+        Value = value;
+    }
+
     public static implicit operator DateTime(DateOfBirth dateOfBirth)
         => dateOfBirth.Value;
 

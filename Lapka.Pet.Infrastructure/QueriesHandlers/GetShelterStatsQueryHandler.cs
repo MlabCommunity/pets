@@ -13,13 +13,12 @@ internal sealed class GetShelterStatsQueryHandler : IQueryHandler<GetShelterStat
     private readonly IUserCacheStorage _cacheStorage;
 
     private readonly DbSet<Shelter> _shelters;
-    private readonly DbSet<ShelterPet> _pets;
+    
 
     public GetShelterStatsQueryHandler(AppDbContext context, IUserCacheStorage cacheStorage)
     {
         _cacheStorage = cacheStorage;
         _shelters = context.Shelters;
-        _pets = context.ShelterPets;
     }
 
     public async Task<StatsDto> HandleAsync(GetShelterStatsQuery query,
@@ -29,6 +28,7 @@ internal sealed class GetShelterStatsQueryHandler : IQueryHandler<GetShelterStat
 
         var shelter = await _shelters
             .AsNoTracking()
+            .Include(x=>x.Archives)
             .Include(x => x.ShelterPets)
             .FirstOrDefaultAsync(x => x.Id == shelterId);
 
@@ -37,7 +37,7 @@ internal sealed class GetShelterStatsQueryHandler : IQueryHandler<GetShelterStat
 
         var toAdoptCount = shelter.ShelterPets.Where(x=>x.IsVisible==true).Count();
 
-        var Adopted = 1;
+        var Adopted = shelter.Archives.Count();
 
         return new StatsDto
         {

@@ -31,7 +31,7 @@ internal sealed class CreateShelterDogCommandHandler : ICommandHandler<CreateShe
         }
 
         var dog = new ShelterDog(command.PrincipalId, command.ProfilePhoto, command.Name, command.Gender,
-            command.DateOfBirth, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
+            command.Age, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
             command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude, command.DogBreed,
             command.DogColor,command.Photos);
 

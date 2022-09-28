@@ -1,8 +1,8 @@
 ﻿using Lapka.Pet.Core.ValueObjects;
 
-namespace Lapka.Pet.Infrastructure.Services;
+namespace Lapka.Pet.Core.Extensions;
 
-public static class DistanceCalculator
+public static class LocalizationExtension
 {
     public static int CalculateDistance(this Localization localization, Longitude longitude, Latitude latitude)
     {
@@ -32,4 +32,6 @@ public static class DistanceCalculator
     {
         return (rad / Math.PI * 180.0);
     }
+
+    
 }
