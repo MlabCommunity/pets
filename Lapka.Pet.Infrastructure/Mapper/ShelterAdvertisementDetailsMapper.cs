@@ -1,6 +1,7 @@
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Consts;
 using Lapka.Pet.Core.Entities;
+using Lapka.Pet.Core.Extensions;
 using Lapka.Pet.Infrastructure.Services;
 
 namespace Lapka.Pet.Infrastructure.Mapper;
@@ -19,7 +20,7 @@ internal static class ShelterAdvertisementDetailsMapper
                     OrganizationName = cat.OrganizationName,
                     PetId = cat.Id,
                     Name = cat.Name,
-                    DateOfBirth = cat.DateOfBirth,
+                    Age = cat.DateOfBirth.CalculateAge(),
                     ProfilePhoto = cat.ProfilePhoto,
                     Gender = cat.Gender,
                     Photos = cat.Photos.Select(x => x.Link.Value).ToList(),
@@ -42,7 +43,7 @@ internal static class ShelterAdvertisementDetailsMapper
                     OrganizationName = dog.OrganizationName,
                     PetId = dog.Id,
                     Name = dog.Name,
-                    DateOfBirth = dog.DateOfBirth,
+                    Age = dog.DateOfBirth.CalculateAge(),
                     Gender = dog.Gender,
                     ProfilePhoto = dog.ProfilePhoto,
                     Photos = dog.Photos.Select(x => x.Link.Value).ToList(),
@@ -64,7 +65,7 @@ internal static class ShelterAdvertisementDetailsMapper
                     OrganizationName = pet.OrganizationName,
                     PetId = pet.Id,
                     Name = pet.Name,
-                    DateOfBirth = pet.DateOfBirth,
+                    Age = pet.DateOfBirth.CalculateAge(),
                     ProfilePhoto = pet.ProfilePhoto,
                     IsLiked = pet.IsLiked(PrincipalId),
                     IsSterilized = pet.IsSterilized,

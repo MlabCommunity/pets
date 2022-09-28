@@ -1,6 +1,7 @@
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Core.Consts;
 using Lapka.Pet.Core.Entities;
+using Lapka.Pet.Core.Extensions;
 using Lapka.Pet.Infrastructure.Services;
 
 namespace Lapka.Pet.Infrastructure.Mapper;
@@ -19,7 +20,7 @@ internal static class ShelterAdvertisementMapper
                     OrganizationName = cat.OrganizationName,
                     PetId = cat.Id,
                     Name = cat.Name,
-                    DateOfBirth = cat.DateOfBirth,
+                    Age = cat.DateOfBirth.CalculateAge(),
                     Gender = cat.Gender,
                     ProfilePhoto = cat.ProfilePhoto,
                     Distance = cat.Localization.CalculateDistance(longitude, latitude),
@@ -36,7 +37,7 @@ internal static class ShelterAdvertisementMapper
                     OrganizationName = pet.OrganizationName,
                     PetId = dog.Id,
                     Name = dog.Name,
-                    DateOfBirth = dog.DateOfBirth,
+                    Age = dog.DateOfBirth.CalculateAge(),
                     Gender = dog.Gender,
                     ProfilePhoto = dog.ProfilePhoto,
                     Distance = dog.Localization.CalculateDistance(longitude, latitude),
@@ -52,7 +53,7 @@ internal static class ShelterAdvertisementMapper
                     OrganizationName = pet.OrganizationName,
                     PetId = pet.Id,
                     Name = pet.Name,
-                    DateOfBirth = pet.DateOfBirth,
+                    Age = pet.DateOfBirth.CalculateAge(),
                     Gender = pet.Gender,
                     Distance = pet.Localization.CalculateDistance(longitude, latitude),
                     Localization = pet.Localization.AsDto(),

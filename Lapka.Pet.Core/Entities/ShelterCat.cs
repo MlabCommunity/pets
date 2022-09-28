@@ -13,12 +13,14 @@ public class ShelterCat : ShelterPet
     }
 
     public ShelterCat(OwnerId ownerId, ProfilePhoto profilePhoto, PetName name, Gender gender,
-        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, string description,
+        double age, bool isSterilized, Weight weight, string description,
         OrganizationName organizationName, bool isVisible, Longitude longitude, Latitude latitude, CatColor color,
-        CatBreed breed,ICollection<string> photos) : base(ownerId, profilePhoto, PetType.CAT, name, gender, dateOfBirth, isSterilized, weight,
+        CatBreed breed,ICollection<string> photos) : base(ownerId, profilePhoto, PetType.CAT, name, gender,
+        new DateOfBirth(age)  , isSterilized, weight,
         description, organizationName, isVisible, longitude, latitude,photos)
     {
         Color = color;
         Breed = breed;
     }
+    
 }

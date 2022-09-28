@@ -92,10 +92,10 @@ public class ShelterController : BaseController
     [SwaggerOperation(summary: "Creates shelter's card")]
     [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
-    public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
+    public async Task<IActionResult> CreateDog([FromBody] CreateShelterDogRequest request)
     {
         var command = new CreateShelterDogCommand(GetPrincipalId(), request.ProfilePhoto, request.Description,
-            request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
+            request.IsVisible, request.Name, request.Gender, request.Age,
             request.IsSterilized, request.Weight, request.DogColor, request.DogBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
@@ -108,10 +108,10 @@ public class ShelterController : BaseController
     [SwaggerOperation(summary: "Creates shelter's card")]
     [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
-    public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
+    public async Task<IActionResult> CreateCat([FromBody] CreateShelterCatRequest request)
     {
         var command = new CreateShelterCatCommand(GetPrincipalId(), request.ProfilePhoto, request.Description,
-            request.IsVisible, request.Name, request.Gender, request.DateOfBirth,
+            request.IsVisible, request.Name, request.Gender, request.Age,
             request.IsSterilized, request.Weight, request.CatColor, request.CatBreed, request.Photos);
 
         await _commandDispatcher.SendAsync(command);
@@ -123,11 +123,11 @@ public class ShelterController : BaseController
     [SwaggerOperation(summary: "Creates shelter's card")]
     [SwaggerResponse(204, "Card created")]
     [SwaggerResponse(400, "If data are invalid")]
-    public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
+    public async Task<IActionResult> CreateOtherPet([FromBody] CreateShelterOtherRequest request)
     {
         var command = new CreateShelterOtherPetCommand(GetPrincipalId(), request.ProfilePhoto, request.Description,
             request.IsVisible, request.Name, request.Gender,
-            request.DateOfBirth,
+            request.Age,
             request.IsSterilized, request.Weight, request.Photos);
 
         await _commandDispatcher.SendAsync(command);

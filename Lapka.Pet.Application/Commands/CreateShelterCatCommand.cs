@@ -3,6 +3,6 @@ using Lapka.Pet.Core.Consts;
 
 namespace Lapka.Pet.Application.Commands;
 
-public record CreateShelterCatCommand(Guid PrincipalId,string ProfilePhoto,string Description,bool IsVisible, string Name, Gender Gender, DateTime DateOfBirth,
+public record CreateShelterCatCommand(Guid PrincipalId,string ProfilePhoto,string Description,bool IsVisible, string Name, Gender Gender, double Age,
     bool IsSterilized,
     double Weight, CatColor CatColor, CatBreed CatBreed, ICollection<string> Photos) : ICommand;
