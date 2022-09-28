@@ -28,7 +28,7 @@ public static class DateOfBirthExtension
         {
             if (exactAge < 0.1)
             {
-                return 0;
+                return 0.1;
             }
 
             return Math.Round(exactAge, 1);
