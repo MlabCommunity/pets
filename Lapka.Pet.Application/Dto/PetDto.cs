@@ -8,7 +8,7 @@ public class PetDto
     public string Name { get; set; }
     public string ProfilePhoto { get; set; }
     public Gender Gender { get; set; }
-    public double Age { get; set; }
+    public int Age { get; set; }
     public DateTime CreatedAt { get; set; }
     
 }
