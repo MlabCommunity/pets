@@ -25,6 +25,7 @@ internal sealed class GetAllShelterAdvertisementQueryHandler : Convey.CQRS.Queri
         var pets = await _shelterPets
             .Include(x => x.Photos)
             .Include(x => x.Localization)
+            .Include(x=>x.Likes)
             .Where(x => x.IsVisible == true &&
                         (query.Type == null || query.Type == x.Type) &&
                         (query.Gender == null || query.Gender == x.Gender))
