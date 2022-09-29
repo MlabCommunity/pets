@@ -1,8 +1,12 @@
+using System.Reflection;
 using System.Text.Json.Serialization;
 using Convey;
 using Convey.MessageBrokers.CQRS;
 using Convey.MessageBrokers.RabbitMQ;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Lapka.Pet.Api.Grpc;
+using Lapka.Pet.Api.Requests;
 using Lapka.Pet.Application;
 using Lapka.Pet.Application.IntegrationEvents;
 using Lapka.Pet.Infrastructure;
@@ -16,7 +20,13 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true)
-    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
+    .AddFluentValidation(opt =>
+    {
+        opt.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+    });;
+
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
@@ -36,7 +46,6 @@ app.UseRabbitMq()
     .SubscribeEvent<UserDeletedEvent>()
     .SubscribeEvent<UserUpdatedEvent>();
 
-
 app.UseSwaggerDocs();
 
 app.UseMiddleware();
@@ -46,6 +55,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapGet("/", ctx => ctx.Response.WriteAsync($"Lapka.Pet API {DateTime.Now}"));
+
 app.MapControllers();
 
 app.Run();

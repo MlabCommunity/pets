@@ -1,12 +1,8 @@
-﻿using System.Data.Entity.SqlServer;
-using System.Data.SqlTypes;
-using Convey.CQRS.Commands;
-using Convey.CQRS.Queries;
+﻿using Convey.CQRS.Queries;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Application.Queries;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Entities;
-using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 
