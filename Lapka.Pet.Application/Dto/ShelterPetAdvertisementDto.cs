@@ -8,6 +8,7 @@ public class ShelterPetAdvertisementDto
     public Guid PetId { get; set; }
     public string Name { get; set; }
     public int Age { get; set; }
+    public bool IsLiked { get; set; }
     public Gender Gender { get; set; }
     public string ProfilePhoto { get; set; }
     public double  Distance { get; set; }

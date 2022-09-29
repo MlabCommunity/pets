@@ -1,10 +1,11 @@
-﻿using Lapka.Pet.Core.DomainThings;
+﻿using Convey.CQRS.Events;
+using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Events;
 using Lapka.Pet.Core.Repositories;
 
 namespace Lapka.Pet.Application.DomainEvents.Handlers;
 
-internal sealed class PetDeletedEventHandler : IDomainEventHandler<PetDeletedEvent>
+internal sealed class PetDeletedEventHandler : IEventHandler<PetDeletedEvent>
 {
     private readonly IPetRepository _petRepository;
 
@@ -14,7 +15,7 @@ internal sealed class PetDeletedEventHandler : IDomainEventHandler<PetDeletedEve
     }
 
 
-    public async Task HandleAsync(PetDeletedEvent @event)
+    public async Task HandleAsync(PetDeletedEvent @event, CancellationToken cancellationToken = new CancellationToken())
     {
         var pet = await _petRepository.FindByIdAsync(@event.PetId);
 

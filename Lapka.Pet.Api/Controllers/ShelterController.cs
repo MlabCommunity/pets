@@ -149,8 +149,8 @@ public class ShelterController : BaseController
     [Authorize(Policy = "IsWorker")]
     [HttpGet("cards/archive/chart/year")]
     [SwaggerOperation(summary: "Gets shelter's stats grouped by months in current year")]
-    [SwaggerResponse(200, "")]
-    public async Task<ActionResult<YearDto>> GetArchiveStatsInYear()
+    [SwaggerResponse(200, "returns array of numbers",typeof(int[]))]
+    public async Task<ActionResult<int[]>> GetArchiveStatsInYear()
     {
         var query = new GetArchiveStatsInYearQuery(GetPrincipalId());
         var resul = await _queryDispatcher.QueryAsync(query);
@@ -160,27 +160,23 @@ public class ShelterController : BaseController
     [Authorize(Policy = "IsWorker")]
     [HttpGet("cards/archive/chart/month")]
     [SwaggerOperation(summary: "Gets shelter's stats grouped by days of the week in current month")]
-    [SwaggerResponse(204, "Card created")]
-    [SwaggerResponse(400, "If data are invalid")]
-    public async Task<ActionResult<MonthDto>> GetArchiveStatsInMonth()
+    [SwaggerResponse(200, "returns array of numbers",typeof(int[]))]
+    public async Task<ActionResult<int[]>> GetArchiveStatsInMonth()
     {
         var query = new GetArchiveStatsInMonthQuery(GetPrincipalId());
         var resul = await _queryDispatcher.QueryAsync(query);
         return Ok(resul);
-        
     }
 
     [Authorize(Policy = "IsWorker")]
     [HttpGet("cards/archive/chart/week")]
     [SwaggerOperation(summary: "Gets shelter's stats grouped by days of the week in current week")]
-    [SwaggerResponse(204, "Card created")]
-    [SwaggerResponse(400, "If data are invalid")]
-    public async Task<ActionResult<WeekDto>> GetArchiveStatsInWeek()
+    [SwaggerResponse(200, "returns array of numbers",typeof(int[]))]
+    public async Task<ActionResult<int[]>> GetArchiveStatsInWeek()
     {
         var query = new GetArchiveStatsInWeekQuery(GetPrincipalId());
         var resul = await _queryDispatcher.QueryAsync(query);
         return Ok(resul);
-
     }
 
     [Authorize(Policy = "IsWorker")]
