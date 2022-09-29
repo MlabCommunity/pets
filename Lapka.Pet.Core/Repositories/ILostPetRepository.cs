@@ -8,8 +8,6 @@ public interface ILostPetRepository
 {
     Task AddAsync(LostPet advertisement);
     Task<LostPet> FindByPetIdAsync(PetId petId);
-    Task<LostPet> FindByIdAsync(PetId EntityId);
-    Task<LostPet> FindByUserIdAsync(UserId UserId);
     Task UpdateAsync(LostPet advertisement);
     Task DeleteAsync(LostPet advertisement);
 }

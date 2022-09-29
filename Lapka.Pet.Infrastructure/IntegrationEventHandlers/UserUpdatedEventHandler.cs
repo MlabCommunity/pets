@@ -6,7 +6,6 @@ using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
-using Z.EntityFramework.Plus;
 
 namespace Lapka.Pet.Infrastructure.IntegrationEventHandlers;
 

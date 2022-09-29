@@ -1,5 +1,8 @@
+using System.Reflection;
 using Convey;
 using Convey.MessageBrokers.RabbitMQ;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Infrastructure.CacheStorage;
 using Lapka.Pet.Infrastructure.Database;
@@ -21,7 +24,6 @@ public static class Extensions
         services.AddScoped<ExceptionMiddleware>();
         services.AddScoped<ICacheStorage, CacheStorage.CacheStorage>();
         services.AddScoped<IUserCacheStorage, UserCacheStorage>();
-
         return services;
     }
 

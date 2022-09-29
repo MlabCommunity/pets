@@ -8,7 +8,7 @@ public class WeightOnVisit
 
     public WeightOnVisit(double value)
     {
-        if (value < 0 && value > 200)
+        if (value < 0 || value > 200)
         {
             throw new InvalidWeightException();
         }

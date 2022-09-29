@@ -26,14 +26,7 @@ internal sealed class LostPetRepository : ILostPetRepository
 
     public async Task<LostPet> FindByPetIdAsync(PetId petId)
         => await _advertisements.FirstOrDefaultAsync(x => x.Id == petId);
-
-    public async Task<LostPet> FindByIdAsync(PetId EntityId)
-        => await _advertisements.FirstOrDefaultAsync(x => x.Id == EntityId);
-
-    public async Task<LostPet> FindByUserIdAsync(UserId UserId)
-        => await _advertisements.FirstOrDefaultAsync(x => x.OwnerId == UserId);
-
-
+    
     public async Task UpdateAsync(LostPet advertisement)
     {
         _advertisements.Update(advertisement);
