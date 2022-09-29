@@ -1,8 +1,6 @@
 using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Events;
-using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.Repositories;
-using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Application.DomainEvents.Handlers;
 
@@ -14,6 +12,7 @@ internal sealed class ShelterUpdatedEventHandler : IDomainEventHandler<ShelterUp
     {
         _shelterRepository = shelterRepository;
     }
+
 
     public async Task HandleAsync(ShelterUpdatedEvent @event)
     {

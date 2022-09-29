@@ -67,6 +67,7 @@ public class Shelter : AggregateRoot<ShelterId>
         var pet = GetShelterPet(petId);
         
         ShelterPets.Remove(pet);
+        AddEvent(new PetDeletedEvent(petId));
     }
 
     public void PublishPet(PetId petId)
@@ -191,5 +192,6 @@ public class Shelter : AggregateRoot<ShelterId>
     {
         RemovePet(petId);
         _archives.Add(new Archive(petId));
+        AddEvent(new PetDeletedEvent(petId));
     }
 }

@@ -36,6 +36,7 @@ internal sealed class GetAllLikedShelterPetsQueryHandler : IQueryHandler<GetAllL
         
         var result = pets 
             .OrderByDescending(x => x.Count)
+            .ThenByDescending(x=>x.CreatedAt)
             .Skip(query.PageSize * (query.PageNumber - 1))
             .Take(query.PageSize).ToList();
 

@@ -4,6 +4,8 @@ namespace Lapka.Pet.Application.Dto;
 
 public class LikedShelterPetsDto
 {
+    public DateTime CreatedAt { get; set; }
+    public Guid PetId { get; set; }
     public string Name { get; set; }
     public PetType Type { get; set; }
     public string ProfilePhoto { get; set; }
