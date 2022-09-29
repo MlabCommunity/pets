@@ -7,8 +7,5 @@
         <RootNamespace>Lapka.Pet.Core</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Convey.CQRS.Events" Version="1.0.541" />
-    </ItemGroup>
 
 </Project>

@@ -33,9 +33,12 @@ internal sealed class UserUpdatedEventHandler : IEventHandler<UserUpdatedEvent>
 
                 if (shelter is not null)
                 {
-                    shelter.Update( string.IsNullOrWhiteSpace(@event.Email) ?shelter.Email : @event.Email,@event.FirstName,@event.LastName, @event.ProfilePicture);
+                    shelter.Update(string.IsNullOrWhiteSpace(@event.Email) ? shelter.Email : @event.Email,
+                        string.IsNullOrWhiteSpace(@event.FirstName) ? shelter.FirstName : @event.FirstName,
+                        string.IsNullOrWhiteSpace(@event.LastName) ? shelter.LastName : @event.LastName,
+                        string.IsNullOrWhiteSpace(@event.ProfilePicture) ? shelter.ProfilePhoto : @event.ProfilePicture); //TODO imo eventy nie powinny przesyłać nulli
                     _shelters.Update(shelter);
-                    await _context.SaveChangesAsync();   
+                    await _context.SaveChangesAsync();
                 }
             }
                 break;
@@ -54,8 +57,8 @@ internal sealed class UserUpdatedEventHandler : IEventHandler<UserUpdatedEvent>
                     _workers.Update(worker);
                     await _context.SaveChangesAsync();
                 }
-
-            }break;
+            }
+                break;
         }
     }
 }

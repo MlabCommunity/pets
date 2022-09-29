@@ -66,6 +66,8 @@ internal static class ShelterPetMapper
         this ShelterPet pet,int count)
         => new()
         {
+            CreatedAt = pet.CreatedAt,
+            PetId = pet.Id,
             Name = pet.Name,
             Count = count,
             ProfilePhoto = pet.ProfilePhoto,
