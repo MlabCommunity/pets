@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 
-internal sealed class GetArchiveStatsInYearQueryHandler : IQueryHandler<GetArchiveStatsInYearQuery,YearDto>
+internal sealed class GetArchiveStatsInYearQueryHandler : IQueryHandler<GetArchiveStatsInYearQuery,int[]>
 {
     
     private readonly IUserCacheStorage _cacheStorage;
@@ -20,7 +20,7 @@ internal sealed class GetArchiveStatsInYearQueryHandler : IQueryHandler<GetArchi
         _cacheStorage = cacheStorage;
     }
 
-    public async Task<YearDto> HandleAsync(GetArchiveStatsInYearQuery query, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<int[]> HandleAsync(GetArchiveStatsInYearQuery query, CancellationToken cancellationToken = new CancellationToken())
     {
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
 
@@ -29,22 +29,15 @@ internal sealed class GetArchiveStatsInYearQueryHandler : IQueryHandler<GetArchi
             .Where(x => x.Id == shelterId)
             .Select(x => x.Archives)
             .FirstOrDefaultAsync();
-
- 
-        return new YearDto
+        
+        var groupedArchives = archives.GroupBy(x => (int)x.CreatedAt.Month);
+        var result = new int[12];
+        
+        foreach (var archive in groupedArchives)
         {
-            January = archives.Where(x=>x.CreatedAt.Month==1).Count(),
-            February = archives.Where(x=>x.CreatedAt.Month==2).Count(),
-            March = archives.Where(x=>x.CreatedAt.Month==3).Count(),
-            April = archives.Where(x=>x.CreatedAt.Month==4).Count(),
-            May = archives.Where(x=>x.CreatedAt.Month==5).Count(),
-            June = archives.Where(x=>x.CreatedAt.Month==6).Count(),
-            July = archives.Where(x=>x.CreatedAt.Month==7).Count(),
-            August = archives.Where(x=>x.CreatedAt.Month==8).Count(),
-            September = archives.Where(x=>x.CreatedAt.Month==9).Count(),
-            October = archives.Where(x=>x.CreatedAt.Month==10).Count(),
-            November = archives.Where(x=>x.CreatedAt.Month==11).Count(),
-            December = archives.Where(x=>x.CreatedAt.Month==12).Count(),
-        };
+            result[archive.Key-1] = archive.Count();
+        }
+
+        return result;
     }
 }
