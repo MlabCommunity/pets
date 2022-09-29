@@ -34,25 +34,30 @@ public class AdvertisementController : BaseController
         [FromQuery] PetType? type, [FromQuery] Gender? gender, [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10)
     {
-        var query = new GetAllShelterAdvertisementQuery(type, gender, longitude,latitude,pageNumber, pageSize);
+        var query = new GetAllShelterAdvertisementQuery(
+            string.IsNullOrWhiteSpace(User.FindFirstValue(ClaimTypes.NameIdentifier)) ? Guid.Empty : GetPrincipalId(),
+            type, gender, longitude, latitude, pageNumber, pageSize); //TODO da sie to jakos sensownie ograc?
 
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
     }
-    
+
     [HttpGet("shelters/liked/{longitude:double}/{latitude:double}")]
     [SwaggerOperation(summary: "Gets all liked shelter advertisements")]
     [SwaggerResponse(200, "advertisements found or returns empty list",
         typeof(Application.Dto.PagedResult<ShelterPetAdvertisementDto>))]
-    public async Task<ActionResult<Application.Dto.PagedResult<ShelterPetAdvertisementDto>>> GetAllLikedShelterAdvertisement(
-        [FromRoute] double longitude, [FromRoute] double latitude,
-        [FromQuery] PetType? type, [FromQuery] Gender? gender, [FromQuery] int pageNumber = 1,
-        [FromQuery] int pageSize = 10)
+    public async Task<ActionResult<Application.Dto.PagedResult<ShelterPetAdvertisementDto>>>
+        GetAllLikedShelterAdvertisement(
+            [FromRoute] double longitude, [FromRoute] double latitude,
+            [FromQuery] PetType? type, [FromQuery] Gender? gender, [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
     {
-        var query = new GetAllLikedPetsQuery(string.IsNullOrWhiteSpace(User.FindFirstValue(ClaimTypes.NameIdentifier))? Guid.Empty : GetPrincipalId(),type, gender, longitude,latitude,pageNumber, pageSize);
+        var query = new GetAllLikedPetsQuery(
+            string.IsNullOrWhiteSpace(User.FindFirstValue(ClaimTypes.NameIdentifier)) ? Guid.Empty : GetPrincipalId(),
+            type, gender, longitude, latitude, pageNumber, pageSize);
 
         var result = await _queryDispatcher.QueryAsync(query);
-        
+
         return Ok(result);
     }
 
@@ -63,8 +68,9 @@ public class AdvertisementController : BaseController
     public async Task<ActionResult<ShelterPetAdvertisementDetailsDto>> GetShelterAdvertisementDetails(
         [FromRoute] Guid petId, [FromRoute] double longitude, [FromRoute] double latitude)
     {
-        
-        var query = new GetShelterAdvertisementDetailsQuery(string.IsNullOrWhiteSpace(User.FindFirstValue(ClaimTypes.NameIdentifier))? Guid.Empty : GetPrincipalId(),petId, longitude, latitude);
+        var query = new GetShelterAdvertisementDetailsQuery(
+            string.IsNullOrWhiteSpace(User.FindFirstValue(ClaimTypes.NameIdentifier)) ? Guid.Empty : GetPrincipalId(),
+            petId, longitude, latitude);
 
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
@@ -142,7 +148,7 @@ public class AdvertisementController : BaseController
     public async Task<ActionResult<LostPetAdvertisementDetailsDto>> GetLostPetAdvertisementDetails(
         [FromRoute] Guid petId, [FromRoute] double longitude, [FromRoute] double latitude)
     {
-        var query = new GetLostPetAdvertisementDetailsQuery(petId,longitude,latitude);
+        var query = new GetLostPetAdvertisementDetailsQuery(petId, longitude, latitude);
         var result = await _queryDispatcher.QueryAsync(query);
 
         return OkOrNotFound(result);
@@ -177,30 +183,30 @@ public class AdvertisementController : BaseController
 
         return NoContent();
     }
-    
+
     [Authorize]
     [HttpPost("shelters/like/{petId:guid}")]
     [SwaggerOperation(summary: "Adds like to pet")]
-    [SwaggerResponse(204,"Like Added")]
+    [SwaggerResponse(204, "Like Added")]
     public async Task<IActionResult> LikePet([FromRoute] Guid petId)
     {
-        var command = new LikePetCommand(GetPrincipalId(),petId);
+        var command = new LikePetCommand(GetPrincipalId(), petId);
 
         await _commandDispatcher.SendAsync(command);
-        
+
         return NoContent();
     }
-    
+
     [Authorize]
     [HttpDelete("shelters/like/{petId:guid}")]
     [SwaggerOperation(summary: "Removes like from pet")]
-    [SwaggerResponse(204,"Like Removed")]
+    [SwaggerResponse(204, "Like Removed")]
     public async Task<IActionResult> UnLikePet([FromRoute] Guid petId)
     {
-        var command = new UnLikePetCommand(GetPrincipalId(),petId);
+        var command = new UnLikePetCommand(GetPrincipalId(), petId);
 
         await _commandDispatcher.SendAsync(command);
-        
+
         return NoContent();
     }
 }

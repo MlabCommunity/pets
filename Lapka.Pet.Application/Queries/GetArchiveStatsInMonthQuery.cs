@@ -3,4 +3,4 @@ using Lapka.Pet.Application.Dto;
 
 namespace Lapka.Pet.Application.Queries;
 
-public record GetArchiveStatsInMonthQuery(Guid PrincipalId) : IQuery<MonthDto>;
+public record GetArchiveStatsInMonthQuery(Guid PrincipalId) : IQuery<int[]>;

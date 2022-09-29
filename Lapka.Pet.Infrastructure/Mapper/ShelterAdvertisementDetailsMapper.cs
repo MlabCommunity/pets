@@ -8,7 +8,7 @@ namespace Lapka.Pet.Infrastructure.Mapper;
 
 internal static class ShelterAdvertisementDetailsMapper
 {
-    public static ShelterPetAdvertisementDetailsDto AsAdvertisementDetailsDto(this ShelterPet pet,double longitude,double latitude,Guid PrincipalId)
+    public static ShelterPetAdvertisementDetailsDto AsAdvertisementDetailsDto(this ShelterPet pet,double longitude,double latitude,Guid principalId)
     {
         switch (pet.Type)
         {
@@ -29,7 +29,7 @@ internal static class ShelterAdvertisementDetailsMapper
                     IsSterilized = cat.IsSterilized,
                     Weight = cat.Weight,
                     Description = cat.Description,
-                    IsLiked = cat.IsLiked(PrincipalId),
+                    IsLiked = cat.IsLiked(principalId),
                     Distance = cat.Localization.CalculateDistance(longitude, latitude),
                     Localization = cat.Localization.AsDto()
                 };
@@ -50,7 +50,7 @@ internal static class ShelterAdvertisementDetailsMapper
                     Breed = dog.DogBreed,
                     Color = dog.Color,
                     IsSterilized = dog.IsSterilized,
-                    IsLiked = dog.IsLiked(PrincipalId),
+                    IsLiked = dog.IsLiked(principalId),
                     Weight = dog.Weight,
                     Description = dog.Description,
                     Distance = dog.Localization.CalculateDistance(longitude, latitude),
@@ -67,7 +67,7 @@ internal static class ShelterAdvertisementDetailsMapper
                     Name = pet.Name,
                     Age = pet.DateOfBirth.CalculateAgeInMonths(),
                     ProfilePhoto = pet.ProfilePhoto,
-                    IsLiked = pet.IsLiked(PrincipalId),
+                    IsLiked = pet.IsLiked(principalId),
                     IsSterilized = pet.IsSterilized,
                     Weight = pet.Weight,
                     Photos = pet.Photos.Select(x => x.Link.Value).ToList(),

@@ -28,7 +28,7 @@ internal sealed class GetAllShelterAdvertisementQueryHandler : Convey.CQRS.Queri
             .Where(x => x.IsVisible == true &&
                         (query.Type == null || query.Type == x.Type) &&
                         (query.Gender == null || query.Gender == x.Gender))
-            .Select(x => x.AsAdvertisementDto(query.Latitude, query.Longitude))
+            .Select(x => x.AsAdvertisementDto(query.Latitude, query.Longitude,query.PrincipalId))
             .ToListAsync();
 
         var result = pets 

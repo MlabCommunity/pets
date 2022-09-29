@@ -1,7 +1,10 @@
 ﻿
 
+using Convey.CQRS.Events;
+using Convey.MessageBrokers;
 using Lapka.Pet.Core.DomainThings;
 
 namespace Lapka.Pet.Core.Events;
 
-public record PetDeletedEvent(Guid PetId) : IDomainEvent;
+[Message("identity")]
+public record PetDeletedEvent(Guid PetId) : IEvent;

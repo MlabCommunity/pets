@@ -191,7 +191,5 @@ public class Shelter : AggregateRoot<ShelterId>
     public void ArchivePet(Guid petId)
     {
         RemovePet(petId);
-        _archives.Add(new Archive(petId));
-        AddEvent(new PetDeletedEvent(petId));
     }
 }

@@ -20,7 +20,6 @@ public abstract class Pet : AggregateRoot<PetId>
     public bool IsSterilized { get; private set; }
     public Weight Weight { get; private set; }
     public DateTime CreatedAt { get; private set; }
-
     public ICollection<Photo> Photos => _photos;
     public ICollection<Visit> Visits => _visits;
     public ICollection<Like> Likes => _likes;

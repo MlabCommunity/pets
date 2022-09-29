@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 
-internal sealed class GetArchiveStatsInMonthQueryHandler : IQueryHandler<GetArchiveStatsInMonthQuery, MonthDto>
+internal sealed class GetArchiveStatsInMonthQueryHandler : IQueryHandler<GetArchiveStatsInMonthQuery, int[]>
 {
     private readonly IUserCacheStorage _cacheStorage;
     private readonly DbSet<Shelter> _shelters;
@@ -20,7 +20,7 @@ internal sealed class GetArchiveStatsInMonthQueryHandler : IQueryHandler<GetArch
     }
 
 
-    public async Task<MonthDto> HandleAsync(GetArchiveStatsInMonthQuery query,
+    public async Task<int[]> HandleAsync(GetArchiveStatsInMonthQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
@@ -28,21 +28,23 @@ internal sealed class GetArchiveStatsInMonthQueryHandler : IQueryHandler<GetArch
         var archives = await _shelters
             .Include(x => x.Archives
                 .Where(x =>
-                x.CreatedAt.Year == DateTime.UtcNow.Year && x.CreatedAt.Month == DateTime.UtcNow.Month))
+                    x.CreatedAt.Year == DateTime.UtcNow.Year && x.CreatedAt.Month == DateTime.UtcNow.Month))
             .Where(x => x.Id == shelterId)
             .Select(x => x.Archives)
             .FirstOrDefaultAsync();
-
-
-        return new MonthDto
+        
+        var groupedArchives = archives.GroupBy(x => (int)x.CreatedAt.DayOfWeek);
+        var result = new int[7];
+        
+        foreach (var archive in groupedArchives)
         {
-            Monday = archives.Where(x => x.CreatedAt.DayOfWeek == DayOfWeek.Monday).Count(),
-            Tuesday = archives.Where(x => x.CreatedAt.DayOfWeek == DayOfWeek.Tuesday).Count(),
-            Wednesday = archives.Where(x => x.CreatedAt.DayOfWeek == DayOfWeek.Wednesday).Count(),
-            Thursday = archives.Where(x => x.CreatedAt.DayOfWeek == DayOfWeek.Thursday).Count(),
-            Friday = archives.Where(x => x.CreatedAt.DayOfWeek == DayOfWeek.Friday).Count(),
-            Saturday = archives.Where(x => x.CreatedAt.DayOfWeek == DayOfWeek.Saturday).Count(),
-            Sunday = archives.Where(x => x.CreatedAt.DayOfWeek == DayOfWeek.Sunday).Count(),
-        };
+            if (archive.Key == 0)
+            {
+                result[6] = archive.Count();     
+            }
+            result[archive.Key-1] = archive.Count();
+        }
+        
+        return result;
     }
 }

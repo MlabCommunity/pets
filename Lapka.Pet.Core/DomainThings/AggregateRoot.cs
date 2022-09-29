@@ -1,17 +1,19 @@
 
 
+using Convey.CQRS.Events;
+
 namespace Lapka.Pet.Core.DomainThings;
 
 public abstract class AggregateRoot<T>
 {
     public T Id { get; protected set; }
     public int Version { get; protected set; }
-    public IEnumerable<IDomainEvent> Events => _events;
+    public IEnumerable<IEvent> Events => _events;
 
-    private readonly List<IDomainEvent> _events = new();
+    private readonly List<IEvent> _events = new();
     private bool _versionIncremented;
 
-    protected void AddEvent(IDomainEvent @event)
+    protected void AddEvent(IEvent @event)
     {
         if (!_events.Any() && !_versionIncremented)
         {

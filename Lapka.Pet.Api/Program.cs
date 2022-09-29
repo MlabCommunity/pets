@@ -9,6 +9,7 @@ using Lapka.Pet.Api.Grpc;
 using Lapka.Pet.Api.Requests;
 using Lapka.Pet.Application;
 using Lapka.Pet.Application.IntegrationEvents;
+using Lapka.Pet.Core;
 using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Infrastructure;
 using Lapka.Pet.Infrastructure.gRPC;
