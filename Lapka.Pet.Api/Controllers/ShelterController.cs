@@ -290,6 +290,18 @@ public class ShelterController : BaseController
         return NoContent();
     }
 
+    [Authorize(Policy = "IsWorker")]
+    [HttpGet("volunteers/count")]
+    [SwaggerOperation(summary: "Gets volunteer count")]
+    [SwaggerResponse(200, "Returns count")]
+    public async Task<ActionResult<VolunteerCountDto>> GetVolunteerCount()
+    {
+        var query = new GetVolunteerCountQuery(GetPrincipalId());
+        var result = await _queryDispatcher.QueryAsync(query);
+
+        return Ok(result);
+    }
+
     [Authorize(Roles = "User")]
     [HttpGet("volunteers/{longitude:double}/{latitude:double}")]
     [SwaggerOperation(summary: "Gets shelters list")]
