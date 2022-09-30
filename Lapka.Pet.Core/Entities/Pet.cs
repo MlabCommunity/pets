@@ -7,9 +7,9 @@ namespace Lapka.Pet.Core.Entities;
 
 public abstract class Pet : AggregateRoot<PetId>
 {
-    private readonly List<Photo> _photos = new();
-    private readonly List<Visit> _visits = new();
-    private readonly List<Like> _likes = new();
+    private readonly List<Photo> _photos = new List<Photo>();
+    private readonly List<Visit> _visits = new List<Visit>();
+    private readonly List<Like> _likes = new List<Like>();
 
     public OwnerId OwnerId { get; private set; }
     public ProfilePhoto? ProfilePhoto { get; private set; }

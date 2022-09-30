@@ -28,6 +28,7 @@ internal sealed class GetShelterStatsQueryHandler : IQueryHandler<GetShelterStat
         var shelter = await _shelters
             .AsNoTracking()
             .Include(x => x.Archives)
+            .Include(x=>x.Volunteers)
             .Include(x => x.ShelterPets)
             .FirstOrDefaultAsync(x => x.Id == shelterId);
 
@@ -36,13 +37,16 @@ internal sealed class GetShelterStatsQueryHandler : IQueryHandler<GetShelterStat
 
         var toAdoptCount = shelter.ShelterPets.Where(x => x.IsVisible).Count();
 
-        var Adopted = shelter.Archives.Count();
+        var adopted = shelter.Archives.Count();
+
+        var volunteerCount = shelter.Volunteers.Count();
 
         return new StatsDto
         {
             CardCount = cardCount,
+            VolunteerCount = volunteerCount,
             ToAdoptCount = toAdoptCount,
-            AdoptedCount = Adopted
+            AdoptedCount = adopted
         };
     }
 }
