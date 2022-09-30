@@ -2,4 +2,4 @@
 
 namespace Lapka.Pet.Core.Events;
 
-public record PetDeletedEvent(Guid PetId) : IDomainEvent;
+public record PhotoDeletedEvent(string Link) : IDomainEvent;

@@ -10,10 +10,10 @@ namespace Lapka.Pet.Core.Entities;
 
 public class Shelter : AggregateRoot<ShelterId>
 {
-    private readonly List<Volunteer> _volunteers = new();
-    private readonly List<Worker> _workers = new();
-    private readonly List<ShelterPet> _shelterPets = new();
-    private readonly List<Archive> _archives = new();
+    private readonly List<Volunteer> _volunteers = new List<Volunteer>();
+    private readonly List<Worker> _workers = new List<Worker>();
+    private readonly List<ShelterPet> _shelterPets = new List<ShelterPet>();
+    private readonly List<Archive> _archives = new List<Archive>();
 
     public OrganizationName OrganizationName { get; private set; }
     public ProfilePhoto? ProfilePhoto { get; private set; }
@@ -70,7 +70,6 @@ public class Shelter : AggregateRoot<ShelterId>
         var pet = GetShelterPet(petId);
 
         ShelterPets.Remove(pet);
-        AddEvent(new PetDeletedEvent(petId));
     }
 
     public void PublishPet(PetId petId)
