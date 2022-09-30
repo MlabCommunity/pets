@@ -12,8 +12,7 @@ internal sealed class ShelterUpdatedEventHandler : IDomainEventHandler<ShelterUp
     {
         _shelterRepository = shelterRepository;
     }
-
-
+    
     public async Task HandleAsync(ShelterUpdatedEvent @event)
     {
         var shelter = await _shelterRepository.FindByIdAsync(@event.Id);
@@ -27,7 +26,7 @@ internal sealed class ShelterUpdatedEventHandler : IDomainEventHandler<ShelterUp
         {
             pet.UpdateShelterDetails(@event.OrganizationName, @event.Longitude, @event.Latitude);
         }
-
+        
         await _shelterRepository.UpdateAsync(shelter);
     }
 }
