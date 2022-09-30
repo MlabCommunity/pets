@@ -8,11 +8,10 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class DeleteLostPetAdvertisementCommandHandler : ICommandHandler<DeleteLostPetAdvertisementCommand>
 {
     private readonly ILostPetRepository _lostPetRepository;
-    
+
     public DeleteLostPetAdvertisementCommandHandler(ILostPetRepository lostPetRepository)
     {
         _lostPetRepository = lostPetRepository;
-
     }
 
     public async Task HandleAsync(DeleteLostPetAdvertisementCommand command,

@@ -149,18 +149,18 @@ public class ShelterController : BaseController
     [Authorize(Policy = "IsWorker")]
     [HttpGet("cards/archive/chart/year")]
     [SwaggerOperation(summary: "Gets shelter's stats grouped by months in current year")]
-    [SwaggerResponse(200, "returns array of numbers",typeof(int[]))]
+    [SwaggerResponse(200, "returns array of numbers", typeof(int[]))]
     public async Task<ActionResult<int[]>> GetArchiveStatsInYear()
     {
         var query = new GetArchiveStatsInYearQuery(GetPrincipalId());
         var resul = await _queryDispatcher.QueryAsync(query);
         return Ok(resul);
     }
-    
+
     [Authorize(Policy = "IsWorker")]
     [HttpGet("cards/archive/chart/month")]
     [SwaggerOperation(summary: "Gets shelter's stats grouped by days of the week in current month")]
-    [SwaggerResponse(200, "returns array of numbers",typeof(int[]))]
+    [SwaggerResponse(200, "returns array of numbers", typeof(int[]))]
     public async Task<ActionResult<int[]>> GetArchiveStatsInMonth()
     {
         var query = new GetArchiveStatsInMonthQuery(GetPrincipalId());
@@ -171,7 +171,7 @@ public class ShelterController : BaseController
     [Authorize(Policy = "IsWorker")]
     [HttpGet("cards/archive/chart/week")]
     [SwaggerOperation(summary: "Gets shelter's stats grouped by days of the week in current week")]
-    [SwaggerResponse(200, "returns array of numbers",typeof(int[]))]
+    [SwaggerResponse(200, "returns array of numbers", typeof(int[]))]
     public async Task<ActionResult<int[]>> GetArchiveStatsInWeek()
     {
         var query = new GetArchiveStatsInWeekQuery(GetPrincipalId());
@@ -216,7 +216,7 @@ public class ShelterController : BaseController
 
         return Ok(result);
     }
-    
+
     [Authorize(Policy = "IsWorker")]
     [HttpGet("cards/liked")]
     [SwaggerOperation(summary: "Gets liked shelter's pets")]

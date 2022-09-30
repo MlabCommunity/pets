@@ -8,7 +8,8 @@ namespace Lapka.Pet.Infrastructure.Mapper;
 
 internal static class ShelterAdvertisementMapper
 {
-    public static ShelterPetAdvertisementDto AsAdvertisementDto(this ShelterPet pet,double latitude,double longitude,Guid principalId)
+    public static ShelterPetAdvertisementDto AsAdvertisementDto(this ShelterPet pet, double latitude, double longitude,
+        Guid principalId)
     {
         switch (pet.Type)
         {
@@ -47,7 +48,7 @@ internal static class ShelterAdvertisementMapper
                     Breed = dog.DogBreed,
                 };
             }
-            
+
             default:
             {
                 return new ShelterPetAdvertisementDto
@@ -65,8 +66,8 @@ internal static class ShelterAdvertisementMapper
             }
         }
     }
-    
-     public static ShelterPetAdvertisementDto AsAdvertisementDto(this ShelterPet pet,double latitude,double longitude)
+
+    public static ShelterPetAdvertisementDto AsAdvertisementDto(this ShelterPet pet, double latitude, double longitude)
     {
         switch (pet.Type)
         {
@@ -105,7 +106,7 @@ internal static class ShelterAdvertisementMapper
                     Breed = dog.DogBreed,
                 };
             }
-            
+
             default:
             {
                 return new ShelterPetAdvertisementDto

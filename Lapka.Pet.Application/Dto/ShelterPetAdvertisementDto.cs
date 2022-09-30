@@ -11,6 +11,6 @@ public class ShelterPetAdvertisementDto
     public bool IsLiked { get; set; }
     public Gender Gender { get; set; }
     public string ProfilePhoto { get; set; }
-    public double  Distance { get; set; }
-    public LocalizationDto Localization { get;set; }
+    public double Distance { get; set; }
+    public LocalizationDto Localization { get; set; }
 }

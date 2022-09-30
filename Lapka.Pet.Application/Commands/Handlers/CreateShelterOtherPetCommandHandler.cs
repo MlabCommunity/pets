@@ -11,7 +11,7 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
 
-    public CreateShelterOtherPetCommandHandler( IShelterRepository shelterRepository, IUserCacheStorage cacheStorage)
+    public CreateShelterOtherPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;
@@ -30,7 +30,7 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
 
         var other = new ShelterOther(command.PrincipalId, command.ProfilePhoto, command.Name, command.Gender,
             command.Age, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
-            command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude,command.Photos);
+            command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude, command.Photos);
 
         shelter.AddPet(other);
         await _shelterRepository.UpdateAsync(shelter);

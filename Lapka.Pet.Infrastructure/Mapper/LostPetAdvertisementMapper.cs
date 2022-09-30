@@ -38,7 +38,7 @@ internal static class LostPetAdvertisementMapper
                     Breed = dog.DogBreed
                 };
             }
-            
+
             default:
             {
                 return new LostPetAdvertisementDto

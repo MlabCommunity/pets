@@ -11,9 +11,8 @@ namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 internal sealed class GetShelterStatsQueryHandler : IQueryHandler<GetShelterStatsQuery, StatsDto>
 {
     private readonly IUserCacheStorage _cacheStorage;
-
     private readonly DbSet<Shelter> _shelters;
-    
+
 
     public GetShelterStatsQueryHandler(AppDbContext context, IUserCacheStorage cacheStorage)
     {
@@ -28,14 +27,14 @@ internal sealed class GetShelterStatsQueryHandler : IQueryHandler<GetShelterStat
 
         var shelter = await _shelters
             .AsNoTracking()
-            .Include(x=>x.Archives)
+            .Include(x => x.Archives)
             .Include(x => x.ShelterPets)
             .FirstOrDefaultAsync(x => x.Id == shelterId);
 
 
         var cardCount = shelter.ShelterPets.Count();
 
-        var toAdoptCount = shelter.ShelterPets.Where(x=>x.IsVisible==true).Count();
+        var toAdoptCount = shelter.ShelterPets.Where(x => x.IsVisible).Count();
 
         var Adopted = shelter.Archives.Count();
 

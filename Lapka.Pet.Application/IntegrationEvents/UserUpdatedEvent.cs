@@ -4,4 +4,5 @@ using Convey.MessageBrokers;
 namespace Lapka.Pet.Application.IntegrationEvents;
 
 [Message("identity")]
-public record UserUpdatedEvent(Guid UserId, string Role, string FirstName, string LastName, string ProfilePicture, string Email) : IEvent;
+public record UserUpdatedEvent(Guid UserId, string Role, string FirstName, string LastName, string ProfilePicture,
+    string Email) : IEvent;

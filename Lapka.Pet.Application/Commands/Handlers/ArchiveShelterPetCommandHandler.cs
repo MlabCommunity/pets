@@ -16,17 +16,18 @@ internal sealed class ArchiveShelterPetCommandHandler : ICommandHandler<ArchiveS
         _cacheStorage = cacheStorage;
     }
 
-    public async Task HandleAsync(ArchiveShelterPetCommand command, CancellationToken cancellationToken = new CancellationToken())
+    public async Task HandleAsync(ArchiveShelterPetCommand command,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         var shelterId = _cacheStorage.GetShelterId(command.PrincipalId);
 
-        var shelter =await _shelterRepository.FindByIdAsync(shelterId);
+        var shelter = await _shelterRepository.FindByIdAsync(shelterId);
 
         if (shelter is null)
         {
             throw new ShelterNotFoundException();
         }
-        
+
         shelter.ArchivePet(command.PetId);
 
         await _shelterRepository.UpdateAsync(shelter);

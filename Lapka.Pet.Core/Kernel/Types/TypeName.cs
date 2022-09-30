@@ -15,7 +15,7 @@ public abstract class TypeName : IEquatable<TypeName>
 
         Value = value;
     }
-    
+
     public bool Equals(TypeName other)
     {
         if (ReferenceEquals(null, other)) return false;

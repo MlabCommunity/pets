@@ -1,11 +1,10 @@
-using Convey.CQRS.Events;
 using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Events;
 using Lapka.Pet.Core.Repositories;
 
 namespace Lapka.Pet.Application.DomainEvents.Handlers;
 
-internal sealed class ShelterUpdatedEventHandler : IEventHandler<ShelterUpdatedEvent>
+internal sealed class ShelterUpdatedEventHandler : IDomainEventHandler<ShelterUpdatedEvent>
 {
     private readonly IShelterRepository _shelterRepository;
 
@@ -13,8 +12,9 @@ internal sealed class ShelterUpdatedEventHandler : IEventHandler<ShelterUpdatedE
     {
         _shelterRepository = shelterRepository;
     }
-    
-    public async Task HandleAsync(ShelterUpdatedEvent @event, CancellationToken cancellationToken = new CancellationToken())
+
+
+    public async Task HandleAsync(ShelterUpdatedEvent @event)
     {
         var shelter = await _shelterRepository.FindByIdAsync(@event.Id);
 

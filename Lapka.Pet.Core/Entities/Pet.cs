@@ -158,7 +158,7 @@ public abstract class Pet : AggregateRoot<PetId>
         {
             return false;
         }
+
         return Likes.Any(x => x.UserId == userId);
     }
-        
 }

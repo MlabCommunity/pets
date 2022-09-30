@@ -13,7 +13,7 @@ internal sealed class CreateVisitRequestValidator : AbstractValidator<CreateVisi
 
         RuleFor(x => x.DateOfVisit)
             .InclusiveBetween(DateTime.UtcNow.AddYears(-50), DateTime.UtcNow.AddYears(5));
-        
+
         RuleFor(x => x.WeightOnVisit)
             .InclusiveBetween(0, 200);
     }

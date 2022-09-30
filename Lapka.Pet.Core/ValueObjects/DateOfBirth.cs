@@ -21,7 +21,7 @@ public record DateOfBirth
         var dob = DateTime.UtcNow;
         var days = age * 365.25;
         var value = dob.AddDays(-days);
-        
+
         if (value > DateTime.Now || value < DateTime.Now.AddYears(-50))
         {
             throw new InvalidDateOfBirthException();

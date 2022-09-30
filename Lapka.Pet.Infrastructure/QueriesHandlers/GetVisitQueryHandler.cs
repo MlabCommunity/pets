@@ -11,11 +11,9 @@ namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 internal sealed class GetVisitQueryHandler : IQueryHandler<GetVisitQuery, VisitDetailsDto>
 {
     private readonly DbSet<Core.Entities.Pet> _pets;
-    private readonly DbSet<Visit> _visits;
 
     public GetVisitQueryHandler(AppDbContext context)
     {
-        _visits = context.Visits;
         _pets = context.Pets;
     }
 

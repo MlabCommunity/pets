@@ -13,9 +13,10 @@ public class Cat : Pet
     }
 
     private Cat(OwnerId ownerId, ProfilePhoto profilePhoto, PetName name, Gender gender,
-        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, CatBreed breed, CatColor color,ICollection<string> photos) : base(
+        DateOfBirth dateOfBirth, bool isSterilized, Weight weight, CatBreed breed, CatColor color,
+        ICollection<string> photos) : base(
         ownerId, profilePhoto,
-        PetType.CAT, name, gender, dateOfBirth, isSterilized, weight,photos)
+        PetType.CAT, name, gender, dateOfBirth, isSterilized, weight, photos)
     {
         Breed = breed;
         Color = color;
@@ -25,7 +26,7 @@ public class Cat : Pet
         DateOfBirth dateOfBirth, bool isSterilized, Weight weight, CatBreed breed, CatColor color,
         ICollection<string> photos)
     {
-        var cat = new Cat(ownerId, profilePhoto, name, gender, dateOfBirth, isSterilized, weight, breed, color,photos);
+        var cat = new Cat(ownerId, profilePhoto, name, gender, dateOfBirth, isSterilized, weight, breed, color, photos);
         return cat;
     }
 }

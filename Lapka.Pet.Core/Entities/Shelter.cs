@@ -18,7 +18,7 @@ public class Shelter : AggregateRoot<ShelterId>
     public OrganizationName OrganizationName { get; private set; }
     public ProfilePhoto? ProfilePhoto { get; private set; }
     public Email Email { get; private set; }
-    public Localization Localization { get; private set; } 
+    public Localization Localization { get; private set; }
     public PhoneNumber PhoneNumber { get; private set; }
     public Krs Krs { get; private set; }
     public Nip Nip { get; private set; }
@@ -34,7 +34,8 @@ public class Shelter : AggregateRoot<ShelterId>
     {
     }
 
-    internal Shelter(ShelterId id, Email email,FirstName firstName,LastName lastName,PhoneNumber phoneNumber, OrganizationName organizationName, double longitude, double latitude,
+    internal Shelter(ShelterId id, Email email, FirstName firstName, LastName lastName, PhoneNumber phoneNumber,
+        OrganizationName organizationName, double longitude, double latitude,
         Krs krs, Nip nip)
     {
         Id = id;
@@ -50,13 +51,15 @@ public class Shelter : AggregateRoot<ShelterId>
         Volunteering = new Volunteering(false, "", "", false, "", false, "");
     }
 
-    public static Shelter Create(ShelterId Id, Email email,FirstName firstName,LastName lastName,PhoneNumber phoneNumber, double longitude, double latitude,
+    public static Shelter Create(ShelterId Id, Email email, FirstName firstName, LastName lastName,
+        PhoneNumber phoneNumber, double longitude, double latitude,
         OrganizationName organizationName, Krs krs, Nip nip)
     {
-        var shelter = new Shelter(Id, email,firstName,lastName,phoneNumber, organizationName, longitude, latitude, krs, nip);
+        var shelter = new Shelter(Id, email, firstName, lastName, phoneNumber, organizationName, longitude, latitude,
+            krs, nip);
         return shelter;
     }
-    
+
     public void AddPet(ShelterPet shelterPet)
     {
         ShelterPets.Add(shelterPet);
@@ -65,7 +68,7 @@ public class Shelter : AggregateRoot<ShelterId>
     public void RemovePet(PetId petId)
     {
         var pet = GetShelterPet(petId);
-        
+
         ShelterPets.Remove(pet);
         AddEvent(new PetDeletedEvent(petId));
     }
@@ -100,7 +103,7 @@ public class Shelter : AggregateRoot<ShelterId>
 
         return pet;
     }
-    
+
     public void AddWorker(Worker worker)
     {
         var exists = Workers.Any(x => x.WorkerId == worker.WorkerId);
@@ -117,7 +120,7 @@ public class Shelter : AggregateRoot<ShelterId>
     {
         Volunteering = volunteering;
     }
-    
+
     private Worker GetWorker(WorkerId workerId)
     {
         var worker = Workers.SingleOrDefault(x => x.WorkerId == workerId);
@@ -130,7 +133,8 @@ public class Shelter : AggregateRoot<ShelterId>
         return worker;
     }
 
-    public void Update(OrganizationName organizationName, double longitude, double latitude,PhoneNumber phoneNumber , Krs krs,
+    public void Update(OrganizationName organizationName, double longitude, double latitude, PhoneNumber phoneNumber,
+        Krs krs,
         Nip nip)
     {
         Localization = new Localization(longitude, latitude);
@@ -138,11 +142,11 @@ public class Shelter : AggregateRoot<ShelterId>
         Krs = krs;
         Nip = nip;
         PhoneNumber = phoneNumber;
-        
+
         AddEvent(new ShelterUpdatedEvent(Id, organizationName, longitude, latitude, krs, nip));
     }
 
-    public void Update(Email email,FirstName firstName,LastName lastName, ProfilePhoto profilePhoto)
+    public void Update(Email email, FirstName firstName, LastName lastName, ProfilePhoto profilePhoto)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -191,5 +195,6 @@ public class Shelter : AggregateRoot<ShelterId>
     public void ArchivePet(Guid petId)
     {
         RemovePet(petId);
+        _archives.Add(new Archive(petId));
     }
 }

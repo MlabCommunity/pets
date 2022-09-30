@@ -2,4 +2,5 @@ using Convey.CQRS.Commands;
 
 namespace Lapka.Pet.Application.Commands;
 
-public record CreateShelterCommand(Guid UserId, string Email,string FirstName,string LastName,string PhoneNumber, string OrganizationName, double Longitude,double Latitude, string Nip, string Krs) : ICommand;
+public record CreateShelterCommand(Guid UserId, string Email, string FirstName, string LastName, string PhoneNumber,
+    string OrganizationName, double Longitude, double Latitude, string Nip, string Krs) : ICommand;

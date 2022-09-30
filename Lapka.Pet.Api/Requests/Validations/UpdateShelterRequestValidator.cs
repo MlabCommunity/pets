@@ -33,6 +33,5 @@ internal sealed class UpdateShelterRequestValidator : AbstractValidator<UpdateSh
             .NotEmpty()
             .NotNull()
             .MaximumLength(100);
-        
     }
 }

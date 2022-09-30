@@ -27,7 +27,8 @@ internal sealed class UpdateLostPetAdvertisementCommandHandler : ICommandHandler
             throw new AdvertisementNotFoundException();
         }
 
-        LostPet.Update(command.Description, command.FirstName, command.PhoneNumber,command.PetName,command.IsSterilized,command.Weight);
+        LostPet.Update(command.Description, command.FirstName, command.PhoneNumber, command.PetName,
+            command.IsSterilized, command.Weight);
 
         await _lostPetRepository.UpdateAsync(LostPet);
     }

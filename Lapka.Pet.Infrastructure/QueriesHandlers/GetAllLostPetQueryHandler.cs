@@ -12,7 +12,7 @@ internal sealed class
         PagedResult<LostPetAdvertisementDto>>
 {
     private readonly DbSet<LostPet> _lostPets;
-    
+
     public GetAllLostPetAdvertisementQueryHandler(AppDbContext context)
     {
         _lostPets = context.LostPets;
@@ -22,17 +22,17 @@ internal sealed class
         CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _lostPets
-            .Where(x => (query.Type == null || query.Type == x.Type) && 
-                        (query.Gender == null || query.Gender == x.Gender) && x.IsVisible==true)
-            .Select(x=>x.AsDto())
+            .Where(x => (query.Type == null || query.Type == x.Type) &&
+                        (query.Gender == null || query.Gender == x.Gender) && x.IsVisible == true)
+            .Select(x => x.AsDto())
             .Skip(query.PageSize * (query.PageNumber - 1))
             .Take(query.PageSize).ToListAsync();
-        
-        var count = await _lostPets
-            .Where(x => (query.Type == null || query.Type == x.Type) && 
-                        (query.Gender == null || query.Gender == x.Gender) && x.IsVisible==true)
-            .CountAsync(); 
 
-        return  new PagedResult<LostPetAdvertisementDto>(result, count, query.PageSize, query.PageNumber);
+        var count = await _lostPets
+            .Where(x => (query.Type == null || query.Type == x.Type) &&
+                        (query.Gender == null || query.Gender == x.Gender) && x.IsVisible == true)
+            .CountAsync();
+
+        return new PagedResult<LostPetAdvertisementDto>(result, count, query.PageSize, query.PageNumber);
     }
 }

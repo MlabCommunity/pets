@@ -13,8 +13,8 @@ internal sealed class GetShelterQueryHandler : IQueryHandler<GetShelterQuery, Sh
 {
     private readonly DbSet<Shelter> _shelters;
     private readonly IUserCacheStorage _cacheStorage;
-    
-    public GetShelterQueryHandler(AppDbContext context,IUserCacheStorage cacheStorage)
+
+    public GetShelterQueryHandler(AppDbContext context, IUserCacheStorage cacheStorage)
     {
         _cacheStorage = cacheStorage;
         _shelters = context.Shelters;
@@ -23,8 +23,8 @@ internal sealed class GetShelterQueryHandler : IQueryHandler<GetShelterQuery, Sh
     public async Task<ShelterDto> HandleAsync(GetShelterQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var shelterId =  _cacheStorage.GetShelterId(query.Id);
-        
+        var shelterId = _cacheStorage.GetShelterId(query.Id);
+
         return await _shelters
             .Where(x => x.Id == shelterId)
             .Select(x => x.AsDto())

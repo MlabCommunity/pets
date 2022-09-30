@@ -46,7 +46,7 @@ public static class PetDetailsMapper
                     Weight = dog.Weight
                 };
             }
-            
+
             default:
             {
                 return new PetDetailsDto
@@ -63,5 +63,4 @@ public static class PetDetailsMapper
             }
         }
     }
-
 }

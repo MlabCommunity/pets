@@ -16,8 +16,8 @@ internal static class ShelterMapper
             FirstName = shelter.FirstName,
             LastName = shelter.LastName,
         };
-    
-    public static ShelterDto AsDto(this Shelter shelter,double longitude,double latitude)
+
+    public static ShelterDto AsDto(this Shelter shelter, double longitude, double latitude)
         => new()
         {
             Id = shelter.Id,
@@ -26,8 +26,7 @@ internal static class ShelterMapper
             FirstName = shelter.FirstName,
             LastName = shelter.LastName,
             PhoneNumber = shelter.PhoneNumber,
-            Distance = shelter.Localization.CalculateDistance(longitude,latitude),
+            Distance = shelter.Localization.CalculateDistance(longitude, latitude),
             Localization = shelter.Localization.AsDto()
         };
-    
 }

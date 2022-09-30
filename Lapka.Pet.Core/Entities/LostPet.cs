@@ -19,8 +19,9 @@ public class LostPet : Pet
     public LostPet(OwnerId ownerId, ProfilePhoto profilePhoto, PetType type, PetName name,
         Gender gender, DateOfBirth dateOfBirth, bool isSterilized, Weight weight,
         DateOfDisappearance dateOfDisappearance, PhoneNumber phoneNumber, Longitude longitude, Latitude latitude,
-        bool isVisible, FirstName firstName, string description,ICollection<string> photos) : base(ownerId, profilePhoto, type, name, gender,
-        dateOfBirth, isSterilized, weight,photos)
+        bool isVisible, FirstName firstName, string description, ICollection<string> photos) : base(ownerId,
+        profilePhoto, type, name, gender,
+        dateOfBirth, isSterilized, weight, photos)
     {
         DateOfDisappearance = dateOfDisappearance;
         PhoneNumber = phoneNumber;

@@ -26,7 +26,7 @@ internal static class ShelterPetMapper
                     Color = cat.Color,
                     CreatedAt = cat.CreatedAt
                 };
-            } 
+            }
 
             case PetType.DOG:
             {
@@ -44,7 +44,7 @@ internal static class ShelterPetMapper
                     CreatedAt = dog.CreatedAt
                 };
             }
-            
+
             default:
             {
                 return new ShelterPetDto
@@ -63,7 +63,7 @@ internal static class ShelterPetMapper
     }
 
     public static LikedShelterPetsDto AsLikedDto(
-        this ShelterPet pet,int count)
+        this ShelterPet pet, int count)
         => new()
         {
             CreatedAt = pet.CreatedAt,

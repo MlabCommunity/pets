@@ -4,6 +4,6 @@ namespace Lapka.Pet.Application.Dto;
 
 public class CatDetailsDto : PetDetailsDto
 {
-  public CatBreed Breed { get; set; }
-  public CatColor Color { get; set; }
+    public CatBreed Breed { get; set; }
+    public CatColor Color { get; set; }
 }
