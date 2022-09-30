@@ -8,7 +8,8 @@ namespace Lapka.Pet.Infrastructure.Mapper;
 
 internal static class ShelterAdvertisementDetailsMapper
 {
-    public static ShelterPetAdvertisementDetailsDto AsAdvertisementDetailsDto(this ShelterPet pet,double longitude,double latitude,Guid principalId)
+    public static ShelterPetAdvertisementDetailsDto AsAdvertisementDetailsDto(this ShelterPet pet, double longitude,
+        double latitude, Guid principalId)
     {
         switch (pet.Type)
         {
@@ -57,7 +58,7 @@ internal static class ShelterAdvertisementDetailsMapper
                     Localization = dog.Localization.AsDto()
                 };
             }
-            
+
             default:
             {
                 return new ShelterPetAdvertisementDetailsDto

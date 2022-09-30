@@ -1,5 +1,4 @@
 ﻿using Convey.CQRS.Events;
-using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Application.IntegrationEvents;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
@@ -36,7 +35,9 @@ internal sealed class UserUpdatedEventHandler : IEventHandler<UserUpdatedEvent>
                     shelter.Update(string.IsNullOrWhiteSpace(@event.Email) ? shelter.Email : @event.Email,
                         string.IsNullOrWhiteSpace(@event.FirstName) ? shelter.FirstName : @event.FirstName,
                         string.IsNullOrWhiteSpace(@event.LastName) ? shelter.LastName : @event.LastName,
-                        string.IsNullOrWhiteSpace(@event.ProfilePicture) ? null : @event.ProfilePicture); //TODO imo eventy nie powinny przesyłać nulli
+                        string.IsNullOrWhiteSpace(@event.ProfilePicture)
+                            ? null
+                            : @event.ProfilePicture); //TODO imo eventy nie powinny przesyłać nulli
                     _shelters.Update(shelter);
                     await _context.SaveChangesAsync();
                 }

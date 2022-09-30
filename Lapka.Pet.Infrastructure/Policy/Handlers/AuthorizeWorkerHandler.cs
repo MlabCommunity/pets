@@ -24,14 +24,13 @@ internal class AuthorizeWorkerHandler : AuthorizationHandler<IsWorkerRequirement
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
         IsWorkerRequirement requirement)
     {
-        
         var stringId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        
+
         if (string.IsNullOrWhiteSpace(stringId))
         {
             throw new ProjectUnauthorized();
         }
-        
+
         var principalId = Guid.Parse(stringId);
 
         var query = new GetShelterIdByOwnerIdOrWorkerIdQuery(principalId);

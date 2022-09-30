@@ -13,7 +13,7 @@ internal sealed class
         LostPetAdvertisementDetailsDto>
 {
     private readonly DbSet<LostPet> _lostPets;
-    
+
     public GetLostPetAdvertisementDetailsQueryHandler(AppDbContext context)
     {
         _lostPets = context.LostPets;
@@ -21,11 +21,10 @@ internal sealed class
 
     public async Task<LostPetAdvertisementDetailsDto> HandleAsync(GetLostPetAdvertisementDetailsQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-    => await _lostPets
-        .Include(x=>x.Localization)
-        .Include(x => x.Photos)
-        .Where(x=>x.Id==query.PetId)
-        .Select(x=>x.AsDetailsDto(query.Longitude,query.Latitude))
-        .FirstOrDefaultAsync();
-
+        => await _lostPets
+            .Include(x => x.Localization)
+            .Include(x => x.Photos)
+            .Where(x => x.Id == query.PetId)
+            .Select(x => x.AsDetailsDto(query.Longitude, query.Latitude))
+            .FirstOrDefaultAsync();
 }

@@ -15,6 +15,5 @@ internal sealed class ShelterPetConfiguration : IEntityTypeConfiguration<Shelter
         builder.Property(s => s.OrganizationName).HasConversion(name => name.Value, name => new OrganizationName(name));
 
         builder.ToTable("ShelterPets");
-        
     }
 }

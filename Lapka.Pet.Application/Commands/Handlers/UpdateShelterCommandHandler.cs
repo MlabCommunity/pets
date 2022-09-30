@@ -24,7 +24,8 @@ internal sealed class UpdateShelterCommandHandler : ICommandHandler<UpdateShelte
             throw new ShelterNotFoundException();
         }
 
-        shelter.Update(command.OrganizationName, command.Longitude,command.Latitude, command.PhoneNumber,command.Krs, command.Nip);
+        shelter.Update(command.OrganizationName, command.Longitude, command.Latitude, command.PhoneNumber, command.Krs,
+            command.Nip);
 
         await _shelterRepository.UpdateAsync(shelter);
     }

@@ -15,11 +15,11 @@ public class ShelterDog : ShelterPet
     public ShelterDog(OwnerId ownerId, ProfilePhoto profilePhoto, PetName name, Gender gender,
         double age, bool isSterilized, Weight weight, string description,
         OrganizationName organizationName, bool isVisible, Longitude longitude, Latitude latitude, DogBreed dogBreed,
-        DogColor color,ICollection<string> photos) : base(ownerId, profilePhoto, PetType.DOG, name, gender, new DateOfBirth(age), isSterilized, weight,
-        description, organizationName, isVisible, longitude, latitude,photos)
+        DogColor color, ICollection<string> photos) : base(ownerId, profilePhoto, PetType.DOG, name, gender,
+        new DateOfBirth(age), isSterilized, weight,
+        description, organizationName, isVisible, longitude, latitude, photos)
     {
         DogBreed = dogBreed;
         Color = color;
     }
-    
 }

@@ -8,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 
-internal sealed class GetAllShelterAdvertisementQueryHandler : Convey.CQRS.Queries.IQueryHandler<GetAllShelterAdvertisementQuery,
-        PagedResult<ShelterPetAdvertisementDto>>
+internal sealed class GetAllShelterAdvertisementQueryHandler : Convey.CQRS.Queries.IQueryHandler<
+    GetAllShelterAdvertisementQuery,
+    PagedResult<ShelterPetAdvertisementDto>>
 {
     private readonly DbSet<ShelterPet> _shelterPets;
-    
+
     public GetAllShelterAdvertisementQueryHandler(AppDbContext context)
     {
         _shelterPets = context.ShelterPets;
@@ -29,16 +30,16 @@ internal sealed class GetAllShelterAdvertisementQueryHandler : Convey.CQRS.Queri
             .Where(x => x.IsVisible == true &&
                         (query.Type == null || query.Type == x.Type) &&
                         (query.Gender == null || query.Gender == x.Gender))
-            .Select(x => x.AsAdvertisementDto(query.Latitude, query.Longitude,query.PrincipalId))
+            .Select(x => x.AsAdvertisementDto(query.Latitude, query.Longitude, query.PrincipalId))
             .ToListAsync();
 
-        var result = pets 
+        var result = pets
             .OrderBy(x => x.Distance)
             .Skip(query.PageSize * (query.PageNumber - 1))
             .Take(query.PageSize).ToList();
 
         var count = pets.Count();
-        
+
         return new PagedResult<ShelterPetAdvertisementDto>
             (result, count, query.PageSize, query.PageNumber);
     }

@@ -25,13 +25,13 @@ internal sealed class
     {
         var result = await _shelterPets
             .Include(x => x.Localization)
-            .Include(x=>x.Likes)
+            .Include(x => x.Likes)
             .Include(x => x.Photos)
             .Where(x => x.Id == query.PetId)
-            .Select(x => x.AsAdvertisementDetailsDto(query.Longitude, query.Latitude,query.PrincipalId))
+            .Select(x => x.AsAdvertisementDetailsDto(query.Longitude, query.Latitude, query.PrincipalId))
             .FirstOrDefaultAsync();
 
-        
+
         return result;
-    } 
+    }
 }

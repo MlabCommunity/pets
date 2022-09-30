@@ -34,19 +34,20 @@ internal sealed class GetArchiveStatsInWeekQueryHandler : IQueryHandler<GetArchi
             .Where(x => x.Id == shelterId)
             .Select(x => x.Archives)
             .FirstOrDefaultAsync();
-        
+
         var groupedArchives = archives.GroupBy(x => (int)x.CreatedAt.DayOfWeek);
         var result = new int[7];
-        
+
         foreach (var archive in groupedArchives)
         {
             if (archive.Key == 0)
             {
-                result[6] = archive.Count();     
+                result[6] = archive.Count();
             }
+
             result[archive.Key - 1] = archive.Count();
         }
-        
+
         return result;
     }
 }

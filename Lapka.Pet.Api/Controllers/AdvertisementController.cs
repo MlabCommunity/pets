@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
@@ -6,7 +5,6 @@ using Lapka.Pet.Api.Requests;
 using Lapka.Pet.Application.Commands;
 using Lapka.Pet.Application.Dto;
 using Lapka.Pet.Application.Queries;
-using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Consts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

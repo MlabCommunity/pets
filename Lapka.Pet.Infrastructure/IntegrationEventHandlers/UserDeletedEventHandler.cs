@@ -38,7 +38,8 @@ internal sealed class UserDeletedEventHandler : IEventHandler<UserDeletedEvent>
                 {
                     _shelters.Remove(shelter);
                 }
-            } break;
+            }
+                break;
             case "Worker" or "User":
             {
                 var worker = await _workers.FirstOrDefaultAsync(x => x.WorkerId == @event.UserId);
@@ -52,7 +53,8 @@ internal sealed class UserDeletedEventHandler : IEventHandler<UserDeletedEvent>
 
 
                 _volunteers.RemoveRange(volunteer);
-            } break;
+            }
+                break;
         }
 
         var pets = await _pets.Where(x => x.OwnerId == @event.UserId).ToListAsync();

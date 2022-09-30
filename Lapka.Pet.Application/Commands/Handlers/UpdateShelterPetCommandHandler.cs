@@ -28,8 +28,8 @@ internal sealed class UpdateShelterPetCommandHandler : ICommandHandler<UpdateShe
             throw new ShelterNotFoundException();
         }
 
-        shelter.UpdatePet(command.PetId,command.Description,command.PetName,command.IsSterilized,command.Weight);
-        
+        shelter.UpdatePet(command.PetId, command.Description, command.PetName, command.IsSterilized, command.Weight);
+
         await _shelterRepository.UpdateAsync(shelter);
     }
 }

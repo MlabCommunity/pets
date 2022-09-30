@@ -26,10 +26,7 @@ public static class Extensions
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
-                opts =>
-                {
-                    opts.TokenValidationParameters = JwtParamsFactory.CreateParameters(jwtOption);
-                });
+                opts => { opts.TokenValidationParameters = JwtParamsFactory.CreateParameters(jwtOption); });
 
         return services;
     }

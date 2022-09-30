@@ -10,15 +10,16 @@ public record PhotoLink
     {
         if (Uri.IsWellFormedUriString(value, UriKind.Relative))
         {
-            
             throw new InvalidUrlException();
-            
         }
+
         Value = value;
     }
-    
-    private PhotoLink(){}
-    
+
+    private PhotoLink()
+    {
+    }
+
     public static implicit operator PhotoLink(string link)
         => new(link);
 

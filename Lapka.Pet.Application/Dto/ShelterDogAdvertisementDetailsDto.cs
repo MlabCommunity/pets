@@ -6,5 +6,4 @@ public class ShelterDogAdvertisementDetailsDto : ShelterPetAdvertisementDetailsD
 {
     public DogColor Color { get; set; }
     public DogBreed Breed { get; set; }
-
 }

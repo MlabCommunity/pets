@@ -9,12 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 
-internal sealed class GetAllLikedShelterPetsQueryHandler : IQueryHandler<GetAllLikedShelterPetsQuery, Application.Dto.PagedResult<LikedShelterPetsDto>>
+internal sealed class GetAllLikedShelterPetsQueryHandler : IQueryHandler<GetAllLikedShelterPetsQuery,
+    Application.Dto.PagedResult<LikedShelterPetsDto>>
 {
     private readonly DbSet<ShelterPet> _shelters;
     private readonly IUserCacheStorage _storage;
 
-    public GetAllLikedShelterPetsQueryHandler(AppDbContext context,IUserCacheStorage storage)
+    public GetAllLikedShelterPetsQueryHandler(AppDbContext context, IUserCacheStorage storage)
     {
         _storage = storage;
         _shelters = context.ShelterPets;
@@ -25,18 +26,18 @@ internal sealed class GetAllLikedShelterPetsQueryHandler : IQueryHandler<GetAllL
     {
         var shelterId = _storage.GetShelterId(query.PrincipalId);
 
-        var pets =await _shelters
+        var pets = await _shelters
             .Include(x => x.Likes)
             .Where(x => x.OwnerId == shelterId)
             .Select(x => x.AsLikedDto(x.Likes.Count()))
             .ToListAsync();
 
         var count = pets.Count();
-        
-        
-        var result = pets 
+
+
+        var result = pets
             .OrderByDescending(x => x.Count)
-            .ThenByDescending(x=>x.CreatedAt)
+            .ThenByDescending(x => x.CreatedAt)
             .Skip(query.PageSize * (query.PageNumber - 1))
             .Take(query.PageSize).ToList();
 

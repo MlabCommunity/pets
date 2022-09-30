@@ -10,7 +10,7 @@ internal sealed class UpdatePetRequestValidator : AbstractValidator<UpdatePetReq
             .NotNull()
             .NotEmpty()
             .MaximumLength(20);
-        
+
         RuleFor(x => x.Weight)
             .InclusiveBetween(0, 200);
     }

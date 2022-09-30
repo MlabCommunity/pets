@@ -10,5 +10,4 @@ public class LostPetAdvertisementDetailsDto : LostPetAdvertisementDto
     public double Distance { get; set; }
     public string FirstName { get; set; }
     public string PhoneNumber { get; set; }
-
 }

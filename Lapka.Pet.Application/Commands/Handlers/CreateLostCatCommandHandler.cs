@@ -20,7 +20,7 @@ internal sealed class CreateLostCatCommandHandler : ICommandHandler<CreateLostCa
         var cat = new LostCat(command.OwnerId, command.ProfilePhoto, command.Name, command.Gender,
             command.DateOfBirth, command.IsSterilized, command.Weight, command.DateOfDisappearance, command.PhoneNumber,
             command.Longitude, command.Latitude, command.IsVisible, command.FirstName, command.Description,
-            command.CatBreed, command.CatColor,command.Photos);
+            command.CatBreed, command.CatColor, command.Photos);
 
         await _repository.AddAsync(cat);
     }

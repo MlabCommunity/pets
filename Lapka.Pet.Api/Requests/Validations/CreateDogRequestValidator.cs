@@ -13,6 +13,5 @@ internal sealed class CreateDogRequestValidator : AbstractValidator<CreateDogReq
         RuleFor(x => x.DateOfBirth)
             .NotNull()
             .InclusiveBetween(DateTime.UtcNow.AddYears(-50), DateTime.UtcNow);
-        
     }
 }

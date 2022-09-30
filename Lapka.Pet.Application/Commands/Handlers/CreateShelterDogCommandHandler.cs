@@ -8,11 +8,10 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 
 internal sealed class CreateShelterDogCommandHandler : ICommandHandler<CreateShelterDogCommand>
 {
-
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
 
-    public CreateShelterDogCommandHandler( IShelterRepository shelterRepository,
+    public CreateShelterDogCommandHandler(IShelterRepository shelterRepository,
         IUserCacheStorage userCacheStorage)
     {
         _shelterRepository = shelterRepository;
@@ -33,10 +32,10 @@ internal sealed class CreateShelterDogCommandHandler : ICommandHandler<CreateShe
         var dog = new ShelterDog(command.PrincipalId, command.ProfilePhoto, command.Name, command.Gender,
             command.Age, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
             command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude, command.DogBreed,
-            command.DogColor,command.Photos);
+            command.DogColor, command.Photos);
 
         shelter.AddPet(dog);
-        
+
         await _shelterRepository.UpdateAsync(shelter);
     }
 }

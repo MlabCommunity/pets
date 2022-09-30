@@ -13,6 +13,5 @@ internal sealed class CreateCatRequestValidator : AbstractValidator<CreateCatReq
         RuleFor(x => x.DateOfBirth)
             .NotNull()
             .InclusiveBetween(DateTime.UtcNow.AddYears(-50), DateTime.UtcNow);
-        
     }
 }

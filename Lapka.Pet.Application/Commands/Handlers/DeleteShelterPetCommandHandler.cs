@@ -30,8 +30,7 @@ internal sealed class DeleteShelterPetCommandHandler : ICommandHandler<DeleteShe
         }
 
         shelter.RemovePet(command.PetId);
-        
+
         await _shelterRepository.UpdateAsync(shelter);
-        
     }
 }

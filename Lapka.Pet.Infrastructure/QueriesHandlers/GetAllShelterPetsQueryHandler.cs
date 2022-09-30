@@ -9,7 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 
 internal sealed class
-    GetAllShelterPetsQueryHandler : Convey.CQRS.Queries.IQueryHandler<GetAllShelterPetsQuery, PagedResult<ShelterPetDto>>
+    GetAllShelterPetsQueryHandler : Convey.CQRS.Queries.IQueryHandler<GetAllShelterPetsQuery,
+        PagedResult<ShelterPetDto>>
 {
     private readonly IUserCacheStorage _cacheStorage;
     private readonly DbSet<Shelter> _shelters;
@@ -17,7 +18,7 @@ internal sealed class
     public GetAllShelterPetsQueryHandler(AppDbContext context, IUserCacheStorage cacheStorage)
     {
         _cacheStorage = cacheStorage;
-        _shelters= context.Shelters;
+        _shelters = context.Shelters;
     }
 
     public async Task<PagedResult<ShelterPetDto>> HandleAsync(GetAllShelterPetsQuery query,
@@ -38,9 +39,9 @@ internal sealed class
             .Take(query.PageSize)
             .Select(x => x.AsDto())
             .ToList();
-        
+
         var count = shelterPets.Count();
-        
+
         return new PagedResult<ShelterPetDto>(retult, count, query.PageSize, query.PageNumber);
     }
 }

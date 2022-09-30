@@ -14,7 +14,8 @@ public static class LocalizationExtension
         {
             double theta = localization.Longitude - longitude;
             double dist = Math.Sin(deg2rad(localization.Latitude)) * Math.Sin(deg2rad(latitude)) +
-                          Math.Cos(deg2rad(localization.Latitude)) * Math.Cos(deg2rad(latitude)) * Math.Cos(deg2rad(theta));
+                          Math.Cos(deg2rad(localization.Latitude)) * Math.Cos(deg2rad(latitude)) *
+                          Math.Cos(deg2rad(theta));
             dist = Math.Acos(dist);
             dist = rad2deg(dist);
             dist = dist * 60 * 1.1515 * 1.609344;
@@ -32,6 +33,4 @@ public static class LocalizationExtension
     {
         return (rad / Math.PI * 180.0);
     }
-
-    
 }

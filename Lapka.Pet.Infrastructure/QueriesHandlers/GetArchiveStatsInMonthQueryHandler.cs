@@ -32,19 +32,15 @@ internal sealed class GetArchiveStatsInMonthQueryHandler : IQueryHandler<GetArch
             .Where(x => x.Id == shelterId)
             .Select(x => x.Archives)
             .FirstOrDefaultAsync();
-        
-        var groupedArchives = archives.GroupBy(x => (int)x.CreatedAt.DayOfWeek);
-        var result = new int[7];
-        
+
+        var groupedArchives = archives.GroupBy(x => x.CreatedAt.Day);
+        var result = new int[DateTime.DaysInMonth(DateTime.UtcNow.Year,DateTime.UtcNow.Month)];
+
         foreach (var archive in groupedArchives)
         {
-            if (archive.Key == 0)
-            {
-                result[6] = archive.Count();     
-            }
-            result[archive.Key-1] = archive.Count();
+            result[archive.Key - 1] = archive.Count();
         }
-        
+
         return result;
     }
 }

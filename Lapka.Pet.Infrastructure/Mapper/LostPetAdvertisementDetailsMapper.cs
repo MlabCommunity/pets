@@ -56,7 +56,7 @@ internal static class LostPetAdvertisementDetailsMapper
                     Localization = dog.Localization.AsDto()
                 };
             }
-            
+
             default:
             {
                 return new LostPetAdvertisementDetailsDto

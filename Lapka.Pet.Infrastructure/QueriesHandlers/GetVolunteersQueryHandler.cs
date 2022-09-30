@@ -27,11 +27,11 @@ internal sealed class GetVolunteersQueryHandler : IQueryHandler<GetVolunteersQue
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
 
         var shelter = await _shelters
-            .Include(x=>x.Volunteers)
+            .Include(x => x.Volunteers)
             .FirstOrDefaultAsync(x => x.Id == shelterId);
 
         return shelter.Volunteers
-            .Select(x=>x.AsDto())
+            .Select(x => x.AsDto())
             .ToList();
     }
 }

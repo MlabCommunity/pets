@@ -24,9 +24,9 @@ internal sealed class ShelterConfiguration : IEntityTypeConfiguration<Shelter>
         builder.Property(s => s.FirstName).HasConversion(x => x.Value, x => new FirstName(x));
         builder.Property(s => s.LastName).HasConversion(x => x.Value, x => new LastName(x));
         builder.Property(s => s.PhoneNumber).HasConversion(x => x.Value, x => new PhoneNumber(x));
-        
+
         builder.Property(s => s.Version).IsConcurrencyToken();
-        
+
         builder.ToTable("Shelters");
     }
 }

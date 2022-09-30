@@ -11,7 +11,6 @@ internal sealed class ostPetAdvertisementConfiguration : IEntityTypeConfiguratio
 {
     public void Configure(EntityTypeBuilder<LostPet> builder)
     {
-
         builder.Property(s => s.OwnerId).HasConversion(id => id.Value, id => new OwnerId(id));
         builder.Property(s => s.DateOfDisappearance).HasConversion(id => id.Value, id => new DateOfDisappearance(id));
         builder.Property(s => s.PhoneNumber).HasConversion(num => num.Value, num => new PhoneNumber(num));

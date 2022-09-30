@@ -2,7 +2,8 @@
 
 namespace Lapka.Pet.Api.Requests.Validations;
 
-internal sealed class CreateLostOtherPetAdvertisementRequestValidator : AbstractValidator<CreateLostOtherPetAdvertisementRequest>
+internal sealed class
+    CreateLostOtherPetAdvertisementRequestValidator : AbstractValidator<CreateLostOtherPetAdvertisementRequest>
 {
     public CreateLostOtherPetAdvertisementRequestValidator()
     {
@@ -21,27 +22,26 @@ internal sealed class CreateLostOtherPetAdvertisementRequestValidator : Abstract
             .NotNull()
             .NotEmpty()
             .MaximumLength(20);
-        
+
         RuleFor(x => x.FirstName)
             .NotNull()
             .NotEmpty()
             .MaximumLength(20);
-        
+
         RuleFor(shelter => shelter.PhoneNumber)
             .NotEmpty()
             .Matches(RegexRules.PhoneNumberRule)
             .WithMessage("Phone Number must be 9 or 10-digit number");
-        
+
         RuleFor(x => x.DateOfBirth)
             .NotNull()
             .InclusiveBetween(DateTime.UtcNow.AddYears(-50), DateTime.UtcNow);
-        
+
         RuleFor(x => x.DateOfDisappearance)
             .NotNull()
             .InclusiveBetween(DateTime.UtcNow.AddYears(-50), DateTime.UtcNow);
-        
+
         RuleFor(x => x.Weight)
             .InclusiveBetween(0, 200);
-        
     }
 }

@@ -25,7 +25,7 @@ internal sealed class CreateVisitCommandHandler : ICommandHandler<CreateVisitCom
         }
 
         pet.AddVisit(new Visit(command.HasTookPlace, command.DateOfVisit, command.Description, command.VisitTypes,
-                command.WeightOnVisit), command.PrincipalId);
+            command.WeightOnVisit), command.PrincipalId);
 
         await _petRepository.UpdateAsync(pet);
     }

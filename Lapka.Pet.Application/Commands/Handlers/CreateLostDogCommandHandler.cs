@@ -20,8 +20,8 @@ internal sealed class CreateLostDogCommandHandler : ICommandHandler<CreateLostDo
         var dog = new LostDog(command.OwnerId, command.ProfilePhoto, command.Name, command.Gender,
             command.DateOfBirth, command.IsSterilized, command.Weight, command.DateOfDisappearance, command.PhoneNumber,
             command.Longitude, command.Latitude, command.IsVisible, command.FirstName, command.Description,
-            command.DogBreed, command.DogColor,command.Photos);
-        
+            command.DogBreed, command.DogColor, command.Photos);
+
         await _repository.AddAsync(dog);
     }
 }
