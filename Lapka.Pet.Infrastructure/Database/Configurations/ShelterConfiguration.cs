@@ -26,7 +26,7 @@ internal sealed class ShelterConfiguration : IEntityTypeConfiguration<Shelter>
         builder.Property(s => s.PhoneNumber).HasConversion(x => x.Value, x => new PhoneNumber(x));
 
         builder.Property(s => s.Version).IsConcurrencyToken();
-
+        
         builder.ToTable("Shelters");
     }
 }
