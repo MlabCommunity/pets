@@ -33,7 +33,7 @@ internal sealed class CreateShelterCatCommandHandler : ICommandHandler<CreateShe
         var cat = new ShelterCat(command.PrincipalId, command.ProfilePhoto, command.Name, command.Gender,
             command.Age, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
             command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude, command.CatColor,
-            command.CatBreed, command.Photos);
+            command.CatBreed, command.Photos,shelter);
 
         shelter.AddPet(cat);
 

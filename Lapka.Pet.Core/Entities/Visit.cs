@@ -12,13 +12,15 @@ public class Visit
     public string Description { get; private set; }
     public HashSet<VisitType> VisitTypes = new HashSet<VisitType>();
     public WeightOnVisit? WeightOnVisit { get; private set; }
-
+    public Pet Pet { get; }
+    public PetId PetId { get; }
+    
     private Visit()
     {
     }
 
-    public Visit(bool? hasTookPlace, DateTime dateOfVisit, string description, ICollection<CareType> visitTypes,
-        WeightOnVisit? weightOnVisit)
+    public Visit(bool? hasTookPlace, DateTime dateOfVisit, string description, HashSet<CareType> visitTypes,
+        WeightOnVisit? weightOnVisit,Pet pet)
     {
         VisitId = Guid.NewGuid();
         HasTookPlace = hasTookPlace;
@@ -26,14 +28,16 @@ public class Visit
         Description = description;
         SetTypes(visitTypes);
         WeightOnVisit = weightOnVisit;
+        Pet = pet;
+        PetId = pet.Id;
     }
 
-    public void SetTypes(ICollection<CareType> visitTypes)
+    public void SetTypes(HashSet<CareType> visitTypes)
     {
         VisitTypes.Clear();
         foreach (var type in visitTypes)
         {
-            VisitTypes.Add(new VisitType(type));
+            VisitTypes.Add(new VisitType(type,this));
         }
     }
 

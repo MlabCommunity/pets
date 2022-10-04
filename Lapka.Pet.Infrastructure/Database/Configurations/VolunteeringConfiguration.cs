@@ -9,6 +9,8 @@ internal sealed class VolunteeringConfiguration : IEntityTypeConfiguration<Volun
     public void Configure(EntityTypeBuilder<Volunteering> builder)
     {
         builder.Property<Guid>("Id");
+        builder.Property(x => x.ShelterId).HasConversion(x => x.Value, x => new ShelterId(x));
+            
         builder.ToTable("Volunteering");
     }
 }

@@ -1,3 +1,5 @@
+using Lapka.Pet.Core.Entities;
+
 namespace Lapka.Pet.Core.ValueObjects;
 
 public record Volunteering
@@ -9,6 +11,8 @@ public record Volunteering
     public string DailyHelpDescription { get; init; }
     public bool IsTakingDogsOutActive { get; init; }
     public string TakingDogsOutDescription { get; init; }
+    public Shelter Shelter { get; }
+    public ShelterId ShelterId { get; }
 
     private Volunteering()
     {
@@ -16,8 +20,10 @@ public record Volunteering
 
     public Volunteering(bool isDonationActive, string bankAccountNumber, string donationDescription,
         bool isDailyHelpActive, string dailyHelpDescription, bool isTakingDogsOutActive,
-        string takingDogsOutDescription)
+        string takingDogsOutDescription,Shelter shelter)
     {
+        Shelter = shelter;
+        ShelterId = shelter.Id;
         IsDonationActive = isDonationActive;
         BankAccountNumber = bankAccountNumber;
         DonationDescription = donationDescription;

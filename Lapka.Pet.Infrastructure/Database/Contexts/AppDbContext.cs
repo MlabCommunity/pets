@@ -12,6 +12,7 @@ internal class AppDbContext : DbContext
     public DbSet<Core.Entities.Pet> Pets { get; set; }
     public DbSet<Cat> Cats { get; set; }
     public DbSet<Dog> Dogs { get; set; }
+    public DbSet<Other> Others { get; set; }
     public DbSet<Volunteering> Volunteerings { get; set; }
     public DbSet<Like> Likes { get; set; }
     public DbSet<Volunteer> Volunteers { get; set; }

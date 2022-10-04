@@ -29,7 +29,7 @@ internal sealed class AddWorkerCommandHandler : ICommandHandler<AddWorkerCommand
 
         var result = await _client.GiveWorkerRole(command.Email);
 
-        shelter.AddWorker(new Worker(result.WorkerId, command.Email, result.FirstName, result.LastName));
+        shelter.AddWorker(result.WorkerId, command.Email, result.FirstName, result.LastName);
         await _shelterRepository.UpdateAsync(shelter);
     }
 }

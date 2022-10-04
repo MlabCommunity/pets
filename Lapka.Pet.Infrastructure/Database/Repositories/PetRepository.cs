@@ -31,7 +31,6 @@ internal sealed class PetRepository : IPetRepository
             .Include(x => x.Photos)
             .FirstOrDefaultAsync(s => s.Id == id);
 
-
     public async Task UpdateAsync(Core.Entities.Pet pet)
     {
         _pets.Update(pet);

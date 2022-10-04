@@ -15,6 +15,6 @@ internal sealed class VisitConfiguration : IEntityTypeConfiguration<Visit>
         builder.Property(s => s.WeightOnVisit)
             .HasConversion(weight => weight.Value, weight => new WeightOnVisit(weight));
         builder.ToTable("Visits");
-        builder.HasMany(typeof(VisitType), "VisitTypes");
+        builder.HasMany(x => x.VisitTypes).WithOne(x => x.Visit).HasForeignKey(x => x.VisitId);
     }
 }
