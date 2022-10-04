@@ -25,7 +25,7 @@ public class LostPet : Pet
     {
         DateOfDisappearance = dateOfDisappearance;
         PhoneNumber = phoneNumber;
-        Localization = new Localization(longitude, latitude);
+        Localization = new Localization(longitude, latitude,Id);
         IsVisible = isVisible;
         FirstName = firstName;
         Description = description;

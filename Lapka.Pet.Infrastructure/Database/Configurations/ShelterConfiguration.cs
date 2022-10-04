@@ -25,6 +25,11 @@ internal sealed class ShelterConfiguration : IEntityTypeConfiguration<Shelter>
         builder.Property(s => s.LastName).HasConversion(x => x.Value, x => new LastName(x));
         builder.Property(s => s.PhoneNumber).HasConversion(x => x.Value, x => new PhoneNumber(x));
 
+        builder.HasMany(x => x.Archives).WithOne(x => x.Shelter).HasForeignKey(x=>x.ShelterId);        
+        builder.HasMany(x => x.Volunteers).WithOne(x => x.Shelter).HasForeignKey(x=>x.ShelterId);        
+        builder.HasMany(x => x.Workers).WithOne(x => x.Shelter).HasForeignKey(x=>x.ShelterId);        
+        builder.HasMany(x => x.ShelterPets).WithOne(x => x.Shelter).HasForeignKey(x=>x.ShelterId);
+        builder.HasOne(x => x.Volunteering).WithOne(x => x.Shelter);
         builder.Property(s => s.Version).IsConcurrencyToken();
         
         builder.ToTable("Shelters");

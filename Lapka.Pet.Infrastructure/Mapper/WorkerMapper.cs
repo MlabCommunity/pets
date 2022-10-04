@@ -13,7 +13,6 @@ internal static class WorkerMapper
             FirstName = worker.FirstName,
             LastName = worker.LastName,
             WorkerId = worker.WorkerId,
-            Status = worker.Status,
             CratedAt = worker.CreatedAt
         };
 }

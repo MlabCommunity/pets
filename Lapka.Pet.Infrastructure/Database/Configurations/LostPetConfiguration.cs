@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Lapka.Pet.Infrastructure.Database.Configurations;
 
-internal sealed class ostPetAdvertisementConfiguration : IEntityTypeConfiguration<LostPet>
+internal sealed class LostPetAdvertisementConfiguration : IEntityTypeConfiguration<LostPet>
 {
     public void Configure(EntityTypeBuilder<LostPet> builder)
     {
@@ -15,7 +15,7 @@ internal sealed class ostPetAdvertisementConfiguration : IEntityTypeConfiguratio
         builder.Property(s => s.DateOfDisappearance).HasConversion(id => id.Value, id => new DateOfDisappearance(id));
         builder.Property(s => s.PhoneNumber).HasConversion(num => num.Value, num => new PhoneNumber(num));
         builder.Property(s => s.FirstName).HasConversion(name => name.Value, name => new FirstName(name));
-
+        
         builder.ToTable("LostPet");
     }
 }

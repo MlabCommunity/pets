@@ -24,7 +24,7 @@ internal sealed class AddVolunteerCommandHandler : ICommandHandler<AddVolunteerC
             throw new ShelterNotFoundException();
         }
 
-        shelter.AddVolunteer(new Volunteer(command.PrincipalId));
+        shelter.AddVolunteer(command.PrincipalId);
         await _shelterRepository.UpdateAsync(shelter);
     }
 }

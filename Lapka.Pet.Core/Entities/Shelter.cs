@@ -45,10 +45,10 @@ public class Shelter : AggregateRoot<ShelterId>
         PhoneNumber = phoneNumber;
         ProfilePhoto = null;
         OrganizationName = organizationName;
-        Localization = new Localization(longitude, latitude);
+        Localization = new Localization(longitude, latitude,id);
         Krs = krs;
         Nip = nip;
-        Volunteering = new Volunteering(false, "", "", false, "", false, "");
+        Volunteering = new Volunteering(false, "", "", false, "", false, "", this);
     }
 
     public static Shelter Create(ShelterId Id, Email email, FirstName firstName, LastName lastName,
@@ -103,21 +103,25 @@ public class Shelter : AggregateRoot<ShelterId>
         return pet;
     }
 
-    public void AddWorker(Worker worker)
+    public void AddWorker(WorkerId workerId, Email email, FirstName firstName, LastName lastName)
     {
-        var exists = Workers.Any(x => x.WorkerId == worker.WorkerId);
+        var exists = Workers.Any(x => x.WorkerId == workerId);
 
         if (exists)
         {
             throw new WorkerAlreadyExistsException();
         }
 
-        Workers.Add(worker);
+        Workers.Add(new Worker(workerId, email, firstName, lastName, this));
     }
 
-    public void UpdateVolunteering(Volunteering volunteering)
+    public void UpdateVolunteering(bool isDonationActive, string bankAccountNumber,
+        string donationDescription, bool isDailyHelpActive, string dailyHelpDescription,
+        bool isTakingDogsOutActive, string takingDogsOutDescription)
     {
-        Volunteering = volunteering;
+        Volunteering = new Volunteering(isDonationActive, bankAccountNumber, donationDescription,
+            isDailyHelpActive, dailyHelpDescription, isTakingDogsOutActive,
+            takingDogsOutDescription, this);
     }
 
     private Worker GetWorker(WorkerId workerId)
@@ -136,7 +140,7 @@ public class Shelter : AggregateRoot<ShelterId>
         Krs krs,
         Nip nip)
     {
-        Localization = new Localization(longitude, latitude);
+        Localization = new Localization(longitude, latitude,Id);
         OrganizationName = organizationName;
         Krs = krs;
         Nip = nip;
@@ -160,16 +164,16 @@ public class Shelter : AggregateRoot<ShelterId>
         Workers.Remove(worker);
     }
 
-    public void AddVolunteer(Volunteer volunteer)
+    public void AddVolunteer(UserId userId)
     {
-        var exists = Volunteers.Any(x => x.UserId == volunteer.UserId);
+        var exists = Volunteers.Any(x => x.UserId == userId);
 
         if (exists)
         {
             throw new VolunteerAlreadyExistsException();
         }
 
-        Volunteers.Add(volunteer);
+        Volunteers.Add(new Volunteer(userId, this));
     }
 
     public void RemoveVolunteer(UserId volunteerId)
@@ -194,6 +198,6 @@ public class Shelter : AggregateRoot<ShelterId>
     public void ArchivePet(Guid petId)
     {
         RemovePet(petId);
-        _archives.Add(new Archive(petId));
+        _archives.Add(new Archive(petId, this));
     }
 }

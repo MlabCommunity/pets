@@ -10,6 +10,7 @@ internal sealed class PhotoConfiguration : IEntityTypeConfiguration<Photo>
     {
         builder.Property<Guid>("Id");
 
+        builder.Property(x => x.PetId).HasConversion(x => x.Value, x => new PetId(x));
         builder.Property(s => s.Link).HasConversion(x => x.Value, x => new PhotoLink(x));
     }
 }

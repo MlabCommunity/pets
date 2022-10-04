@@ -24,9 +24,9 @@ internal sealed class UpdateVolunteeringCommandHandler : ICommandHandler<UpdateV
             throw new ShelterNotFoundException();
         }
 
-        shelter.UpdateVolunteering(new Volunteering(command.IsDonationActive, command.BankAccountNumber,
+        shelter.UpdateVolunteering(command.IsDonationActive, command.BankAccountNumber,
             command.DonationDescription, command.IsDailyHelpActive, command.DailyHelpDescription,
-            command.IsTakingDogsOutActive, command.TakingDogsOutDescription));
+            command.IsTakingDogsOutActive, command.TakingDogsOutDescription);
 
         await _shelterRepository.UpdateAsync(shelter);
     }

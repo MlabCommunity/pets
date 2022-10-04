@@ -14,6 +14,8 @@ using Lapka.Pet.Infrastructure.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddDomainEvents();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers()
@@ -21,8 +23,6 @@ builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
     .AddFluentValidation(opt => { opt.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); });
 
-
-builder.Services.AddDomainEvents();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
 builder.Services.AddSwaggerGen();

@@ -12,5 +12,6 @@ internal sealed class VolunteerConfiguration : IEntityTypeConfiguration<Voluntee
         builder.Property<Guid>("Id");
 
         builder.Property(s => s.UserId).HasConversion(entityId => entityId.Value, entityId => new UserId(entityId));
+        builder.Property(x => x.ShelterId).HasConversion(x => x.Value, x => new ShelterId(x));
     }
 }

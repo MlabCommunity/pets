@@ -10,7 +10,9 @@ public class ShelterPet : Pet
     public OrganizationName OrganizationName { get; private set; }
     public bool IsVisible { get; private set; }
     public Localization Localization { get; private set; }
-
+    public Shelter Shelter { get; }
+    public ShelterId ShelterId { get; }
+    
     protected ShelterPet()
     {
     }
@@ -18,13 +20,15 @@ public class ShelterPet : Pet
     public ShelterPet(OwnerId ownerId, ProfilePhoto profilePhoto, PetType type, PetName name, Gender gender,
         DateOfBirth dateOfBirth, bool isSterilized, Weight weight, string description,
         OrganizationName organizationName, bool isVisible, Longitude longitude, Latitude latitude,
-        ICollection<string> photos) : base(ownerId,
+        ICollection<string> photos,Shelter shelter) : base(ownerId,
         profilePhoto, type, name, gender, dateOfBirth, isSterilized, weight, photos)
     {
         Description = description;
         OrganizationName = organizationName;
         IsVisible = isVisible;
-        Localization = new Localization(longitude, latitude);
+        Localization = new Localization(longitude, latitude,Id);
+        Shelter = shelter;
+        ShelterId = shelter.Id;
     }
 
     public void Publish()
@@ -46,6 +50,6 @@ public class ShelterPet : Pet
     public void UpdateShelterDetails(OrganizationName organizationName, double longitude, double latitude)
     {
         OrganizationName = organizationName;
-        Localization = new Localization(longitude, latitude);
+        Localization = new Localization(longitude, latitude,Id);
     }
 }
