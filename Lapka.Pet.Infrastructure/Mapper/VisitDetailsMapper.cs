@@ -10,7 +10,7 @@ public static class VisitDetailsMapper
         {
             VisitId = visit.VisitId,
             Description = visit.Description,
-            HasTookPlace = visit.HasTookPlace,
+            HasTookPlace = visit.HasTookPlace == null ? false : visit.HasTookPlace.Value,
             WeightOnVisit = visit.WeightOnVisit,
             DateOfVisit = visit.DateOfVisit,
             VisitType = visit.VisitTypes

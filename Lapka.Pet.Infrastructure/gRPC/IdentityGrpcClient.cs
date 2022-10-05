@@ -31,8 +31,7 @@ internal sealed class IdentityGrpcClient : IIdentityGrpcClient
             WorkerId = Guid.Parse(result.UserId)
         };
     }
-
-
+    
     public async Task RemoveWorkerRole(Guid userId)
     {
         _client.RemoveWorkerRole(new RemoveWorkerRoleRequest()
