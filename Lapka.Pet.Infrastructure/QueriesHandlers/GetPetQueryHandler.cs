@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 
-internal sealed class GetPetQueryHandler : IQueryHandler<GetPetQuery, PetDto>
+internal sealed class GetPetQueryHandler : IQueryHandler<GetPetQuery, PetDetailsDto>
 {
     private readonly DbSet<Core.Entities.Pet> _pets;
 
@@ -16,11 +16,11 @@ internal sealed class GetPetQueryHandler : IQueryHandler<GetPetQuery, PetDto>
         _pets = context.Pets;
     }
 
-    public async Task<PetDto> HandleAsync(GetPetQuery query,
+    public async Task<PetDetailsDto> HandleAsync(GetPetQuery query,
         CancellationToken cancellationToken = new CancellationToken())
         => await _pets
             .Where(p => p.Id == query.PetId)
             .Include(x => x.Photos)
-            .Select(x => x.AsDto())
+            .Select(x => x.AsDetailsDto())
             .FirstOrDefaultAsync();
 }

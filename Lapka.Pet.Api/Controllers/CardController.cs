@@ -98,7 +98,7 @@ public class CardController : BaseController
     [SwaggerOperation(summary: "Gets card")]
     [SwaggerResponse(200, "Card found")]
     [SwaggerResponse(404, "Card not found")]
-    public async Task<ActionResult<PetDto>> GetPet(Guid petId)
+    public async Task<ActionResult<PetDetailsDto>> GetPet(Guid petId)
     {
         var query = new GetPetQuery(petId);
         var result = await _queryDispatcher.QueryAsync(query);

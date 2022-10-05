@@ -47,7 +47,7 @@ public class ShelterPet : Pet
         base.Update(petName, isSterilized, weight);
     }
 
-    public void UpdateShelterDetails(OrganizationName organizationName, double longitude, double latitude)
+    internal void UpdateShelterDetails(OrganizationName organizationName, double longitude, double latitude)
     {
         OrganizationName = organizationName;
         Localization = new Localization(longitude, latitude,Id);
