@@ -27,19 +27,20 @@ internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery
             .Select(x => x.Visits
                 .Where(x => x.DateOfVisit > DateTime.UtcNow)
                 .OrderBy(x => x.DateOfVisit)
-                .Select(x => x.AsVisitDto())
+                .Select(x => x.AsIncomingVisitDto())
                 .Skip(query.IncomingVisitPageSize * (query.IncomingVisitPageNumber - 1))
                 .Take(query.IncomingVisitPageSize)
                 .ToList())
             .FirstOrDefaultAsync();
 
-        var incomingVisitCount = await _pets.Include(x => x.Visits)
+        var incomingVisitCount = await _pets
             .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
+            .Include(x => x.Visits)
             .Select(x => x.Visits
                 .Where(x => x.DateOfVisit > DateTime.UtcNow)
                 .Count())
             .FirstOrDefaultAsync();
-
+        
         var lastVisits = await _pets
             .AsNoTracking()
             .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
@@ -48,20 +49,20 @@ internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery
             .Select(x => x.Visits
                 .Where(x => x.DateOfVisit < DateTime.UtcNow)
                 .OrderByDescending(x => x.DateOfVisit)
-                .Select(x => x.AsVisitDto())
+                .Select(x => x.AsLastVisitDto())
                 .Skip(query.LastVisitPageSize * (query.LastVisitPageNumber - 1))
                 .Take(query.LastVisitPageSize)
                 .ToList())
             .FirstOrDefaultAsync();
-
+        
         var lastVisitCount = await _pets
-            .Include(x => x.Visits)
             .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
+            .Include(x => x.Visits)
             .Select(x => x.Visits
-                .Where(x => x.DateOfVisit > DateTime.UtcNow)
+                .Where(x => x.DateOfVisit < DateTime.UtcNow)
                 .Count())
             .FirstOrDefaultAsync();
-
+        
         return new VisitResponseDto
         {
             LastVisits = new Application.Dto.PagedResult<VisitDto>(lastVisits, lastVisitCount, query.LastVisitPageSize,
