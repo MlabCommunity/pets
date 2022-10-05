@@ -17,7 +17,7 @@ internal static class VisitMapper
     public static VisitDto AsIncomingVisitDto(this Visit visit)
         => new()
         {
-            HasTookPlace = null,
+            HasTookPlace = false,
             VisitId = visit.VisitId,
             Description = visit.Description,
             DateOfVisit = visit.DateOfVisit,
