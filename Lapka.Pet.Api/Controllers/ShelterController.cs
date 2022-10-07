@@ -329,9 +329,9 @@ public class ShelterController : BaseController
     [HttpGet("workers")]
     [SwaggerOperation(summary: "Gets shelter's workers")]
     [SwaggerResponse(200, "workers found or returns empty list", typeof(List<WorkerDto>))]
-    public async Task<ActionResult<List<WorkerDto>>> GetWorkers()
+    public async Task<ActionResult<Application.Dto.PagedResult<WorkerDto>>> GetWorkers()
     {
-        var query = new GetWorkersQuery(GetPrincipalId());
+        var query = new GetAllWorkersQuery(GetPrincipalId());
 
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);

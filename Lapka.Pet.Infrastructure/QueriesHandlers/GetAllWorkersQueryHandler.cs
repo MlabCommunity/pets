@@ -8,20 +8,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 
-internal sealed class GetWorkersQueryHandler : IQueryHandler<GetWorkersQuery, List<WorkerDto>>
+internal sealed class GetAllWorkersQueryHandler : IQueryHandler<GetAllWorkersQuery, Application.Dto.PagedResult<WorkerDto>>
 {
     private readonly DbSet<Shelter> _shelters;
 
-    public GetWorkersQueryHandler(AppDbContext context)
+    public GetAllWorkersQueryHandler(AppDbContext context)
     {
         _shelters = context.Shelters;
     }
 
-    public async Task<List<WorkerDto>> HandleAsync(GetWorkersQuery query,
+    public async Task<Application.Dto.PagedResult<WorkerDto>> HandleAsync(GetAllWorkersQuery query,
         CancellationToken cancellationToken = new CancellationToken())
-        => await _shelters
+    {
+       var workers =  await _shelters
             .Include(x => x.Workers)
             .Where(x => x.Id == query.PrincipalId)
-            .Select(x => x.Workers.Select(x => x.AsDto()).ToList())
+            .Select(x => x.Workers
+                .Select(x => x.AsDto())
+                .ToList())
             .FirstOrDefaultAsync();
+
+       var count = workers.Count();
+
+       return new Application.Dto.PagedResult<WorkerDto>(workers, count, query.PageSize, query.PageNumber);
+    } 
 }
