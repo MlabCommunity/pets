@@ -1,6 +1,4 @@
-﻿using Lapka.Pet.Core.Exceptions;
-
-namespace Lapka.Pet.Core.ValueObjects;
+﻿namespace Lapka.Pet.Core.Exceptions;
 
 internal class InvalidLongitudeValueException : DomainException
 {

@@ -16,7 +16,7 @@ internal sealed class GetAllWorkersQueryHandler : IQueryHandler<GetAllWorkersQue
     {
         _shelters = context.Shelters;
     }
-
+    
     public async Task<Application.Dto.PagedResult<WorkerDto>> HandleAsync(GetAllWorkersQuery query,
         CancellationToken cancellationToken = new CancellationToken())
     {

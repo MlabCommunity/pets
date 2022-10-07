@@ -1,4 +1,4 @@
-namespace Lapka.Pet.Core.DomainThings;
+namespace Lapka.Pet.Core.Kernel.Types;
 
 public abstract class TypeId : IEquatable<TypeId>
 {

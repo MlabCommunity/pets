@@ -1,4 +1,4 @@
-using Lapka.Pet.Core.DomainThings;
+using Lapka.Pet.Core.Kernel.Types;
 
 namespace Lapka.Pet.Core.ValueObjects;
 

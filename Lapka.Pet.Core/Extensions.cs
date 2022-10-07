@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Lapka.Pet.Core.Kernel;
+using Lapka.Pet.Core.Kernel.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 
-namespace Lapka.Pet.Core.DomainThings.Kernel;
+namespace Lapka.Pet.Core;
 
 public static class Extensions
 {

@@ -1,4 +1,4 @@
-﻿using Lapka.Pet.Core.DomainThings;
+﻿using Lapka.Pet.Core.Kernel.Abstractions;
 
 namespace Lapka.Pet.Core.Events;
 

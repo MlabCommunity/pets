@@ -1,6 +1,6 @@
 ﻿using Lapka.Pet.Core.ValueObjects;
 
-namespace Lapka.Pet.Core.Extensions;
+namespace Lapka.Pet.Infrastructure.Mapper.Extensions;
 
 public static class DateOfBirthExtension
 {

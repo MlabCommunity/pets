@@ -1,4 +1,4 @@
-namespace Lapka.Pet.Core.DomainThings;
+namespace Lapka.Pet.Core.Kernel.Types;
 
 public class AggregateId<T> : IEquatable<AggregateId<T>>
 {

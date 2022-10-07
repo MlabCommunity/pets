@@ -1,6 +1,6 @@
 using Lapka.Pet.Core.Exceptions;
 
-namespace Lapka.Pet.Core.DomainThings;
+namespace Lapka.Pet.Core.Kernel.Types;
 
 public abstract class TypeName : IEquatable<TypeName>
 {

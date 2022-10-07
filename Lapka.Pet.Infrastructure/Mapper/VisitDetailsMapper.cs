@@ -13,6 +13,6 @@ public static class VisitDetailsMapper
             HasTookPlace = visit.HasTookPlace == null ? false : visit.HasTookPlace.Value,
             WeightOnVisit = visit.WeightOnVisit,
             DateOfVisit = visit.DateOfVisit,
-            VisitType = visit.VisitTypes
+            VisitType = visit.VisitTypes.Select(x=>x.Type).ToList() 
         };
 }
