@@ -138,9 +138,9 @@ public class CardController : BaseController
     [SwaggerOperation(summary: "Gets visit by petId")]
     [SwaggerResponse(200, "Returns visit")]
     [SwaggerResponse(404, "If visit or pet not found")]
-    public async Task<ActionResult<VisitDetailsDto>> GetVisit([FromRoute] Guid visitId, [FromRoute] Guid petId)
+    public async Task<ActionResult<VisitDetailsDto>> GetVisit([FromRoute] Guid visitId)
     {
-        var query = new GetVisitQuery(petId, visitId, GetPrincipalId());
+        var query = new GetVisitQuery(visitId, GetPrincipalId());
         var result = await _queryDispatcher.QueryAsync(query);
 
         return OkOrNotFound(result);
@@ -157,7 +157,6 @@ public class CardController : BaseController
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-
 
     [Authorize]
     [HttpPost("visits/{petId:guid}")]

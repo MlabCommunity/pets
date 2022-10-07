@@ -3,4 +3,4 @@ using Lapka.Pet.Application.Dto;
 
 namespace Lapka.Pet.Application.Queries;
 
-public record GetVisitQuery(Guid PetId, Guid VisitId, Guid PrincipalId) : IQuery<VisitDetailsDto>;
+public record GetVisitQuery(Guid VisitId, Guid PrincipalId) : IQuery<VisitDetailsDto>;
