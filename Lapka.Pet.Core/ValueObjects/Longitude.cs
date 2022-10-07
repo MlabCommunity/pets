@@ -1,4 +1,6 @@
-﻿namespace Lapka.Pet.Core.ValueObjects;
+﻿using Lapka.Pet.Core.Exceptions;
+
+namespace Lapka.Pet.Core.ValueObjects;
 
 public record Longitude
 {

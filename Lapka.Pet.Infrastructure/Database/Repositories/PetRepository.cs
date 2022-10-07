@@ -1,4 +1,3 @@
-using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
 using Lapka.Pet.Infrastructure.Database.Contexts;

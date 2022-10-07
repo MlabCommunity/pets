@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.ObjectModel;
-using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Events;
 using Lapka.Pet.Core.Exceptions;
+using Lapka.Pet.Core.Kernel.Types;
 using Lapka.Pet.Core.ValueObjects;
 using Microsoft.VisualBasic;
 

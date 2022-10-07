@@ -1,4 +1,4 @@
-﻿namespace Lapka.Pet.Core.DomainThings;
+﻿namespace Lapka.Pet.Core.Kernel.Abstractions;
 
 public interface IDomainEventHandler<in TEvent> where TEvent : class, IDomainEvent
 {

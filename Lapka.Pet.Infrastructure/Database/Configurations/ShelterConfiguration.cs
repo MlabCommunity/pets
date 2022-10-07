@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Lapka.Pet.Application.Dto;
-using Lapka.Pet.Core.DomainThings;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.ValueObjects;
 using Microsoft.EntityFrameworkCore;

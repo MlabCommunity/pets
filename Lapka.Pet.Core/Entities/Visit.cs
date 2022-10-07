@@ -1,5 +1,5 @@
 using Lapka.Pet.Core.Consts;
-using Lapka.Pet.Core.DomainThings;
+using Lapka.Pet.Core.Kernel.Types;
 using Lapka.Pet.Core.ValueObjects;
 
 namespace Lapka.Pet.Core.Entities;

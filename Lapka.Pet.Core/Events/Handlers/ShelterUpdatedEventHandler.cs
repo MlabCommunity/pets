@@ -1,8 +1,7 @@
-using Lapka.Pet.Core.DomainThings;
-using Lapka.Pet.Core.Events;
+using Lapka.Pet.Core.Kernel.Abstractions;
 using Lapka.Pet.Core.Repositories;
 
-namespace Lapka.Pet.Application.DomainEvents.Handlers;
+namespace Lapka.Pet.Core.Events.Handlers;
 
 internal sealed class ShelterUpdatedEventHandler : IDomainEventHandler<ShelterUpdatedEvent>
 {

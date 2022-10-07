@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Lapka.Pet.Core.Kernel.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Lapka.Pet.Core.DomainThings.Kernel;
+namespace Lapka.Pet.Core.Kernel;
 
 internal sealed class DomainEventDispatcher : IDomainEventDispatcher
 {

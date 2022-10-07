@@ -1,6 +1,6 @@
 using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
-using Lapka.Pet.Core.DomainThings;
+using Lapka.Pet.Core.Kernel.Abstractions;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
 

@@ -7,7 +7,7 @@ using FluentValidation.AspNetCore;
 using Lapka.Pet.Api.Grpc;
 using Lapka.Pet.Application;
 using Lapka.Pet.Application.IntegrationEvents;
-using Lapka.Pet.Core.DomainThings.Kernel;
+using Lapka.Pet.Core;
 using Lapka.Pet.Infrastructure;
 using Lapka.Pet.Infrastructure.gRPC;
 using Lapka.Pet.Infrastructure.Jwt;
