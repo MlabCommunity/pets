@@ -12,5 +12,5 @@ public class ShelterPetAdvertisementDto
     public Gender Gender { get; set; }
     public string ProfilePhoto { get; set; }
     public double Distance { get; set; }
-    public LocalizationDto Localization { get; set; }
+    public string City { get; set; }
 }

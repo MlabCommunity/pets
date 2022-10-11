@@ -1,5 +1,6 @@
 using System.Text.Json;
 using FluentValidation;
+using Grpc.Core;
 using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
@@ -30,6 +31,14 @@ internal sealed class ExceptionMiddleware : IMiddleware
 
             var errorCode = 400;
             var json = JsonSerializer.Serialize(new { ErrorCode = errorCode, ex.Message });
+            await context.Response.WriteAsync(json);
+        }
+        catch (RpcException ex) when (ex.StatusCode == StatusCode.NotFound)
+        {
+            context.Response.StatusCode = 404;
+            context.Response.Headers.Add("content-type", "application/json");
+
+            var json = JsonSerializer.Serialize(new { ErrorCode = 404, ex.Status.Detail });
             await context.Response.WriteAsync(json);
         }
         catch (ValidationException vex)

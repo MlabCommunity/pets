@@ -7,4 +7,5 @@ public class ShelterPetAdvertisementDetailsDto : ShelterPetAdvertisementDto
     public List<string> Photos { get; set; }
     public bool IsLiked { get; set; }
     public string Description { get; set; }
+    public string Street { get; set; }
 }

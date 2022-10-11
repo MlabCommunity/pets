@@ -27,6 +27,7 @@ internal static class ShelterMapper
             LastName = shelter.LastName,
             PhoneNumber = shelter.PhoneNumber,
             Distance = shelter.Localization.CalculateDistance(longitude, latitude),
-            Localization = shelter.Localization.AsDto()
+            City = shelter.City,
+            Street = shelter.Street
         };
 }

@@ -34,7 +34,7 @@ public class AdvertisementController : BaseController
     {
         var query = new GetAllShelterAdvertisementQuery(
             string.IsNullOrWhiteSpace(User.FindFirstValue(ClaimTypes.NameIdentifier)) ? Guid.Empty : GetPrincipalId(),
-            type, gender, longitude, latitude, pageNumber, pageSize); //TODO da sie to jakos sensownie ograc?
+            type, gender, longitude, latitude, pageNumber, pageSize);
 
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
@@ -86,7 +86,8 @@ public class AdvertisementController : BaseController
             request.IsSterilized,
             request.Weight, request.DogColor, request.DogBreed, request.Photos, request.Description, request.FirstName,
             request.PhoneNumber,
-            request.IsVisible, request.DateOfDisappearance, request.Longitude, request.Latitude);
+            request.IsVisible, request.DateOfDisappearance, request.Longitude, request.Latitude, request.City,
+            request.Street, request.ZipCode);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
@@ -104,7 +105,7 @@ public class AdvertisementController : BaseController
             request.IsSterilized, request.Weight, request.CatColor, request.CatBreed, request.Photos,
             request.Description,
             request.FirstName, request.PhoneNumber, request.IsVisible, request.DateOfDisappearance, request.Longitude,
-            request.Latitude);
+            request.Latitude, request.City, request.Street, request.ZipCode);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();
@@ -121,7 +122,7 @@ public class AdvertisementController : BaseController
             request.Gender, request.DateOfBirth,
             request.IsSterilized, request.Weight, request.Photos, request.Description,
             request.FirstName, request.PhoneNumber, request.IsVisible, request.DateOfDisappearance, request.Longitude,
-            request.Latitude);
+            request.Latitude, request.City, request.Street, request.ZipCode);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();

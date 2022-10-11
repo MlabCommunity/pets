@@ -11,7 +11,7 @@ internal sealed class UpdateShelterCommandHandler : ICommandHandler<UpdateShelte
     private readonly IShelterRepository _shelterRepository;
     private readonly IDomainEventDispatcher _eventDispatcher;
 
-    public UpdateShelterCommandHandler(IShelterRepository shelterRepository,IDomainEventDispatcher eventDispatcher)
+    public UpdateShelterCommandHandler(IShelterRepository shelterRepository, IDomainEventDispatcher eventDispatcher)
     {
         _eventDispatcher = eventDispatcher;
         _shelterRepository = shelterRepository;
@@ -27,9 +27,10 @@ internal sealed class UpdateShelterCommandHandler : ICommandHandler<UpdateShelte
             throw new ShelterNotFoundException();
         }
 
-        shelter.Update(command.OrganizationName, command.Longitude, command.Latitude, command.PhoneNumber, command.Krs,
+        shelter.Update(command.OrganizationName, command.Longitude, command.Latitude, command.City, command.Street,
+            command.ZipCode, command.PhoneNumber, command.Krs,
             command.Nip);
-        
+
         await _eventDispatcher.DispatchAsync(shelter.Events.ToArray());
 
         await _shelterRepository.UpdateAsync(shelter);

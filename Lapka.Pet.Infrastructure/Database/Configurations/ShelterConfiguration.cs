@@ -23,6 +23,7 @@ internal sealed class ShelterConfiguration : IEntityTypeConfiguration<Shelter>
         builder.Property(s => s.FirstName).HasConversion(x => x.Value, x => new FirstName(x));
         builder.Property(s => s.LastName).HasConversion(x => x.Value, x => new LastName(x));
         builder.Property(s => s.PhoneNumber).HasConversion(x => x.Value, x => new PhoneNumber(x));
+        builder.Property(s => s.ZipCode).HasConversion(x => x.Value, x => new ZipCode(x));
 
         builder.HasMany(x => x.Archives).WithOne(x => x.Shelter).HasForeignKey(x=>x.ShelterId);        
         builder.HasMany(x => x.Volunteers).WithOne(x => x.Shelter).HasForeignKey(x=>x.ShelterId);        

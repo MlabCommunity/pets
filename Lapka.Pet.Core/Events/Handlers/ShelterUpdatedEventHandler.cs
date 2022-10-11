@@ -23,7 +23,7 @@ internal sealed class ShelterUpdatedEventHandler : IDomainEventHandler<ShelterUp
 
         foreach (var pet in shelter.ShelterPets)
         {
-            pet.UpdateShelterDetails(@event.OrganizationName, @event.Longitude, @event.Latitude);
+            pet.UpdateShelterDetails(@event.OrganizationName, @event.Longitude, @event.Latitude,@event.City,@event.Street,@event.ZipCode);
         }
         
         await _shelterRepository.UpdateAsync(shelter);

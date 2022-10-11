@@ -21,6 +21,7 @@ internal static class LostPetAdvertisementDetailsMapper
                     Age = cat.DateOfBirth.CalculateAgeInMonths(),
                     Gender = cat.Gender,
                     PetId = cat.Id,
+                    DateOfDisappearance = cat.DateOfDisappearance,
                     ProfilePhoto = cat.ProfilePhoto,
                     Photos = cat.Photos.Select(x => x.Link.Value).ToList(),
                     Name = cat.Name,
@@ -31,7 +32,8 @@ internal static class LostPetAdvertisementDetailsMapper
                     PhoneNumber = cat.PhoneNumber,
                     FirstName = cat.FirstName,
                     Distance = cat.Localization.CalculateDistance(longitude, latitude),
-                    Localization = cat.Localization.AsDto()
+                    City = cat.City,
+                    Street = cat.Street
                 };
             }
 
@@ -41,6 +43,7 @@ internal static class LostPetAdvertisementDetailsMapper
                 return new LostDogAdvertisementDetailsDto
                 {
                     Age = dog.DateOfBirth.CalculateAgeInMonths(),
+                    DateOfDisappearance = dog.DateOfDisappearance,
                     Gender = dog.Gender,
                     PetId = dog.Id,
                     ProfilePhoto = dog.ProfilePhoto,
@@ -53,7 +56,8 @@ internal static class LostPetAdvertisementDetailsMapper
                     FirstName = dog.FirstName,
                     Weight = dog.Weight,
                     Distance = dog.Localization.CalculateDistance(longitude, latitude),
-                    Localization = dog.Localization.AsDto()
+                    City = dog.City,
+                    Street = dog.Street
                 };
             }
 
@@ -63,6 +67,7 @@ internal static class LostPetAdvertisementDetailsMapper
                 {
                     Age = pet.DateOfBirth.CalculateAgeInMonths(),
                     Gender = pet.Gender,
+                    DateOfDisappearance = pet.DateOfDisappearance,
                     PetId = pet.Id,
                     ProfilePhoto = pet.ProfilePhoto,
                     Photos = pet.Photos.Select(x => x.Link.Value).ToList(),
@@ -72,7 +77,8 @@ internal static class LostPetAdvertisementDetailsMapper
                     FirstName = pet.FirstName,
                     Weight = pet.Weight,
                     Distance = pet.Localization.CalculateDistance(longitude, latitude),
-                    Localization = pet.Localization.AsDto()
+                    City = pet.City,
+                    Street = pet.Street
                 };
             }
         }

@@ -26,7 +26,7 @@ internal static class ShelterAdvertisementMapper
                     ProfilePhoto = cat.ProfilePhoto,
                     IsLiked = cat.IsLiked(principalId),
                     Distance = cat.Localization.CalculateDistance(longitude, latitude),
-                    Localization = cat.Localization.AsDto(),
+                    City = cat.City,
                     Breed = cat.Breed,
                 };
             }
@@ -44,7 +44,7 @@ internal static class ShelterAdvertisementMapper
                     ProfilePhoto = dog.ProfilePhoto,
                     IsLiked = dog.IsLiked(principalId),
                     Distance = dog.Localization.CalculateDistance(longitude, latitude),
-                    Localization = dog.Localization.AsDto(),
+                    City = dog.City,
                     Breed = dog.DogBreed,
                 };
             }
@@ -60,7 +60,7 @@ internal static class ShelterAdvertisementMapper
                     Gender = pet.Gender,
                     IsLiked = pet.IsLiked(principalId),
                     Distance = pet.Localization.CalculateDistance(longitude, latitude),
-                    Localization = pet.Localization.AsDto(),
+                    City = pet.City,
                     ProfilePhoto = pet.ProfilePhoto,
                 };
             }
@@ -84,7 +84,7 @@ internal static class ShelterAdvertisementMapper
                     ProfilePhoto = cat.ProfilePhoto,
                     IsLiked = true,
                     Distance = cat.Localization.CalculateDistance(longitude, latitude),
-                    Localization = cat.Localization.AsDto(),
+                    City = cat.City,
                     Breed = cat.Breed,
                 };
             }
@@ -102,7 +102,7 @@ internal static class ShelterAdvertisementMapper
                     ProfilePhoto = dog.ProfilePhoto,
                     IsLiked = true,
                     Distance = dog.Localization.CalculateDistance(longitude, latitude),
-                    Localization = dog.Localization.AsDto(),
+                    City = dog.City,
                     Breed = dog.DogBreed,
                 };
             }
@@ -118,7 +118,7 @@ internal static class ShelterAdvertisementMapper
                     Gender = pet.Gender,
                     IsLiked = true,
                     Distance = pet.Localization.CalculateDistance(longitude, latitude),
-                    Localization = pet.Localization.AsDto(),
+                    City = pet.City,
                     ProfilePhoto = pet.ProfilePhoto,
                 };
             }

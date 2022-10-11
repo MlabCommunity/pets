@@ -22,6 +22,9 @@ public class Shelter : AggregateRoot<ShelterId>
     public PhoneNumber PhoneNumber { get; private set; }
     public Krs Krs { get; private set; }
     public Nip Nip { get; private set; }
+    public string City { get; private set; }
+    public string Street { get; private set; }
+    public ZipCode ZipCode { get; private set; }
     public FirstName FirstName { get; private set; }
     public LastName LastName { get; private set; }
     public Volunteering Volunteering { get; private set; }
@@ -35,7 +38,7 @@ public class Shelter : AggregateRoot<ShelterId>
     }
 
     internal Shelter(ShelterId id, Email email, FirstName firstName, LastName lastName, PhoneNumber phoneNumber,
-        OrganizationName organizationName, double longitude, double latitude,
+        OrganizationName organizationName, double longitude, double latitude,string street,string city,ZipCode zipCode,
         Krs krs, Nip nip)
     {
         Id = id;
@@ -46,16 +49,19 @@ public class Shelter : AggregateRoot<ShelterId>
         ProfilePhoto = null;
         OrganizationName = organizationName;
         Localization = new Localization(longitude, latitude,id);
+        City = city;
+        Street = street;
+        ZipCode = zipCode;
         Krs = krs;
         Nip = nip;
         Volunteering = new Volunteering(false, "", "", false, "", false, "", this);
     }
 
     public static Shelter Create(ShelterId Id, Email email, FirstName firstName, LastName lastName,
-        PhoneNumber phoneNumber, double longitude, double latitude,
+        PhoneNumber phoneNumber, double longitude, double latitude,string street,string city,ZipCode zipCode,
         OrganizationName organizationName, Krs krs, Nip nip)
     {
-        var shelter = new Shelter(Id, email, firstName, lastName, phoneNumber, organizationName, longitude, latitude,
+        var shelter = new Shelter(Id, email, firstName, lastName, phoneNumber, organizationName, longitude, latitude, street,city,zipCode,
             krs, nip);
         return shelter;
     }
@@ -136,7 +142,7 @@ public class Shelter : AggregateRoot<ShelterId>
         return worker;
     }
 
-    public void Update(OrganizationName organizationName, double longitude, double latitude, PhoneNumber phoneNumber,
+    public void Update(OrganizationName organizationName, double longitude, double latitude,string city,string street,string zipCode, PhoneNumber phoneNumber,
         Krs krs,
         Nip nip)
     {
@@ -145,8 +151,11 @@ public class Shelter : AggregateRoot<ShelterId>
         Krs = krs;
         Nip = nip;
         PhoneNumber = phoneNumber;
+        Street = street;
+        City = city;
+        ZipCode = zipCode;
 
-        AddEvent(new ShelterUpdatedEvent(Id, organizationName, longitude, latitude, krs, nip));
+        AddEvent(new ShelterUpdatedEvent(Id, organizationName, longitude, latitude,city,street,zipCode, krs, nip));
     }
 
     public void Update(Email email, FirstName firstName, LastName lastName, ProfilePhoto profilePhoto)

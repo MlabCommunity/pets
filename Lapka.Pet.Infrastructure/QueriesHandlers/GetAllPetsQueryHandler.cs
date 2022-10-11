@@ -19,7 +19,6 @@ internal sealed class GetAllPetsQueryHandler : Convey.CQRS.Queries.IQueryHandler
         CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _pets
-            .Include(x => x.Photos)
             .Where(x => x.OwnerId == query.PrincipalId)
             .Skip(query.PageSize * (query.PageNumber - 1))
             .Take(query.PageSize)
