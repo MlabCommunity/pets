@@ -19,7 +19,7 @@ public class ShelterGrpcController : PetService.PetServiceBase
         var command = new CreateShelterCommand(Guid.Parse(request.UserId), request.Email, request.FirstName,
             request.LastName, request.PhoneNumber, request.OrganizationName,
             request.Longitude,
-            request.Latitude, request.Nip, request.Krs);
+            request.Latitude, request.Street,request.City,request.ZipCode,request.Nip, request.Krs);
 
         await _commandDispatcher.SendAsync(command);
 

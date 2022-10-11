@@ -25,7 +25,6 @@ internal sealed class
         CancellationToken cancellationToken = new CancellationToken())
     {
         var pets = await _shelterPets
-            .Include(x => x.Photos)
             .Include(x => x.Localization)
             .Include(x => x.Likes)
             .Where(x => x.IsVisible == true && x.Likes.Any(x => x.UserId == query.PrincipalId) &&

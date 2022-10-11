@@ -32,7 +32,8 @@ internal static class ShelterAdvertisementDetailsMapper
                     Description = cat.Description,
                     IsLiked = cat.IsLiked(principalId),
                     Distance = cat.Localization.CalculateDistance(longitude, latitude),
-                    Localization = cat.Localization.AsDto()
+                    City = cat.City,
+                    Street = cat.Street
                 };
             }
 
@@ -55,7 +56,8 @@ internal static class ShelterAdvertisementDetailsMapper
                     Weight = dog.Weight,
                     Description = dog.Description,
                     Distance = dog.Localization.CalculateDistance(longitude, latitude),
-                    Localization = dog.Localization.AsDto()
+                    City = dog.City,
+                    Street = dog.Street
                 };
             }
 
@@ -74,7 +76,8 @@ internal static class ShelterAdvertisementDetailsMapper
                     Photos = pet.Photos.Select(x => x.Link.Value).ToList(),
                     Description = pet.Description,
                     Distance = pet.Localization.CalculateDistance(longitude, latitude),
-                    Localization = pet.Localization.AsDto()
+                    City = pet.City,
+                    Street = pet.Street
                 };
             }
         }

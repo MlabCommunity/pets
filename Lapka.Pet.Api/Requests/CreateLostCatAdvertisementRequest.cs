@@ -6,4 +6,4 @@ public record CreateLostCatAdvertisementRequest(string Name, string ProfilePhoto
     bool IsSterilized,
     double Weight,
     CatColor CatColor, CatBreed CatBreed, ICollection<string> Photos, string Description, string FirstName,
-    string PhoneNumber, bool IsVisible, DateTime DateOfDisappearance, double Longitude, double Latitude);
+    string PhoneNumber, bool IsVisible, DateTime DateOfDisappearance, double Longitude, double Latitude,string City,string Street,string ZipCode);

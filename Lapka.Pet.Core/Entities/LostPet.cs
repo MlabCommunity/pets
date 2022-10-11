@@ -11,14 +11,17 @@ public class LostPet : Pet
     public bool IsVisible { get; private set; }
     public FirstName FirstName { get; private set; }
     public string Description { get; private set; }
-
+    public string Street { get; private set; }
+    public string City { get; private set; }
+    public ZipCode ZipCode { get; private set; }
+    
     protected LostPet()
     {
     }
 
     public LostPet(OwnerId ownerId, ProfilePhoto profilePhoto, PetType type, PetName name,
         Gender gender, DateOfBirth dateOfBirth, bool isSterilized, Weight weight,
-        DateOfDisappearance dateOfDisappearance, PhoneNumber phoneNumber, Longitude longitude, Latitude latitude,
+        DateOfDisappearance dateOfDisappearance, PhoneNumber phoneNumber, Longitude longitude, Latitude latitude,string street, string city, ZipCode zipCode,
         bool isVisible, FirstName firstName, string description, ICollection<string> photos) : base(ownerId,
         profilePhoto, type, name, gender,
         dateOfBirth, isSterilized, weight, photos)
@@ -26,6 +29,9 @@ public class LostPet : Pet
         DateOfDisappearance = dateOfDisappearance;
         PhoneNumber = phoneNumber;
         Localization = new Localization(longitude, latitude,Id);
+        Street = street;
+        City = city;
+        ZipCode = zipCode;
         IsVisible = isVisible;
         FirstName = firstName;
         Description = description;

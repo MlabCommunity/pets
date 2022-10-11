@@ -2,7 +2,7 @@
 
 public class ShelterDetailsDto : ShelterDto
 {
-    public LocalizationDto Localization { get; set; }
     public string Nip { get; set; }
     public string Krs { get; set; }
+    public string ZipCode { get; set; }
 }

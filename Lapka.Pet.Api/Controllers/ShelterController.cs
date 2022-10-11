@@ -28,7 +28,7 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> UpdateShelter([FromBody] UpdateShelterRequest request)
     {
-        var command = new UpdateShelterCommand(GetPrincipalId(), request.Longitude, request.Latitude,
+        var command = new UpdateShelterCommand(GetPrincipalId(), request.Longitude, request.Latitude,request.City,request.Street,request.ZipCode,
             request.PhoneNumber,
             request.OrganizationName, request.Krs, request.Nip);
 

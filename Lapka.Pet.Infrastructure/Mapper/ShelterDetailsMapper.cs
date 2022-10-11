@@ -16,6 +16,8 @@ public static class ShelterDetailsMapper
             Krs = shelter.Krs,
             LastName = shelter.LastName,
             PhoneNumber = shelter.PhoneNumber,
-            Localization = shelter.Localization.AsDto()
+            City = shelter.City,
+            Street = shelter.Street,
+            ZipCode = shelter.ZipCode
         };
 }
