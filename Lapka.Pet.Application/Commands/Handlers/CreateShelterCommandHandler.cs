@@ -1,4 +1,7 @@
 using Convey.CQRS.Commands;
+using Convey.MessageBrokers;
+using Convey.MessageBrokers.CQRS;
+using Lapka.Pet.Application.IntegrationEvents;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
@@ -23,5 +26,6 @@ internal sealed class CreateShelterCommandHandler : ICommandHandler<CreateShelte
             command.Krs, command.Nip);
 
         await _shelterRepository.AddAsync(shelter);
+        
     }
 }

@@ -1,5 +1,8 @@
 using Convey.CQRS.Commands;
+using Convey.MessageBrokers;
+using Convey.MessageBrokers.CQRS;
 using Lapka.Pet.Application.Exceptions;
+using Lapka.Pet.Application.IntegrationEvents;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
@@ -10,10 +13,12 @@ internal sealed class AddWorkerCommandHandler : ICommandHandler<AddWorkerCommand
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IIdentityGrpcClient _client;
+    private readonly IBusPublisher _busPublisher;
 
-    public AddWorkerCommandHandler(IShelterRepository shelterRepository, IIdentityGrpcClient client)
+    public AddWorkerCommandHandler(IShelterRepository shelterRepository, IIdentityGrpcClient client, IBusPublisher busPublisher)
     {
         _client = client;
+        _busPublisher = busPublisher;
         _shelterRepository = shelterRepository;
     }
 
@@ -31,5 +36,7 @@ internal sealed class AddWorkerCommandHandler : ICommandHandler<AddWorkerCommand
 
         shelter.AddWorker(result.WorkerId, command.Email, result.FirstName, result.LastName);
         await _shelterRepository.UpdateAsync(shelter);
+
+        await _busPublisher.PublishAsync(new WorkerAddedEvent(result.WorkerId,shelter.Id));
     }
 }

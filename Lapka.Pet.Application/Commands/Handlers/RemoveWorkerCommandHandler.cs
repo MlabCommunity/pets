@@ -1,5 +1,7 @@
 using Convey.CQRS.Commands;
+using Convey.MessageBrokers;
 using Lapka.Pet.Application.Exceptions;
+using Lapka.Pet.Application.IntegrationEvents;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Repositories;
 
@@ -9,11 +11,14 @@ internal sealed class RemoveWorkerCommandHandler : ICommandHandler<RemoveWorkerC
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IIdentityGrpcClient _client;
+    private readonly IBusPublisher _busPublisher;
+    
 
-    public RemoveWorkerCommandHandler(IShelterRepository shelterRepository, IIdentityGrpcClient client)
+    public RemoveWorkerCommandHandler(IShelterRepository shelterRepository, IIdentityGrpcClient client, IBusPublisher busPublisher)
     {
         _shelterRepository = shelterRepository;
         _client = client;
+        _busPublisher = busPublisher;
     }
 
     public async Task HandleAsync(RemoveWorkerCommand command,
@@ -31,5 +36,7 @@ internal sealed class RemoveWorkerCommandHandler : ICommandHandler<RemoveWorkerC
         await _client.RemoveWorkerRole(command.WorkerId);
 
         await _shelterRepository.UpdateAsync(shelter);
+
+        await _busPublisher.PublishAsync(new WorkerRemovedEvent(command.WorkerId,command.ShelterId));
     }
 }

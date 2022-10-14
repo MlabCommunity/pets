@@ -15,8 +15,7 @@ internal sealed class CreateShelterCatRequestValidator : AbstractValidator<Creat
             .NotNull()
             .NotEmpty()
             .MaximumLength(20);
-
-
+        
         RuleFor(x => x.Age)
             .NotNull()
             .InclusiveBetween(0, 50 * 12);

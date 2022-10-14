@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using Lapka.Pet.Core.Events;
+using Lapka.Pet.Core.Events.Handlers;
 using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.Kernel.Types;
 using Lapka.Pet.Core.ValueObjects;
@@ -54,7 +55,7 @@ public class Shelter : AggregateRoot<ShelterId>
         ZipCode = zipCode;
         Krs = krs;
         Nip = nip;
-        Volunteering = new Volunteering(false, "", "", false, "", false, "", this);
+        Volunteering = new Volunteering(false, string.Empty, string.Empty, false, string.Empty, false, "", this);
     }
 
     public static Shelter Create(ShelterId Id, Email email, FirstName firstName, LastName lastName,
@@ -63,6 +64,7 @@ public class Shelter : AggregateRoot<ShelterId>
     {
         var shelter = new Shelter(Id, email, firstName, lastName, phoneNumber, organizationName, longitude, latitude, street,city,zipCode,
             krs, nip);
+        
         return shelter;
     }
 
@@ -119,6 +121,8 @@ public class Shelter : AggregateRoot<ShelterId>
         }
 
         Workers.Add(new Worker(workerId, email, firstName, lastName, this));
+        
+       // AddEvent(new WorkerAddedEvent(workerId));
     }
 
     public void UpdateVolunteering(bool isDonationActive, string bankAccountNumber,
@@ -171,6 +175,8 @@ public class Shelter : AggregateRoot<ShelterId>
         var worker = GetWorker(workerId);
 
         Workers.Remove(worker);
+        
+       // AddEvent(new WorkerRemovedEvent(workerId));
     }
 
     public void AddVolunteer(UserId userId)

@@ -12,6 +12,7 @@ public static class ShelterDetailsMapper
             OrganizationName = shelter.OrganizationName,
             ProfilePhoto = shelter.ProfilePhoto,
             FirstName = shelter.FirstName,
+            Email = shelter.Email,
             Nip = shelter.Nip,
             Krs = shelter.Krs,
             LastName = shelter.LastName,

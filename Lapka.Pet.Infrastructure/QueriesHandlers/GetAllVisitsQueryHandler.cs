@@ -37,8 +37,8 @@ internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery
             .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
             .Include(x => x.Visits)
             .Select(x => x.Visits
-                .Where(x => x.DateOfVisit > DateTime.UtcNow)
-                .Count())
+                .Count(x => x.DateOfVisit > DateTime.UtcNow)
+                )
             .FirstOrDefaultAsync();
         
         var lastVisits = await _pets

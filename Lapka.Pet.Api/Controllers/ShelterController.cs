@@ -290,7 +290,6 @@ public class ShelterController : BaseController
         return NoContent();
     }
     
-    [Authorize(Roles = "User")]
     [HttpGet("volunteers/{longitude:double}/{latitude:double}")]
     [SwaggerOperation(summary: "Gets shelters list")]
     [SwaggerResponse(200, "Returns list of shelters")]

@@ -13,6 +13,7 @@ internal static class ShelterMapper
             Id = shelter.Id,
             OrganizationName = shelter.OrganizationName,
             ProfilePhoto = shelter.ProfilePhoto,
+            Email = shelter.Email,
             FirstName = shelter.FirstName,
             LastName = shelter.LastName,
         };
@@ -28,6 +29,7 @@ internal static class ShelterMapper
             PhoneNumber = shelter.PhoneNumber,
             Distance = shelter.Localization.CalculateDistance(longitude, latitude),
             City = shelter.City,
+            Email = shelter.Email,
             Street = shelter.Street
         };
 }

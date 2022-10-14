@@ -21,8 +21,7 @@ internal class AppDbContext : DbContext
     public DbSet<Photo> Photos { get; set; }
     public DbSet<Visit> Visits { get; set; }
     public DbSet<VisitType> VisitTypes { get; set; }
-
-
+    
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
