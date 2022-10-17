@@ -13,11 +13,13 @@ internal sealed class AddWorkerCommandHandler : ICommandHandler<AddWorkerCommand
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IIdentityGrpcClient _client;
+    private readonly IEventProcessor _eventProcessor;
     private readonly IBusPublisher _busPublisher;
 
-    public AddWorkerCommandHandler(IShelterRepository shelterRepository, IIdentityGrpcClient client, IBusPublisher busPublisher)
+    public AddWorkerCommandHandler(IShelterRepository shelterRepository, IIdentityGrpcClient client, IEventProcessor eventProcessor, IBusPublisher busPublisher)
     {
         _client = client;
+        _eventProcessor = eventProcessor;
         _busPublisher = busPublisher;
         _shelterRepository = shelterRepository;
     }
@@ -37,6 +39,6 @@ internal sealed class AddWorkerCommandHandler : ICommandHandler<AddWorkerCommand
         shelter.AddWorker(result.WorkerId, command.Email, result.FirstName, result.LastName);
         await _shelterRepository.UpdateAsync(shelter);
 
-        await _busPublisher.PublishAsync(new WorkerAddedEvent(result.WorkerId,shelter.Id));
+        await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

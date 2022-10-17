@@ -187,7 +187,7 @@ public class ShelterController : BaseController
     public async Task<IActionResult> UpdateShelterCard([FromBody] UpdateShelterPetRequest request)
     {
         var command = new UpdateShelterPetCommand(GetPrincipalId(), request.PetId, request.Description, request.PetName,
-            request.IsSterilized, request.Weight);
+            request.IsSterilized, request.Weight,request.Photos,request.IsVisible);
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }

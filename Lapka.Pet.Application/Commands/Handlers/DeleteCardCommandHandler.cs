@@ -1,5 +1,8 @@
 using Convey.CQRS.Commands;
+using Convey.MessageBrokers;
 using Lapka.Pet.Application.Exceptions;
+using Lapka.Pet.Application.IntegrationEvents;
+using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Repositories;
 
 namespace Lapka.Pet.Application.Commands.Handlers;
@@ -7,9 +10,11 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class DeleteCardCommandHandler : ICommandHandler<DeleteCardCommand>
 {
     private readonly IPetRepository _petRepository;
+    private readonly IBusPublisher _busPublisher;
 
-    public DeleteCardCommandHandler(IPetRepository petRepository)
+    public DeleteCardCommandHandler(IPetRepository petRepository, IBusPublisher busPublisher)
     {
+        _busPublisher = busPublisher;
         _petRepository = petRepository;
     }
 
@@ -28,6 +33,13 @@ internal sealed class DeleteCardCommandHandler : ICommandHandler<DeleteCardComma
             throw new ProjectForbidden();
         }
 
+        var temp = pet.Photos;
+
         await _petRepository.RemoveAsync(pet);
+        
+        foreach (var photo in temp)
+        {
+            await _busPublisher.PublishAsync(new FileDeletedEvent(photo.Link));
+        }
     }
 }

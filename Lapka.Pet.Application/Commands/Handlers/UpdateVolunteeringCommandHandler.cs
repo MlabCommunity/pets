@@ -1,5 +1,6 @@
 using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
+using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
 
@@ -8,10 +9,12 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class UpdateVolunteeringCommandHandler : ICommandHandler<UpdateVolunteeringCommand>
 {
     private readonly IShelterRepository _shelterRepository;
+    private readonly IEventProcessor _eventProcessor;
 
-    public UpdateVolunteeringCommandHandler(IShelterRepository shelterRepository)
+    public UpdateVolunteeringCommandHandler(IShelterRepository shelterRepository, IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(UpdateVolunteeringCommand command,
@@ -29,5 +32,7 @@ internal sealed class UpdateVolunteeringCommandHandler : ICommandHandler<UpdateV
             command.IsTakingDogsOutActive, command.TakingDogsOutDescription);
 
         await _shelterRepository.UpdateAsync(shelter);
+
+        await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

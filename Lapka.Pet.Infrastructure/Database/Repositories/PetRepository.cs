@@ -30,6 +30,15 @@ internal sealed class PetRepository : IPetRepository
             .Include(x => x.Photos)
             .FirstOrDefaultAsync(s => s.Id == id);
 
+    public Task<List<Core.Entities.Pet>> FindByOwnerId(OwnerId ownerId)
+        => _pets
+            .Include(x => x.Visits)
+            .ThenInclude(x => x.VisitTypes)
+            .Include(x => x.Likes)
+            .Include(x => x.Photos)
+            .Where(x=>x.OwnerId==ownerId)
+            .ToListAsync();
+
     public async Task UpdateAsync(Core.Entities.Pet pet)
     {
         _pets.Update(pet);

@@ -2,6 +2,7 @@ using Convey.CQRS.Commands;
 using Convey.MessageBrokers;
 using Convey.MessageBrokers.CQRS;
 using Lapka.Pet.Application.IntegrationEvents;
+using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
 using Lapka.Pet.Core.ValueObjects;
@@ -11,10 +12,12 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class CreateShelterCommandHandler : ICommandHandler<CreateShelterCommand>
 {
     private readonly IShelterRepository _shelterRepository;
+    private readonly IEventProcessor _eventProcessor;
 
-    public CreateShelterCommandHandler(IShelterRepository shelterRepository)
+    public CreateShelterCommandHandler(IShelterRepository shelterRepository, IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(CreateShelterCommand command,
@@ -26,6 +29,7 @@ internal sealed class CreateShelterCommandHandler : ICommandHandler<CreateShelte
             command.Krs, command.Nip);
 
         await _shelterRepository.AddAsync(shelter);
-        
+
+        await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

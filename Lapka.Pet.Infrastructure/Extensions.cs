@@ -1,9 +1,11 @@
 using System.Reflection;
 using Convey;
+using Convey.CQRS.Events;
 using Convey.MessageBrokers.RabbitMQ;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Lapka.Pet.Application.Services;
+using Lapka.Pet.Core.Kernel.Abstractions;
 using Lapka.Pet.Infrastructure.CacheStorage;
 using Lapka.Pet.Infrastructure.Database;
 using Lapka.Pet.Infrastructure.Exceptions;
@@ -12,6 +14,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Scrutor;
 
 namespace Lapka.Pet.Infrastructure;
 
@@ -24,6 +27,10 @@ public static class Extensions
         services.AddScoped<ExceptionMiddleware>();
         services.AddScoped<ICacheStorage, CacheStorage.CacheStorage>();
         services.AddScoped<IUserCacheStorage, UserCacheStorage>();
+
+        services.AddSingleton<IEventProcessor, EventProcessor>();
+        services.AddSingleton<IEventMapper, EventMapper>();
+     
         return services;
     }
 

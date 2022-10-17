@@ -75,7 +75,7 @@ public class CardController : BaseController
     public async Task<IActionResult> UpdatePet([FromBody] UpdatePetRequest request)
     {
         var command = new UpdatePetCommand(request.PetId, GetPrincipalId(), request.Name, request.IsSterilized,
-            request.Weight);
+            request.Weight,request.Photos);
 
         await _commandDispatcher.SendAsync(command);
         return NoContent();

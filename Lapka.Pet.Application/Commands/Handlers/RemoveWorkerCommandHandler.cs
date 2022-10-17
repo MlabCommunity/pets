@@ -11,14 +11,14 @@ internal sealed class RemoveWorkerCommandHandler : ICommandHandler<RemoveWorkerC
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IIdentityGrpcClient _client;
-    private readonly IBusPublisher _busPublisher;
+    private readonly IEventProcessor _eventProcessor;
     
 
-    public RemoveWorkerCommandHandler(IShelterRepository shelterRepository, IIdentityGrpcClient client, IBusPublisher busPublisher)
+    public RemoveWorkerCommandHandler(IShelterRepository shelterRepository, IIdentityGrpcClient client, IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _client = client;
-        _busPublisher = busPublisher;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(RemoveWorkerCommand command,
@@ -37,6 +37,6 @@ internal sealed class RemoveWorkerCommandHandler : ICommandHandler<RemoveWorkerC
 
         await _shelterRepository.UpdateAsync(shelter);
 
-        await _busPublisher.PublishAsync(new WorkerRemovedEvent(command.WorkerId,command.ShelterId));
+        await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

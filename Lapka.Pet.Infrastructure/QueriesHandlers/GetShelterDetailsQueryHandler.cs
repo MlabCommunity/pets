@@ -21,6 +21,7 @@ internal sealed class GetShelterDetailsQueryHandler : IQueryHandler<GetShelterDe
         CancellationToken cancellationToken = new CancellationToken())
         => await _shelters
             .Include(x => x.Localization)
+            .Include(x=>x.Volunteering)
             .Where(x => x.Id == query.ShelterId)
             .Select(x => x.AsDetailsDto())
             .FirstOrDefaultAsync();

@@ -3,5 +3,5 @@ using Convey.MessageBrokers;
 
 namespace Lapka.Pet.Application.IntegrationEvents;
 
-[Message("pet")]
-public record WorkerAddedEvent(Guid UserId,Guid ShelterId) : IEvent;
+[Message("files")]
+public record FileDeletedEvent(string FileUrl) : IEvent;

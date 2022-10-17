@@ -1,5 +1,7 @@
 ﻿using Convey.CQRS.Events;
+using Convey.MessageBrokers;
 
 namespace Lapka.Pet.Application.IntegrationEvents;
 
-public record WorkerRemovedEvent(Guid UserId,Guid ShelterId) : IEvent;
+[Message("pet")]
+public record WorkerRemovedEvent(Guid UserId, Guid ShelterId) : IEvent;

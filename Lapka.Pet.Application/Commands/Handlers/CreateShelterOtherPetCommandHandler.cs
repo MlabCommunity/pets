@@ -10,11 +10,13 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
+    private readonly IEventProcessor _eventProcessor;
 
-    public CreateShelterOtherPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage)
+    public CreateShelterOtherPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage, IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(CreateShelterOtherPetCommand command,
@@ -34,5 +36,7 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
 
         shelter.AddPet(other);
         await _shelterRepository.UpdateAsync(shelter);
+
+        await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

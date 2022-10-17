@@ -8,10 +8,12 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class CreateLostDogCommandHandler : ICommandHandler<CreateLostDogCommand>
 {
     private readonly ILostPetRepository _repository;
+    private readonly IEventProcessor _eventProcessor;
 
-    public CreateLostDogCommandHandler(ILostPetRepository repository)
+    public CreateLostDogCommandHandler(ILostPetRepository repository, IEventProcessor eventProcessor)
     {
         _repository = repository;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(CreateLostDogCommand command,
@@ -23,5 +25,7 @@ internal sealed class CreateLostDogCommandHandler : ICommandHandler<CreateLostDo
             command.DogBreed, command.DogColor, command.Photos);
 
         await _repository.AddAsync(dog);
+
+        await _eventProcessor.ProcessAsync(dog.Events);
     }
 }

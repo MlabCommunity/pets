@@ -14,21 +14,22 @@ public class LostPet : Pet
     public string Street { get; private set; }
     public string City { get; private set; }
     public ZipCode ZipCode { get; private set; }
-    
+
     protected LostPet()
     {
     }
 
     public LostPet(OwnerId ownerId, ProfilePhoto profilePhoto, PetType type, PetName name,
         Gender gender, DateOfBirth dateOfBirth, bool isSterilized, Weight weight,
-        DateOfDisappearance dateOfDisappearance, PhoneNumber phoneNumber, Longitude longitude, Latitude latitude,string street, string city, ZipCode zipCode,
+        DateOfDisappearance dateOfDisappearance, PhoneNumber phoneNumber, Longitude longitude, Latitude latitude,
+        string street, string city, ZipCode zipCode,
         bool isVisible, FirstName firstName, string description, ICollection<string> photos) : base(ownerId,
         profilePhoto, type, name, gender,
         dateOfBirth, isSterilized, weight, photos)
     {
         DateOfDisappearance = dateOfDisappearance;
         PhoneNumber = phoneNumber;
-        Localization = new Localization(longitude, latitude,Id);
+        Localization = new Localization(longitude, latitude, Id);
         Street = street;
         City = city;
         ZipCode = zipCode;
@@ -38,12 +39,12 @@ public class LostPet : Pet
     }
 
     public void Update(string description, FirstName firstName, PhoneNumber phoneNumber, PetName petName,
-        bool isSterilized, Weight weight)
+        bool isSterilized, Weight weight, List<string> photos)
     {
         Description = description;
         FirstName = firstName;
         PhoneNumber = phoneNumber;
 
-        base.Update(petName, isSterilized, weight);
+        base.Update(petName, isSterilized, weight, photos);
     }
 }

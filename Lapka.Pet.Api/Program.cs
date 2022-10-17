@@ -14,8 +14,7 @@ using Lapka.Pet.Infrastructure.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddDomainEvents();
+builder.Services.AddCore();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers()

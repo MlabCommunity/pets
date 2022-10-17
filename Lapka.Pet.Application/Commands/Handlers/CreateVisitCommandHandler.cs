@@ -1,5 +1,6 @@
 using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
+using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
 
@@ -8,10 +9,12 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class CreateVisitCommandHandler : ICommandHandler<CreateVisitCommand>
 {
     private readonly IPetRepository _petRepository;
+    private readonly IEventProcessor _eventProcessor;
 
-    public CreateVisitCommandHandler(IPetRepository petRepository)
+    public CreateVisitCommandHandler(IPetRepository petRepository, IEventProcessor eventProcessor)
     {
         _petRepository = petRepository;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(CreateVisitCommand command,
@@ -28,5 +31,7 @@ internal sealed class CreateVisitCommandHandler : ICommandHandler<CreateVisitCom
             command.WeightOnVisit, command.PrincipalId);
 
         await _petRepository.UpdateAsync(pet);
+
+        await _eventProcessor.ProcessAsync(pet.Events);
     }
 }

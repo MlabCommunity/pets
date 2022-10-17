@@ -139,6 +139,19 @@ public class AdvertisementController : BaseController
         var result = await _queryDispatcher.QueryAsync(query);
         return Ok(result);
     }
+    
+    [HttpGet("users")]
+    [Authorize]
+    [SwaggerOperation(summary: "Gets all lost pet's card")]
+    [SwaggerResponse(200, "Cards found or returns empty list", typeof(List<LostPetAdvertisementDto>))]
+    public async Task<ActionResult<Application.Dto.PagedResult<LostPetAdvertisementDto>>> GetAllUserLostPetAdvertisement(
+        [FromQuery] PetType? type, [FromQuery] Gender? gender, [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var query = new GetAllUserLostPetsQuery(GetPrincipalId(),type, gender, pageNumber, pageSize);
+        var result = await _queryDispatcher.QueryAsync(query);
+        return Ok(result);
+    }
 
     [HttpGet("{petId:guid}/{longitude:double}/{latitude:double}")]
     [SwaggerOperation(summary: "Gets lost pet's card details")]
@@ -162,11 +175,8 @@ public class AdvertisementController : BaseController
         [FromBody] UpdateLostPetAdvertisementRequest request)
     {
         var advertisementCommand = new UpdateLostPetAdvertisementCommand(petId, GetPrincipalId(), request.Description,
-            request.FirstName, request.PhoneNumber, request.Name, request.IsSterilized, request.Weight);
-        var petCommand =
-            new UpdatePetCommand(petId, GetPrincipalId(), request.Name, request.IsSterilized, request.Weight);
+            request.FirstName, request.PhoneNumber, request.Name, request.IsSterilized, request.Weight,request.Photos);
         await _commandDispatcher.SendAsync(advertisementCommand);
-        await _commandDispatcher.SendAsync(petCommand);
 
         return NoContent();
     }
