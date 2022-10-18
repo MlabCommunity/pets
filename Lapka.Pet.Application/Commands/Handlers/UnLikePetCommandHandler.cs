@@ -1,5 +1,6 @@
 ﻿using Convey.CQRS.Commands;
 using Lapka.Pet.Application.Exceptions;
+using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Repositories;
 
 namespace Lapka.Pet.Application.Commands.Handlers;
@@ -7,10 +8,12 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 public class UnLikePetCommandHandler : ICommandHandler<UnLikePetCommand>
 {
     private readonly IPetRepository _petRepository;
+    private readonly IEventProcessor _eventProcessor;
 
-    public UnLikePetCommandHandler(IPetRepository petRepository)
+    public UnLikePetCommandHandler(IPetRepository petRepository, IEventProcessor eventProcessor)
     {
         _petRepository = petRepository;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(UnLikePetCommand command,
@@ -26,5 +29,7 @@ public class UnLikePetCommandHandler : ICommandHandler<UnLikePetCommand>
         pet.UnLike(command.PrincipalId);
 
         await _petRepository.UpdateAsync(pet);
+
+        await _eventProcessor.ProcessAsync(pet.Events);
     }
 }

@@ -9,7 +9,7 @@ internal sealed class CreateVisitRequestValidator : AbstractValidator<CreateVisi
         RuleFor(x => x.Description)
             .NotNull()
             .NotEmpty()
-            .MaximumLength(510);
+            .MaximumLength(100);
 
         RuleFor(x => x.DateOfVisit)
             .InclusiveBetween(DateTime.UtcNow.AddYears(-50), DateTime.UtcNow.AddYears(5));

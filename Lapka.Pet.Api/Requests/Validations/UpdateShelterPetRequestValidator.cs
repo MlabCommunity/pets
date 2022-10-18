@@ -9,7 +9,7 @@ internal sealed class UpdateShelterPetRequestValidator : AbstractValidator<Updat
         RuleFor(x => x.Description)
             .NotNull()
             .NotEmpty()
-            .MaximumLength(510);
+            .MaximumLength(100);
 
         RuleFor(x => x.PetName)
             .NotNull()

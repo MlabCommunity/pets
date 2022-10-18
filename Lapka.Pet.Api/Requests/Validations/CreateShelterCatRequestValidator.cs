@@ -1,21 +1,21 @@
-﻿using FluentValidation;
+﻿using System.Data;
+using FluentValidation;
 
 namespace Lapka.Pet.Api.Requests.Validations;
 
-internal sealed class CreateShelterCatRequestValidator : AbstractValidator<CreateShelterCatRequest>
+public class CreateShelterCatRequestValidator : AbstractValidator<CreateShelterCatRequest>
 {
     public CreateShelterCatRequestValidator()
     {
         RuleFor(x => x.Description)
             .NotNull()
             .NotEmpty()
-            .MaximumLength(510);
+            .MaximumLength(100);
 
         RuleFor(x => x.Name)
             .NotNull()
             .NotEmpty()
             .MaximumLength(20);
-
 
         RuleFor(x => x.Age)
             .NotNull()

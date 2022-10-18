@@ -1,13 +1,9 @@
-using System.Reflection;
-using Convey;
-using Convey.MessageBrokers.RabbitMQ;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Infrastructure.CacheStorage;
 using Lapka.Pet.Infrastructure.Database;
 using Lapka.Pet.Infrastructure.Exceptions;
 using Lapka.Pet.Infrastructure.Services;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +20,10 @@ public static class Extensions
         services.AddScoped<ExceptionMiddleware>();
         services.AddScoped<ICacheStorage, CacheStorage.CacheStorage>();
         services.AddScoped<IUserCacheStorage, UserCacheStorage>();
+
+        services.AddSingleton<IEventProcessor, EventProcessor>();
+        services.AddSingleton<IEventMapper, EventMapper>();
+
         return services;
     }
 
@@ -62,7 +62,7 @@ public static class Extensions
                 }
             });
         });
-        //services.AddFluentValidationRulesToSwagger();
+        services.AddFluentValidationRulesToSwagger();
         services.AddEndpointsApiExplorer();
 
         return services;

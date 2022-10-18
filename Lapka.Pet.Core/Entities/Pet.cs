@@ -1,4 +1,5 @@
 using Lapka.Pet.Core.Consts;
+using Lapka.Pet.Core.Events;
 using Lapka.Pet.Core.Exceptions;
 using Lapka.Pet.Core.Kernel.Types;
 using Lapka.Pet.Core.ValueObjects;
@@ -16,9 +17,9 @@ public abstract class Pet : AggregateRoot<PetId>
     public bool IsSterilized { get; private set; }
     public Weight Weight { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    public ICollection<Photo> Photos  =new List<Photo>();
+    public ICollection<Photo> Photos = new List<Photo>();
     public ICollection<Visit> Visits = new List<Visit>();
-    public ICollection<Like> Likes =new List<Like>();
+    public ICollection<Like> Likes = new List<Like>();
 
     protected Pet()
     {
@@ -42,11 +43,25 @@ public abstract class Pet : AggregateRoot<PetId>
         AddPhotos(photos);
     }
 
-    public void Update(PetName name, bool isSterilized, Weight weight)
+    public void Update(PetName name, bool isSterilized, Weight weight, List<string> photos)
     {
         Name = name;
         IsSterilized = isSterilized;
         Weight = weight;
+    }
+
+    private void UpdatePhotos(List<string> photos)
+    {
+        var temp = Photos;
+        Photos.Clear();
+        AddPhotos(photos);
+
+        var toDelete = Photos.Except(temp);
+
+        foreach (var photo in toDelete)
+        {
+            AddEvent(new DeletedFileEvent(photo.Link));
+        }
     }
 
     private void AddPhoto(Photo photo)
@@ -58,21 +73,20 @@ public abstract class Pet : AggregateRoot<PetId>
     {
         foreach (var photo in photos)
         {
-            AddPhoto(new Photo(photo,this));
+            AddPhoto(new Photo(photo, this));
         }
     }
 
     public void AddVisit(bool? hasTookPlace, DateTime dateOfVisit, string description, HashSet<CareType> careTypes,
-        WeightOnVisit weightOnVisit,OwnerId ownerId)
+        WeightOnVisit weightOnVisit, OwnerId ownerId)
     {
-
         var visit = new Visit(hasTookPlace, dateOfVisit, description, careTypes, weightOnVisit, this);
         if (ownerId != OwnerId)
         {
             throw new DomainForbidden();
         }
 
-        if (hasTookPlace==true && weightOnVisit is not null)
+        if (hasTookPlace == true && weightOnVisit is not null)
         {
             var lastVisit = Visits.Where(x => x.DateOfVisit < DateTime.UtcNow).OrderByDescending(c => c.DateOfVisit)
                 .FirstOrDefault();
@@ -137,7 +151,7 @@ public abstract class Pet : AggregateRoot<PetId>
 
         if (!exists)
         {
-            Likes.Add(new Like(userId,this));
+            Likes.Add(new Like(userId, this));
         }
     }
 

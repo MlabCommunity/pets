@@ -20,7 +20,7 @@ public record Volunteering
 
     public Volunteering(bool isDonationActive, string bankAccountNumber, string donationDescription,
         bool isDailyHelpActive, string dailyHelpDescription, bool isTakingDogsOutActive,
-        string takingDogsOutDescription,Shelter shelter)
+        string takingDogsOutDescription, Shelter shelter)
     {
         Shelter = shelter;
         ShelterId = shelter.Id;

@@ -14,13 +14,13 @@ public class Visit
     public WeightOnVisit? WeightOnVisit { get; private set; }
     public Pet Pet { get; }
     public PetId PetId { get; }
-    
+
     private Visit()
     {
     }
 
     public Visit(bool? hasTookPlace, DateTime dateOfVisit, string description, HashSet<CareType> visitTypes,
-        WeightOnVisit? weightOnVisit,Pet pet)
+        WeightOnVisit? weightOnVisit, Pet pet)
     {
         VisitId = Guid.NewGuid();
         HasTookPlace = hasTookPlace;
@@ -37,7 +37,7 @@ public class Visit
         VisitTypes.Clear();
         foreach (var type in visitTypes)
         {
-            VisitTypes.Add(new VisitType(type,this));
+            VisitTypes.Add(new VisitType(type, this));
         }
     }
 

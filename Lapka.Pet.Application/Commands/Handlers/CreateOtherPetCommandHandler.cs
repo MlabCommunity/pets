@@ -1,4 +1,5 @@
 using Convey.CQRS.Commands;
+using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Entities;
 using Lapka.Pet.Core.Repositories;
 
@@ -7,10 +8,12 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 internal sealed class CreateOtherPetCommandHandler : ICommandHandler<CreateOtherPetCommand>
 {
     private readonly IPetRepository _petRepository;
+    private readonly IEventProcessor _eventProcessor;
 
-    public CreateOtherPetCommandHandler(IPetRepository petRepository)
+    public CreateOtherPetCommandHandler(IPetRepository petRepository, IEventProcessor eventProcessor)
     {
         _petRepository = petRepository;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(CreateOtherPetCommand command,
@@ -21,5 +24,7 @@ internal sealed class CreateOtherPetCommandHandler : ICommandHandler<CreateOther
             command.IsSterilized, command.Weight, command.Photos);
 
         await _petRepository.AddPetAsync(other);
+
+        await _eventProcessor.ProcessAsync(other.Events);
     }
 }

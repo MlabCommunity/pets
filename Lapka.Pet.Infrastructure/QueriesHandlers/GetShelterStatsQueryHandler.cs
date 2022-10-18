@@ -28,7 +28,7 @@ internal sealed class GetShelterStatsQueryHandler : IQueryHandler<GetShelterStat
         var shelter = await _shelters
             .AsNoTracking()
             .Include(x => x.Archives)
-            .Include(x=>x.Volunteers)
+            .Include(x => x.Volunteers)
             .Include(x => x.ShelterPets)
             .FirstOrDefaultAsync(x => x.Id == shelterId);
 

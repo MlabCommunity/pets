@@ -2,10 +2,10 @@
 
 public record Like
 {
-    public UserId UserId { get;  }
-    public Entities.Pet Pet { get;  }
+    public UserId UserId { get; }
+    public Entities.Pet Pet { get; }
     public PetId PetId { get; }
-    
+
     private Like()
     {
     }

@@ -16,7 +16,7 @@ public class LostOther : LostPet
         bool isVisible, FirstName firstName, string description, ICollection<string> photos) : base(ownerId,
         profilePhoto, PetType.OTHER, name, gender,
         dateOfBirth, isSterilized, weight, dateOfDisappearance, phoneNumber, longitude, latitude, street, city,
-        zipCode,isVisible, firstName,
+        zipCode, isVisible, firstName,
         description, photos)
     {
     }

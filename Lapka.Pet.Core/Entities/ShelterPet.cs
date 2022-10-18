@@ -14,21 +14,22 @@ public class ShelterPet : Pet
     public ZipCode ZipCode { get; private set; }
     public Shelter Shelter { get; }
     public ShelterId ShelterId { get; }
-    
+
     protected ShelterPet()
     {
     }
 
     public ShelterPet(OwnerId ownerId, ProfilePhoto profilePhoto, PetType type, PetName name, Gender gender,
         DateOfBirth dateOfBirth, bool isSterilized, Weight weight, string description,
-        OrganizationName organizationName, bool isVisible, Longitude longitude, Latitude latitude, string city,string street,string zipCode,
-        ICollection<string> photos,Shelter shelter) : base(ownerId,
+        OrganizationName organizationName, bool isVisible, Longitude longitude, Latitude latitude, string city,
+        string street, string zipCode,
+        ICollection<string> photos, Shelter shelter) : base(ownerId,
         profilePhoto, type, name, gender, dateOfBirth, isSterilized, weight, photos)
     {
         Description = description;
         OrganizationName = organizationName;
         IsVisible = isVisible;
-        Localization = new Localization(longitude, latitude,Id);
+        Localization = new Localization(longitude, latitude, Id);
         Shelter = shelter;
         ShelterId = shelter.Id;
         City = city;
@@ -46,18 +47,21 @@ public class ShelterPet : Pet
         IsVisible = false;
     }
 
-    public void Update(string description, PetName petName, bool isSterilized, Weight weight)
+    public void Update(string description, PetName petName, bool isSterilized, Weight weight, List<string> photos,
+        bool isVisible)
     {
         Description = description;
-        base.Update(petName, isSterilized, weight);
+        IsVisible = isVisible;
+        base.Update(petName, isSterilized, weight, photos);
     }
 
-    internal void UpdateShelterDetails(OrganizationName organizationName, double longitude, double latitude,string city,string street,string zipCode)
+    internal void UpdateShelterDetails(OrganizationName organizationName, double longitude, double latitude,
+        string city, string street, string zipCode)
     {
         OrganizationName = organizationName;
         City = city;
         Street = street;
         ZipCode = zipCode;
-        Localization = new Localization(longitude, latitude,Id);
+        Localization = new Localization(longitude, latitude, Id);
     }
 }

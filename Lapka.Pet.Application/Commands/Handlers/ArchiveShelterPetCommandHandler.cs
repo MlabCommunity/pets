@@ -9,11 +9,14 @@ internal sealed class ArchiveShelterPetCommandHandler : ICommandHandler<ArchiveS
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
+    private readonly IEventProcessor _eventProcessor;
 
-    public ArchiveShelterPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage)
+    public ArchiveShelterPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage,
+        IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(ArchiveShelterPetCommand command,
@@ -31,5 +34,7 @@ internal sealed class ArchiveShelterPetCommandHandler : ICommandHandler<ArchiveS
         shelter.ArchivePet(command.PetId);
 
         await _shelterRepository.UpdateAsync(shelter);
+
+        await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

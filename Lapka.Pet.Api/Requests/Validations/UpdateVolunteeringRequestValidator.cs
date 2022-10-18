@@ -8,17 +8,18 @@ internal sealed class UpdateVolunteeringRequestValidator : AbstractValidator<Upd
     {
         RuleFor(x => x.DonationDescription)
             .NotNull()
-            .MaximumLength(1500);
+            .MaximumLength(100);
 
         RuleFor(x => x.DailyHelpDescription)
             .NotNull()
-            .MaximumLength(1500);
+            .MaximumLength(100);
 
         RuleFor(x => x.TakingDogsOutDescription)
             .NotNull()
-            .MaximumLength(1500);
+            .MaximumLength(100);
 
         RuleFor(x => x.BankAccountNumber)
-            .Matches(RegexRules.PhoneNumberRule);
+            .Matches(RegexRules.BankAccountRule)
+            .MaximumLength(26);
     }
 }

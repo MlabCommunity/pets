@@ -2,19 +2,20 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Lapka.Pet.Application</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
         <PackageReference Include="Convey" Version="1.0.541" />
         <PackageReference Include="Convey.CQRS.Commands" Version="1.0.541" />
         <PackageReference Include="Convey.CQRS.Queries" Version="1.0.541" />
         <PackageReference Include="Convey.MessageBrokers.CQRS" Version="1.0.541" />
         <PackageReference Include="Convey.MessageBrokers.RabbitMQ" Version="1.0.541" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
         <PackageReference Include="Grpc.Core.Api" Version="2.47.0" />
+        <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
     

@@ -9,12 +9,14 @@ internal sealed class PublishShelterAdvertisementCommandHandler : ICommandHandle
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
+    private readonly IEventProcessor _eventProcessor;
 
     public PublishShelterAdvertisementCommandHandler(IShelterRepository shelterRepository,
-        IUserCacheStorage cacheStorage)
+        IUserCacheStorage cacheStorage, IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(PublishShelterPetCommand command,
@@ -31,5 +33,7 @@ internal sealed class PublishShelterAdvertisementCommandHandler : ICommandHandle
         shelter.PublishPet(command.PetId);
 
         await _shelterRepository.UpdateAsync(shelter);
+
+        await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

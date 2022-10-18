@@ -9,7 +9,7 @@ internal sealed class UpdateLostPetAdvertisementRequestValidator : AbstractValid
         RuleFor(x => x.Description)
             .NotNull()
             .NotEmpty()
-            .MaximumLength(510);
+            .MaximumLength(100);
 
         RuleFor(x => x.Name)
             .NotNull()

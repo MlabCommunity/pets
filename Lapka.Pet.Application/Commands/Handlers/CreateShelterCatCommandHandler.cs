@@ -12,11 +12,14 @@ internal sealed class CreateShelterCatCommandHandler : ICommandHandler<CreateShe
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
+    private readonly IEventProcessor _eventProcessor;
 
-    public CreateShelterCatCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage)
+    public CreateShelterCatCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage,
+        IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(CreateShelterCatCommand command,
@@ -33,11 +36,13 @@ internal sealed class CreateShelterCatCommandHandler : ICommandHandler<CreateShe
         var cat = new ShelterCat(command.PrincipalId, command.ProfilePhoto, command.Name, command.Gender,
             command.Age, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
             command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude, shelter.City,
-            shelter.Street, shelter.ZipCode,command.CatColor,
-            command.CatBreed, command.Photos,shelter);
+            shelter.Street, shelter.ZipCode, command.CatColor,
+            command.CatBreed, command.Photos, shelter);
 
         shelter.AddPet(cat);
 
         await _shelterRepository.UpdateAsync(shelter);
+
+        await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

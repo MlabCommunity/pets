@@ -10,7 +10,7 @@ internal sealed class VolunteeringConfiguration : IEntityTypeConfiguration<Volun
     {
         builder.Property<Guid>("Id");
         builder.Property(x => x.ShelterId).HasConversion(x => x.Value, x => new ShelterId(x));
-            
+
         builder.ToTable("Volunteering");
     }
 }

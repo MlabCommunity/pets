@@ -10,11 +10,14 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
+    private readonly IEventProcessor _eventProcessor;
 
-    public CreateShelterOtherPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage)
+    public CreateShelterOtherPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage,
+        IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(CreateShelterOtherPetCommand command,
@@ -30,9 +33,12 @@ internal sealed class CreateShelterOtherPetCommandHandler : ICommandHandler<Crea
 
         var other = new ShelterOther(command.PrincipalId, command.ProfilePhoto, command.Name, command.Gender,
             command.Age, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
-            command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude,shelter.City ,shelter.Street,shelter.ZipCode ,command.Photos,shelter);
+            command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude, shelter.City,
+            shelter.Street, shelter.ZipCode, command.Photos, shelter);
 
         shelter.AddPet(other);
         await _shelterRepository.UpdateAsync(shelter);
+
+        await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

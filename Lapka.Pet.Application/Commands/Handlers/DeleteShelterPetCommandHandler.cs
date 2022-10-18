@@ -9,12 +9,14 @@ internal sealed class DeleteShelterPetCommandHandler : ICommandHandler<DeleteShe
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
+    private readonly IEventProcessor _eventProcessor;
 
-
-    public DeleteShelterPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage)
+    public DeleteShelterPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage,
+        IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;
+        _eventProcessor = eventProcessor;
     }
 
 
@@ -32,5 +34,7 @@ internal sealed class DeleteShelterPetCommandHandler : ICommandHandler<DeleteShe
         shelter.RemovePet(command.PetId);
 
         await _shelterRepository.UpdateAsync(shelter);
+
+        await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

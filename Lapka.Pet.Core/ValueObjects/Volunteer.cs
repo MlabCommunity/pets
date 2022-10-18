@@ -7,8 +7,10 @@ public record Volunteer
     public UserId UserId { get; }
     public Shelter Shelter { get; }
     public ShelterId ShelterId { get; }
-    
-    private Volunteer(){}
+
+    private Volunteer()
+    {
+    }
 
     public Volunteer(UserId userId, Shelter shelter)
     {

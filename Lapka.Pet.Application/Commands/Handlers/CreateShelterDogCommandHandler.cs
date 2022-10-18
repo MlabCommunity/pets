@@ -10,12 +10,14 @@ internal sealed class CreateShelterDogCommandHandler : ICommandHandler<CreateShe
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
+    private readonly IEventProcessor _eventProcessor;
 
     public CreateShelterDogCommandHandler(IShelterRepository shelterRepository,
-        IUserCacheStorage userCacheStorage)
+        IUserCacheStorage userCacheStorage, IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = userCacheStorage;
+        _eventProcessor = eventProcessor;
     }
 
     public async Task HandleAsync(CreateShelterDogCommand command,
@@ -31,11 +33,14 @@ internal sealed class CreateShelterDogCommandHandler : ICommandHandler<CreateShe
 
         var dog = new ShelterDog(command.PrincipalId, command.ProfilePhoto, command.Name, command.Gender,
             command.Age, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
-            command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude,shelter.City ,shelter.Street,shelter.ZipCode, command.DogBreed,
-            command.DogColor, command.Photos,shelter); //TODO : da sie te shelter niżej zepchać??
+            command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude, shelter.City,
+            shelter.Street, shelter.ZipCode, command.DogBreed,
+            command.DogColor, command.Photos, shelter);
 
         shelter.AddPet(dog);
 
         await _shelterRepository.UpdateAsync(shelter);
+
+        await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

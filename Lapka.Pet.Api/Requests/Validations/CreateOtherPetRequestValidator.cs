@@ -6,12 +6,16 @@ internal sealed class CreateOtherPetRequestValidator : AbstractValidator<CreateO
 {
     public CreateOtherPetRequestValidator()
     {
-        RuleFor(x => x.Weight)
+        RuleFor(x => x.Name)
             .NotNull()
-            .InclusiveBetween(0, 200);
-
+            .NotEmpty()
+            .MaximumLength(20);
+        
         RuleFor(x => x.DateOfBirth)
             .NotNull()
             .InclusiveBetween(DateTime.UtcNow.AddYears(-50), DateTime.UtcNow);
+        
+        RuleFor(x => x.Weight)
+            .InclusiveBetween(0, 200);
     }
 }
