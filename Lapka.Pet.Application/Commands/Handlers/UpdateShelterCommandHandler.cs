@@ -31,9 +31,9 @@ internal sealed class UpdateShelterCommandHandler : ICommandHandler<UpdateShelte
         shelter.Update(command.OrganizationName, command.Longitude, command.Latitude, command.City, command.Street,
             command.ZipCode, command.PhoneNumber, command.Krs,
             command.Nip);
-        
+
         await _shelterRepository.UpdateAsync(shelter);
-        
+
         await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

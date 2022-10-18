@@ -26,6 +26,5 @@ internal sealed class DeleteVisitCommandHandler : ICommandHandler<DeleteVisitCom
         pet.RemoveVisit(command.VisitId, command.PrincipalId);
 
         await _petRepository.UpdateAsync(pet);
-        
     }
 }

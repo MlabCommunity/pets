@@ -28,7 +28,8 @@ public class ShelterController : BaseController
     [SwaggerResponse(400, "If data are invalid")]
     public async Task<IActionResult> UpdateShelter([FromBody] UpdateShelterRequest request)
     {
-        var command = new UpdateShelterCommand(GetPrincipalId(), request.Longitude, request.Latitude,request.City,request.Street,request.ZipCode,
+        var command = new UpdateShelterCommand(GetPrincipalId(), request.Longitude, request.Latitude, request.City,
+            request.Street, request.ZipCode,
             request.PhoneNumber,
             request.OrganizationName, request.Krs, request.Nip);
 
@@ -187,7 +188,7 @@ public class ShelterController : BaseController
     public async Task<IActionResult> UpdateShelterCard([FromBody] UpdateShelterPetRequest request)
     {
         var command = new UpdateShelterPetCommand(GetPrincipalId(), request.PetId, request.Description, request.PetName,
-            request.IsSterilized, request.Weight,request.Photos,request.IsVisible);
+            request.IsSterilized, request.Weight, request.Photos, request.IsVisible);
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
@@ -289,7 +290,7 @@ public class ShelterController : BaseController
         await _commandDispatcher.SendAsync(command);
         return NoContent();
     }
-    
+
     [HttpGet("volunteers/{longitude:double}/{latitude:double}")]
     [SwaggerOperation(summary: "Gets shelters list")]
     [SwaggerResponse(200, "Returns list of shelters")]

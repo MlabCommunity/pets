@@ -36,7 +36,7 @@ internal sealed class PetRepository : IPetRepository
             .ThenInclude(x => x.VisitTypes)
             .Include(x => x.Likes)
             .Include(x => x.Photos)
-            .Where(x=>x.OwnerId==ownerId)
+            .Where(x => x.OwnerId == ownerId)
             .ToListAsync();
 
     public async Task UpdateAsync(Core.Entities.Pet pet)

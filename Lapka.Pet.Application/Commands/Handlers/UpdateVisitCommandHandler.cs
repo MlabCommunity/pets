@@ -9,7 +9,7 @@ internal sealed class UpdateVisitCommandHandler : ICommandHandler<UpdateVisitCom
 {
     private readonly IPetRepository _petRepository;
     private readonly IEventProcessor _eventProcessor;
-    
+
     public UpdateVisitCommandHandler(IPetRepository petRepository, IEventProcessor eventProcessor)
     {
         _petRepository = petRepository;

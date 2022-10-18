@@ -11,7 +11,8 @@ internal sealed class ArchiveShelterPetCommandHandler : ICommandHandler<ArchiveS
     private readonly IUserCacheStorage _cacheStorage;
     private readonly IEventProcessor _eventProcessor;
 
-    public ArchiveShelterPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage, IEventProcessor eventProcessor)
+    public ArchiveShelterPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage,
+        IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;

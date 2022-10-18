@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lapka.Pet.Infrastructure.QueriesHandlers;
 
-internal sealed class GetAllUserAdvertisementsQueryHandler : IQueryHandler<GetAllUserLostPetsQuery, Application.Dto.PagedResult<LostPetAdvertisementDto>>
+internal sealed class GetAllUserAdvertisementsQueryHandler : IQueryHandler<GetAllUserLostPetsQuery,
+    Application.Dto.PagedResult<LostPetAdvertisementDto>>
 {
     private readonly DbSet<LostPet> _lostPets;
 
@@ -18,20 +19,24 @@ internal sealed class GetAllUserAdvertisementsQueryHandler : IQueryHandler<GetAl
         _lostPets = _context.LostPets;
     }
 
-    public async Task<Application.Dto.PagedResult<LostPetAdvertisementDto>> HandleAsync(GetAllUserLostPetsQuery query, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<Application.Dto.PagedResult<LostPetAdvertisementDto>> HandleAsync(GetAllUserLostPetsQuery query,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _lostPets
             .Where(x => (query.Type == null || query.Type == x.Type) &&
-                        (query.Gender == null || query.Gender == x.Gender) && x.IsVisible == true && x.OwnerId==query.PrincipalId)
+                        (query.Gender == null || query.Gender == x.Gender) && x.IsVisible == true &&
+                        x.OwnerId == query.PrincipalId)
             .Select(x => x.AsDto())
             .Skip(query.PageSize * (query.PageNumber - 1))
             .Take(query.PageSize).ToListAsync();
 
         var count = await _lostPets
             .Where(x => (query.Type == null || query.Type == x.Type) &&
-                        (query.Gender == null || query.Gender == x.Gender) && x.IsVisible == true && x.OwnerId==query.PrincipalId)
+                        (query.Gender == null || query.Gender == x.Gender) && x.IsVisible == true &&
+                        x.OwnerId == query.PrincipalId)
             .CountAsync();
 
-        return new Application.Dto.PagedResult<LostPetAdvertisementDto>(result, count, query.PageSize, query.PageNumber);
+        return new Application.Dto.PagedResult<LostPetAdvertisementDto>(result, count, query.PageSize,
+            query.PageNumber);
     }
 }

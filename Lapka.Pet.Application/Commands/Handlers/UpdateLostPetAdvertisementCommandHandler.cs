@@ -11,7 +11,8 @@ internal sealed class UpdateLostPetAdvertisementCommandHandler : ICommandHandler
     private readonly ILostPetRepository _lostPetRepository;
     private readonly IEventProcessor _eventProcessor;
 
-    public UpdateLostPetAdvertisementCommandHandler(ILostPetRepository lostPetRepository, IEventProcessor eventProcessor)
+    public UpdateLostPetAdvertisementCommandHandler(ILostPetRepository lostPetRepository,
+        IEventProcessor eventProcessor)
     {
         _lostPetRepository = lostPetRepository;
         _eventProcessor = eventProcessor;
@@ -28,7 +29,7 @@ internal sealed class UpdateLostPetAdvertisementCommandHandler : ICommandHandler
         }
 
         lostPet.Update(command.Description, command.FirstName, command.PhoneNumber, command.PetName,
-            command.IsSterilized, command.Weight,command.Photos);
+            command.IsSterilized, command.Weight, command.Photos);
 
         await _lostPetRepository.UpdateAsync(lostPet);
 

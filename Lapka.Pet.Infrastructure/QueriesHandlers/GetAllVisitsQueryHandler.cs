@@ -38,9 +38,9 @@ internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery
             .Include(x => x.Visits)
             .Select(x => x.Visits
                 .Count(x => x.DateOfVisit > DateTime.UtcNow)
-                )
+            )
             .FirstOrDefaultAsync();
-        
+
         var lastVisits = await _pets
             .AsNoTracking()
             .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
@@ -54,7 +54,7 @@ internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery
                 .Take(query.LastVisitPageSize)
                 .ToList())
             .FirstOrDefaultAsync();
-        
+
         var lastVisitCount = await _pets
             .Where(x => x.OwnerId == query.PrincipalId && x.Id == query.PetId)
             .Include(x => x.Visits)
@@ -62,7 +62,7 @@ internal sealed class GetAllVisitsQueryHandler : IQueryHandler<GetAllVisitsQuery
                 .Where(x => x.DateOfVisit < DateTime.UtcNow)
                 .Count())
             .FirstOrDefaultAsync();
-        
+
         return new VisitResponseDto
         {
             LastVisits = new Application.Dto.PagedResult<VisitDto>(lastVisits, lastVisitCount, query.LastVisitPageSize,

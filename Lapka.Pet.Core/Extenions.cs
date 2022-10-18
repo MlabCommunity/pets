@@ -12,7 +12,7 @@ public static class Extenions
             .AddClasses(c => c.AssignableTo(typeof(IDomainEventHandler<>)))
             .AsImplementedInterfaces()
             .WithTransientLifetime());
-        
+
         return services;
     }
 }

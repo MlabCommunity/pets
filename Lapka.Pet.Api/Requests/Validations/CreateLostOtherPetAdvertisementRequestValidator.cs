@@ -10,7 +10,7 @@ internal sealed class
         RuleFor(x => x.Description)
             .NotNull()
             .NotEmpty()
-            .MaximumLength(510);
+            .MaximumLength(100);
 
         RuleFor(x => x.Longitude)
             .InclusiveBetween(14.07, 24.15);

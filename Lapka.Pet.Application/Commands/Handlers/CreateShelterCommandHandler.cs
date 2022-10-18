@@ -24,7 +24,7 @@ internal sealed class CreateShelterCommandHandler : ICommandHandler<CreateShelte
         CancellationToken cancellationToken = new CancellationToken())
     {
         var shelter = Shelter.Create(command.UserId, command.Email, command.FirstName, command.LastName,
-            command.PhoneNumber, command.Longitude, command.Latitude,command.Street,command.City,command.ZipCode,
+            command.PhoneNumber, command.Longitude, command.Latitude, command.Street, command.City, command.ZipCode,
             command.OrganizationName,
             command.Krs, command.Nip);
 

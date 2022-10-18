@@ -19,8 +19,7 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true)
-    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
-    .AddFluentValidation(opt => { opt.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); });
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
@@ -30,6 +29,8 @@ builder.Services.AddGrpc();
 builder.Services.AddGrpcServices(builder.Configuration);
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+builder.Services.AddFluentValidation(opt => { opt.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); });
 
 var app = builder.Build();
 

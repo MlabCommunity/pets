@@ -9,12 +9,12 @@ public record VisitType
     public CareType Type { get; }
     public Visit Visit { get; }
     public EntityId VisitId { get; }
-    
+
     public VisitType()
     {
     }
 
-    public VisitType(CareType type,Visit visit)
+    public VisitType(CareType type, Visit visit)
     {
         Visit = visit;
         VisitId = visit.VisitId;

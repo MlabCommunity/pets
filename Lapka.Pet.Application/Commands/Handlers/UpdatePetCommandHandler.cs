@@ -26,7 +26,7 @@ internal sealed class UpdatePetCommandHandler : ICommandHandler<UpdatePetCommand
             throw new PetNotFoundException();
         }
 
-        pet.Update(command.Name, command.IsSterilized, command.Weight,command.Photos);
+        pet.Update(command.Name, command.IsSterilized, command.Weight, command.Photos);
 
         await _petRepository.UpdateAsync(pet);
 

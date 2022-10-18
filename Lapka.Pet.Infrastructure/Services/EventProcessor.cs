@@ -11,7 +11,7 @@ internal sealed class EventProcessor : IEventProcessor
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IEventMapper _eventMapper;
     private readonly IBusPublisher _busPublisher;
-    
+
     public EventProcessor(IServiceScopeFactory serviceScopeFactory, IEventMapper eventMapper,
         IBusPublisher busPublisher)
     {
@@ -26,6 +26,7 @@ internal sealed class EventProcessor : IEventProcessor
         {
             return;
         }
+
         var integrationEvents = await HandleDomainEvents(events);
         if (!integrationEvents.Any())
         {
@@ -34,7 +35,7 @@ internal sealed class EventProcessor : IEventProcessor
 
         foreach (var @event in integrationEvents)
         {
-            await _busPublisher.PublishAsync(@event);  
+            await _busPublisher.PublishAsync(@event);
         }
     }
 
@@ -46,11 +47,11 @@ internal sealed class EventProcessor : IEventProcessor
         {
             var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(@event.GetType());
             var handlers = scope.ServiceProvider.GetServices(handlerType);
-                
-            var tasks = handlers.Select(x => (Task) handlerType
+
+            var tasks = handlers.Select(x => (Task)handlerType
                 .GetMethod(nameof(IDomainEventHandler<IDomainEvent>.HandleAsync))
-                ?.Invoke(x, new[] {@event}));
-                
+                ?.Invoke(x, new[] { @event }));
+
             await Task.WhenAll(tasks);
 
             var integrationEvent = _eventMapper.Map(@event);

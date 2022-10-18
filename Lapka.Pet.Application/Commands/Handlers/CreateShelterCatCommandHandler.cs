@@ -14,7 +14,8 @@ internal sealed class CreateShelterCatCommandHandler : ICommandHandler<CreateShe
     private readonly IUserCacheStorage _cacheStorage;
     private readonly IEventProcessor _eventProcessor;
 
-    public CreateShelterCatCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage, IEventProcessor eventProcessor)
+    public CreateShelterCatCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage,
+        IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;
@@ -35,8 +36,8 @@ internal sealed class CreateShelterCatCommandHandler : ICommandHandler<CreateShe
         var cat = new ShelterCat(command.PrincipalId, command.ProfilePhoto, command.Name, command.Gender,
             command.Age, command.IsSterilized, command.Weight, command.Description, shelter.OrganizationName,
             command.IsVisible, shelter.Localization.Longitude, shelter.Localization.Latitude, shelter.City,
-            shelter.Street, shelter.ZipCode,command.CatColor,
-            command.CatBreed, command.Photos,shelter);
+            shelter.Street, shelter.ZipCode, command.CatColor,
+            command.CatBreed, command.Photos, shelter);
 
         shelter.AddPet(cat);
 

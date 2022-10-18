@@ -2,4 +2,5 @@ using Convey.CQRS.Commands;
 
 namespace Lapka.Pet.Application.Commands;
 
-public record UpdatePetCommand(Guid PetId, Guid PrincipalId, string Name, bool IsSterilized, double Weight,List<string> Photos) : ICommand;
+public record UpdatePetCommand(Guid PetId, Guid PrincipalId, string Name, bool IsSterilized, double Weight,
+    List<string> Photos) : ICommand;

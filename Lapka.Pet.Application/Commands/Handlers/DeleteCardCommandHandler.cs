@@ -36,7 +36,7 @@ internal sealed class DeleteCardCommandHandler : ICommandHandler<DeleteCardComma
         var temp = pet.Photos;
 
         await _petRepository.RemoveAsync(pet);
-        
+
         foreach (var photo in temp)
         {
             await _busPublisher.PublishAsync(new FileDeletedEvent(photo.Link));

@@ -11,7 +11,8 @@ internal sealed class HideShelterPetCommandHandler : ICommandHandler<HideShelter
     private readonly IUserCacheStorage _cacheStorage;
     private readonly IEventProcessor _eventProcessor;
 
-    public HideShelterPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage, IEventProcessor eventProcessor)
+    public HideShelterPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage,
+        IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;
@@ -32,7 +33,7 @@ internal sealed class HideShelterPetCommandHandler : ICommandHandler<HideShelter
         shelter.HidePet(command.PetId);
 
         await _shelterRepository.UpdateAsync(shelter);
-        
+
         await _eventProcessor.ProcessAsync(shelter.Events);
     }
 }

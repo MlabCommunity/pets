@@ -9,9 +9,10 @@ internal sealed class DeleteShelterPetCommandHandler : ICommandHandler<DeleteShe
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
-    private readonly IEventProcessor _eventProcessor; 
-        
-    public DeleteShelterPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage, IEventProcessor eventProcessor)
+    private readonly IEventProcessor _eventProcessor;
+
+    public DeleteShelterPetCommandHandler(IShelterRepository shelterRepository, IUserCacheStorage cacheStorage,
+        IEventProcessor eventProcessor)
     {
         _shelterRepository = shelterRepository;
         _cacheStorage = cacheStorage;

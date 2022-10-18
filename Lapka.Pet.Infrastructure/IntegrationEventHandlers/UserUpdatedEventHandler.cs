@@ -34,10 +34,13 @@ internal sealed class UserUpdatedEventHandler : IEventHandler<UserUpdatedEvent>
                 {
                     shelter.Update(string.IsNullOrWhiteSpace(@event.Email) ? shelter.Email : @event.Email,
                         string.IsNullOrWhiteSpace(@event.FirstName) ? shelter.FirstName : @event.FirstName,
-                        string.IsNullOrWhiteSpace(@event.LastName) ? shelter.LastName : @event.LastName, //TODO imo eventy nie powinny przesyłać nulli jeżeli dana wartość sie nie zmieniła
-                        Guid.Empty.ToString()==@event.ProfilePicture
-                            ? null                                       //TODO : imo tak nie powinno być, ale tak przychodzi 
-                            : @event.ProfilePicture); 
+                        string.IsNullOrWhiteSpace(@event.LastName)
+                            ? shelter.LastName
+                            : @event
+                                .LastName, //TODO imo eventy nie powinny przesyłać nulli jeżeli dana wartość sie nie zmieniła
+                        Guid.Empty.ToString() == @event.ProfilePicture
+                            ? null //TODO : imo tak nie powinno być, ale tak przychodzi 
+                            : @event.ProfilePicture);
                     _shelters.Update(shelter);
                     await _context.SaveChangesAsync();
                 }

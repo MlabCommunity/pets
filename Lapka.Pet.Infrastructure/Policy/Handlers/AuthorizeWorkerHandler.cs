@@ -19,7 +19,7 @@ internal class AuthorizeWorkerHandler : AuthorizationHandler<IsWorkerRequirement
         _queryDispatcher = queryDispatcher;
         _cacheStorage = cacheStorage;
     }
-    
+
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
         IsWorkerRequirement requirement)
     {

@@ -34,7 +34,7 @@ internal sealed class GetArchiveStatsInMonthQueryHandler : IQueryHandler<GetArch
             .FirstOrDefaultAsync();
 
         var groupedArchives = archives.GroupBy(x => x.CreatedAt.Day);
-        var result = new int[DateTime.DaysInMonth(DateTime.UtcNow.Year,DateTime.UtcNow.Month)];
+        var result = new int[DateTime.DaysInMonth(DateTime.UtcNow.Year, DateTime.UtcNow.Month)];
 
         foreach (var archive in groupedArchives)
         {

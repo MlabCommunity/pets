@@ -12,7 +12,7 @@ internal sealed class DeleteLostPetAdvertisementCommandHandler : ICommandHandler
 {
     private readonly ILostPetRepository _lostPetRepository;
     private readonly IBusPublisher _busPublisher;
-    
+
     public DeleteLostPetAdvertisementCommandHandler(ILostPetRepository lostPetRepository, IBusPublisher busPublisher)
     {
         _lostPetRepository = lostPetRepository;
@@ -28,11 +28,11 @@ internal sealed class DeleteLostPetAdvertisementCommandHandler : ICommandHandler
         {
             throw new AdvertisementNotFoundException();
         }
-        
+
         var temp = lostPet.Photos;
-        
+
         await _lostPetRepository.DeleteAsync(lostPet);
-        
+
         foreach (var photo in temp)
         {
             await _busPublisher.PublishAsync(new FileDeletedEvent(photo.Link));

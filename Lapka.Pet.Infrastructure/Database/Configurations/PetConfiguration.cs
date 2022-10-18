@@ -21,11 +21,11 @@ internal sealed class PetConfiguration : IEntityTypeConfiguration<Core.Entities.
             dateOfBirth => new DateOfBirth(dateOfBirth));
         builder.Property(s => s.Weight).HasConversion(weight => weight.Value, weight => new Weight(weight));
 
-        builder.HasMany(x => x.Likes).WithOne(x => x.Pet).HasForeignKey(x=>x.PetId);
-        builder.HasMany(x => x.Photos).WithOne(x => x.Pet).HasForeignKey(x=>x.PetId);
-        builder.HasMany(x => x.Visits).WithOne(x => x.Pet).HasForeignKey(x=>x.PetId);
-        
+        builder.HasMany(x => x.Likes).WithOne(x => x.Pet).HasForeignKey(x => x.PetId);
+        builder.HasMany(x => x.Photos).WithOne(x => x.Pet).HasForeignKey(x => x.PetId);
+        builder.HasMany(x => x.Visits).WithOne(x => x.Pet).HasForeignKey(x => x.PetId);
+
         builder.Property(s => s.Version).IsConcurrencyToken();
-       // builder.ToTable("Pets");
+        // builder.ToTable("Pets");
     }
 }

@@ -9,9 +9,11 @@ public record Archive
     public ShelterId ShelterId { get; }
     public DateTime CreatedAt { get; }
 
-    private Archive(){}
-    
-    public Archive(PetId petId,Shelter shelter)
+    private Archive()
+    {
+    }
+
+    public Archive(PetId petId, Shelter shelter)
     {
         ShelterId = shelter.Id;
         Shelter = shelter;

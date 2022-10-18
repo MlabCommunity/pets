@@ -10,6 +10,7 @@ internal sealed class UpdateShelterPetCommandHandler : ICommandHandler<UpdateShe
     private readonly IShelterRepository _shelterRepository;
     private readonly IUserCacheStorage _cacheStorage;
     private readonly IEventProcessor _eventProcessor;
+
     public UpdateShelterPetCommandHandler(IShelterRepository shelterRepository,
         IUserCacheStorage cacheStorage, IEventProcessor eventProcessor)
     {
@@ -29,7 +30,8 @@ internal sealed class UpdateShelterPetCommandHandler : ICommandHandler<UpdateShe
             throw new ShelterNotFoundException();
         }
 
-        shelter.UpdatePet(command.PetId, command.Description, command.PetName, command.IsSterilized, command.Weight,command.Photos,command.IsVisible);
+        shelter.UpdatePet(command.PetId, command.Description, command.PetName, command.IsSterilized, command.Weight,
+            command.Photos, command.IsVisible);
 
         await _shelterRepository.UpdateAsync(shelter);
 

@@ -4,4 +4,4 @@ using Convey.MessageBrokers;
 namespace Lapka.Pet.Application.IntegrationEvents;
 
 [Message("pet")]
-public record WorkerAddedEvent(Guid UserId,Guid ShelterId) : IEvent;
+public record WorkerAddedEvent(Guid UserId, Guid ShelterId) : IEvent;

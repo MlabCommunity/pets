@@ -12,6 +12,7 @@ internal sealed class GetVisitQueryHandler : IQueryHandler<GetVisitQuery, VisitD
 {
     private readonly DbSet<Core.Entities.Pet> _pets;
     private readonly DbSet<Visit> _visits;
+
     public GetVisitQueryHandler(AppDbContext context)
     {
         _visits = context.Visits;
@@ -21,9 +22,8 @@ internal sealed class GetVisitQueryHandler : IQueryHandler<GetVisitQuery, VisitD
     public async Task<VisitDetailsDto> HandleAsync(GetVisitQuery query,
         CancellationToken cancellationToken = new CancellationToken())
         => await _visits
-            .Include(x=>x.VisitTypes)
-            .Include(x=>x.Pet)
-            .Where(x => x.VisitId == query.VisitId && x.Pet.OwnerId==query.PrincipalId)
-            .Select(x=>x.AsVisitDetailsDto()).FirstOrDefaultAsync();
-    
+            .Include(x => x.VisitTypes)
+            .Include(x => x.Pet)
+            .Where(x => x.VisitId == query.VisitId && x.Pet.OwnerId == query.PrincipalId)
+            .Select(x => x.AsVisitDetailsDto()).FirstOrDefaultAsync();
 }

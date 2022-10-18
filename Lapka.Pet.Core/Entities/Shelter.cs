@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.ObjectModel;
-using Lapka.Pet.Application.IntegrationEvents;
 using Lapka.Pet.Core.Events;
 using Lapka.Pet.Core.Events.Handlers;
 using Lapka.Pet.Core.Exceptions;
@@ -84,9 +83,8 @@ public class Shelter : AggregateRoot<ShelterId>
         {
             AddEvent(new DeletedFileEvent(photo.Link));
         }
-        
+
         ShelterPets.Remove(pet);
-        
     }
 
     public void PublishPet(PetId petId)
@@ -131,7 +129,7 @@ public class Shelter : AggregateRoot<ShelterId>
 
         Workers.Add(new Worker(workerId, email, firstName, lastName, this));
 
-         AddEvent(new AddedWorkerEvent(workerId,Id));
+        AddEvent(new AddedWorkerEvent(workerId, Id));
     }
 
     public void UpdateVolunteering(bool isDonationActive, string bankAccountNumber,
@@ -186,7 +184,7 @@ public class Shelter : AggregateRoot<ShelterId>
 
         Workers.Remove(worker);
 
-         AddEvent(new RemovedWorkerEvent(workerId,Id));
+        AddEvent(new RemovedWorkerEvent(workerId, Id));
     }
 
     public void AddVolunteer(UserId userId)
