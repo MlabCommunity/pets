@@ -44,4 +44,10 @@ internal sealed class ShelterRepository : IShelterRepository
         _shelters.Remove(shelter);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<bool> NipExistAsync(Nip nip)
+        => await _shelters.AnyAsync(x => x.Nip == nip);
+
+    public async Task<bool> KrsExistAsync(Krs krs)
+        => await _shelters.AnyAsync(x => x.Krs == krs);
 }

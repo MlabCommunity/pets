@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Convey;
 using Convey.MessageBrokers.CQRS;
 using Convey.MessageBrokers.RabbitMQ;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Lapka.Pet.Api.Grpc;
 using Lapka.Pet.Application;

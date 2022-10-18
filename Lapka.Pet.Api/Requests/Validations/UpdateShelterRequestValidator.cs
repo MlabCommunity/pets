@@ -14,6 +14,10 @@ internal sealed class UpdateShelterRequestValidator : AbstractValidator<UpdateSh
             .NotEmpty()
             .InclusiveBetween(49.00, 55.34);
 
+        RuleFor(x => x.ZipCode)
+            .Matches(RegexRules.ZipCodeRule)
+            .NotEmpty();
+        
         RuleFor(shelter => shelter.Nip)
             .NotEmpty()
             .Matches(RegexRules.NipKrsRule)

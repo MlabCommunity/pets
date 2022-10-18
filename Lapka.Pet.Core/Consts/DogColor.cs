@@ -2,8 +2,11 @@ namespace Lapka.Pet.Core.Consts;
 
 public enum DogColor
 {
-    DOG_BLACK,
-
-    DOG_WHITE
-    //TODO add dog colors
+    Inny = 0,
+    Czarny = 1,
+    Brazowy = 2,
+    Bialy = 3,
+    Sniady = 4,
+    Dziczy = 5,
+    Podpalany = 6,
 }
