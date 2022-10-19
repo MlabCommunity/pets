@@ -174,7 +174,7 @@ public class CardController : BaseController
 
     [Authorize]
     [HttpPut("visits/{petId:guid}/{visitId:guid}")]
-    [SwaggerOperation(summary: "Adds visit")]
+    [SwaggerOperation(summary: "Updates visit")]
     [SwaggerResponse(204, "Visit added")]
     [SwaggerResponse(404, "Pet not found")]
     public async Task<IActionResult> UpdateVisit([FromBody] UpdateVisitRequest request, [FromRoute] Guid petId,
