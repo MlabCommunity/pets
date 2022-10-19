@@ -12,5 +12,6 @@ internal sealed class VisitTypeConfiguration : IEntityTypeConfiguration<VisitTyp
         builder.Property<Guid>("Id");
         builder.ToTable("VisitTypes");
         builder.Property(x => x.VisitId).HasConversion(x => x.Value, x => new EntityId(x));
+        builder.HasOne(x => x.Visit).WithMany(x => x.VisitTypes);
     }
 }

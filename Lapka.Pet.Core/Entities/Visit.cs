@@ -6,11 +6,12 @@ namespace Lapka.Pet.Core.Entities;
 
 public class Visit
 {
+
     public EntityId VisitId { get; private set; }
     public bool? HasTookPlace { get; private set; }
     public DateTime DateOfVisit { get; private set; }
     public string Description { get; private set; }
-    public HashSet<VisitType> VisitTypes = new HashSet<VisitType>();
+    public List<VisitType> VisitTypes = new List<VisitType>();
     public WeightOnVisit? WeightOnVisit { get; private set; }
     public Pet Pet { get; }
     public PetId PetId { get; }
