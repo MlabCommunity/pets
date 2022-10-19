@@ -23,7 +23,7 @@ internal sealed class CreateOtherPetCommandHandler : ICommandHandler<CreateOther
             command.DateOfBirth,
             command.IsSterilized, command.Weight, command.Photos);
 
-        await _petRepository.AddPetAsync(other);
+        await _petRepository.AddAsync(other);
 
         await _eventProcessor.ProcessAsync(other.Events);
     }

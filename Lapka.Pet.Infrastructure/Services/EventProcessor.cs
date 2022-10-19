@@ -39,6 +39,19 @@ internal sealed class EventProcessor : IEventProcessor
         }
     }
 
+    public async Task ProcessAsync(IEnumerable<IEvent> events)
+    {
+        if (events is null)
+        {
+            return;
+        }
+
+        foreach (var @event in events)
+        {
+            await _busPublisher.PublishAsync(@event);
+        }
+    }
+
     private async Task<List<IEvent>> HandleDomainEvents(IEnumerable<IDomainEvent> events)
     {
         var integrationEvents = new List<IEvent>();

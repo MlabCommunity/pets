@@ -17,7 +17,7 @@ internal sealed class UpdateShelterRequestValidator : AbstractValidator<UpdateSh
         RuleFor(x => x.ZipCode)
             .Matches(RegexRules.ZipCodeRule)
             .NotEmpty();
-        
+
         RuleFor(shelter => shelter.Nip)
             .NotEmpty()
             .Matches(RegexRules.NipKrsRule)

@@ -27,7 +27,6 @@ public class Dog : Pet
         ICollection<string> photos)
     {
         var dog = new Dog(ownerId, profilePhoto, name, gender, dateOfBirth, isSterilized, weight, breed, color, photos);
-        dog.AddPhotos(photos);
         return dog;
     }
 }

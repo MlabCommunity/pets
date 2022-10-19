@@ -26,9 +26,7 @@ internal sealed class GetArchiveStatsInMonthQueryHandler : IQueryHandler<GetArch
         var shelterId = _cacheStorage.GetShelterId(query.PrincipalId);
 
         var archives = await _shelters
-            .Include(x => x.Archives
-                .Where(x =>
-                    x.CreatedAt.Year == DateTime.UtcNow.Year && x.CreatedAt.Month == DateTime.UtcNow.Month))
+            .Include(x => x.Archives)
             .Where(x => x.Id == shelterId)
             .Select(x => x.Archives)
             .FirstOrDefaultAsync();

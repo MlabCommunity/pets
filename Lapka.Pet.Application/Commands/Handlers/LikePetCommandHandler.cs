@@ -2,7 +2,6 @@
 using Lapka.Pet.Application.Exceptions;
 using Lapka.Pet.Application.Services;
 using Lapka.Pet.Core.Repositories;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lapka.Pet.Application.Commands.Handlers;
 

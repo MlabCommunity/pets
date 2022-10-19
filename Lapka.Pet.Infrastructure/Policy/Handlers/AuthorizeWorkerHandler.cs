@@ -25,7 +25,7 @@ internal class AuthorizeWorkerHandler : AuthorizationHandler<IsWorkerRequirement
     {
         var stringId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        if (string.IsNullOrWhiteSpace(stringId))
+        if (!context.User.Identity.IsAuthenticated)
         {
             throw new ProjectUnauthorized();
         }

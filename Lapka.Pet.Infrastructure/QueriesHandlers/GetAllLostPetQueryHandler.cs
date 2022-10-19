@@ -24,6 +24,7 @@ internal sealed class
         var result = await _lostPets
             .Where(x => (query.Type == null || query.Type == x.Type) &&
                         (query.Gender == null || query.Gender == x.Gender) && x.IsVisible == true)
+            .OrderByDescending(x=>x.CreatedAt)
             .Select(x => x.AsDto())
             .Skip(query.PageSize * (query.PageNumber - 1))
             .Take(query.PageSize).ToListAsync();

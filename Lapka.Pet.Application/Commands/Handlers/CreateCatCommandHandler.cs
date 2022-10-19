@@ -23,7 +23,7 @@ internal sealed class CreateCatCommandHandler : ICommandHandler<CreateCatCommand
             command.IsSterilized,
             command.Weight, command.CatBreed, command.CatColor, command.Photos);
 
-        await _petRepository.AddPetAsync(cat);
+        await _petRepository.AddAsync(cat);
 
         await _eventProcessor.ProcessAsync(cat.Events);
     }

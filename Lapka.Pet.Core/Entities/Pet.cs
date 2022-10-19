@@ -48,6 +48,7 @@ public abstract class Pet : AggregateRoot<PetId>
         Name = name;
         IsSterilized = isSterilized;
         Weight = weight;
+        UpdatePhotos(photos);
     }
 
     private void UpdatePhotos(List<string> photos)

@@ -26,9 +26,11 @@ internal sealed class GetAllUserAdvertisementsQueryHandler : IQueryHandler<GetAl
             .Where(x => (query.Type == null || query.Type == x.Type) &&
                         (query.Gender == null || query.Gender == x.Gender) && x.IsVisible == true &&
                         x.OwnerId == query.PrincipalId)
+            .OrderByDescending(x=>x.CreatedAt)
             .Select(x => x.AsDto())
             .Skip(query.PageSize * (query.PageNumber - 1))
-            .Take(query.PageSize).ToListAsync();
+            .Take(query.PageSize)
+            .ToListAsync();
 
         var count = await _lostPets
             .Where(x => (query.Type == null || query.Type == x.Type) &&

@@ -25,6 +25,7 @@ internal sealed class
             .Include(x => x.Workers)
             .Where(x => x.Id == query.PrincipalId)
             .Select(x => x.Workers
+                .OrderByDescending(x=>x.CreatedAt)
                 .Select(x => x.AsDto())
                 .ToList())
             .FirstOrDefaultAsync();
