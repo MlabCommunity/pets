@@ -10,11 +10,11 @@ internal sealed class CreateDogRequestValidator : AbstractValidator<CreateDogReq
             .NotNull()
             .NotEmpty()
             .MaximumLength(20);
-        
+
         RuleFor(x => x.DateOfBirth)
             .NotNull()
             .InclusiveBetween(DateTime.UtcNow.AddYears(-50), DateTime.UtcNow);
-        
+
         RuleFor(x => x.Weight)
             .InclusiveBetween(0, 200);
     }

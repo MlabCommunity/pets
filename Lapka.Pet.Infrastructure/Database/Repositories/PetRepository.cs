@@ -16,7 +16,7 @@ internal sealed class PetRepository : IPetRepository
         _pets = context.Pets;
     }
 
-    public async Task AddPetAsync(Core.Entities.Pet pet)
+    public async Task AddAsync(Core.Entities.Pet pet)
     {
         await _pets.AddAsync(pet);
         await _context.SaveChangesAsync();

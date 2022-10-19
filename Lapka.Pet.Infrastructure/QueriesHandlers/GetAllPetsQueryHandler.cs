@@ -20,9 +20,11 @@ internal sealed class GetAllPetsQueryHandler : Convey.CQRS.Queries.IQueryHandler
     {
         var result = await _pets
             .Where(x => x.OwnerId == query.PrincipalId)
+            .OrderByDescending(x=>x.CreatedAt)
+            .Select(x => x.AsDto())
             .Skip(query.PageSize * (query.PageNumber - 1))
             .Take(query.PageSize)
-            .Select(x => x.AsDto()).ToListAsync();
+            .ToListAsync();
 
         var count = await _pets
             .Where(x => x.OwnerId == query.PrincipalId)

@@ -14,14 +14,12 @@ internal sealed class AddWorkerCommandHandler : ICommandHandler<AddWorkerCommand
     private readonly IShelterRepository _shelterRepository;
     private readonly IIdentityGrpcClient _client;
     private readonly IEventProcessor _eventProcessor;
-    private readonly IBusPublisher _busPublisher;
-
+    
     public AddWorkerCommandHandler(IShelterRepository shelterRepository, IIdentityGrpcClient client,
-        IEventProcessor eventProcessor, IBusPublisher busPublisher)
+        IEventProcessor eventProcessor)
     {
         _client = client;
         _eventProcessor = eventProcessor;
-        _busPublisher = busPublisher;
         _shelterRepository = shelterRepository;
     }
 

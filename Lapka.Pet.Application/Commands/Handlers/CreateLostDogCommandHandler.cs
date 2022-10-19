@@ -7,10 +7,10 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 
 internal sealed class CreateLostDogCommandHandler : ICommandHandler<CreateLostDogCommand>
 {
-    private readonly ILostPetRepository _repository;
+    private readonly IPetRepository _repository;
     private readonly IEventProcessor _eventProcessor;
 
-    public CreateLostDogCommandHandler(ILostPetRepository repository, IEventProcessor eventProcessor)
+    public CreateLostDogCommandHandler(IPetRepository repository, IEventProcessor eventProcessor)
     {
         _repository = repository;
         _eventProcessor = eventProcessor;

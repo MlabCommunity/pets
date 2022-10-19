@@ -9,6 +9,6 @@ public interface IShelterRepository
     Task<Shelter> FindByIdAsync(ShelterId id);
     Task UpdateAsync(Shelter shelter);
     Task DeleteAsync(Shelter shelter);
-    Task<bool> NipExistAsync(Nip nip);
-    Task<bool> KrsExistAsync(Krs krs);
+    Task<bool> NipExistsAsync(Nip nip);
+    Task<bool> KrsExistsAsync(Krs krs);
 }

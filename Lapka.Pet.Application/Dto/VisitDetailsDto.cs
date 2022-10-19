@@ -9,6 +9,6 @@ public class VisitDetailsDto
     public bool HasTookPlace { get; set; }
     public DateTime DateOfVisit { get; set; }
     public string Description { get; set; }
-    public ICollection<CareType> VisitType { get; set; }
+    public ICollection<CareType> VisitTypes { get; set; }
     public double? WeightOnVisit { get; set; }
 }

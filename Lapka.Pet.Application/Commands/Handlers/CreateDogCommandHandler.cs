@@ -24,7 +24,7 @@ internal sealed class CreateDogCommandHandler : ICommandHandler<CreateDogCommand
             command.IsSterilized,
             command.Weight, command.DogBreed, command.DogColor, command.Photos);
 
-        await _petRepository.AddPetAsync(dog);
+        await _petRepository.AddAsync(dog);
 
         await _eventProcessor.ProcessAsync(dog.Events);
     }

@@ -15,8 +15,7 @@ public static class Extensions
     {
         services.AddScoped<IPetRepository, PetRepository>();
         services.AddScoped<IShelterRepository, ShelterRepository>();
-        services.AddScoped<ILostPetRepository, LostPetRepository>();
-
+        
         var options = configuration.GetOptions<PostgresOptions>("Postgres");
         services.AddDbContext<AppDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString));

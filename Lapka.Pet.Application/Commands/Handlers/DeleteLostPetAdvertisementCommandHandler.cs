@@ -10,19 +10,19 @@ namespace Lapka.Pet.Application.Commands.Handlers;
 
 internal sealed class DeleteLostPetAdvertisementCommandHandler : ICommandHandler<DeleteLostPetAdvertisementCommand>
 {
-    private readonly ILostPetRepository _lostPetRepository;
+    private readonly IPetRepository _petRepository;
     private readonly IBusPublisher _busPublisher;
 
-    public DeleteLostPetAdvertisementCommandHandler(ILostPetRepository lostPetRepository, IBusPublisher busPublisher)
+    public DeleteLostPetAdvertisementCommandHandler(IPetRepository petRepository, IBusPublisher busPublisher)
     {
-        _lostPetRepository = lostPetRepository;
+        _petRepository = petRepository;
         _busPublisher = busPublisher;
     }
 
     public async Task HandleAsync(DeleteLostPetAdvertisementCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var lostPet = await _lostPetRepository.FindByPetIdAsync(command.PetId);
+        var lostPet = await _petRepository.FindByIdAsync(command.PetId);
 
         if (lostPet is null || lostPet.OwnerId != command.PrincipalId)
         {
@@ -31,7 +31,7 @@ internal sealed class DeleteLostPetAdvertisementCommandHandler : ICommandHandler
 
         var temp = lostPet.Photos;
 
-        await _lostPetRepository.DeleteAsync(lostPet);
+        await _petRepository.RemoveAsync(lostPet);
 
         foreach (var photo in temp)
         {

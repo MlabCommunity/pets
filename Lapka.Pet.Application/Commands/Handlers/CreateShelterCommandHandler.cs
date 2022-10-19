@@ -24,20 +24,20 @@ internal sealed class CreateShelterCommandHandler : ICommandHandler<CreateShelte
     public async Task HandleAsync(CreateShelterCommand command,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var krsExists = await _shelterRepository.KrsExistAsync(command.Krs);
+        var krsExists = await _shelterRepository.KrsExistsAsync(command.Krs);
 
         if (krsExists)
         {
             throw new KrsIsAlreadyTakenException();
         }
-        
-        var nipExists = await _shelterRepository.NipExistAsync(command.Nip);
+
+        var nipExists = await _shelterRepository.NipExistsAsync(command.Nip);
 
         if (nipExists)
         {
             throw new NipIsAlreadyTakenException();
         }
-        
+
         var shelter = Shelter.Create(command.UserId, command.Email, command.FirstName, command.LastName,
             command.PhoneNumber, command.Longitude, command.Latitude, command.Street, command.City, command.ZipCode,
             command.OrganizationName,
