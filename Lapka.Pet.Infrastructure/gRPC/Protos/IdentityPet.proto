@@ -1,0 +1,28 @@
+syntax = "proto3";
+option csharp_namespace = "Lapka.Pet.Infrastructure";
+
+package IdentityPet.protos;
+import "google/protobuf/empty.proto";
+
+service IdentityPetService
+{
+  rpc GiveWorkerRole(GiveWorkerRoleRequest) returns (WorkerInfoResult);
+  rpc RemoveWorkerRole(RemoveWorkerRoleRequest) returns (google.protobuf.Empty);
+}
+
+message GiveWorkerRoleRequest
+{
+  string email = 1;
+}
+
+message RemoveWorkerRoleRequest
+{
+  string user_id = 1;
+}
+
+message WorkerInfoResult
+{
+  string user_id = 1;
+  string first_name = 2;
+  string last_name = 3;
+}

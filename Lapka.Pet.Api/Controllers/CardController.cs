@@ -1,0 +1,189 @@
+using Convey.CQRS.Commands;
+using Convey.CQRS.Queries;
+using Lapka.Pet.Api.Requests;
+using Lapka.Pet.Application.Commands;
+using Lapka.Pet.Application.Dto;
+using Lapka.Pet.Application.Queries;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+
+namespace Lapka.Pet.Api.Controllers;
+
+public class CardController : BaseController
+{
+    private readonly ICommandDispatcher _commandDispatcher;
+    private readonly IQueryDispatcher _queryDispatcher;
+
+    public CardController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
+    {
+        _commandDispatcher = commandDispatcher;
+        _queryDispatcher = queryDispatcher;
+    }
+
+    [Authorize(Roles = "User,Worker")]
+    [HttpPost("dog")]
+    [SwaggerOperation(summary: "Creates card")]
+    [SwaggerResponse(204, "Card created")]
+    [SwaggerResponse(400, "If data are invalid")]
+    public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest request)
+    {
+        var command = new CreateDogCommand(GetPrincipalId(), request.ProfilePhoto, request.Name, request.Gender,
+            request.DateOfBirth,
+            request.IsSterilized, request.Weight, request.DogColor, request.DogBreed, request.Photos);
+
+        await _commandDispatcher.SendAsync(command);
+
+        return NoContent();
+    }
+
+    [Authorize(Roles = "User,Worker")]
+    [HttpPost("cat")]
+    [SwaggerOperation(summary: "Creates card")]
+    [SwaggerResponse(204, "Card created")]
+    [SwaggerResponse(400, "If data are invalid")]
+    public async Task<IActionResult> CreateCat([FromBody] CreateCatRequest request)
+    {
+        var command = new CreateCatCommand(GetPrincipalId(), request.ProfilePhoto, request.Name, request.Gender,
+            request.DateOfBirth,
+            request.IsSterilized, request.Weight, request.CatColor, request.CatBreed, request.Photos);
+
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+
+    [Authorize(Roles = "User,Worker")]
+    [HttpPost("other")]
+    [SwaggerOperation(summary: "Creates card")]
+    [SwaggerResponse(204, "Card created")]
+    [SwaggerResponse(400, "If data are invalid")]
+    public async Task<IActionResult> CreateOtherPet([FromBody] CreateOtherPetRequest request)
+    {
+        var command = new CreateOtherPetCommand(GetPrincipalId(), request.ProfilePhoto, request.Name, request.Gender,
+            request.DateOfBirth,
+            request.IsSterilized, request.Weight, request.Photos);
+
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+
+    [Authorize(Roles = "User,Worker")]
+    [HttpPut]
+    [SwaggerOperation(summary: "Updates card")]
+    [SwaggerResponse(204, "Card updated")]
+    [SwaggerResponse(400, "If data are invalid")]
+    public async Task<IActionResult> UpdatePet([FromBody] UpdatePetRequest request)
+    {
+        var command = new UpdatePetCommand(request.PetId, GetPrincipalId(), request.Name, request.IsSterilized,
+            request.Weight, request.Photos);
+
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+
+    [Authorize(Roles = "User,Worker")]
+    [HttpDelete("{petId:guid}")]
+    [SwaggerOperation(summary: "Deletes card")]
+    [SwaggerResponse(204, "Card deleted")]
+    public async Task<IActionResult> DeletePet([FromRoute] Guid petId)
+    {
+        var command = new DeleteCardCommand(petId, GetPrincipalId());
+        await _commandDispatcher.SendAsync(command);
+
+        return NoContent();
+    }
+
+    [Authorize(Roles = "User,Worker")]
+    [HttpGet("{petId:guid}")]
+    [SwaggerOperation(summary: "Gets card")]
+    [SwaggerResponse(200, "Card found")]
+    [SwaggerResponse(404, "Card not found")]
+    public async Task<ActionResult<PetDetailsDto>> GetPet(Guid petId)
+    {
+        var query = new GetPetQuery(petId);
+        var result = await _queryDispatcher.QueryAsync(query);
+
+        return OkOrNotFound(result);
+    }
+
+    [Authorize]
+    [HttpGet]
+    [SwaggerOperation(summary: "Gets all cards")]
+    [SwaggerResponse(200, "cards found or returns empty list")]
+    public async Task<ActionResult<Application.Dto.PagedResult<PetDto>>> GetPets([FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var query = new GetAllPetsQuery(GetPrincipalId(), pageNumber, pageSize);
+        var result = await _queryDispatcher.QueryAsync(query);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("visits/{petId:guid}")]
+    [SwaggerOperation(summary: "Gets visits by petId")]
+    [SwaggerResponse(200, "Returns list of visits or empty list")]
+    public async Task<ActionResult<VisitResponseDto>> GetVisits([FromRoute] Guid petId,
+        [FromQuery] int incomingVisitPageNumber = 1, [FromQuery] int incomingVisitPageSize = 10,
+        [FromQuery] int lastVisitPageNumber = 1, [FromQuery] int lastVisitPageSize = 10)
+    {
+        var query = new GetAllVisitsQuery(petId, GetPrincipalId(), incomingVisitPageNumber, incomingVisitPageSize,
+            lastVisitPageNumber, lastVisitPageSize);
+        var result = await _queryDispatcher.QueryAsync(query);
+
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("visits/{petId:guid}/{visitId:guid}")]
+    [SwaggerOperation(summary: "Gets visit by petId")]
+    [SwaggerResponse(200, "Returns visit")]
+    [SwaggerResponse(404, "If visit or pet not found")]
+    public async Task<ActionResult<VisitDetailsDto>> GetVisit([FromRoute] Guid visitId)
+    {
+        var query = new GetVisitQuery(visitId, GetPrincipalId());
+        var result = await _queryDispatcher.QueryAsync(query);
+
+        return OkOrNotFound(result);
+    }
+
+    [Authorize]
+    [HttpDelete("visits/{petId:guid}/{visitId:guid}")]
+    [SwaggerOperation(summary: "Deletes visit by petId and visitId")]
+    [SwaggerResponse(204, "Visit deleted")]
+    public async Task<ActionResult<VisitResponseDto>> DeleteVisit([FromRoute] Guid visitId, [FromRoute] Guid petId)
+    {
+        var command = new DeleteVisitCommand(petId, visitId, GetPrincipalId());
+
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+
+    [Authorize]
+    [HttpPost("visits/{petId:guid}")]
+    [SwaggerOperation(summary: "Adds visit")]
+    [SwaggerResponse(204, "Visit added")]
+    [SwaggerResponse(404, "Pet not found")]
+    public async Task<IActionResult> CreateVisit([FromBody] CreateVisitRequest request, [FromRoute] Guid petId)
+    {
+        var command = new CreateVisitCommand(petId, GetPrincipalId(), request.HasTookPlace, request.DateOfVisit,
+            request.Description, request.VisitTypes, request.WeightOnVisit);
+
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+
+    [Authorize]
+    [HttpPut("visits/{petId:guid}/{visitId:guid}")]
+    [SwaggerOperation(summary: "Updates visit")]
+    [SwaggerResponse(204, "Visit added")]
+    [SwaggerResponse(404, "Pet not found")]
+    public async Task<IActionResult> UpdateVisit([FromBody] UpdateVisitRequest request, [FromRoute] Guid petId,
+        [FromRoute] Guid visitId)
+    {
+        var command = new UpdateVisitCommand(petId, visitId, GetPrincipalId(), request.HasTookPlace,
+            request.DateOfVisit, request.Description, request.VisitTypes, request.WeightOnVisit);
+
+        await _commandDispatcher.SendAsync(command);
+        return NoContent();
+    }
+}
